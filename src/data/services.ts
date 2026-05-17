@@ -27,7 +27,7 @@ export const services: Record<string, Service> = {
     oneLiner:
       "Sites built for the way you actually sell — fast, clear, and ready to convert.",
     description:
-      "From a tight one-pager to a full conversion engine. Every site ships with real SEO, accessible markup, and a CMS your team can actually use.",
+      "From a tight one-pager to a full conversion engine. Every site ships with real SEO and accessible markup. CMS-editable from the Growth Site tier up.",
     tiers: [
       {
         name: "Starter Lead Site",
@@ -42,7 +42,7 @@ export const services: Record<string, Service> = {
         ],
       },
       {
-        name: "Studio Site",
+        name: "Growth Site",
         price: "$5,000",
         blurb: "Five to seven pages with lead funnels and a real CMS.",
         badge: "Most Popular",
@@ -82,28 +82,30 @@ export const services: Record<string, Service> = {
   software: {
     slug: "software",
     name: "Custom software",
-    title: "Software shaped to your business — not a vendor's roadmap.",
+    title: "CRMs, portals, and the software your team actually wants to use.",
     oneLiner:
-      "CRMs, portals, dashboards, and integrations built for the way your team actually operates.",
+      "Custom CRMs for realtors, advisors, therapists, and small teams who run on relationships — plus client portals and the internal tools that hold it all together.",
     description:
-      "Off-the-shelf software makes you adapt to it. We build the opposite: tools that match your terminology, your workflow, and the way you talk about your clients. Hosted, supported, and yours.",
+      "Off-the-shelf CRM software makes you adapt to it: the same fields, the same pipeline, the same vocabulary as every other customer. We build the opposite — tools that match your terminology, your workflow, and the way you actually talk about your clients. Hosted, supported, and yours.",
     tiers: [
       {
         name: "Custom CRM",
         price: "$3,500 – $10,000",
         cadence: "+ $50/mo hosting",
-        blurb: "Built from a discovery call. Yours forever, hosted by us.",
+        blurb: "For relationship-driven businesses. Yours forever, hosted by us, shaped to how your team actually tracks people and follow-ups.",
         features: [
           "Discovery + scoping session",
           "Custom fields, stages, automations",
           "Built around your terminology",
+          "Relationship-first contact + activity tracking",
           "6-week typical build",
           "$50/mo includes backups, uptime, bug fixes",
         ],
       },
       {
         name: "Client Portals",
-        price: "Scoped",
+        price: "$5,000 – $15,000",
+        cadence: "+ $50/mo hosting",
         blurb: "Where your clients see their work, sign contracts, and pay invoices.",
         features: [
           "Project + file delivery",
@@ -115,7 +117,8 @@ export const services: Record<string, Service> = {
       },
       {
         name: "Internal tools & dashboards",
-        price: "Scoped",
+        price: "$4,000 – $12,000",
+        cadence: "+ $50/mo hosting",
         blurb: "PM tools, ops dashboards, reporting — whatever your team operates on.",
         features: [
           "Discovery → build → operate",

@@ -23,7 +23,7 @@ const retainers = [
   <section class="pt-20 md:pt-32 pb-16">
     <Container size="full">
       <Eyebrow>Pricing</Eyebrow>
-      <h1 class="display-xl mt-6 max-w-[18ch]">
+      <h1 data-split class="display-xl mt-6 max-w-[18ch]">
         Honest numbers. No surprise scope.
       </h1>
       <p class="lede mt-10 text-xl max-w-3xl">
@@ -39,9 +39,7 @@ const retainers = [
     allTiers.map((group, gi) => (
       <section class={`py-16 md:py-24 ${gi % 2 === 0 ? "bg-cream" : ""}`}>
         <Container size="full">
-          <div class="flex items-center gap-3 mb-12">
-            <span class="font-mono text-sm text-forest tracking-wider">0{gi + 1}</span>
-            <span class="text-mist">/</span>
+          <div class="mb-12">
             <Eyebrow>{group.category}</Eyebrow>
           </div>
 
@@ -55,7 +53,11 @@ const retainers = [
                 )}
                 <h3 class="text-2xl text-ink mb-3">{tier.name}</h3>
                 <div class="mb-5 flex items-baseline gap-2 flex-wrap">
-                  <span class="text-3xl font-display font-bold text-forest tracking-tight">{tier.price}</span>
+                  {tier.price.includes("$") ? (
+                    <span class="text-3xl font-display font-bold text-forest tracking-tight">{tier.price}</span>
+                  ) : (
+                    <span class="text-sm font-mono uppercase tracking-[0.14em] text-forest border border-forest/30 px-3 py-1 rounded-pill">{tier.price}</span>
+                  )}
                   {tier.cadence && <span class="text-sm text-graphite">{tier.cadence}</span>}
                 </div>
                 <p class="text-sm text-graphite leading-relaxed">{tier.blurb}</p>
@@ -70,58 +72,33 @@ const retainers = [
   <!-- AI -->
   <section class="py-16 md:py-24">
     <Container size="full">
-      <div class="flex items-center gap-3 mb-12">
-        <span class="font-mono text-sm text-forest tracking-wider">04</span>
-        <span class="text-mist">/</span>
+      <div class="mb-12">
         <Eyebrow>AI & automation</Eyebrow>
       </div>
 
       <div class="bg-ink text-bone rounded-xl p-10 md:p-16">
         <p class="text-2xl md:text-3xl font-display tracking-tight leading-tight max-w-3xl text-bone">
-          AI work is scoped per engagement. A discovery + pilot typically runs
-          $2,500–$7,500. Production builds are scoped after the pilot lands.
+          AI engagements are priced bespoke after we scope the actual problem.
+          No tiers, no menu, no figure before we understand the work. Tell us
+          where the bottleneck is and we'll show you whether AI is even the
+          right answer.
         </p>
         <div class="mt-10">
-          <Button href="/services/ai" variant="secondary" size="md" class="bg-transparent border-bone/30 text-bone hover:bg-bone hover:text-ink">
-            How we engage on AI
-          </Button>
-        </div>
-      </div>
-    </Container>
-  </section>
-
-  <!-- Audit -->
-  <section class="py-16 md:py-24 bg-cream">
-    <Container size="full">
-      <div class="flex items-center gap-3 mb-12">
-        <span class="font-mono text-sm text-forest tracking-wider">05</span>
-        <span class="text-mist">/</span>
-        <Eyebrow>Audit & strategy</Eyebrow>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-white rounded-xl p-10 md:p-16 border border-fog">
-        <div class="md:col-span-8">
-          <h3 class="text-3xl md:text-4xl text-ink mb-4">Site & Brand Audit</h3>
-          <p class="text-lg text-graphite leading-relaxed max-w-2xl">
-            One week. A 30-minute kickoff, a full audit of your site and brand,
-            and a written report + 20-minute Loom walkthrough. Fully credited
-            toward any build we do together.
-          </p>
-        </div>
-        <div class="md:col-span-4 md:text-right">
-          <div class="text-4xl font-display font-bold text-forest tracking-tight mb-4">$1,000</div>
-          <Button href="/audit" size="md">Start an audit</Button>
+          <a
+            href="/services/ai"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-transparent text-bone border-2 border-bone/70 rounded-pill font-medium hover:bg-bone hover:text-ink transition-colors"
+          >
+            How we engage on AI →
+          </a>
         </div>
       </div>
     </Container>
   </section>
 
   <!-- Retainers -->
-  <section class="py-16 md:py-24">
+  <section class="py-16 md:py-24 bg-cream">
     <Container size="full">
-      <div class="flex items-center gap-3 mb-12">
-        <span class="font-mono text-sm text-forest tracking-wider">06</span>
-        <span class="text-mist">/</span>
+      <div class="mb-12">
         <Eyebrow>Retainers — keep it running</Eyebrow>
       </div>
 
@@ -158,7 +135,6 @@ const retainers = [
             { t: "50/50 split", d: "Half up front to lock the timeline, half on delivery. No retainer required to start a build." },
             { t: "Two revision rounds", d: "Every build includes two rounds of revisions. Substantial scope changes are billed honestly at the hourly rate." },
             { t: "25-client software cap", d: "We keep our active custom software roster small. When we're full, we're full." },
-            { t: "Crediting the audit", d: "Did the $1,000 audit and decided to build with us? The full audit fee credits toward your build." },
             { t: "Ownership", d: "When the build is complete and paid, the code and assets are yours. You can take them anywhere." },
           ].map(({ t, d }) => (
             <div class="grid grid-cols-1 md:grid-cols-12 gap-4 border-b border-fog pb-8">

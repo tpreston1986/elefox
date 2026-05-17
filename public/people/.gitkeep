@@ -1,0 +1,8 @@
+# Drop personal photography here
+
+Expected files (referenced by the site):
+
+- `tiffany.jpg` — founder portrait, 4:5 aspect (e.g. 1200×1500), warm natural light.
+  Used at /about/founder hero. Missing-file fallback renders "TR" initials.
+
+When you replace, no code changes needed — the slots auto-detect.

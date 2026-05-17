@@ -7,7 +7,6 @@ export type NavItem = {
 export const primaryNav: NavItem[] = [
   { label: "Services", href: "/services" },
   { label: "Pricing", href: "/pricing" },
-  { label: "Audit", href: "/audit" },
   { label: "About", href: "/about" },
 ];
 
@@ -27,7 +26,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "About", href: "/about" },
       { label: "The founder", href: "/about/founder" },
       { label: "Pricing", href: "/pricing" },
-      { label: "Audit", href: "/audit" },
+      { label: "Selected work", href: "/work" },
     ],
   },
   {

@@ -1,0 +1,10 @@
+# Drop behind-the-scenes studio photography here
+
+Expected files (used in /about/founder polaroid strip):
+
+- `1.jpg` — the desk / workspace, square
+- `2.jpg` — sketches / notebook, square
+- `3.jpg` — laptop / shipping, square
+- `4.jpg` — the dog (or whatever — pet, plants, coffee), square
+
+Until added, the strip renders soft gradients with filename labels.
