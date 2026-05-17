@@ -43,7 +43,7 @@ const preselected = Astro.url.searchParams.get("service") || "";
       </h1>
       <p class="lede mt-10 text-xl max-w-3xl">
         Fill this out, send us a note, or book a call. We respond within
-        24 hours — most of the time within four.
+        24 hours, most of the time within four.
       </p>
     </Container>
   </section>
@@ -250,7 +250,7 @@ const preselected = Astro.url.searchParams.get("service") || "";
             if (!email.value.trim()) {
               errors.push([email, "We'll need somewhere to write back."]);
             } else if (!isEmail(email.value)) {
-              errors.push([email, "Hmm — that doesn't look like an email."]);
+              errors.push([email, "Hmm, that doesn't look like an email."]);
             }
 
             if (errors.length) {
@@ -260,14 +260,14 @@ const preselected = Astro.url.searchParams.get("service") || "";
               return;
             }
 
-            // Submission stub — wire to /api/contact in Phase 2.
+            // Submission stub, wire to /api/contact in Phase 2.
             const sent = document.createElement("div");
             sent.className = "text-center py-16 md:py-24";
             sent.innerHTML = `
-              <span class="script text-5xl md:text-6xl text-ember -rotate-2 inline-block mb-6">got it —</span>
+              <span class="script text-5xl md:text-6xl text-ember -rotate-2 inline-block mb-6">got it</span>
               <h2 class="display-xl text-ink mt-2 mb-6">Thanks, ${name.value.trim().replace(/[<>]/g, "")}.</h2>
               <p class="lede text-xl text-graphite max-w-2xl mx-auto">
-                We'll write you back within 24 hours — most of the time within four.
+                We'll write you back within 24 hours, most of the time within four.
                 In the meantime: we know we owe you a real response, not a thank-you template.
               </p>
             `;
@@ -295,7 +295,7 @@ const preselected = Astro.url.searchParams.get("service") || "";
         <Eyebrow>Or just talk</Eyebrow>
         <h2 class="mt-6 mb-6">Rather book a call?</h2>
         <p class="lede mx-auto mb-10">
-          A 30-minute discovery call — free, no pitch deck, just a real
+          A 30-minute discovery call, free, no pitch deck, just a real
           conversation about what you're trying to build.
         </p>
         <Button href={calendlyUrl} variant="primary" size="lg" external>

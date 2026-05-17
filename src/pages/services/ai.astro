@@ -17,7 +17,7 @@ const examples = [
   },
   {
     title: "Sphere-segmented check-in drafts for a realtor",
-    body: "Wired into the agent's CRM. Drafts personalized check-ins by relationship segment (past clients, referrals, COI) in her voice. She edits and sends — no more blank-page Mondays.",
+    body: "Wired into the agent's CRM. Drafts personalized check-ins by relationship segment (past clients, referrals, COI) in her voice. She edits and sends, no more blank-page Mondays.",
     tags: ["CRM", "AI agent", "Gmail"],
   },
   {
@@ -34,7 +34,7 @@ const examples = [
 
 const phases = [
   { t: "Discovery", p: "A free 30-minute call. We map your workflow and identify whether AI actually helps. No pitch deck." },
-  { t: "Pilot", p: "A small, scoped pilot — usually 2-4 weeks. We measure what changes. You decide what's next." },
+  { t: "Pilot", p: "A small, scoped pilot, usually 2-4 weeks. We measure what changes. You decide what's next." },
   { t: "Production", p: "We build the real version. Wired into your stack, monitored, with a human in the loop where it matters." },
   { t: "Operate", p: "Most AI tools quietly degrade. We watch the outputs, retrain, and tell you when something stops working." },
 ];
@@ -54,7 +54,7 @@ const phases = [
       <h2 class="mt-6 mb-12">AI is a capability, not a product.</h2>
       <p class="lede text-2xl max-w-3xl">
         We don't sell AI tiers or packages. We help you figure out where
-        automation actually saves you time — and we wire it in. The whole point
+        automation actually saves you time, and we wire it in. The whole point
         is that you stop thinking about it.
       </p>
     </Container>
@@ -128,7 +128,7 @@ const phases = [
             "We won't replace your judgment with a model's. Humans stay in the loop.",
           ].map((line) => (
             <li class="flex items-start gap-4 text-2xl md:text-3xl font-display tracking-tight text-ink leading-tight">
-              <span class="text-forest text-3xl flex-shrink-0">—</span>
+              <span class="text-forest text-3xl flex-shrink-0" aria-hidden="true">·</span>
               <span>{line}</span>
             </li>
           ))
