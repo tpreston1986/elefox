@@ -49,9 +49,15 @@ const { tiers, heading, eyebrow } = Astro.props;
 
             <div class="mb-6">
               <div class="flex items-baseline gap-2 flex-wrap">
-                <span class="text-3xl md:text-4xl font-display font-bold text-forest tracking-tight">
-                  {tier.price}
-                </span>
+                {tier.price.includes("$") ? (
+                  <span class="text-3xl md:text-4xl font-display font-bold text-forest tracking-tight">
+                    {tier.price}
+                  </span>
+                ) : (
+                  <span class="text-sm font-mono uppercase tracking-[0.14em] text-forest border border-forest/30 px-3 py-1 rounded-pill">
+                    {tier.price}
+                  </span>
+                )}
                 {tier.cadence && (
                   <span class="text-sm text-graphite">{tier.cadence}</span>
                 )}

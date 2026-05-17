@@ -11,27 +11,22 @@ const capabilityServices = allServices.filter((s) =>
 
 const processSteps = [
   {
-    n: "01",
-    title: "Audit",
-    body: "We start with a paid discovery audit. We learn your business, your stack, and where the friction actually lives.",
+    title: "Discover",
+    body: "A free 30-minute discovery call. We learn your business, your stack, and where the friction actually lives. You leave with notes and next steps either way.",
   },
   {
-    n: "02",
     title: "Plan",
-    body: "A scoped plan with real numbers and a real timeline. Fixed-fee where we can, transparent ranges where we can't.",
+    body: "A real plan with real numbers and a real timeline. Fixed-fee where we can, transparent ranges where we can't.",
   },
   {
-    n: "03",
     title: "Build",
     body: "We design and ship in tight cycles. You see progress every week, not at the end. Two rounds of revisions are baked in.",
   },
   {
-    n: "04",
     title: "Launch",
     body: "We handle the boring parts — DNS, analytics, monitoring, training your team. You handle the celebration.",
   },
   {
-    n: "05",
     title: "Operate",
     body: "Most clients stay on a small retainer. Hosting, backups, the occasional new feature. We're the team you don't have to hire.",
   },
@@ -39,7 +34,7 @@ const processSteps = [
 
 const aiExamples = [
   {
-    line: "A Claude-powered intake summarizer for a therapy practice.",
+    line: "An AI-powered intake summarizer for a therapy practice.",
     detail: "Six hours of weekly admin, gone.",
   },
   {
@@ -57,28 +52,23 @@ const aiExamples = [
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <!-- Hero                                                                 -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <section class="pt-20 md:pt-32 pb-24 md:pb-40 relative overflow-hidden">
+  <section class="pt-20 md:pt-32 pb-10 md:pb-14 relative overflow-hidden">
     <Container size="full">
-      <div class="flex items-center gap-3 mb-12 md:mb-20">
-        <Eyebrow>Design · Software · AI</Eyebrow>
-        <span class="text-mist">·</span>
-        <span class="text-sm text-graphite font-mono tracking-wide">
-          South Florida → everywhere
+      <h1 data-split class="display-xl text-ink max-w-[14ch] relative">
+        Drive sales. Save hours. Build a brand
+        <span class="relative inline-block">
+          <em class="not-italic text-forest">they remember</em>.
+          <svg viewBox="0 0 260 14" class="absolute left-0 -bottom-2 md:-bottom-3 w-full h-3 text-ember underline-draw" aria-hidden="true" preserveAspectRatio="none">
+            <path d="M2 8 Q 40 2, 80 7 T 160 8 T 220 6 T 258 7" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          </svg>
         </span>
-      </div>
-
-      <h1 class="display-xl text-ink max-w-[15ch]">
-        Design, software, and the <em class="not-italic text-forest"
-          >AI</em
-        > to keep it humming.
       </h1>
 
       <div class="mt-16 md:mt-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-end">
         <p class="lede lg:col-span-7 text-xl md:text-2xl text-graphite">
-          elefox studio builds the websites, internal tools, and quiet
-          automations that small companies grow on. We're a design and product
-          studio for the businesses that deserve more than a template — and
-          less than an enterprise contract.
+          We design websites, build custom software, and shape brand systems
+          that earn their keep. For small businesses that deserve more than a
+          template — carefully, and for fewer clients at a time.
         </p>
         <div class="lg:col-span-5 flex flex-wrap gap-4 lg:justify-end">
           <Button href="/services" size="lg">See what we do</Button>
@@ -87,46 +77,65 @@ const aiExamples = [
       </div>
     </Container>
 
-    <!-- Decorative thin rule with mono coordinates - Form&Fun nod -->
-    <div class="mt-24 md:mt-32">
+    <!-- Decorative thin rule with mono coordinates -->
+    <div class="mt-16 md:mt-20">
       <Container size="full">
         <div class="flex items-center gap-6">
           <span class="text-xs font-mono text-mist tracking-wider">26.27°N / 80.27°W</span>
           <hr class="rule flex-1" />
-          <span class="text-xs font-mono text-mist tracking-wider">EST. 2024</span>
+          <span class="text-xs font-mono text-mist tracking-wider">South Florida</span>
         </div>
       </Container>
     </div>
   </section>
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <!-- Capabilities — the four panels (becomes pinned horizontal in Phase 3) -->
+  <!-- Capabilities — section intro, then a pinned horizontal-scroll panel  -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <section class="py-24 md:py-40" id="capabilities">
+  <section class="pt-16 md:pt-24 pb-12 md:pb-20 relative" id="capabilities">
     <Container size="full">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20 md:mb-28">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div class="lg:col-span-5">
           <Eyebrow>What we do</Eyebrow>
-          <h2 class="mt-6">Four capabilities. One studio.</h2>
+          <h2 data-split class="mt-6">Four capabilities. One studio.</h2>
         </div>
         <p class="lg:col-span-6 lg:col-start-7 lede self-end">
-          Most studios pick one. We've shipped websites since 2015, started
-          building custom software when the right clients asked, and added AI
-          when it actually started working. Each capability sharpens the
-          others.
+          Most studios pick one. We do all four because real businesses
+          don't split that cleanly — the CRM, the website, the brand, and
+          the automations all have to talk to each other. We make sure they
+          do.
         </p>
       </div>
+    </Container>
+  </section>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+  {/* Pinned horizontal scroll — the four capability panels                 */}
+  <section data-horiz class="bg-cream relative">
+    <div class="horiz__inner">
+      <div class="horiz__track items-stretch">
+        {/* Intro panel — sets context, gives the scroll a beginning */}
+        <div class="flex-shrink-0 w-[80vw] md:w-[55vw] flex flex-col justify-center pr-8 md:pr-16">
+          <span class="font-mono text-xs uppercase tracking-[0.14em] text-forest mb-4">
+            scroll →
+          </span>
+          <p class="text-3xl md:text-5xl font-display tracking-tight text-ink leading-tight">
+            Four capabilities, side by side. The way most real engagements
+            actually run.
+          </p>
+          <span class="script text-3xl text-ember -rotate-2 mt-8 inline-block">
+            keep going —
+          </span>
+        </div>
+
         {
           capabilityServices.map((s, i) => (
             <a
               href={`/services/${s.slug}`}
-              class="group relative bg-white border border-fog hover:border-forest p-8 md:p-12 rounded-xl transition-all duration-300 hover:shadow-lift hover:-translate-y-1 flex flex-col gap-6 min-h-[400px]"
+              class={`group flex-shrink-0 w-[80vw] md:w-[50vw] bg-white border border-fog hover:border-forest p-8 md:p-14 rounded-xl transition-all duration-500 hover:shadow-lift flex flex-col gap-6 overflow-hidden ${i % 2 === 0 ? "hover:-rotate-1" : "hover:rotate-1"}`}
             >
               <div class="flex items-start justify-between">
-                <span class="text-xs font-mono text-forest tracking-wider">
-                  0{i + 1}
+                <span class="font-mono text-xs uppercase tracking-[0.14em] text-forest/70">
+                  {s.name}
                 </span>
                 <svg
                   width="20"
@@ -145,28 +154,122 @@ const aiExamples = [
                 </svg>
               </div>
 
-              <div class="mt-auto">
-                <h3 class="text-3xl md:text-4xl text-ink mb-4">{s.name}</h3>
-                <p class="text-graphite text-lg leading-relaxed">
-                  {s.oneLiner}
-                </p>
-              </div>
+              <h3 class="text-4xl md:text-6xl text-ink mt-auto font-display tracking-tight leading-[0.95]">
+                {s.name}.
+              </h3>
+              <p class="text-graphite text-lg md:text-xl leading-relaxed max-w-md">
+                {s.oneLiner}
+              </p>
             </a>
           ))
         }
+
+        {/* Tail panel — soft outro */}
+        <div class="flex-shrink-0 w-[40vw] md:w-[28vw] flex items-center">
+          <span class="script text-3xl md:text-5xl text-ember -rotate-3">
+            that's the studio.
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+  {/* Featured product — Custom CRM (a real product, not the hero focus)   */}
+  {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+  <section class="py-20 md:py-32 bg-forest-wash relative overflow-hidden">
+    <Container size="full">
+      <div data-reveal class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+        <div class="lg:col-span-6 order-2 lg:order-1">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="font-mono text-xs text-forest tracking-[0.14em] uppercase">Featured product</span>
+            <span class="text-mist">·</span>
+            <span class="script text-2xl text-ember -rotate-2">live in production</span>
+          </div>
+
+          <h2 data-split class="mt-2 max-w-[14ch]">
+            A Custom CRM, built for how you actually run.
+          </h2>
+
+          <p class="lede mt-8 text-xl">
+            For realtors, advisors, therapists, and small teams who live in
+            their pipeline. Custom fields, your stages, your terminology —
+            and your data, hosted by us, yours forever. Six-week typical
+            build. We use the same engine in our own studio.
+          </p>
+
+          <div class="mt-10 flex flex-wrap gap-3">
+            {["Custom fields", "Your terminology", "Relationship-first", "Hosted by us", "Yours forever"].map((t) => (
+              <span class="text-xs font-mono text-forest bg-bone border border-forest/20 px-3 py-1.5 rounded-pill">
+                {t}
+              </span>
+            ))}
+          </div>
+
+          <div class="mt-12 flex flex-wrap gap-4">
+            <a
+              href="/services/software"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-forest text-bone rounded-pill font-medium hover:bg-forest-deep transition-colors"
+            >
+              How we build CRMs
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a
+              href="/contact?service=crm"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-transparent text-forest border-2 border-forest/40 rounded-pill font-medium hover:bg-forest hover:text-bone transition-colors"
+            >
+              Talk to us about yours
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 order-1 lg:order-2 relative">
+          {/* Layered screenshots — front + back, tilted, with hover straighten */}
+          <div class="relative aspect-[4/3]">
+            <div class="absolute top-0 left-4 md:left-12 right-0 bottom-8 rounded-xl overflow-hidden shadow-soft -rotate-2 hover:rotate-0 transition-transform duration-700 bg-gradient-to-br from-forest to-forest-deep">
+              <img
+                src="/work/crm-detail.webp"
+                alt="Custom CRM — detail view"
+                loading="lazy"
+                class="absolute inset-0 w-full h-full object-cover opacity-95"
+                onerror="this.style.display='none'"
+              />
+            </div>
+            <div class="absolute top-8 right-0 left-4 md:left-12 bottom-0 rounded-xl overflow-hidden shadow-lift rotate-2 hover:rotate-0 transition-transform duration-700 bg-gradient-to-br from-ink to-forest-deep">
+              <img
+                src="/work/portal-2.webp"
+                alt="Custom CRM — pipeline view"
+                loading="lazy"
+                class="absolute inset-0 w-full h-full object-cover"
+                onerror="this.style.display='none'"
+              />
+              <div class="absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-black/35 to-transparent pointer-events-none" />
+              <div class="absolute inset-x-0 top-0 p-4 flex items-center justify-between">
+                <div class="flex gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-bone/70" />
+                  <span class="w-2 h-2 rounded-full bg-bone/70" />
+                  <span class="w-2 h-2 rounded-full bg-bone/70" />
+                </div>
+                <span class="text-[10px] font-mono text-bone tracking-wider">crm.yourbiz.com</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </Container>
   </section>
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <!-- Selected work — placeholder grid                                     -->
+  <!-- Selected work                                                        -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <section class="py-24 md:py-40 bg-cream">
     <Container size="full">
       <div class="flex items-end justify-between mb-16 md:mb-20">
         <div>
           <Eyebrow>Selected work</Eyebrow>
-          <h2 class="mt-6">A few things we've built.</h2>
+          <h2 data-split class="mt-6">A few things we've built.</h2>
         </div>
         <a
           href="/work"
@@ -182,25 +285,66 @@ const aiExamples = [
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
         {
           [
-            { title: "Client Portal", year: "2026", tag: "Custom software", color: "bg-forest" },
-            { title: "Pulse PM", year: "2025", tag: "Custom software", color: "bg-ink" },
-            { title: "SavingsXL", year: "2025", tag: "Brand + site", color: "bg-ember" },
-            { title: "RKG Therapy", year: "2024", tag: "Website", color: "bg-forest-deep" },
+            {
+              title: "Client Portal",
+              tag: "Custom software",
+              image: "/work/portal.webp",
+              domain: "portal.tiffanyrussell.me",
+            },
+            {
+              title: "Pulse",
+              tag: "Internal PM tool",
+              image: "/work/pulse.webp",
+              domain: "Plane on Railway",
+            },
+            {
+              title: "SavingsXL",
+              tag: "Brand + site",
+              image: "/work/savingsxl.webp",
+              domain: "savingsxl.com",
+            },
+            {
+              title: "RKG Therapy",
+              tag: "Editorial website",
+              image: "/work/rkg.webp",
+              domain: "rkgtherapy.com",
+            },
           ].map((p) => (
-            <a href="/work" class="group block">
-              <div class={`${p.color} aspect-[4/3] rounded-lg overflow-hidden mb-5 group-hover:opacity-90 transition-opacity relative`}>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <span class="text-bone/80 font-mono text-sm tracking-wider">— preview —</span>
+            <a href="/work" class="group block" data-reveal>
+              <div class="bg-ink aspect-[4/3] rounded-xl overflow-hidden mb-5 group-hover:shadow-lift transition-all duration-500 relative">
+                {/* real product screenshot — grayscale by default, colour on hover */}
+                <img
+                  src={p.image}
+                  alt={`${p.title} — ${p.tag}`}
+                  loading="lazy"
+                  class="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.05] brightness-[0.95] group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-[1.03] transition-all duration-700"
+                  onerror="this.style.display='none'"
+                />
+                {/* Forest-tinted duotone overlay; fades on hover */}
+                <div class="absolute inset-0 bg-forest mix-blend-multiply opacity-40 group-hover:opacity-0 transition-opacity duration-700 pointer-events-none" />
+                {/* subtle top vignette so the chrome reads cleanly */}
+                <div class="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
+
+                {/* fake browser chrome floating on top of the screenshot */}
+                <div class="absolute inset-x-0 top-0 p-6 md:p-8 flex items-center justify-between">
+                  <div class="flex gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-bone/70" />
+                    <span class="w-2.5 h-2.5 rounded-full bg-bone/70" />
+                    <span class="w-2.5 h-2.5 rounded-full bg-bone/70" />
+                  </div>
+                  <span class="text-[10px] md:text-xs font-mono text-bone tracking-wider">
+                    {p.domain}
+                  </span>
                 </div>
               </div>
-              <div class="flex items-center justify-between">
-                <div>
-                  <h3 class="text-2xl text-ink group-hover:text-forest transition-colors">
-                    {p.title}
-                  </h3>
-                  <p class="text-sm text-graphite mt-1 font-mono tracking-wide">{p.tag}</p>
-                </div>
-                <span class="text-sm text-mist font-mono">{p.year}</span>
+
+              <div>
+                <h3 class="text-2xl text-ink group-hover:text-forest transition-colors">
+                  {p.title}
+                </h3>
+                <p class="text-sm text-graphite mt-1 font-mono tracking-wide">
+                  {p.tag}
+                </p>
               </div>
             </a>
           ))
@@ -214,13 +358,63 @@ const aiExamples = [
   </section>
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <!-- Process — five-step (becomes pinned horizontal in Phase 3)          -->
+  <!-- Testimonial — one big quote, attributed, with a face                -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <section class="py-24 md:py-40">
+    <Container size="default">
+      <div data-reveal>
+        <Eyebrow>In their words</Eyebrow>
+        <blockquote class="mt-8 md:mt-12">
+          <p class="font-display text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight text-ink max-w-5xl">
+            <span class="text-ember/90 mr-2">"</span>They listened the way a
+            real partner listens — then shipped something I could actually
+            run my practice on. The little AI bits feel like having a quiet
+            second brain.<span class="text-ember/90 ml-1">"</span>
+          </p>
+
+          <footer class="mt-10 md:mt-14 flex items-center gap-5">
+            {/* face slot — REPLACE with /clients/<name>.jpg when available */}
+            <div
+              aria-hidden="true"
+              class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-ember to-forest flex items-center justify-center text-bone font-display font-bold text-lg flex-shrink-0 ring-2 ring-bone shadow-soft"
+            >
+              RK
+            </div>
+            <div>
+              <cite class="not-italic block text-ink font-medium">
+                R. Kahler, LCSW
+              </cite>
+              <span class="text-sm text-graphite font-mono">
+                Founder · RKG Therapy
+              </span>
+            </div>
+            <a
+              href="/work"
+              class="ml-auto hidden md:inline-flex text-sm font-medium text-forest hover:text-forest-deep items-center gap-2"
+            >
+              See the build
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </footer>
+        </blockquote>
+      </div>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Process — five-step (becomes pinned horizontal in Phase 3)          -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="py-24 md:py-40 relative">
+    <span class="hidden md:block absolute top-28 right-12 script text-3xl text-ember -rotate-3 float-bob pointer-events-none">
+      no mystery —
+    </span>
+
     <Container size="full">
       <div class="max-w-3xl mb-20 md:mb-28">
         <Eyebrow>How we work</Eyebrow>
-        <h2 class="mt-6">
+        <h2 data-split class="mt-6">
           A boutique pace, an agency process.
         </h2>
         <p class="lede mt-6">
@@ -229,21 +423,21 @@ const aiExamples = [
         </p>
       </div>
 
-      <ol class="space-y-12 md:space-y-16">
+      <ol class="space-y-0 relative">
+        {/* Vertical connecting line — runs behind all steps */}
+        <span class="hidden md:block absolute left-[14px] top-4 bottom-4 w-px bg-gradient-to-b from-ember via-forest/40 to-transparent" aria-hidden="true" />
+
         {
-          processSteps.map((step, i) => (
-            <li class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 group">
-              <div class="md:col-span-2">
-                <span class="font-mono text-sm text-forest tracking-wider">
-                  {step.n}
-                </span>
-              </div>
-              <div class="md:col-span-4">
-                <h3 class="text-3xl md:text-4xl text-ink group-hover:text-forest transition-colors">
-                  {step.title}
+          processSteps.map((step) => (
+            <li data-reveal class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 group py-10 md:py-12 border-t border-fog pl-0 md:pl-12 relative">
+              {/* Pulsing dot anchored to the vertical line */}
+              <span class="hidden md:block absolute left-[8px] top-12 step-dot" aria-hidden="true" />
+              <div class="md:col-span-5">
+                <h3 class="text-3xl md:text-5xl text-ink group-hover:text-forest transition-colors font-display tracking-tight">
+                  {step.title}.
                 </h3>
               </div>
-              <p class="md:col-span-6 text-lg text-graphite leading-relaxed self-center">
+              <p class="md:col-span-7 text-lg text-graphite leading-relaxed self-center">
                 {step.body}
               </p>
             </li>
@@ -301,7 +495,7 @@ const aiExamples = [
   <section class="py-24 md:py-40">
     <Container size="default">
       <Eyebrow>AI & automation</Eyebrow>
-      <h2 class="mt-6 mb-12 max-w-3xl">
+      <h2 data-split class="mt-6 mb-12 max-w-3xl">
         The quiet co-worker we wire into your stack.
       </h2>
       <p class="lede text-2xl mb-16">
@@ -348,10 +542,18 @@ const aiExamples = [
           </h2>
         </div>
         <div class="lg:col-span-4 flex flex-wrap gap-4 lg:justify-end">
-          <Button href="/contact" size="lg">Start a project</Button>
-          <Button href="/contact#book" variant="secondary" size="lg" class="bg-transparent text-bone border-bone/30 hover:border-bone hover:text-bone hover:bg-bone/5">
+          <a
+            href="/contact"
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-bone text-ink rounded-pill text-lg font-medium hover:bg-cream transition-colors"
+          >
+            Start a project →
+          </a>
+          <a
+            href="/contact#book"
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-bone border-2 border-bone/70 rounded-pill text-lg font-medium hover:bg-bone hover:text-forest transition-colors"
+          >
             Book a call
-          </Button>
+          </a>
         </div>
       </div>
     </Container>

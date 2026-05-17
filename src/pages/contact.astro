@@ -9,11 +9,11 @@ const calendlyUrl =
   "https://calendly.com/contact-tiffanyrussell/discovery-call";
 
 const services = [
-  { value: "websites", label: "Websites" },
+  { value: "crm", label: "Custom CRM" },
   { value: "software", label: "Custom software" },
+  { value: "websites", label: "Websites" },
   { value: "brand", label: "Brand & marketing" },
   { value: "ai", label: "AI & automation" },
-  { value: "audit", label: "Audit" },
   { value: "other", label: "Not sure yet" },
 ];
 
@@ -38,7 +38,7 @@ const preselected = Astro.url.searchParams.get("service") || "";
   <section class="pt-20 md:pt-32 pb-16">
     <Container size="full">
       <Eyebrow>Start a project</Eyebrow>
-      <h1 class="display-xl mt-6 max-w-[18ch]">
+      <h1 data-split class="display-xl mt-6 max-w-[18ch]">
         Tell us what you're building.
       </h1>
       <p class="lede mt-10 text-xl max-w-3xl">
@@ -54,6 +54,7 @@ const preselected = Astro.url.searchParams.get("service") || "";
       <form
         action="/api/contact"
         method="post"
+        novalidate
         class="space-y-10 bg-white border border-fog rounded-2xl p-8 md:p-12"
         id="contact-form"
       >
@@ -208,6 +209,86 @@ const preselected = Astro.url.searchParams.get("service") || "";
           </button>
         </div>
       </form>
+
+      <script is:inline>
+        (() => {
+          const form = document.getElementById("contact-form");
+          if (!form) return;
+
+          const showError = (field, msg) => {
+            field.setAttribute("aria-invalid", "true");
+            field.classList.add("ring-2", "ring-ember", "border-ember");
+            const wrap = field.closest("label") || field.parentElement;
+            const span = document.createElement("span");
+            span.dataset.error = "";
+            span.className = "block mt-2 text-sm text-ember script -rotate-1";
+            span.textContent = msg;
+            wrap.appendChild(span);
+          };
+
+          const clearErrors = () => {
+            form.querySelectorAll("[data-error]").forEach((el) => el.remove());
+            form.querySelectorAll("[aria-invalid]").forEach((el) => {
+              el.removeAttribute("aria-invalid");
+              el.classList.remove("ring-2", "ring-ember", "border-ember");
+            });
+          };
+
+          const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+
+          form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            clearErrors();
+
+            const name = form.querySelector('input[name="name"]');
+            const email = form.querySelector('input[name="email"]');
+            const errors = [];
+
+            if (!name.value.trim()) {
+              errors.push([name, "First, what should we call you?"]);
+            }
+            if (!email.value.trim()) {
+              errors.push([email, "We'll need somewhere to write back."]);
+            } else if (!isEmail(email.value)) {
+              errors.push([email, "Hmm — that doesn't look like an email."]);
+            }
+
+            if (errors.length) {
+              errors.forEach(([f, m]) => showError(f, m));
+              errors[0][0].focus();
+              errors[0][0].scrollIntoView({ behavior: "smooth", block: "center" });
+              return;
+            }
+
+            // Submission stub — wire to /api/contact in Phase 2.
+            const sent = document.createElement("div");
+            sent.className = "text-center py-16 md:py-24";
+            sent.innerHTML = `
+              <span class="script text-5xl md:text-6xl text-ember -rotate-2 inline-block mb-6">got it —</span>
+              <h2 class="display-xl text-ink mt-2 mb-6">Thanks, ${name.value.trim().replace(/[<>]/g, "")}.</h2>
+              <p class="lede text-xl text-graphite max-w-2xl mx-auto">
+                We'll write you back within 24 hours — most of the time within four.
+                In the meantime: we know we owe you a real response, not a thank-you template.
+              </p>
+            `;
+            form.replaceWith(sent);
+            sent.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+
+          // Clear an individual field's error as the user fixes it
+          form.querySelectorAll("input, textarea").forEach((input) => {
+            input.addEventListener("input", () => {
+              if (input.getAttribute("aria-invalid") === "true") {
+                input.removeAttribute("aria-invalid");
+                input.classList.remove("ring-2", "ring-ember", "border-ember");
+                const wrap = input.closest("label") || input.parentElement;
+                const err = wrap.querySelector("[data-error]");
+                if (err) err.remove();
+              }
+            });
+          });
+        })();
+      </script>
 
       <!-- Book a call -->
       <div id="book" class="mt-16 md:mt-24 text-center">

@@ -11,59 +11,103 @@ import EndCTA from "../../components/EndCTA.astro";
   description="Tiffany Russell — founder of elefox studio. UX designer, product builder, AI tinkerer. Based in South Florida."
 >
   <!-- Hero -->
-  <section class="pt-20 md:pt-32 pb-16">
+  <section class="pt-20 md:pt-32 pb-16 md:pb-24 relative overflow-hidden">
+    {/* Portrait — bleeds off the right edge of the viewport, sits behind
+        the headline on lg+. Cleanly stacks on mobile. */}
+    <img
+      src="/people/tiffany.webp"
+      alt="Tiffany Russell, founder of elefox studio"
+      class="hidden lg:block absolute top-24 right-0 w-[36vw] max-w-[520px] aspect-[4/5] object-cover object-[center_30%] pointer-events-none select-none"
+      loading="lazy"
+      width="600"
+      height="750"
+    />
+
     <Container size="full">
-      <Eyebrow>The founder</Eyebrow>
-      <h1 class="display-xl mt-6 max-w-[16ch]">
-        Hi — I'm Tiffany. I started elefox.
-      </h1>
+      <div class="relative z-10 max-w-3xl lg:max-w-[44rem]">
+        <Eyebrow>The founder</Eyebrow>
+        <h1 data-split class="mt-6 font-display font-extrabold tracking-[-0.04em] leading-[0.95] text-5xl sm:text-6xl md:text-7xl lg:text-8xl">
+          Hi <span class="script text-ember text-5xl md:text-6xl -rotate-3 inline-block align-middle mx-1">—</span>I'm Tiffany. I started elefox.
+        </h1>
+        <p class="mt-10 flex items-center gap-2 text-sm text-graphite">
+          <span class="script text-lg text-ember">~</span>
+          Coral Springs, somewhere between coffee #2 and a deploy
+        </p>
+      </div>
+
+      {/* Mobile/tablet portrait — stacks below the headline, centered. */}
+      <figure class="mt-12 lg:hidden mx-auto max-w-[360px]">
+        <img
+          src="/people/tiffany.webp"
+          alt="Tiffany Russell, founder of elefox studio"
+          class="w-full aspect-[4/5] object-cover object-[center_30%]"
+          loading="lazy"
+          width="600"
+          height="750"
+        />
+      </figure>
     </Container>
   </section>
 
   <!-- The story -->
-  <section class="py-16 md:py-24">
+  <section class="py-16 md:py-24 bg-cream">
     <Container size="default">
       <div class="prose-content space-y-8 text-lg md:text-xl text-graphite leading-relaxed">
         <p>
           I'm a UX designer and product builder based in Coral Springs, South
-          Florida. I started this studio in 2024 as Tiffany Russell Studio
-          after a decade of designing for in-house teams and a few agencies.
-          What I wanted was to do really good work for small companies — the
-          kind that get treated like an afterthought everywhere else.
+          Florida. I've worked across every flavor of the web — in-house,
+          agency, freelance — and elefox is the studio I always wanted to run.
         </p>
 
         <p>
-          For the first year and change, it was just my name on the door and a
-          handful of clients who quickly became the kind of work I wanted to do
-          more of: a therapy practice that needed a real intake system, a
-          realtor whose CRM was built for someone else, a financial planning
-          firm that wanted a site that actually closed leads. Each one taught
-          me what kind of studio I wanted to build.
+          What kept getting me hired wasn't a single specialty. It was the
+          rare combination: someone who could think strategically, design
+          carefully, and ship the actual code. A therapy practice that needed
+          a real intake system. A realtor whose CRM was built for someone
+          else. A financial planning firm that wanted a site that actually
+          closed leads. The pattern repeated — and elefox is built to serve
+          it.
         </p>
 
         <p>
-          I rebranded as <strong class="text-ink font-medium">elefox studio</strong> in 2026 for one honest reason: the work
-          isn't just me anymore. I have a small group of collaborators I trust —
-          engineers, illustrators, copywriters — who plug in when a project calls
-          for it. Calling it "Tiffany Russell" felt like overclaiming on the solo
-          side. Calling it elefox lets the studio be a studio.
+          The studio is intentionally small. I'm the strategist, lead
+          designer, frontend builder, and AI tinkerer on every engagement.
+          A small group of collaborators I trust — engineers, illustrators,
+          copywriters — plug in when a project calls for them. We cap our
+          custom software roster at 25 active clients. We turn down work we
+          can't make great. Scale isn't the goal; quality is.
         </p>
 
         <p>
-          I still touch every project. I'm the strategist, lead designer,
-          frontend builder, and AI tinkerer. My collaborators are how the
-          studio scales without breaking the part that makes it good. We cap
-          our custom software roster at 25 active clients. We turn down work
-          we can't make great. We're not trying to be the biggest agency in
-          South Florida — we're trying to be the most useful one for the
-          businesses we work with.
+          Years in, the part I still love is the same: making real things
+          for people who needed something better than what was on offer.
+          The tools have changed wildly — AI agents, modern frontend
+          frameworks, agentic workflows, and LLM pipelines are all in the kit now
+          — and I make a point of staying on the cutting edge so the work
+          we ship doesn't age out two years after launch. The craft, though,
+          is timeless.
         </p>
 
         <p>
-          The name? <strong class="text-ink font-medium">elefox</strong> is half elephant
-          (memory, patience, the long view) and half fox (cleverness, scrappiness,
-          knowing when to bend the rules). It's how I want the studio to work.
+          The name? Long before it was a studio,
+          <strong class="text-ink font-medium">elefox</strong> was my kids
+          — elephants in my daughter's nursery, foxes in my son's, and a
+          tattoo on my arm to keep them both close. When I needed a name
+          that wasn't mine, theirs was the obvious one. The qualities happen
+          to map, too: elephants remember and play the long game; foxes are
+          clever and know when to bend the rules. That's how I want the
+          studio to work.
         </p>
+      </div>
+
+      {/* Handwritten signature — adds a human touch */}
+      <div class="mt-16 flex items-center gap-4">
+        <span class="font-mono text-xs uppercase tracking-wider text-graphite">
+          — signed,
+        </span>
+        <span class="script text-5xl md:text-6xl text-forest -rotate-3">
+          Tiffany
+        </span>
       </div>
 
       <!-- Quick facts -->
@@ -71,9 +115,9 @@ import EndCTA from "../../components/EndCTA.astro";
         {
           [
             { t: "Based", d: "Coral Springs, FL" },
-            { t: "Designing since", d: "2015" },
-            { t: "Studio founded", d: "2024" },
-            { t: "Toolkit", d: "Figma · Astro · Next.js · Claude" },
+            { t: "Experience", d: "15+ years" },
+            { t: "Toolkit", d: "Figma · Astro · Next.js · AI agents" },
+            { t: "Studio focus", d: "Relationship-driven small teams" },
           ].map((item) => (
             <div>
               <dt class="font-mono text-xs uppercase tracking-wider text-forest mb-2">{item.t}</dt>
@@ -98,7 +142,7 @@ import EndCTA from "../../components/EndCTA.astro";
         <a href="/contact#book" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-bone text-ink rounded-pill text-lg font-medium hover:bg-cream transition-colors">
           Book a call
         </a>
-        <a href="/contact" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-bone border border-bone/40 rounded-pill text-lg font-medium hover:bg-bone/10 transition-colors">
+        <a href="/contact" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-bone border-2 border-bone/70 rounded-pill text-lg font-medium hover:bg-bone hover:text-forest transition-colors">
           Send a message
         </a>
       </div>

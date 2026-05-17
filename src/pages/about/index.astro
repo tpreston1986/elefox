@@ -7,22 +7,18 @@ import EndCTA from "../../components/EndCTA.astro";
 
 const principles = [
   {
-    n: "01",
     t: "We pick fewer projects, on purpose.",
     p: "Our custom software roster is capped at 25 active clients. That means every build gets real attention — and that means we sometimes have to say no. It's a feature, not a bug.",
   },
   {
-    n: "02",
     t: "We use what we ship.",
     p: "Our client portal? We built it. Our CRM? We use it. Our automations? They run our own business first. When something's broken, we feel it before you do.",
   },
   {
-    n: "03",
     t: "We tell you when AI won't help.",
     p: "We've built AI features into a dozen client workflows. We've also turned down AI engagements where the right answer was a better form or a clearer process. Honest first, clever second.",
   },
   {
-    n: "04",
     t: "We don't disappear after launch.",
     p: "Most builds roll into a small monthly retainer for hosting, support, and the occasional new feature. We're the team you don't have to hire.",
   },
@@ -44,7 +40,7 @@ const collaborators = [
   <section class="pt-20 md:pt-32 pb-16 md:pb-24">
     <Container size="full">
       <Eyebrow>About the studio</Eyebrow>
-      <h1 class="display-xl mt-6 max-w-[20ch]">
+      <h1 data-split class="display-xl mt-6 max-w-[20ch]">
         A small studio that does the work most agencies pass on.
       </h1>
       <p class="lede mt-10 text-xl max-w-3xl">
@@ -59,22 +55,21 @@ const collaborators = [
   <section class="py-20 md:py-32 bg-cream">
     <Container size="default">
       <Eyebrow>Why we exist</Eyebrow>
-      <h2 class="mt-6 mb-12">The studio in three paragraphs.</h2>
+      <h2 data-split class="mt-6 mb-12">The studio in three paragraphs.</h2>
       <div class="space-y-8 text-lg md:text-xl text-graphite leading-relaxed max-w-3xl">
         <p>
-          elefox started as <em class="text-ink not-italic">Tiffany Russell Studio</em> in 2024 — a designer's solo
-          practice that kept getting asked for more. More than a website. A CRM
-          that actually fit. A portal that wasn't off-the-shelf. An assistant
-          that could actually help. We said yes, then built the systems to keep
-          saying yes well.
+          We've worked in design and code in every flavor — in-house,
+          agency, freelance, now studio. Long enough to know what works.
+          Still rebuilding our own stack every year because the work doesn't
+          sit still and neither should we. Old enough to be useful, current
+          enough to be honest about what's changed.
         </p>
         <p>
-          We rebranded as elefox studio in 2026 to reflect what the work
-          actually is now: design, product, and a small but real production
-          process — built around the founder, supported by a network of trusted
-          collaborators. We say "we" because more than one person touches your
-          work. We also say "the studio is small" because honesty travels
-          further than scale.
+          The studio is small on purpose. We're founder-led and supported by
+          a network of trusted collaborators — engineers, illustrators,
+          copywriters — who plug in when a project calls for them. We say
+          "we" because more than one person touches your work. We say "the
+          studio is small" because honesty travels further than scale.
         </p>
         <p>
           We work with service businesses, small SaaS, local operators, and
@@ -95,14 +90,13 @@ const collaborators = [
     <Container size="full">
       <div class="max-w-3xl mb-16 md:mb-20">
         <Eyebrow>How we work</Eyebrow>
-        <h2 class="mt-6">Four principles we don't flex on.</h2>
+        <h2 data-split class="mt-6">Four principles we don't flex on.</h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
         {
           principles.map((p) => (
             <article class="border-t-2 border-forest pt-8">
-              <span class="font-mono text-sm text-forest tracking-wider mb-4 block">{p.n}</span>
               <h3 class="text-2xl md:text-3xl text-ink mb-4">{p.t}</h3>
               <p class="text-lg text-graphite leading-relaxed">{p.p}</p>
             </article>
@@ -130,10 +124,9 @@ const collaborators = [
 
       <div class="border-t border-bone/20">
         {
-          collaborators.map((c, i) => (
+          collaborators.map((c) => (
             <div class="grid grid-cols-1 md:grid-cols-12 gap-4 py-8 border-b border-bone/20">
-              <span class="md:col-span-1 font-mono text-sm text-bone/50 tracking-wider">0{i + 1}</span>
-              <span class="md:col-span-4 text-xl text-bone font-display tracking-tight">{c.role}</span>
+              <span class="md:col-span-5 text-xl text-bone font-display tracking-tight">{c.role}</span>
               <span class="md:col-span-7 text-lg text-bone/75 self-center">{c.scope}</span>
             </div>
           ))

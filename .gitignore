@@ -16,6 +16,9 @@ node_modules/
 *.swp
 *.swo
 
+# claude code — keep launch.json, ignore user-local settings
+.claude/settings.local.json
+
 # os
 .DS_Store
 Thumbs.db

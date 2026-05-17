@@ -11,25 +11,21 @@ const s = services.ai;
 
 const examples = [
   {
-    n: "A",
     title: "Intake summarizer for a therapy practice",
-    body: "A short Claude pipeline that reads new client intake forms, drafts a session-prep memo, and flags risk language for the lead therapist. Cut admin from ~6 hrs/week to under one.",
-    tags: ["Claude", "Forms", "Email"],
+    body: "A short LLM pipeline that reads new client intake forms, drafts a session-prep memo, and flags risk language for the lead therapist. Cut admin from ~6 hrs/week to under one.",
+    tags: ["LLM pipeline", "Forms", "Email"],
   },
   {
-    n: "B",
     title: "Sphere-segmented check-in drafts for a realtor",
     body: "Wired into the agent's CRM. Drafts personalized check-ins by relationship segment (past clients, referrals, COI) in her voice. She edits and sends — no more blank-page Mondays.",
-    tags: ["CRM", "Claude", "Gmail"],
+    tags: ["CRM", "AI agent", "Gmail"],
   },
   {
-    n: "C",
     title: "Internal RAG agent over a coaching firm's session notes",
     body: "Coaches ask the agent for past insights on a client and get cited summaries in seconds. Lives inside their existing portal. We trained it on their actual session library.",
     tags: ["RAG", "Embeddings", "Internal tool"],
   },
   {
-    n: "D",
     title: "SKU tagging classifier for a small retailer",
     body: "A fine-tuned classifier sorted 12,000 products into the brand's custom taxonomy. They went from a 6-month backlog to caught up in a weekend.",
     tags: ["Classification", "Batch"],
@@ -37,16 +33,15 @@ const examples = [
 ];
 
 const phases = [
-  { n: "01", t: "Discovery", p: "Paid scoping call. We map your workflow and identify whether AI actually helps. No pitch deck." },
-  { n: "02", t: "Pilot", p: "A small, scoped pilot — usually 2-4 weeks. We measure what changes. You decide what's next." },
-  { n: "03", t: "Production", p: "We build the real version. Wired into your stack, monitored, with a human in the loop where it matters." },
-  { n: "04", t: "Operate", p: "Most AI tools quietly degrade. We watch the outputs, retrain, and tell you when something stops working." },
+  { t: "Discovery", p: "A free 30-minute call. We map your workflow and identify whether AI actually helps. No pitch deck." },
+  { t: "Pilot", p: "A small, scoped pilot — usually 2-4 weeks. We measure what changes. You decide what's next." },
+  { t: "Production", p: "We build the real version. Wired into your stack, monitored, with a human in the loop where it matters." },
+  { t: "Operate", p: "Most AI tools quietly degrade. We watch the outputs, retrain, and tell you when something stops working." },
 ];
 ---
 
 <BaseLayout title="AI & automation" description={s.description}>
   <ServiceHero
-    index="04"
     category={s.name}
     title={s.title}
     description={s.description}
@@ -77,14 +72,10 @@ const phases = [
         {
           examples.map((ex) => (
             <article class="border-t-2 border-forest pt-8">
-              <div class="flex items-center gap-3 mb-6">
-                <span class="font-mono text-sm text-forest tracking-wider">{ex.n}</span>
-                <span class="text-mist">·</span>
-                <div class="flex gap-2 flex-wrap">
-                  {ex.tags.map((t) => (
-                    <span class="text-xs font-mono text-graphite bg-cream px-2 py-1 rounded-md">{t}</span>
-                  ))}
-                </div>
+              <div class="flex gap-2 flex-wrap mb-6">
+                {ex.tags.map((t) => (
+                  <span class="text-xs font-mono text-graphite bg-cream px-2 py-1 rounded-md">{t}</span>
+                ))}
               </div>
               <h3 class="text-2xl md:text-3xl text-ink mb-4">{ex.title}</h3>
               <p class="text-lg text-graphite leading-relaxed">{ex.body}</p>
@@ -106,9 +97,8 @@ const phases = [
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
         {
           phases.map((p) => (
-            <div>
-              <span class="font-mono text-sm text-bone/60 tracking-wider mb-4 block">{p.n}</span>
-              <h3 class="text-2xl text-bone mb-3">{p.t}</h3>
+            <div class="border-t border-bone/30 pt-6">
+              <h3 class="text-2xl text-bone mb-3 font-display tracking-tight">{p.t}.</h3>
               <p class="text-bone/75 leading-relaxed">{p.p}</p>
             </div>
           ))
@@ -116,8 +106,8 @@ const phases = [
       </div>
 
       <p class="mt-16 text-bone/70 max-w-2xl text-lg">
-        Pricing is scoped per engagement. A discovery + pilot typically runs
-        $2,500–$7,500. Production builds are scoped after the pilot lands.
+        Every engagement is priced bespoke after we scope the actual problem.
+        No tiers, no menu, no figure before we understand the work.
       </p>
     </Container>
   </section>
