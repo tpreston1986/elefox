@@ -1,6 +1,10 @@
 [build]
 builder = "NIXPACKS"
-buildCommand = "npm ci && npm run build"
+# npm install (not ci) — Railway's BuildKit cache-mounts
+# /app/node_modules/.cache, which npm ci can't rmdir during its
+# clean-slate install. install is a drop-in replacement for ci
+# when package-lock.json is committed (which it is).
+buildCommand = "npm install --no-audit --no-fund && npm run build"
 
 [deploy]
 startCommand = "node ./dist/server/entry.mjs"
