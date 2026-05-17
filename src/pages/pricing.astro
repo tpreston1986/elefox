@@ -1,0 +1,175 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import Button from "../components/Button.astro";
+import EndCTA from "../components/EndCTA.astro";
+import { services } from "../data/services";
+
+const allTiers = [
+  { category: "Sites", tiers: services.websites.tiers ?? [] },
+  { category: "Custom software", tiers: services.software.tiers ?? [] },
+  { category: "Brand & marketing", tiers: services.brand.tiers ?? [] },
+];
+
+const retainers = [
+  { name: "Site Care", price: "$200", cadence: "/month", blurb: "Content updates, security, analytics, priority turnaround on small changes." },
+  { name: "Software Hosting", price: "$50", cadence: "/month", blurb: "Backups, uptime monitoring, security patches, bug fixes.", badge: "Most Popular" },
+  { name: "Hourly add-ons", price: "$150", cadence: "/hour", blurb: "New features, integrations, workflow changes — billed in honest increments." },
+];
+---
+
+<BaseLayout title="Pricing" description="Transparent pricing for websites, custom software, brand systems, and ongoing support.">
+  <section class="pt-20 md:pt-32 pb-16">
+    <Container size="full">
+      <Eyebrow>Pricing</Eyebrow>
+      <h1 class="display-xl mt-6 max-w-[18ch]">
+        Honest numbers. No surprise scope.
+      </h1>
+      <p class="lede mt-10 text-xl max-w-3xl">
+        Every build has a fixed-fee deposit (50% to start, 50% on delivery)
+        and two rounds of revisions baked in. Custom work runs in transparent
+        ranges, not vague "depending on scope" hand-waving.
+      </p>
+    </Container>
+  </section>
+
+  <!-- All tier categories -->
+  {
+    allTiers.map((group, gi) => (
+      <section class={`py-16 md:py-24 ${gi % 2 === 0 ? "bg-cream" : ""}`}>
+        <Container size="full">
+          <div class="flex items-center gap-3 mb-12">
+            <span class="font-mono text-sm text-forest tracking-wider">0{gi + 1}</span>
+            <span class="text-mist">/</span>
+            <Eyebrow>{group.category}</Eyebrow>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {group.tiers.map((tier) => (
+              <article class={`relative bg-white border rounded-xl p-8 flex flex-col ${tier.badge ? "border-forest" : "border-fog"}`}>
+                {tier.badge && (
+                  <span class="absolute -top-3 left-6 bg-forest text-bone text-xs font-mono uppercase tracking-wider px-3 py-1 rounded-pill">
+                    {tier.badge}
+                  </span>
+                )}
+                <h3 class="text-2xl text-ink mb-3">{tier.name}</h3>
+                <div class="mb-5 flex items-baseline gap-2 flex-wrap">
+                  <span class="text-3xl font-display font-bold text-forest tracking-tight">{tier.price}</span>
+                  {tier.cadence && <span class="text-sm text-graphite">{tier.cadence}</span>}
+                </div>
+                <p class="text-sm text-graphite leading-relaxed">{tier.blurb}</p>
+              </article>
+            ))}
+          </div>
+        </Container>
+      </section>
+    ))
+  }
+
+  <!-- AI -->
+  <section class="py-16 md:py-24">
+    <Container size="full">
+      <div class="flex items-center gap-3 mb-12">
+        <span class="font-mono text-sm text-forest tracking-wider">04</span>
+        <span class="text-mist">/</span>
+        <Eyebrow>AI & automation</Eyebrow>
+      </div>
+
+      <div class="bg-ink text-bone rounded-xl p-10 md:p-16">
+        <p class="text-2xl md:text-3xl font-display tracking-tight leading-tight max-w-3xl text-bone">
+          AI work is scoped per engagement. A discovery + pilot typically runs
+          $2,500–$7,500. Production builds are scoped after the pilot lands.
+        </p>
+        <div class="mt-10">
+          <Button href="/services/ai" variant="secondary" size="md" class="bg-transparent border-bone/30 text-bone hover:bg-bone hover:text-ink">
+            How we engage on AI
+          </Button>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Audit -->
+  <section class="py-16 md:py-24 bg-cream">
+    <Container size="full">
+      <div class="flex items-center gap-3 mb-12">
+        <span class="font-mono text-sm text-forest tracking-wider">05</span>
+        <span class="text-mist">/</span>
+        <Eyebrow>Audit & strategy</Eyebrow>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-white rounded-xl p-10 md:p-16 border border-fog">
+        <div class="md:col-span-8">
+          <h3 class="text-3xl md:text-4xl text-ink mb-4">Site & Brand Audit</h3>
+          <p class="text-lg text-graphite leading-relaxed max-w-2xl">
+            One week. A 30-minute kickoff, a full audit of your site and brand,
+            and a written report + 20-minute Loom walkthrough. Fully credited
+            toward any build we do together.
+          </p>
+        </div>
+        <div class="md:col-span-4 md:text-right">
+          <div class="text-4xl font-display font-bold text-forest tracking-tight mb-4">$1,000</div>
+          <Button href="/audit" size="md">Start an audit</Button>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Retainers -->
+  <section class="py-16 md:py-24">
+    <Container size="full">
+      <div class="flex items-center gap-3 mb-12">
+        <span class="font-mono text-sm text-forest tracking-wider">06</span>
+        <span class="text-mist">/</span>
+        <Eyebrow>Retainers — keep it running</Eyebrow>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {
+          retainers.map((r) => (
+            <article class={`relative bg-cream border rounded-xl p-8 ${r.badge ? "border-forest" : "border-fog"}`}>
+              {r.badge && (
+                <span class="absolute -top-3 left-6 bg-forest text-bone text-xs font-mono uppercase tracking-wider px-3 py-1 rounded-pill">
+                  {r.badge}
+                </span>
+              )}
+              <h3 class="text-2xl text-ink mb-3">{r.name}</h3>
+              <div class="mb-5 flex items-baseline gap-2 flex-wrap">
+                <span class="text-3xl font-display font-bold text-forest tracking-tight">{r.price}</span>
+                <span class="text-sm text-graphite">{r.cadence}</span>
+              </div>
+              <p class="text-graphite leading-relaxed">{r.blurb}</p>
+            </article>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <!-- Terms -->
+  <section class="py-20 md:py-32 bg-cream">
+    <Container size="default">
+      <Eyebrow>Terms</Eyebrow>
+      <h2 class="mt-6 mb-12">The fine print, in plain English.</h2>
+      <dl class="space-y-8">
+        {
+          [
+            { t: "50/50 split", d: "Half up front to lock the timeline, half on delivery. No retainer required to start a build." },
+            { t: "Two revision rounds", d: "Every build includes two rounds of revisions. Substantial scope changes are billed honestly at the hourly rate." },
+            { t: "25-client software cap", d: "We keep our active custom software roster small. When we're full, we're full." },
+            { t: "Crediting the audit", d: "Did the $1,000 audit and decided to build with us? The full audit fee credits toward your build." },
+            { t: "Ownership", d: "When the build is complete and paid, the code and assets are yours. You can take them anywhere." },
+          ].map(({ t, d }) => (
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 border-b border-fog pb-8">
+              <dt class="md:col-span-4 text-xl text-ink font-display tracking-tight">{t}</dt>
+              <dd class="md:col-span-8 text-lg text-graphite leading-relaxed">{d}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </Container>
+  </section>
+
+  <EndCTA heading="Ready to put real numbers on a real plan?" />
+</BaseLayout>

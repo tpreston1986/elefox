@@ -1,0 +1,13 @@
+---
+type Props = {
+  tone?: "forest" | "ink" | "bone";
+  class?: string;
+};
+
+const { tone = "forest", class: className = "" } = Astro.props;
+const toneClass = tone === "forest" ? "" : `eyebrow--${tone}`;
+---
+
+<span class={`eyebrow ${toneClass} ${className}`}>
+  <slot />
+</span>

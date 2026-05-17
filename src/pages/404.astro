@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Button from "../components/Button.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+---
+
+<BaseLayout title="Lost page" description="That page doesn't exist." noindex>
+  <section class="py-32 md:py-48 min-h-[60vh] flex items-center">
+    <Container size="default" class="text-center">
+      <Eyebrow>404</Eyebrow>
+      <h1 class="display-xl mt-6 mb-8">
+        That page wandered off.
+      </h1>
+      <p class="lede mx-auto mb-12 text-xl">
+        It's not you — the page you were looking for either moved or never
+        existed. Try one of these instead.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <Button href="/">Home</Button>
+        <Button href="/services" variant="secondary">Services</Button>
+        <Button href="/contact" variant="secondary">Contact</Button>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

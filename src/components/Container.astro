@@ -1,0 +1,20 @@
+---
+type Props = {
+  as?: keyof HTMLElementTagNameMap;
+  size?: "narrow" | "default" | "wide" | "full";
+  class?: string;
+};
+
+const { as: Tag = "div", size = "default", class: className = "" } = Astro.props;
+
+const sizes: Record<NonNullable<Props["size"]>, string> = {
+  narrow: "max-w-3xl",
+  default: "max-w-6xl",
+  wide: "max-w-7xl",
+  full: "max-w-[1600px]",
+};
+---
+
+<Tag class={`mx-auto w-full px-6 md:px-10 ${sizes[size]} ${className}`}>
+  <slot />
+</Tag>

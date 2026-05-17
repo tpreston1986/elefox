@@ -1,0 +1,37 @@
+---
+import Container from "./Container.astro";
+import Eyebrow from "./Eyebrow.astro";
+import Button from "./Button.astro";
+
+type Props = {
+  index: string;
+  category: string;
+  title: string;
+  description: string;
+};
+
+const { index, category, title, description } = Astro.props;
+---
+
+<section class="pt-20 md:pt-32 pb-16 md:pb-24">
+  <Container size="full">
+    <div class="flex items-center gap-3 mb-12">
+      <span class="font-mono text-sm text-forest tracking-wider">{index}</span>
+      <span class="text-mist">/</span>
+      <Eyebrow>{category}</Eyebrow>
+    </div>
+
+    <h1 class="display-xl text-ink max-w-[16ch]">
+      {title}
+    </h1>
+
+    <p class="lede mt-12 text-xl md:text-2xl max-w-3xl">
+      {description}
+    </p>
+
+    <div class="mt-12 flex flex-wrap gap-4">
+      <Button href="/contact" size="lg">Start a project</Button>
+      <Button href="/audit" variant="secondary" size="lg">Start with an audit</Button>
+    </div>
+  </Container>
+</section>

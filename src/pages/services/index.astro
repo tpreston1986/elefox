@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/Container.astro";
+import Button from "../../components/Button.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import { allServices } from "../../data/services";
+---
+
+<BaseLayout
+  title="Services"
+  description="Websites, custom software, brand and marketing systems, and AI advisory — from elefox studio."
+>
+  <section class="pt-20 md:pt-32 pb-16">
+    <Container size="full">
+      <Eyebrow>Services</Eyebrow>
+      <h1 class="display-xl mt-6 max-w-[18ch]">
+        Four capabilities, all under one roof.
+      </h1>
+      <p class="lede mt-10 max-w-3xl text-xl">
+        Most of our clients hire us for one. They stay for the others. Pick a
+        thread to pull on.
+      </p>
+    </Container>
+  </section>
+
+  <section class="pb-32">
+    <Container size="full">
+      <div class="border-t border-fog">
+        {
+          allServices.map((s, i) => (
+            <a
+              href={`/services/${s.slug}`}
+              class="group grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 py-12 md:py-20 border-b border-fog hover:bg-cream/40 transition-colors -mx-6 md:-mx-10 px-6 md:px-10"
+            >
+              <div class="md:col-span-2">
+                <span class="font-mono text-sm text-forest tracking-wider">
+                  0{i + 1}
+                </span>
+              </div>
+
+              <div class="md:col-span-5">
+                <h2 class="text-4xl md:text-6xl text-ink group-hover:text-forest transition-colors">
+                  {s.name}
+                </h2>
+              </div>
+
+              <div class="md:col-span-5 self-center">
+                <p class="text-lg md:text-xl text-graphite leading-relaxed mb-6">
+                  {s.oneLiner}
+                </p>
+                <span class="inline-flex items-center gap-2 text-sm font-medium text-forest tracking-tight">
+                  See the work
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" class="transition-transform group-hover:translate-x-1">
+                    <path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="mt-24 md:mt-32 text-center">
+        <p class="lede mx-auto text-xl mb-8">
+          Not sure where to start? Begin with a paid audit. It's $1,000, fully
+          credited toward whatever we build together.
+        </p>
+        <Button href="/audit" size="lg">Start with an audit</Button>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

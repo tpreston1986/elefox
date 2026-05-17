@@ -1,0 +1,79 @@
+---
+type Props = {
+  href?: string;
+  variant?: "primary" | "secondary" | "ghost" | "link";
+  size?: "sm" | "md" | "lg";
+  type?: "button" | "submit" | "reset";
+  class?: string;
+  external?: boolean;
+  ariaLabel?: string;
+};
+
+const {
+  href,
+  variant = "primary",
+  size = "md",
+  type = "button",
+  class: className = "",
+  external,
+  ariaLabel,
+} = Astro.props;
+
+const base =
+  "inline-flex items-center justify-center gap-2 font-medium tracking-tight transition-all duration-200 ease-[var(--ease-out-quint)] outline-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+
+const variants = {
+  primary:
+    "bg-forest text-bone hover:bg-forest-deep hover:-translate-y-px shadow-soft hover:shadow-lift",
+  secondary:
+    "bg-bone text-ink border border-mist hover:border-forest hover:text-forest",
+  ghost:
+    "bg-transparent text-ink hover:bg-forest-wash hover:text-forest",
+  link:
+    "bg-transparent text-forest hover:text-forest-deep underline-offset-4 hover:underline px-0",
+};
+
+const sizes = {
+  sm: "text-sm px-4 py-2 rounded-pill",
+  md: "text-base px-6 py-3 rounded-pill",
+  lg: "text-lg px-8 py-4 rounded-pill",
+};
+
+const classes = `${base} ${variants[variant]} ${
+  variant === "link" ? "" : sizes[size]
+} ${className}`;
+
+const externalProps = external
+  ? { target: "_blank", rel: "noopener noreferrer" }
+  : {};
+---
+
+{
+  href ? (
+    <a href={href} class={classes} aria-label={ariaLabel} {...externalProps}>
+      <slot />
+      {variant !== "link" && (
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          aria-hidden="true"
+          class="transition-transform duration-200 group-hover:translate-x-0.5"
+        >
+          <path
+            d="M2 7h10m0 0L8 3m4 4L8 11"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      )}
+    </a>
+  ) : (
+    <button type={type} class={classes} aria-label={ariaLabel}>
+      <slot />
+    </button>
+  )
+}
