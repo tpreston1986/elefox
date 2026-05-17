@@ -25,7 +25,7 @@ export const services: Record<string, Service> = {
     name: "Websites",
     title: "Websites that earn their keep.",
     oneLiner:
-      "Sites built for the way you actually sell — fast, clear, and ready to convert.",
+      "Sites built for the way you actually sell. Fast, clear, ready to convert.",
     description:
       "From a tight one-pager to a full conversion engine. Every site ships with real SEO and accessible markup. CMS-editable from the Growth Site tier up.",
     tiers: [
@@ -84,9 +84,9 @@ export const services: Record<string, Service> = {
     name: "Custom software",
     title: "CRMs, portals, and the software your team actually wants to use.",
     oneLiner:
-      "Custom CRMs for realtors, advisors, therapists, and small teams who run on relationships — plus client portals and the internal tools that hold it all together.",
+      "Custom CRMs for realtors, advisors, therapists, and small teams who run on relationships, plus client portals and the internal tools that hold it all together.",
     description:
-      "Off-the-shelf CRM software makes you adapt to it: the same fields, the same pipeline, the same vocabulary as every other customer. We build the opposite — tools that match your terminology, your workflow, and the way you actually talk about your clients. Hosted, supported, and yours.",
+      "Off-the-shelf CRM software makes you adapt to it: the same fields, the same pipeline, the same vocabulary as every other customer. We build the opposite. Tools that match your terminology, your workflow, and the way you actually talk about your clients. Hosted, supported, and yours.",
     tiers: [
       {
         name: "Custom CRM",
@@ -119,7 +119,7 @@ export const services: Record<string, Service> = {
         name: "Internal tools & dashboards",
         price: "$4,000 – $12,000",
         cadence: "+ $50/mo hosting",
-        blurb: "PM tools, ops dashboards, reporting — whatever your team operates on.",
+        blurb: "PM tools, ops dashboards, reporting, whatever your team operates on.",
         features: [
           "Discovery → build → operate",
           "Integrates with what you have",
@@ -143,7 +143,7 @@ export const services: Record<string, Service> = {
   brand: {
     slug: "brand",
     name: "Brand & marketing",
-    title: "Brand that reads as professional — and feels like you.",
+    title: "Brand that reads as professional, and feels like you.",
     oneLiner: "Brand kits, social systems, and marketing infrastructure for the long haul.",
     description:
       "Strong brand isn't a logo, it's a system. We build the kit, the templates, and the production rhythm so your business looks consistent everywhere.",
@@ -211,9 +211,9 @@ export const services: Record<string, Service> = {
     name: "AI & automation",
     title: "AI, where it earns its keep.",
     oneLiner:
-      "We help you figure out where AI fits in your business — and quietly wire it in.",
+      "We help you figure out where AI fits in your business, and quietly wire it in.",
     description:
-      "AI isn't a product we sell. It's a capability we help you use. Tell us your bottleneck and we'll show you whether automation actually solves it — and if it does, we'll scope and build a pilot. No chatbots on every page, no AI for AI's sake.",
+      "AI isn't a product we sell. It's a capability we help you use. Tell us your bottleneck and we'll show you whether automation actually solves it, and if it does, we'll scope and build a pilot. No chatbots on every page, no AI for AI's sake.",
     good: [
       "You have repetitive work eating your team's hours",
       "You've tried an AI tool but it didn't fit your real workflow",

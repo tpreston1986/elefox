@@ -18,7 +18,7 @@ const {
 } = Astro.props;
 
 const fullTitle =
-  title === "elefox studio" ? title : `${title} — elefox studio`;
+  title === "elefox studio" ? title : `${title}, elefox studio`;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://elefoxstudio.com").toString();
 ---

@@ -10,7 +10,7 @@ const projects = [
     tag: "Product · Full-stack web",
     image: "/work/portal.webp",
     domain: "portal.elefoxstudio.com",
-    body: "Most freelancers cobble together five different tools to run their business — and it shows. So we built one thing that does all of it. A full-stack client-facing portal (project status, contracts, invoices, files, messages, approvals) plus a complete admin CRM (leads, clients, quotes, projects). Stripe for payments, S3 for file delivery, role-based auth so clients only ever see their own data. Self-hosted, zero per-seat fees.",
+    body: "Most freelancers cobble together five different tools to run their business, and it shows. So we built one thing that does all of it. A full-stack client-facing portal (project status, contracts, invoices, files, messages, approvals) plus a complete admin CRM (leads, clients, quotes, projects). Stripe for payments, S3 for file delivery, role-based auth so clients only ever see their own data. Self-hosted, zero per-seat fees.",
     stack: ["Next.js", "Prisma", "PostgreSQL", "Stripe", "AWS S3", "Resend", "Railway"],
   },
   {
@@ -18,7 +18,7 @@ const projects = [
     tag: "Product · Internal tool",
     image: "/work/pulse.webp",
     domain: "internal · Plane on Railway",
-    body: "A company was paying $2,500 a month for Jira. We built them something better. A fully customized project management system on Plane (open-source) deployed in-house on Railway. Configured across five departments — Ops, Dev, Paid Marketing, Content, Design — with custom kanban statuses, timesheet logging, and a time-reports dashboard filterable by person, business unit, and project. Eliminated $30K/year in licensing.",
+    body: "A company was paying $2,500 a month for Jira. We built them something better. A fully customized project management system on Plane (open-source) deployed in-house on Railway. Configured across five departments (Ops, Dev, Paid Marketing, Content, Design) with custom kanban statuses, timesheet logging, and a time-reports dashboard filterable by person, business unit, and project. Eliminated $30K/year in licensing.",
     stack: ["Plane (open-source)", "Railway", "Figma"],
   },
   {
@@ -26,7 +26,7 @@ const projects = [
     tag: "Brand · Full-stack web",
     image: "/work/savingsxl.webp",
     domain: "savingsxl.com",
-    body: "A member savings product that needed everything — brand, design, and a working site — built from the ground up. Started by extending the existing logo into a full visual identity, then designed the marketing site in Figma, then built the whole thing: Astro front end, Strapi headless CMS, deployed on Railway. Soup to nuts.",
+    body: "A member savings product that needed everything: brand, design, and a working site, all built from the ground up. Started by extending the existing logo into a full visual identity, then designed the marketing site in Figma, then built the whole thing: Astro front end, Strapi headless CMS, deployed on Railway. Soup to nuts.",
     stack: ["Astro", "Strapi", "Railway", "Figma"],
   },
   {
@@ -34,7 +34,7 @@ const projects = [
     tag: "Brand · Web design · Development",
     image: "/work/rkg.webp",
     domain: "rkgtherapy.com",
-    body: "A Coral Springs therapy practice — individual, couples, family work, in person and online. The brief was simple: feel human, not clinical. Most people searching for a therapist are already anxious; the site needed to meet them there, not make it worse. The result is a warm editorial design with bold serif type, lavender and cream tones, and copy written for the person who's never done this before.",
+    body: "A Coral Springs therapy practice offering individual, couples, and family work in person and online. The brief was simple: feel human, not clinical. Most people searching for a therapist are already anxious; the site needed to meet them there, not make it worse. The result is a warm editorial design with bold serif type, lavender and cream tones, and copy written for the person who's never done this before.",
     stack: ["Figma", "Astro", "HTML/CSS/JS"],
   },
 ];
@@ -42,7 +42,7 @@ const projects = [
 
 <BaseLayout
   title="Selected work"
-  description="A few things we've built — internal tools, marketing sites, and editorial work for the small businesses we work with."
+  description="A few things we've built, internal tools, marketing sites, and editorial work for the small businesses we work with."
 >
   <!-- Hero -->
   <section class="pt-20 md:pt-32 pb-16 md:pb-20">
@@ -53,7 +53,7 @@ const projects = [
       </h1>
       <p class="lede mt-10 text-xl max-w-3xl">
         The roster is small on purpose. Each one of these took the kind of
-        attention that doesn't scale — and that's the point. Full case studies
+        attention that doesn't scale, and that's the point. Full case studies
         are still being written. Want the deeper version of any of these?
         <a href="/contact" class="text-forest underline decoration-2 underline-offset-4 hover:decoration-ember">Ask us</a>.
       </p>
@@ -74,7 +74,7 @@ const projects = [
                 <div class="relative aspect-[4/3] rounded-xl overflow-hidden bg-ink shadow-soft">
                   <img
                     src={p.image}
-                    alt={`${p.title} — ${p.tag}`}
+                    alt={`${p.title}, ${p.tag}`}
                     loading="lazy"
                     class="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.05] brightness-[0.95] group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700"
                     onerror="this.style.display='none'"
