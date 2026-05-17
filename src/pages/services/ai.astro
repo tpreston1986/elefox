@@ -1,0 +1,155 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ServiceHero from "../../components/ServiceHero.astro";
+import FitCheck from "../../components/FitCheck.astro";
+import EndCTA from "../../components/EndCTA.astro";
+import Container from "../../components/Container.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import { services } from "../../data/services";
+
+const s = services.ai;
+
+const examples = [
+  {
+    n: "A",
+    title: "Intake summarizer for a therapy practice",
+    body: "A short Claude pipeline that reads new client intake forms, drafts a session-prep memo, and flags risk language for the lead therapist. Cut admin from ~6 hrs/week to under one.",
+    tags: ["Claude", "Forms", "Email"],
+  },
+  {
+    n: "B",
+    title: "Sphere-segmented check-in drafts for a realtor",
+    body: "Wired into the agent's CRM. Drafts personalized check-ins by relationship segment (past clients, referrals, COI) in her voice. She edits and sends — no more blank-page Mondays.",
+    tags: ["CRM", "Claude", "Gmail"],
+  },
+  {
+    n: "C",
+    title: "Internal RAG agent over a coaching firm's session notes",
+    body: "Coaches ask the agent for past insights on a client and get cited summaries in seconds. Lives inside their existing portal. We trained it on their actual session library.",
+    tags: ["RAG", "Embeddings", "Internal tool"],
+  },
+  {
+    n: "D",
+    title: "SKU tagging classifier for a small retailer",
+    body: "A fine-tuned classifier sorted 12,000 products into the brand's custom taxonomy. They went from a 6-month backlog to caught up in a weekend.",
+    tags: ["Classification", "Batch"],
+  },
+];
+
+const phases = [
+  { n: "01", t: "Discovery", p: "Paid scoping call. We map your workflow and identify whether AI actually helps. No pitch deck." },
+  { n: "02", t: "Pilot", p: "A small, scoped pilot — usually 2-4 weeks. We measure what changes. You decide what's next." },
+  { n: "03", t: "Production", p: "We build the real version. Wired into your stack, monitored, with a human in the loop where it matters." },
+  { n: "04", t: "Operate", p: "Most AI tools quietly degrade. We watch the outputs, retrain, and tell you when something stops working." },
+];
+---
+
+<BaseLayout title="AI & automation" description={s.description}>
+  <ServiceHero
+    index="04"
+    category={s.name}
+    title={s.title}
+    description={s.description}
+  />
+
+  <!-- Stance section -->
+  <section class="py-20 md:py-32 bg-cream">
+    <Container size="default">
+      <Eyebrow>Our stance</Eyebrow>
+      <h2 class="mt-6 mb-12">AI is a capability, not a product.</h2>
+      <p class="lede text-2xl max-w-3xl">
+        We don't sell AI tiers or packages. We help you figure out where
+        automation actually saves you time — and we wire it in. The whole point
+        is that you stop thinking about it.
+      </p>
+    </Container>
+  </section>
+
+  <!-- Real examples -->
+  <section class="py-20 md:py-32">
+    <Container size="full">
+      <div class="max-w-3xl mb-16 md:mb-20">
+        <Eyebrow>What this looks like</Eyebrow>
+        <h2 class="mt-6">Four real engagements.</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+        {
+          examples.map((ex) => (
+            <article class="border-t-2 border-forest pt-8">
+              <div class="flex items-center gap-3 mb-6">
+                <span class="font-mono text-sm text-forest tracking-wider">{ex.n}</span>
+                <span class="text-mist">·</span>
+                <div class="flex gap-2 flex-wrap">
+                  {ex.tags.map((t) => (
+                    <span class="text-xs font-mono text-graphite bg-cream px-2 py-1 rounded-md">{t}</span>
+                  ))}
+                </div>
+              </div>
+              <h3 class="text-2xl md:text-3xl text-ink mb-4">{ex.title}</h3>
+              <p class="text-lg text-graphite leading-relaxed">{ex.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <!-- Engagement phases -->
+  <section class="py-20 md:py-32 bg-forest text-bone">
+    <Container size="full">
+      <div class="max-w-3xl mb-16">
+        <Eyebrow tone="bone">How we engage</Eyebrow>
+        <h2 class="mt-6 text-bone">Four phases. No surprise tiers.</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
+        {
+          phases.map((p) => (
+            <div>
+              <span class="font-mono text-sm text-bone/60 tracking-wider mb-4 block">{p.n}</span>
+              <h3 class="text-2xl text-bone mb-3">{p.t}</h3>
+              <p class="text-bone/75 leading-relaxed">{p.p}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="mt-16 text-bone/70 max-w-2xl text-lg">
+        Pricing is scoped per engagement. A discovery + pilot typically runs
+        $2,500–$7,500. Production builds are scoped after the pilot lands.
+      </p>
+    </Container>
+  </section>
+
+  <FitCheck good={s.good} skip={s.skip} />
+
+  <!-- What we won't do -->
+  <section class="py-20 md:py-32 bg-cream">
+    <Container size="default">
+      <Eyebrow>Refreshingly honest</Eyebrow>
+      <h2 class="mt-6 mb-10">What we won't do.</h2>
+      <ul class="space-y-6">
+        {
+          [
+            "We won't sell you AI you don't need.",
+            "We won't put a chatbot on every page just because we can.",
+            "We won't build something we can't operate after launch.",
+            "We won't replace your judgment with a model's. Humans stay in the loop.",
+          ].map((line) => (
+            <li class="flex items-start gap-4 text-2xl md:text-3xl font-display tracking-tight text-ink leading-tight">
+              <span class="text-forest text-3xl flex-shrink-0">—</span>
+              <span>{line}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </Container>
+  </section>
+
+  <EndCTA
+    heading="Tell us your bottleneck."
+    primary={{ label: "Start with discovery", href: "/contact?service=ai" }}
+    secondary={{ label: "Book a call", href: "/contact#book" }}
+  />
+</BaseLayout>

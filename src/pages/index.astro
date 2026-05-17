@@ -1,0 +1,359 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Button from "../components/Button.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import { allServices } from "../data/services";
+
+const capabilityServices = allServices.filter((s) =>
+  ["websites", "software", "brand", "ai"].includes(s.slug)
+);
+
+const processSteps = [
+  {
+    n: "01",
+    title: "Audit",
+    body: "We start with a paid discovery audit. We learn your business, your stack, and where the friction actually lives.",
+  },
+  {
+    n: "02",
+    title: "Plan",
+    body: "A scoped plan with real numbers and a real timeline. Fixed-fee where we can, transparent ranges where we can't.",
+  },
+  {
+    n: "03",
+    title: "Build",
+    body: "We design and ship in tight cycles. You see progress every week, not at the end. Two rounds of revisions are baked in.",
+  },
+  {
+    n: "04",
+    title: "Launch",
+    body: "We handle the boring parts — DNS, analytics, monitoring, training your team. You handle the celebration.",
+  },
+  {
+    n: "05",
+    title: "Operate",
+    body: "Most clients stay on a small retainer. Hosting, backups, the occasional new feature. We're the team you don't have to hire.",
+  },
+];
+
+const aiExamples = [
+  {
+    line: "A Claude-powered intake summarizer for a therapy practice.",
+    detail: "Six hours of weekly admin, gone.",
+  },
+  {
+    line: "Personalized check-in drafts inside a realtor's CRM.",
+    detail: "Segmented by sphere, written in their voice.",
+  },
+  {
+    line: "An internal RAG agent over a coaching firm's session notes.",
+    detail: "Recommendations in minutes, not hours.",
+  },
+];
+---
+
+<BaseLayout title="elefox studio">
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Hero                                                                 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="pt-20 md:pt-32 pb-24 md:pb-40 relative overflow-hidden">
+    <Container size="full">
+      <div class="flex items-center gap-3 mb-12 md:mb-20">
+        <Eyebrow>Design · Software · AI</Eyebrow>
+        <span class="text-mist">·</span>
+        <span class="text-sm text-graphite font-mono tracking-wide">
+          South Florida → everywhere
+        </span>
+      </div>
+
+      <h1 class="display-xl text-ink max-w-[15ch]">
+        Design, software, and the <em class="not-italic text-forest"
+          >AI</em
+        > to keep it humming.
+      </h1>
+
+      <div class="mt-16 md:mt-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-end">
+        <p class="lede lg:col-span-7 text-xl md:text-2xl text-graphite">
+          elefox studio builds the websites, internal tools, and quiet
+          automations that small companies grow on. We're a design and product
+          studio for the businesses that deserve more than a template — and
+          less than an enterprise contract.
+        </p>
+        <div class="lg:col-span-5 flex flex-wrap gap-4 lg:justify-end">
+          <Button href="/services" size="lg">See what we do</Button>
+          <Button href="/contact" variant="secondary" size="lg">Start a project</Button>
+        </div>
+      </div>
+    </Container>
+
+    <!-- Decorative thin rule with mono coordinates - Form&Fun nod -->
+    <div class="mt-24 md:mt-32">
+      <Container size="full">
+        <div class="flex items-center gap-6">
+          <span class="text-xs font-mono text-mist tracking-wider">26.27°N / 80.27°W</span>
+          <hr class="rule flex-1" />
+          <span class="text-xs font-mono text-mist tracking-wider">EST. 2024</span>
+        </div>
+      </Container>
+    </div>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Capabilities — the four panels (becomes pinned horizontal in Phase 3) -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="py-24 md:py-40" id="capabilities">
+    <Container size="full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20 md:mb-28">
+        <div class="lg:col-span-5">
+          <Eyebrow>What we do</Eyebrow>
+          <h2 class="mt-6">Four capabilities. One studio.</h2>
+        </div>
+        <p class="lg:col-span-6 lg:col-start-7 lede self-end">
+          Most studios pick one. We've shipped websites since 2015, started
+          building custom software when the right clients asked, and added AI
+          when it actually started working. Each capability sharpens the
+          others.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        {
+          capabilityServices.map((s, i) => (
+            <a
+              href={`/services/${s.slug}`}
+              class="group relative bg-white border border-fog hover:border-forest p-8 md:p-12 rounded-xl transition-all duration-300 hover:shadow-lift hover:-translate-y-1 flex flex-col gap-6 min-h-[400px]"
+            >
+              <div class="flex items-start justify-between">
+                <span class="text-xs font-mono text-forest tracking-wider">
+                  0{i + 1}
+                </span>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  class="text-graphite group-hover:text-forest group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"
+                >
+                  <path
+                    d="M5 15L15 5M15 5H7M15 5v8"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+
+              <div class="mt-auto">
+                <h3 class="text-3xl md:text-4xl text-ink mb-4">{s.name}</h3>
+                <p class="text-graphite text-lg leading-relaxed">
+                  {s.oneLiner}
+                </p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Selected work — placeholder grid                                     -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="py-24 md:py-40 bg-cream">
+    <Container size="full">
+      <div class="flex items-end justify-between mb-16 md:mb-20">
+        <div>
+          <Eyebrow>Selected work</Eyebrow>
+          <h2 class="mt-6">A few things we've built.</h2>
+        </div>
+        <a
+          href="/work"
+          class="hidden md:inline-flex text-sm font-medium text-forest hover:text-forest-deep tracking-tight items-center gap-2"
+        >
+          See full archive
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+        {
+          [
+            { title: "Client Portal", year: "2026", tag: "Custom software", color: "bg-forest" },
+            { title: "Pulse PM", year: "2025", tag: "Custom software", color: "bg-ink" },
+            { title: "SavingsXL", year: "2025", tag: "Brand + site", color: "bg-ember" },
+            { title: "RKG Therapy", year: "2024", tag: "Website", color: "bg-forest-deep" },
+          ].map((p) => (
+            <a href="/work" class="group block">
+              <div class={`${p.color} aspect-[4/3] rounded-lg overflow-hidden mb-5 group-hover:opacity-90 transition-opacity relative`}>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="text-bone/80 font-mono text-sm tracking-wider">— preview —</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-2xl text-ink group-hover:text-forest transition-colors">
+                    {p.title}
+                  </h3>
+                  <p class="text-sm text-graphite mt-1 font-mono tracking-wide">{p.tag}</p>
+                </div>
+                <span class="text-sm text-mist font-mono">{p.year}</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="md:hidden mt-10 text-center">
+        <Button href="/work" variant="secondary" size="md">See full archive</Button>
+      </div>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Process — five-step (becomes pinned horizontal in Phase 3)          -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="py-24 md:py-40">
+    <Container size="full">
+      <div class="max-w-3xl mb-20 md:mb-28">
+        <Eyebrow>How we work</Eyebrow>
+        <h2 class="mt-6">
+          A boutique pace, an agency process.
+        </h2>
+        <p class="lede mt-6">
+          Every engagement runs the same five-step shape. No mystery, no
+          surprise invoices, no calls to figure out where the project is.
+        </p>
+      </div>
+
+      <ol class="space-y-12 md:space-y-16">
+        {
+          processSteps.map((step, i) => (
+            <li class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 group">
+              <div class="md:col-span-2">
+                <span class="font-mono text-sm text-forest tracking-wider">
+                  {step.n}
+                </span>
+              </div>
+              <div class="md:col-span-4">
+                <h3 class="text-3xl md:text-4xl text-ink group-hover:text-forest transition-colors">
+                  {step.title}
+                </h3>
+              </div>
+              <p class="md:col-span-6 text-lg text-graphite leading-relaxed self-center">
+                {step.body}
+              </p>
+            </li>
+          ))
+        }
+      </ol>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Why elefox — three pillars                                          -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="py-24 md:py-40 bg-forest text-bone">
+    <Container size="full">
+      <div class="max-w-4xl mb-20 md:mb-28">
+        <Eyebrow tone="bone">Why elefox</Eyebrow>
+        <h2 class="mt-6 text-bone">
+          We're built for the people who got told they were "too small" to work with a real studio.
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
+        {
+          [
+            {
+              n: "→",
+              h: "A cap on intake.",
+              p: "We take a small number of software clients each year so every build gets real attention. When we're full, we say so.",
+            },
+            {
+              n: "→",
+              h: "Honest about scope.",
+              p: "Our pages have a 'skip if' section for a reason. We turn down projects we can't make great. You deserve a yes that means yes.",
+            },
+            {
+              n: "→",
+              h: "Built like operators.",
+              p: "We use what we ship. Our client portal, our CRM, our automations — we run on them. When something's broken, we feel it first.",
+            },
+          ].map((pillar) => (
+            <div>
+              <span class="text-3xl text-bone/40 mb-6 block">{pillar.n}</span>
+              <h3 class="text-2xl md:text-3xl text-bone mb-4">{pillar.h}</h3>
+              <p class="text-bone/75 text-lg leading-relaxed">{pillar.p}</p>
+            </div>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- AI — editorial section                                              -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="py-24 md:py-40">
+    <Container size="default">
+      <Eyebrow>AI & automation</Eyebrow>
+      <h2 class="mt-6 mb-12 max-w-3xl">
+        The quiet co-worker we wire into your stack.
+      </h2>
+      <p class="lede text-2xl mb-16">
+        AI isn't a product we sell — it's a capability we help you use. Tell us
+        your bottleneck. We'll figure out whether AI actually fits, and if it
+        does, what the smallest version looks like.
+      </p>
+
+      <ul class="space-y-8 mb-16 border-t border-fog">
+        {
+          aiExamples.map((ex) => (
+            <li class="grid grid-cols-1 md:grid-cols-12 gap-4 py-8 border-b border-fog group">
+              <div class="md:col-span-8">
+                <p class="text-2xl md:text-3xl text-ink font-display tracking-tight leading-tight">
+                  {ex.line}
+                </p>
+              </div>
+              <div class="md:col-span-4 md:text-right self-end">
+                <span class="text-sm font-mono text-forest tracking-wide">
+                  {ex.detail}
+                </span>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+
+      <Button href="/services/ai" variant="secondary" size="lg">
+        How we engage on AI
+      </Button>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- CTA band                                                            -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="py-24 md:py-40 bg-ink text-bone">
+    <Container size="full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+        <div class="lg:col-span-8">
+          <Eyebrow tone="bone">Tell us what you're building</Eyebrow>
+          <h2 class="mt-6 text-bone display-xl">
+            Let's figure it out together.
+          </h2>
+        </div>
+        <div class="lg:col-span-4 flex flex-wrap gap-4 lg:justify-end">
+          <Button href="/contact" size="lg">Start a project</Button>
+          <Button href="/contact#book" variant="secondary" size="lg" class="bg-transparent text-bone border-bone/30 hover:border-bone hover:text-bone hover:bg-bone/5">
+            Book a call
+          </Button>
+        </div>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

@@ -1,0 +1,107 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/Container.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import Button from "../../components/Button.astro";
+import EndCTA from "../../components/EndCTA.astro";
+---
+
+<BaseLayout
+  title="The founder"
+  description="Tiffany Russell — founder of elefox studio. UX designer, product builder, AI tinkerer. Based in South Florida."
+>
+  <!-- Hero -->
+  <section class="pt-20 md:pt-32 pb-16">
+    <Container size="full">
+      <Eyebrow>The founder</Eyebrow>
+      <h1 class="display-xl mt-6 max-w-[16ch]">
+        Hi — I'm Tiffany. I started elefox.
+      </h1>
+    </Container>
+  </section>
+
+  <!-- The story -->
+  <section class="py-16 md:py-24">
+    <Container size="default">
+      <div class="prose-content space-y-8 text-lg md:text-xl text-graphite leading-relaxed">
+        <p>
+          I'm a UX designer and product builder based in Coral Springs, South
+          Florida. I started this studio in 2024 as Tiffany Russell Studio
+          after a decade of designing for in-house teams and a few agencies.
+          What I wanted was to do really good work for small companies — the
+          kind that get treated like an afterthought everywhere else.
+        </p>
+
+        <p>
+          For the first year and change, it was just my name on the door and a
+          handful of clients who quickly became the kind of work I wanted to do
+          more of: a therapy practice that needed a real intake system, a
+          realtor whose CRM was built for someone else, a financial planning
+          firm that wanted a site that actually closed leads. Each one taught
+          me what kind of studio I wanted to build.
+        </p>
+
+        <p>
+          I rebranded as <strong class="text-ink font-medium">elefox studio</strong> in 2026 for one honest reason: the work
+          isn't just me anymore. I have a small group of collaborators I trust —
+          engineers, illustrators, copywriters — who plug in when a project calls
+          for it. Calling it "Tiffany Russell" felt like overclaiming on the solo
+          side. Calling it elefox lets the studio be a studio.
+        </p>
+
+        <p>
+          I still touch every project. I'm the strategist, lead designer,
+          frontend builder, and AI tinkerer. My collaborators are how the
+          studio scales without breaking the part that makes it good. We cap
+          our custom software roster at 25 active clients. We turn down work
+          we can't make great. We're not trying to be the biggest agency in
+          South Florida — we're trying to be the most useful one for the
+          businesses we work with.
+        </p>
+
+        <p>
+          The name? <strong class="text-ink font-medium">elefox</strong> is half elephant
+          (memory, patience, the long view) and half fox (cleverness, scrappiness,
+          knowing when to bend the rules). It's how I want the studio to work.
+        </p>
+      </div>
+
+      <!-- Quick facts -->
+      <dl class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-fog pt-12">
+        {
+          [
+            { t: "Based", d: "Coral Springs, FL" },
+            { t: "Designing since", d: "2015" },
+            { t: "Studio founded", d: "2024" },
+            { t: "Toolkit", d: "Figma · Astro · Next.js · Claude" },
+          ].map((item) => (
+            <div>
+              <dt class="font-mono text-xs uppercase tracking-wider text-forest mb-2">{item.t}</dt>
+              <dd class="text-lg text-ink leading-snug">{item.d}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </Container>
+  </section>
+
+  <!-- Closing -->
+  <section class="py-20 md:py-32 bg-forest text-bone">
+    <Container size="default">
+      <Eyebrow tone="bone">A note</Eyebrow>
+      <p class="text-3xl md:text-4xl font-display tracking-tight leading-tight mt-6 max-w-3xl text-bone">
+        If you're reading this and wondering whether a small studio is the
+        right call for your business — let's talk. The worst outcome is a free
+        conversation. The best is the start of something that actually fits.
+      </p>
+      <div class="mt-12 flex flex-wrap gap-4">
+        <a href="/contact#book" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-bone text-ink rounded-pill text-lg font-medium hover:bg-cream transition-colors">
+          Book a call
+        </a>
+        <a href="/contact" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-bone border border-bone/40 rounded-pill text-lg font-medium hover:bg-bone/10 transition-colors">
+          Send a message
+        </a>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

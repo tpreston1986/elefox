@@ -1,0 +1,89 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ServiceHero from "../../components/ServiceHero.astro";
+import TierGrid from "../../components/TierGrid.astro";
+import FitCheck from "../../components/FitCheck.astro";
+import EndCTA from "../../components/EndCTA.astro";
+import Container from "../../components/Container.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import { services } from "../../data/services";
+
+const s = services.software;
+---
+
+<BaseLayout
+  title="Custom software"
+  description={s.description}
+>
+  <ServiceHero
+    index="02"
+    category={s.name}
+    title={s.title}
+    description={s.description}
+  />
+
+  <TierGrid
+    tiers={s.tiers ?? []}
+    eyebrow="What we build"
+    heading="From CRM to portal to the thing only you need."
+  />
+
+  <!-- Comparison block -->
+  <section class="py-20 md:py-32">
+    <Container size="full">
+      <div class="max-w-3xl mb-16">
+        <Eyebrow>Why custom</Eyebrow>
+        <h2 class="mt-6">Off-the-shelf vs. built for you.</h2>
+        <p class="lede mt-6">
+          Most software is built for the average customer. You aren't average.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {
+          [
+            {
+              t: "Off-the-shelf SaaS",
+              p: "You adapt to their workflow. Pay per seat forever. Lose access if they sunset.",
+              tone: "bg-cream border-fog",
+            },
+            {
+              t: "No-code builders",
+              p: "Fast to start, slow to scale. Vendor lock-in disguised as 'no-code freedom.'",
+              tone: "bg-cream border-fog",
+            },
+            {
+              t: "Custom (us)",
+              p: "Built around your terminology, hosted by us for $50/mo, yours to take wherever.",
+              tone: "bg-forest text-bone border-forest",
+            },
+          ].map((c) => (
+            <div class={`border ${c.tone} p-8 md:p-10 rounded-xl`}>
+              <h3 class={`text-2xl mb-4 ${c.tone.includes('forest') ? 'text-bone' : 'text-ink'}`}>{c.t}</h3>
+              <p class={`text-lg leading-relaxed ${c.tone.includes('forest') ? 'text-bone/80' : 'text-graphite'}`}>{c.p}</p>
+            </div>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <FitCheck good={s.good} skip={s.skip} />
+
+  <!-- 25-client cap notice -->
+  <section class="py-20 md:py-32 bg-ink text-bone">
+    <Container size="default">
+      <Eyebrow tone="bone">A note on availability</Eyebrow>
+      <p class="text-3xl md:text-4xl font-display tracking-tight leading-tight mt-6 max-w-3xl">
+        We cap our custom software roster at 25 active clients. That keeps
+        builds fast, support real, and the studio honest. When we're full, we
+        say so.
+      </p>
+    </Container>
+  </section>
+
+  <EndCTA
+    heading="Got a workflow that nothing fits? Let's build it."
+    primary={{ label: "Start a software project", href: "/contact?service=software" }}
+  />
+</BaseLayout>

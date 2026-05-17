@@ -1,0 +1,122 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import Button from "../components/Button.astro";
+import FitCheck from "../components/FitCheck.astro";
+import EndCTA from "../components/EndCTA.astro";
+
+const includes = [
+  { t: "30-minute kickoff call", d: "We learn your business, your goals, and where you think the friction is." },
+  { t: "Full audit", d: "Conversion, SEO, brand consistency, technical hygiene, accessibility, content quality." },
+  { t: "Written report", d: "A clear PDF with prioritized recommendations. Read it in 15 minutes, share it with your team." },
+  { t: "20-minute Loom walkthrough", d: "We walk you through the report on screen. Watch it on your own time." },
+  { t: "Optional 30-min follow-up", d: "If you want to talk through the recs and what to do next, we'll book a call." },
+];
+
+const faqs = [
+  { q: "Why pay $1,000 for an audit when there are free SEO tools?", a: "Free tools tell you what's broken. We tell you what to do about it, in the context of your actual business. The audit is a strategy deliverable, not a checklist scan." },
+  { q: "What happens if I want to build something after the audit?", a: "The full $1,000 credits toward your build. It's effectively a paid scoping session." },
+  { q: "Can I share the audit with a different developer?", a: "Yes — the report is yours. We'd love to build with you, but the deliverable is yours to use." },
+  { q: "How long does it take?", a: "One week from kickoff to delivery." },
+];
+
+// Schema.org FAQPage structured data
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+---
+
+<BaseLayout
+  title="Site & Brand Audit"
+  description="A paid audit of your site and brand. One week, $1,000, fully credited toward a build."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <!-- Hero -->
+  <section class="pt-20 md:pt-32 pb-16 md:pb-24">
+    <Container size="full">
+      <Eyebrow>Site & Brand Audit</Eyebrow>
+      <h1 class="display-xl mt-6 max-w-[18ch]">
+        Outside eyes on your site. One week. $1,000.
+      </h1>
+      <p class="lede mt-10 text-xl max-w-3xl">
+        Before you spend $10k on a redesign, spend $1k figuring out what
+        actually needs to change. The full audit fee credits toward any build
+        we do together.
+      </p>
+      <div class="mt-12 flex flex-wrap gap-4">
+        <Button href="/contact?service=audit" size="lg">Start an audit</Button>
+        <Button href="/contact#book" variant="secondary" size="lg">Book a call first</Button>
+      </div>
+    </Container>
+  </section>
+
+  <!-- What's included -->
+  <section class="py-20 md:py-32 bg-cream">
+    <Container size="full">
+      <Eyebrow>What's included</Eyebrow>
+      <h2 class="mt-6 mb-16 max-w-3xl">
+        Five deliverables. One short week.
+      </h2>
+
+      <ol class="space-y-12">
+        {
+          includes.map((item, i) => (
+            <li class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 border-b border-fog pb-12">
+              <div class="md:col-span-2">
+                <span class="font-mono text-sm text-forest tracking-wider">0{i + 1}</span>
+              </div>
+              <h3 class="md:col-span-4 text-2xl md:text-3xl text-ink">{item.t}</h3>
+              <p class="md:col-span-6 text-lg text-graphite leading-relaxed self-center">
+                {item.d}
+              </p>
+            </li>
+          ))
+        }
+      </ol>
+    </Container>
+  </section>
+
+  <FitCheck
+    good={[
+      "You suspect something's off with your site but can't articulate it",
+      "You're getting traffic but not enough leads",
+      "You're about to redesign and want a second opinion first",
+    ]}
+    skip={[
+      "You want me to validate a decision you've already made",
+      "You're looking for a $200 'audit' that's a PDF template",
+      "You don't actually want feedback — you want a sales pitch",
+    ]}
+  />
+
+  <!-- FAQ -->
+  <section class="py-20 md:py-32 bg-ink text-bone">
+    <Container size="default">
+      <Eyebrow tone="bone">Questions, answered</Eyebrow>
+      <h2 class="mt-6 mb-16 text-bone">Common questions.</h2>
+      <dl class="space-y-10">
+        {
+          faqs.map((f) => (
+            <div class="border-b border-bone/15 pb-10">
+              <dt class="text-xl md:text-2xl text-bone font-display tracking-tight mb-4">{f.q}</dt>
+              <dd class="text-lg text-bone/75 leading-relaxed">{f.a}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </Container>
+  </section>
+
+  <EndCTA
+    heading="Ready for outside eyes on your work?"
+    primary={{ label: "Start an audit", href: "/contact?service=audit" }}
+  />
+</BaseLayout>

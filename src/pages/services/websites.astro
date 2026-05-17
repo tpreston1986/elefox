@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ServiceHero from "../../components/ServiceHero.astro";
+import TierGrid from "../../components/TierGrid.astro";
+import FitCheck from "../../components/FitCheck.astro";
+import EndCTA from "../../components/EndCTA.astro";
+import { services } from "../../data/services";
+
+const s = services.websites;
+---
+
+<BaseLayout
+  title="Websites"
+  description={s.description}
+>
+  <ServiceHero
+    index="01"
+    category={s.name}
+    title={s.title}
+    description={s.description}
+  />
+
+  <TierGrid
+    tiers={s.tiers ?? []}
+    eyebrow="Tiers"
+    heading="Three shapes. Same care."
+  />
+
+  <FitCheck good={s.good} skip={s.skip} />
+
+  <EndCTA
+    heading="Let's get your site working for you."
+    primary={{ label: "Start a website project", href: "/contact?service=websites" }}
+    secondary={{ label: "Book a call", href: "/contact#book" }}
+  />
+</BaseLayout>

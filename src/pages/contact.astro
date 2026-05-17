@@ -1,0 +1,226 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import Button from "../components/Button.astro";
+
+const calendlyUrl =
+  import.meta.env.CALENDLY_URL ||
+  "https://calendly.com/contact-tiffanyrussell/discovery-call";
+
+const services = [
+  { value: "websites", label: "Websites" },
+  { value: "software", label: "Custom software" },
+  { value: "brand", label: "Brand & marketing" },
+  { value: "ai", label: "AI & automation" },
+  { value: "audit", label: "Audit" },
+  { value: "other", label: "Not sure yet" },
+];
+
+const budgets = [
+  "Under $2k",
+  "$2k – $5k",
+  "$5k – $10k",
+  "$10k+",
+  "Not sure",
+];
+
+const timelines = ["ASAP / this month", "1–3 months", "3–6 months", "Flexible"];
+
+const preselected = Astro.url.searchParams.get("service") || "";
+---
+
+<BaseLayout
+  title="Start a project"
+  description="Tell us what you're building. We'll get back within 24 hours."
+>
+  <!-- Hero -->
+  <section class="pt-20 md:pt-32 pb-16">
+    <Container size="full">
+      <Eyebrow>Start a project</Eyebrow>
+      <h1 class="display-xl mt-6 max-w-[18ch]">
+        Tell us what you're building.
+      </h1>
+      <p class="lede mt-10 text-xl max-w-3xl">
+        Fill this out, send us a note, or book a call. We respond within
+        24 hours — most of the time within four.
+      </p>
+    </Container>
+  </section>
+
+  <!-- Form -->
+  <section class="pb-24 md:pb-32">
+    <Container size="default">
+      <form
+        action="/api/contact"
+        method="post"
+        class="space-y-10 bg-white border border-fog rounded-2xl p-8 md:p-12"
+        id="contact-form"
+      >
+        <input type="hidden" name="_t" value={Date.now()} />
+        <div class="absolute -left-[9999px]">
+          <label>
+            Website
+            <input type="text" name="_hp" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
+
+        <!-- Step: services -->
+        <fieldset>
+          <legend class="text-xl text-ink font-display mb-5 tracking-tight">
+            What do you need?
+          </legend>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {
+              services.map((s) => (
+                <label class="cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="services"
+                    value={s.value}
+                    checked={preselected === s.value}
+                    class="peer sr-only"
+                  />
+                  <span class="block px-4 py-3 text-center border border-fog rounded-pill text-sm font-medium text-ink hover:border-forest peer-checked:bg-forest peer-checked:text-bone peer-checked:border-forest transition-all">
+                    {s.label}
+                  </span>
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+
+        <!-- Step: business -->
+        <fieldset>
+          <legend class="text-xl text-ink font-display mb-5 tracking-tight">
+            About your business
+          </legend>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <label class="block">
+              <span class="block text-sm font-medium text-graphite mb-2">Business name</span>
+              <input
+                type="text"
+                name="business_name"
+                class="w-full bg-bone border border-fog hover:border-mist focus:border-forest text-ink px-4 py-3 rounded-lg outline-none transition-colors"
+              />
+            </label>
+            <label class="block">
+              <span class="block text-sm font-medium text-graphite mb-2">Industry</span>
+              <input
+                type="text"
+                name="industry"
+                class="w-full bg-bone border border-fog hover:border-mist focus:border-forest text-ink px-4 py-3 rounded-lg outline-none transition-colors"
+              />
+            </label>
+            <label class="block md:col-span-2">
+              <span class="block text-sm font-medium text-graphite mb-2">One-sentence description</span>
+              <input
+                type="text"
+                name="description"
+                placeholder="e.g., a therapy practice in Boca Raton serving teens and families"
+                class="w-full bg-bone border border-fog hover:border-mist focus:border-forest text-ink px-4 py-3 rounded-lg outline-none transition-colors"
+              />
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Step: budget + timeline -->
+        <fieldset>
+          <legend class="text-xl text-ink font-display mb-5 tracking-tight">
+            Budget & timeline
+          </legend>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <span class="block text-sm font-medium text-graphite mb-3">Budget range</span>
+              <div class="space-y-2">
+                {
+                  budgets.map((b) => (
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                      <input type="radio" name="budget" value={b} class="peer sr-only" />
+                      <span class="w-4 h-4 rounded-full border border-mist peer-checked:border-forest peer-checked:bg-forest transition-all flex-shrink-0" />
+                      <span class="text-ink group-hover:text-forest transition-colors">{b}</span>
+                    </label>
+                  ))
+                }
+              </div>
+            </div>
+            <div>
+              <span class="block text-sm font-medium text-graphite mb-3">Timeline</span>
+              <div class="space-y-2">
+                {
+                  timelines.map((t) => (
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                      <input type="radio" name="timeline" value={t} class="peer sr-only" />
+                      <span class="w-4 h-4 rounded-full border border-mist peer-checked:border-forest peer-checked:bg-forest transition-all flex-shrink-0" />
+                      <span class="text-ink group-hover:text-forest transition-colors">{t}</span>
+                    </label>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Step: contact -->
+        <fieldset>
+          <legend class="text-xl text-ink font-display mb-5 tracking-tight">
+            How do we reach you?
+          </legend>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <label class="block">
+              <span class="block text-sm font-medium text-graphite mb-2">Name <span class="text-ember">*</span></span>
+              <input
+                type="text"
+                name="name"
+                required
+                class="w-full bg-bone border border-fog hover:border-mist focus:border-forest text-ink px-4 py-3 rounded-lg outline-none transition-colors"
+              />
+            </label>
+            <label class="block">
+              <span class="block text-sm font-medium text-graphite mb-2">Email <span class="text-ember">*</span></span>
+              <input
+                type="email"
+                name="email"
+                required
+                class="w-full bg-bone border border-fog hover:border-mist focus:border-forest text-ink px-4 py-3 rounded-lg outline-none transition-colors"
+              />
+            </label>
+            <label class="block md:col-span-2">
+              <span class="block text-sm font-medium text-graphite mb-2">Anything else we should know?</span>
+              <textarea
+                name="message"
+                rows="4"
+                class="w-full bg-bone border border-fog hover:border-mist focus:border-forest text-ink px-4 py-3 rounded-lg outline-none transition-colors resize-y"
+              ></textarea>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-4 border-t border-fog">
+          <p class="text-sm text-graphite">
+            We'll get back to you within 24 hours.
+          </p>
+          <button
+            type="submit"
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-forest text-bone rounded-pill text-lg font-medium hover:bg-forest-deep transition-colors disabled:opacity-50"
+          >
+            Send it →
+          </button>
+        </div>
+      </form>
+
+      <!-- Book a call -->
+      <div id="book" class="mt-16 md:mt-24 text-center">
+        <Eyebrow>Or just talk</Eyebrow>
+        <h2 class="mt-6 mb-6">Rather book a call?</h2>
+        <p class="lede mx-auto mb-10">
+          A 30-minute discovery call — free, no pitch deck, just a real
+          conversation about what you're trying to build.
+        </p>
+        <Button href={calendlyUrl} variant="primary" size="lg" external>
+          Book a discovery call
+        </Button>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

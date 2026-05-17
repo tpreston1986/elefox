@@ -1,0 +1,44 @@
+---
+import Container from "./Container.astro";
+import Button from "./Button.astro";
+import Eyebrow from "./Eyebrow.astro";
+
+type Props = {
+  heading?: string;
+  eyebrow?: string;
+  primary?: { label: string; href: string };
+  secondary?: { label: string; href: string };
+};
+
+const {
+  heading = "Let's figure it out together.",
+  eyebrow = "Get in touch",
+  primary = { label: "Start a project", href: "/contact" },
+  secondary = { label: "Book a call", href: "/contact#book" },
+} = Astro.props;
+---
+
+<section class="py-24 md:py-40 bg-forest text-bone">
+  <Container size="full">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+      <div class="lg:col-span-8">
+        <Eyebrow tone="bone">{eyebrow}</Eyebrow>
+        <h2 class="mt-6 text-bone max-w-[18ch]">{heading}</h2>
+      </div>
+      <div class="lg:col-span-4 flex flex-wrap gap-4 lg:justify-end">
+        <a
+          href={primary.href}
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-bone text-ink rounded-pill text-lg font-medium hover:bg-cream transition-colors"
+        >
+          {primary.label}
+        </a>
+        <a
+          href={secondary.href}
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-bone border border-bone/40 rounded-pill text-lg font-medium hover:bg-bone/10 transition-colors"
+        >
+          {secondary.label}
+        </a>
+      </div>
+    </div>
+  </Container>
+</section>
