@@ -1,0 +1,27 @@
+---
+import type { Section } from "../../data/discovery/types";
+import Field from "./Field.astro";
+
+type Props = { section: Section; index: number };
+const { section, index } = Astro.props;
+---
+
+<section class="border-t border-fog pt-10 first:border-t-0 first:pt-0">
+  <header class="mb-8">
+    <span class="block text-sm font-mono text-forest mb-2">
+      {String(index + 1).padStart(2, "0")}
+    </span>
+    <h2 class="text-2xl md:text-3xl font-display tracking-tight text-ink mb-3">
+      {section.title}
+    </h2>
+    {
+      section.description && (
+        <p class="text-graphite max-w-2xl">{section.description}</p>
+      )
+    }
+  </header>
+
+  <div class="space-y-8">
+    {section.fields.map((field) => <Field field={field} />)}
+  </div>
+</section>
