@@ -1,0 +1,269 @@
+---
+import type { Field } from "../../data/discovery/types";
+
+type Props = { field: Field };
+const { field } = Astro.props;
+
+const inputClass =
+  "w-full bg-bone border border-fog hover:border-mist focus:border-forest text-ink px-4 py-3 rounded-lg outline-none transition-colors";
+
+const requiredMark = field.required
+  ? '<span class="text-ember ml-0.5" aria-hidden="true">*</span>'
+  : "";
+---
+
+<div class="block">
+  {
+    field.type === "shortText" && (
+      <label class="block">
+        <span class="block text-sm font-medium text-graphite mb-2">
+          {field.label}
+          <Fragment set:html={requiredMark} />
+        </span>
+        {field.helpText && (
+          <span class="block text-sm text-graphite/70 mb-2">
+            {field.helpText}
+          </span>
+        )}
+        <input
+          type="text"
+          name={field.name}
+          placeholder={field.placeholder}
+          required={field.required}
+          class={inputClass}
+        />
+      </label>
+    )
+  }
+
+  {
+    field.type === "email" && (
+      <label class="block">
+        <span class="block text-sm font-medium text-graphite mb-2">
+          {field.label}
+          <Fragment set:html={requiredMark} />
+        </span>
+        {field.helpText && (
+          <span class="block text-sm text-graphite/70 mb-2">
+            {field.helpText}
+          </span>
+        )}
+        <input
+          type="email"
+          name={field.name}
+          placeholder={field.placeholder}
+          required={field.required}
+          class={inputClass}
+        />
+      </label>
+    )
+  }
+
+  {
+    field.type === "phone" && (
+      <label class="block">
+        <span class="block text-sm font-medium text-graphite mb-2">
+          {field.label}
+          <Fragment set:html={requiredMark} />
+        </span>
+        {field.helpText && (
+          <span class="block text-sm text-graphite/70 mb-2">
+            {field.helpText}
+          </span>
+        )}
+        <input
+          type="tel"
+          name={field.name}
+          placeholder={field.placeholder ?? "(XXX) XXX-XXXX"}
+          required={field.required}
+          class={inputClass}
+        />
+      </label>
+    )
+  }
+
+  {
+    field.type === "number" && (
+      <label class="block">
+        <span class="block text-sm font-medium text-graphite mb-2">
+          {field.label}
+          <Fragment set:html={requiredMark} />
+        </span>
+        {field.helpText && (
+          <span class="block text-sm text-graphite/70 mb-2">
+            {field.helpText}
+          </span>
+        )}
+        <div class="flex items-center gap-3">
+          <input
+            type="number"
+            name={field.name}
+            min={field.min}
+            max={field.max}
+            placeholder={field.placeholder}
+            required={field.required}
+            class={`${inputClass} ${field.suffix ? "max-w-[200px]" : ""}`}
+          />
+          {field.suffix && (
+            <span class="text-sm text-graphite">{field.suffix}</span>
+          )}
+        </div>
+      </label>
+    )
+  }
+
+  {
+    field.type === "longText" && (
+      <label class="block">
+        <span class="block text-sm font-medium text-graphite mb-2">
+          {field.label}
+          <Fragment set:html={requiredMark} />
+        </span>
+        {field.helpText && (
+          <span class="block text-sm text-graphite/70 mb-2">
+            {field.helpText}
+          </span>
+        )}
+        <textarea
+          name={field.name}
+          rows={field.rows ?? 4}
+          placeholder={field.placeholder}
+          required={field.required}
+          class={`${inputClass} resize-y`}
+        />
+      </label>
+    )
+  }
+
+  {
+    field.type === "singleChoice" && (
+      <fieldset>
+        <legend class="block text-sm font-medium text-graphite mb-3">
+          {field.label}
+          <Fragment set:html={requiredMark} />
+        </legend>
+        {field.helpText && (
+          <span class="block text-sm text-graphite/70 mb-3">
+            {field.helpText}
+          </span>
+        )}
+        {field.layout === "pills" || field.layout === undefined ? (
+          <div class="flex flex-wrap gap-2">
+            {field.choices.map((c) => (
+              <label class="cursor-pointer">
+                <input
+                  type="radio"
+                  name={field.name}
+                  value={c.value}
+                  required={field.required}
+                  class="peer sr-only"
+                />
+                <span class="inline-block px-4 py-2 border border-fog rounded-pill text-sm font-medium text-ink hover:border-forest peer-checked:bg-forest peer-checked:text-bone peer-checked:border-forest transition-all">
+                  {c.label}
+                </span>
+              </label>
+            ))}
+          </div>
+        ) : (
+          <div class="space-y-2">
+            {field.choices.map((c) => (
+              <label class="flex items-center gap-3 cursor-pointer group">
+                <input
+                  type="radio"
+                  name={field.name}
+                  value={c.value}
+                  required={field.required}
+                  class="peer sr-only"
+                />
+                <span class="w-4 h-4 rounded-full border border-mist peer-checked:border-forest peer-checked:bg-forest transition-all flex-shrink-0" />
+                <span class="text-ink group-hover:text-forest transition-colors">
+                  {c.label}
+                </span>
+              </label>
+            ))}
+          </div>
+        )}
+      </fieldset>
+    )
+  }
+
+  {
+    field.type === "multiChoice" && (
+      <fieldset>
+        <legend class="block text-sm font-medium text-graphite mb-3">
+          {field.label}
+          <Fragment set:html={requiredMark} />
+        </legend>
+        {field.helpText && (
+          <span class="block text-sm text-graphite/70 mb-3">
+            {field.helpText}
+          </span>
+        )}
+        {field.layout === "checkbox" ? (
+          <div class="space-y-2">
+            {field.choices.map((c) => (
+              <label class="flex items-center gap-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  name={field.name}
+                  value={c.value}
+                  class="peer sr-only"
+                />
+                <span class="w-4 h-4 rounded border border-mist peer-checked:border-forest peer-checked:bg-forest transition-all flex-shrink-0" />
+                <span class="text-ink group-hover:text-forest transition-colors">
+                  {c.label}
+                </span>
+              </label>
+            ))}
+          </div>
+        ) : (
+          <div class="flex flex-wrap gap-2">
+            {field.choices.map((c) => (
+              <label class="cursor-pointer">
+                <input
+                  type="checkbox"
+                  name={field.name}
+                  value={c.value}
+                  class="peer sr-only"
+                />
+                <span class="inline-block px-4 py-2 border border-fog rounded-pill text-sm font-medium text-ink hover:border-forest peer-checked:bg-forest peer-checked:text-bone peer-checked:border-forest transition-all">
+                  {c.label}
+                </span>
+              </label>
+            ))}
+          </div>
+        )}
+      </fieldset>
+    )
+  }
+
+  {
+    field.type === "yesNo" && (
+      <fieldset>
+        <legend class="block text-sm font-medium text-graphite mb-3">
+          {field.label}
+          <Fragment set:html={requiredMark} />
+        </legend>
+        <div class="flex gap-2">
+          {[
+            { value: "yes", label: "Yes" },
+            { value: "no", label: "No" },
+          ].map((c) => (
+            <label class="cursor-pointer">
+              <input
+                type="radio"
+                name={field.name}
+                value={c.value}
+                required={field.required}
+                class="peer sr-only"
+              />
+              <span class="inline-block px-6 py-2 border border-fog rounded-pill text-sm font-medium text-ink hover:border-forest peer-checked:bg-forest peer-checked:text-bone peer-checked:border-forest transition-all min-w-[80px] text-center">
+                {c.label}
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+    )
+  }
+</div>

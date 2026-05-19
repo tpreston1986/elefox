@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Container from "../../../components/Container.astro";
+import Eyebrow from "../../../components/Eyebrow.astro";
+import Button from "../../../components/Button.astro";
+import { getForm } from "../../../data/discovery/forms";
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+const form = slug ? getForm(slug) : null;
+
+if (!form) {
+  return Astro.redirect("/404");
+}
+
+const calendlyUrl =
+  import.meta.env.CALENDLY_URL ||
+  "https://calendly.com/contact-tiffanyrussell/discovery-call";
+---
+
+<BaseLayout
+  title="Got it"
+  description="Thanks for filling out the discovery questionnaire."
+  noindex
+>
+  <section class="pt-32 md:pt-48 pb-24 md:pb-32">
+    <Container size="default">
+      <div class="text-center">
+        <Eyebrow>Discovery received</Eyebrow>
+        <h1 class="display-xl mt-6 max-w-[20ch] mx-auto">
+          Got it. Talk soon.
+        </h1>
+        <p class="lede mt-10 text-xl text-graphite max-w-2xl mx-auto">
+          Your responses are in. I'll review them in the next day or two
+          and come back with a refined proposal and any follow-up questions.
+        </p>
+        <p class="lede mt-6 text-xl text-graphite max-w-2xl mx-auto">
+          If you'd like to grab a discovery call slot now, here's the link.
+          Otherwise sit tight, I'll be in touch.
+        </p>
+        <div class="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <Button href={calendlyUrl} variant="primary" size="lg" external>
+            Book a discovery call
+          </Button>
+          <Button href="/" variant="ghost" size="lg">
+            Back to elefoxstudio.com
+          </Button>
+        </div>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>
