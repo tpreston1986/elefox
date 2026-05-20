@@ -41,7 +41,7 @@ const retainers = [
   {
     allTiers.map((group, gi) => (
       <section class={`py-16 md:py-24 ${gi % 2 === 0 ? "bg-cream" : ""}`}>
-        <Container size="full">
+        <Container size="full" data-reveal>
           <div class="mb-12">
             <Eyebrow>{group.category}</Eyebrow>
           </div>
@@ -74,7 +74,7 @@ const retainers = [
 
   <!-- AI -->
   <section class="py-16 md:py-24">
-    <Container size="full">
+    <Container size="full" data-reveal>
       <div class="mb-12">
         <Eyebrow>AI & automation</Eyebrow>
       </div>
@@ -100,7 +100,7 @@ const retainers = [
 
   <!-- Retainers -->
   <section class="py-16 md:py-24 bg-cream">
-    <Container size="full">
+    <Container size="full" data-reveal>
       <div class="mb-12">
         <Eyebrow>Retainers, keep it running</Eyebrow>
       </div>
@@ -129,7 +129,7 @@ const retainers = [
 
   <!-- Terms -->
   <section class="py-20 md:py-32 bg-cream">
-    <Container size="default">
+    <Container size="default" data-reveal>
       <Eyebrow>Terms</Eyebrow>
       <h2 class="mt-6 mb-12">The fine print, in plain English.</h2>
       <dl class="space-y-8">
