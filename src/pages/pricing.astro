@@ -4,6 +4,7 @@ import Container from "../components/Container.astro";
 import Eyebrow from "../components/Eyebrow.astro";
 import Button from "../components/Button.astro";
 import EndCTA from "../components/EndCTA.astro";
+import HeroAtmosphere from "../components/HeroAtmosphere.astro";
 import { services } from "../data/services";
 
 const allTiers = [
@@ -20,11 +21,13 @@ const retainers = [
 ---
 
 <BaseLayout title="Pricing" description="Transparent pricing for websites, custom software, brand systems, and ongoing support.">
-  <section class="pt-20 md:pt-32 pb-16">
-    <Container size="full">
+  <section data-glow class="relative overflow-hidden pt-24 md:pt-36 pb-16">
+    <HeroAtmosphere />
+    <Container size="full" class="relative z-10">
       <Eyebrow>Pricing</Eyebrow>
       <h1 data-split class="display-xl mt-6 max-w-[18ch]">
-        Honest numbers. No surprise scope.
+        Honest numbers. No
+        <span class="text-gradient-flow">surprise scope</span>.
       </h1>
       <p class="lede mt-10 text-xl max-w-3xl">
         Every build has a fixed-fee deposit (50% to start, 50% on delivery)

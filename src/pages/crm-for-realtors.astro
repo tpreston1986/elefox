@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/Container.astro";
 import Eyebrow from "../components/Eyebrow.astro";
 import EndCTA from "../components/EndCTA.astro";
+import HeroAtmosphere from "../components/HeroAtmosphere.astro";
 
 /* The three biggest frustrations a relationship-driven agent has with
    the existing CRM landscape. Rendered as editorial pull-quotes. */
@@ -239,15 +240,16 @@ const serviceSchema = {
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <!-- Hero                                                                 -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <section class="pt-20 md:pt-28 pb-12 md:pb-20 relative overflow-hidden">
-    <Container size="full">
+  <section data-glow class="pt-24 md:pt-32 pb-12 md:pb-20 relative overflow-hidden">
+    <HeroAtmosphere />
+    <Container size="full" class="relative z-10">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         <div class="lg:col-span-7">
           <Eyebrow>Custom CRM for Realtors</Eyebrow>
           <h1 data-split class="display-xl mt-6 max-w-[16ch]">
             Relationships first.
             <span class="relative inline-block">
-              <em class="not-italic text-forest">Modern marketing</em>
+              <em class="not-italic text-gradient-flow">Modern marketing</em>
               <svg viewBox="0 0 320 14" class="absolute left-0 -bottom-2 md:-bottom-3 w-full h-3 text-ember underline-draw" aria-hidden="true" preserveAspectRatio="none">
                 <path d="M2 8 Q 50 2, 100 7 T 200 8 T 280 6 T 318 7" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
               </svg>

@@ -225,6 +225,33 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://elefoxstudi
         window.addEventListener("scroll", onScroll, { passive: true });
         onScroll();
       });
+
+      // -- Cursor-follow glow ----------------------------------------------
+      // Any [data-glow] section with a .cursor-glow child gets a soft glow
+      // that trails the pointer. Skipped for touch + reduced-motion.
+      if (
+        !prefersReducedMotion &&
+        !window.matchMedia("(hover: none)").matches
+      ) {
+        const glowSections =
+          document.querySelectorAll<HTMLElement>("[data-glow]");
+        glowSections.forEach((section) => {
+          const glow = section.querySelector<HTMLElement>(".cursor-glow");
+          if (!glow) return;
+          let raf = 0;
+          section.addEventListener("pointermove", (e) => {
+            const r = section.getBoundingClientRect();
+            const x = e.clientX - r.left;
+            const y = e.clientY - r.top;
+            if (raf) return;
+            raf = requestAnimationFrame(() => {
+              glow.style.setProperty("--gx", x + "px");
+              glow.style.setProperty("--gy", y + "px");
+              raf = 0;
+            });
+          });
+        });
+      }
     </script>
   </body>
 </html>

@@ -339,6 +339,162 @@
       box-shadow: 0 0 0 12px color-mix(in srgb, var(--color-ember) 6%, transparent);
     }
   }
+
+  /* ════════════════════════════════════════════════════════════════════ */
+  /* v2 — bold color + motion primitives                                    */
+  /* ════════════════════════════════════════════════════════════════════ */
+
+  /* -- Aurora: drifting blurred color field for hero backdrops ----------- */
+  /* Three large blurred blobs (forest, ember, signal) slowly orbit behind
+     content. Sits in a z-0 layer; put content at z-10. */
+  .aurora {
+    position: absolute;
+    inset: -20% -10%;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    filter: blur(56px) saturate(1.15);
+  }
+  .aurora__blob {
+    position: absolute;
+    width: 46vw;
+    height: 46vw;
+    max-width: 720px;
+    max-height: 720px;
+    border-radius: 50%;
+    opacity: 0.55;
+    will-change: transform;
+    mix-blend-mode: multiply;
+  }
+  .aurora__blob--forest {
+    background: radial-gradient(circle at 50% 50%, var(--color-forest), transparent 68%);
+    top: -8%;
+    left: 4%;
+    animation: aurora-a 26s ease-in-out infinite alternate;
+  }
+  .aurora__blob--ember {
+    background: radial-gradient(circle at 50% 50%, var(--color-ember), transparent 66%);
+    top: 6%;
+    right: 2%;
+    animation: aurora-b 30s ease-in-out infinite alternate;
+  }
+  .aurora__blob--signal {
+    background: radial-gradient(circle at 50% 50%, var(--color-signal), transparent 70%);
+    bottom: -16%;
+    left: 32%;
+    animation: aurora-c 34s ease-in-out infinite alternate;
+  }
+  @keyframes aurora-a {
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    100% { transform: translate3d(14%, 10%, 0) scale(1.18); }
+  }
+  @keyframes aurora-b {
+    0% { transform: translate3d(0, 0, 0) scale(1.1); }
+    100% { transform: translate3d(-12%, 14%, 0) scale(0.92); }
+  }
+  @keyframes aurora-c {
+    0% { transform: translate3d(0, 0, 0) scale(0.95); }
+    100% { transform: translate3d(8%, -18%, 0) scale(1.22); }
+  }
+
+  /* -- Cursor-follow glow ------------------------------------------------- */
+  /* A soft ember glow that trails the pointer inside a [data-glow] section.
+     Position driven by --gx / --gy custom props set in JS. Hidden on touch
+     (no hover) and for reduced-motion users. */
+  .cursor-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 460px;
+    height: 460px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--color-ember) 32%, transparent),
+      transparent 62%
+    );
+    transform: translate3d(
+      calc(var(--gx, 50%) - 230px),
+      calc(var(--gy, 50%) - 230px),
+      0
+    );
+    opacity: 0;
+    transition: opacity 400ms var(--ease-out-quint);
+    will-change: transform;
+  }
+  [data-glow]:hover .cursor-glow {
+    opacity: 1;
+  }
+  @media (hover: none) {
+    .cursor-glow {
+      display: none;
+    }
+  }
+
+  /* -- Animated gradient text -------------------------------------------- */
+  /* Forest -> ember -> signal sweep, gently shifting. For one key phrase
+     per page max; it's a spotlight, not a default. */
+  .text-gradient-flow {
+    background-image: linear-gradient(
+      100deg,
+      var(--color-forest),
+      var(--color-ember),
+      var(--color-signal),
+      var(--color-forest)
+    );
+    background-size: 280% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gradient-flow 9s ease-in-out infinite;
+  }
+  @keyframes gradient-flow {
+    0%,
+    100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* -- Magnetic / lift CTA ------------------------------------------------ */
+  /* Adds a springy lift + shadow on hover. Pair with JS magnetic offset
+     (--mx / --my) for the pointer-tracking version. */
+  .btn-magnetic {
+    transform: translate3d(var(--mx, 0), var(--my, 0), 0);
+    transition: transform 250ms var(--ease-spring), box-shadow 250ms var(--ease-out-quint);
+    will-change: transform;
+  }
+  .btn-magnetic:hover {
+    box-shadow: var(--shadow-lift);
+  }
+
+  /* -- Scroll cue --------------------------------------------------------- */
+  .scroll-cue {
+    width: 24px;
+    height: 38px;
+    border: 2px solid color-mix(in srgb, var(--color-graphite) 40%, transparent);
+    border-radius: 9999px;
+    position: relative;
+  }
+  .scroll-cue::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 7px;
+    width: 4px;
+    height: 8px;
+    margin-left: -2px;
+    border-radius: 9999px;
+    background: var(--color-ember);
+    animation: scroll-cue 1.8s ease-in-out infinite;
+  }
+  @keyframes scroll-cue {
+    0% { opacity: 0; transform: translateY(0); }
+    35% { opacity: 1; }
+    70% { opacity: 0; transform: translateY(12px); }
+    100% { opacity: 0; transform: translateY(12px); }
+  }
 }
 
 /* -------------------------------------------------------------------------- */

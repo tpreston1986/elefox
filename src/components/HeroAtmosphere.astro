@@ -1,0 +1,19 @@
+---
+/**
+ * Hero atmosphere — drifting aurora color field + cursor-follow glow.
+ *
+ * Usage: drop inside a hero <section> that has `relative overflow-hidden
+ * data-glow`, and keep the hero's real content in a sibling with `relative
+ * z-10` so it sits above the backdrop.
+ *
+ * The cursor-glow tracking is wired globally in BaseLayout for every
+ * [data-glow] section, so no per-page script is needed.
+ */
+---
+
+<div class="aurora" aria-hidden="true">
+  <div class="aurora__blob aurora__blob--forest"></div>
+  <div class="aurora__blob aurora__blob--ember"></div>
+  <div class="aurora__blob aurora__blob--signal"></div>
+</div>
+<div class="cursor-glow" aria-hidden="true"></div>

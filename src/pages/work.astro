@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/Container.astro";
 import Eyebrow from "../components/Eyebrow.astro";
 import EndCTA from "../components/EndCTA.astro";
+import HeroAtmosphere from "../components/HeroAtmosphere.astro";
 
 const projects = [
   {
@@ -45,11 +46,13 @@ const projects = [
   description="A few things we've built, internal tools, marketing sites, and editorial work for the small businesses we work with."
 >
   <!-- Hero -->
-  <section class="pt-20 md:pt-32 pb-16 md:pb-20">
-    <Container size="full">
+  <section data-glow class="relative overflow-hidden pt-24 md:pt-36 pb-16 md:pb-20">
+    <HeroAtmosphere />
+    <Container size="full" class="relative z-10">
       <Eyebrow>Selected work</Eyebrow>
       <h1 data-split class="display-xl mt-6 max-w-[18ch]">
-        A few things we've made.
+        A few things we've
+        <span class="text-gradient-flow">made</span>.
       </h1>
       <p class="lede mt-10 text-xl max-w-3xl">
         The roster is small on purpose. Each one of these took the kind of
