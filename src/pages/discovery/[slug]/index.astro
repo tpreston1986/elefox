@@ -18,7 +18,7 @@ const submitLabel = form.submitLabel ?? "Send it";
 const error = Astro.url.searchParams.get("error");
 ---
 
-<BaseLayout title={`${form.title}, ${form.subtitle}`} noindex>
+<BaseLayout title={`${form.title}, ${form.subtitle}`} noindex bare>
   <section class="pt-20 md:pt-32 pb-12">
     <Container size="full">
       <Eyebrow>{form.subtitle}</Eyebrow>
