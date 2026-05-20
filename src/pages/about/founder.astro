@@ -4,6 +4,7 @@ import Container from "../../components/Container.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import Button from "../../components/Button.astro";
 import EndCTA from "../../components/EndCTA.astro";
+import HeroAtmosphere from "../../components/HeroAtmosphere.astro";
 ---
 
 <BaseLayout
@@ -11,13 +12,14 @@ import EndCTA from "../../components/EndCTA.astro";
   description="Tiffany Russell, founder of elefox studio. UX designer, product builder, AI tinkerer. Based in South Florida."
 >
   <!-- Hero -->
-  <section class="pt-20 md:pt-32 pb-16 md:pb-24 relative overflow-hidden">
+  <section data-glow class="pt-24 md:pt-36 pb-16 md:pb-24 relative overflow-hidden">
+    <HeroAtmosphere />
     {/* Portrait, bleeds off the right edge of the viewport, sits behind
         the headline on lg+. Cleanly stacks on mobile. */}
     <img
       src="/people/tiffany.webp"
       alt="Tiffany Russell, founder of elefox studio"
-      class="hidden lg:block absolute top-24 right-0 w-[36vw] max-w-[520px] aspect-[4/5] object-cover object-[center_30%] pointer-events-none select-none"
+      class="hidden lg:block absolute top-24 right-0 w-[36vw] max-w-[520px] aspect-[4/5] object-cover object-[center_30%] pointer-events-none select-none z-[2]"
       loading="lazy"
       width="600"
       height="750"
@@ -27,7 +29,8 @@ import EndCTA from "../../components/EndCTA.astro";
       <div class="relative z-10 max-w-3xl lg:max-w-[44rem]">
         <Eyebrow>The founder</Eyebrow>
         <h1 data-split class="mt-6 font-display font-extrabold tracking-[-0.04em] leading-[0.95] text-5xl sm:text-6xl md:text-7xl lg:text-8xl">
-          Hi. I'm Tiffany. I started elefox.
+          Hi. I'm Tiffany. I started
+          <span class="text-gradient-flow">elefox</span>.
         </h1>
         <p class="mt-10 flex items-center gap-2 text-sm text-graphite">
           <span class="script text-lg text-ember">~</span>

@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/Container.astro";
 import Button from "../components/Button.astro";
 import Eyebrow from "../components/Eyebrow.astro";
+import HeroAtmosphere from "../components/HeroAtmosphere.astro";
 import { allServices } from "../data/services";
 
 const capabilityServices = allServices.filter((s) =>
@@ -52,37 +53,52 @@ const aiExamples = [
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <!-- Hero                                                                 -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <section class="pt-20 md:pt-32 pb-10 md:pb-14 relative overflow-hidden">
-    <Container size="full">
-      <h1 data-split class="display-xl text-ink max-w-[14ch] relative">
+  <section
+    id="hero"
+    data-glow
+    class="relative overflow-hidden min-h-[90vh] flex flex-col justify-center pt-28 md:pt-32 pb-16"
+  >
+    <HeroAtmosphere />
+
+    <Container size="full" class="relative z-10">
+      <p class="font-mono text-xs uppercase tracking-[0.22em] text-graphite mb-8 flex items-center gap-3">
+        <span class="inline-block w-8 h-px bg-ember"></span>
+        Design · Software · AI studio
+      </p>
+
+      <h1 data-split class="font-display font-extrabold tracking-[-0.04em] leading-[0.92] text-[clamp(2.75rem,9vw,7.5rem)] text-ink max-w-[15ch]">
         Drive sales. Save hours. Build a brand
         <span class="relative inline-block">
-          <em class="not-italic text-forest">they remember</em>.
+          <em class="not-italic text-gradient-flow">they remember</em>.
           <svg viewBox="0 0 260 14" class="absolute left-0 -bottom-2 md:-bottom-3 w-full h-3 text-ember underline-draw" aria-hidden="true" preserveAspectRatio="none">
             <path d="M2 8 Q 40 2, 80 7 T 160 8 T 220 6 T 258 7" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
           </svg>
         </span>
       </h1>
 
-      <div class="mt-16 md:mt-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-end">
+      <div class="mt-12 md:mt-16 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-20 items-end">
         <p class="lede lg:col-span-7 text-xl md:text-2xl text-graphite">
           We design websites, build custom software, and shape brand systems
           that earn their keep. For small businesses that deserve more than
           a template. Carefully. For fewer clients at a time than most studios.
         </p>
         <div class="lg:col-span-5 flex flex-wrap gap-4 lg:justify-end">
-          <Button href="/services" size="lg">See what we do</Button>
-          <Button href="/contact" variant="secondary" size="lg">Start a project</Button>
+          <Button href="/services" size="lg" class="btn-magnetic">See what we do</Button>
+          <Button href="/contact" variant="secondary" size="lg" class="btn-magnetic">Start a project</Button>
         </div>
       </div>
     </Container>
 
-    <!-- Decorative thin rule with mono coordinates -->
-    <div class="mt-16 md:mt-20">
+    {/* Scroll cue + coordinates */}
+    <div class="relative z-10 mt-16 md:mt-20">
       <Container size="full">
         <div class="flex items-center gap-6">
           <span class="text-xs font-mono text-mist tracking-wider">26.27°N / 80.27°W</span>
           <hr class="rule flex-1" />
+          <span class="hidden sm:flex items-center gap-3 text-xs font-mono text-mist tracking-wider">
+            Scroll
+            <span class="scroll-cue" aria-hidden="true"></span>
+          </span>
           <span class="text-xs font-mono text-mist tracking-wider">South Florida</span>
         </div>
       </Container>
