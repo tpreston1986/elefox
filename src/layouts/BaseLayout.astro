@@ -152,7 +152,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://elefoxstudi
 
       // -- Reveal elements as they scroll into view -------------------------
       const revealTargets = document.querySelectorAll<HTMLElement>(
-        "[data-reveal], [data-split]"
+        "[data-reveal], [data-split], [data-reveal-stagger]"
       );
       if (revealTargets.length && "IntersectionObserver" in window) {
         const io = new IntersectionObserver(

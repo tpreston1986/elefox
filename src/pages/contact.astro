@@ -224,7 +224,7 @@ const preselected = Astro.url.searchParams.get("service") || "";
             const wrap = field.closest("label") || field.parentElement;
             const span = document.createElement("span");
             span.dataset.error = "";
-            span.className = "block mt-2 text-sm text-ember script -rotate-1";
+            span.className = "block mt-2 text-sm font-medium text-ember";
             span.textContent = msg;
             wrap.appendChild(span);
           };
@@ -291,7 +291,7 @@ const preselected = Astro.url.searchParams.get("service") || "";
                 "Something went wrong. Email hello@elefoxstudio.com directly?";
               const banner = document.createElement("p");
               banner.dataset.error = "";
-              banner.className = "text-sm text-ember script -rotate-1 mt-3";
+              banner.className = "text-sm font-medium text-ember mt-3";
               banner.textContent = msg;
               submitBtn.parentElement.appendChild(banner);
               return;
@@ -300,7 +300,7 @@ const preselected = Astro.url.searchParams.get("service") || "";
             const sent = document.createElement("div");
             sent.className = "text-center py-16 md:py-24";
             sent.innerHTML = `
-              <span class="script text-5xl md:text-6xl text-ember -rotate-2 inline-block mb-6">got it</span>
+              <span class="font-mono text-xs uppercase tracking-[0.2em] text-ember inline-block mb-5">Got it</span>
               <h2 class="display-xl text-ink mt-2 mb-6">Thanks, ${cleanName}.</h2>
               <p class="lede text-xl text-graphite max-w-2xl mx-auto">
                 We'll write you back within 24 hours, most of the time within four.
