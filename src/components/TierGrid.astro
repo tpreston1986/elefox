@@ -16,7 +16,7 @@ const { tiers, heading, eyebrow } = Astro.props;
   <Container size="full">
     {
       (heading || eyebrow) && (
-        <div class="mb-16 md:mb-20 max-w-3xl">
+        <div data-reveal class="mb-16 md:mb-20 max-w-3xl">
           {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
           {heading && <h2 class="mt-6">{heading}</h2>}
         </div>
@@ -24,6 +24,7 @@ const { tiers, heading, eyebrow } = Astro.props;
     }
 
     <div
+      data-reveal-stagger
       class={`grid grid-cols-1 ${
         tiers.length >= 4
           ? "md:grid-cols-2 lg:grid-cols-4"

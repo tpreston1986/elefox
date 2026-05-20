@@ -67,6 +67,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://elefoxstudi
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Cloudflare Web Analytics -->
+    <script
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "bc93bb58a01c445e99816377bfdda5dc"}'
+    ></script>
+    <!-- End Cloudflare Web Analytics -->
   </head>
   <body class="min-h-screen flex flex-col">
     {
