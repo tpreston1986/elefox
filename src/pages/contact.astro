@@ -236,7 +236,9 @@ const preselected = Astro.url.searchParams.get("service") || "";
 
           const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 
-          form.addEventListener("submit", (e) => {
+          const submitBtn = form.querySelector('button[type="submit"]');
+
+          form.addEventListener("submit", async (e) => {
             e.preventDefault();
             clearErrors();
 
@@ -260,12 +262,43 @@ const preselected = Astro.url.searchParams.get("service") || "";
               return;
             }
 
-            // Submission stub, wire to /api/contact in Phase 2.
+            const cleanName = name.value.trim().replace(/[<>]/g, "");
+
+            // Submit to the live endpoint.
+            const originalLabel = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = "Sending…";
+
+            let ok = false;
+            try {
+              const res = await fetch("/api/contact", {
+                method: "POST",
+                body: new FormData(form),
+              });
+              const data = await res.json().catch(() => ({}));
+              ok = res.ok && data.ok;
+              if (!ok && data.error) {
+                throw new Error(data.error);
+              }
+            } catch (err) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = originalLabel;
+              const msg =
+                (err && err.message) ||
+                "Something went wrong. Email hello@elefoxstudio.com directly?";
+              const banner = document.createElement("p");
+              banner.dataset.error = "";
+              banner.className = "text-sm text-ember script -rotate-1 mt-3";
+              banner.textContent = msg;
+              submitBtn.parentElement.appendChild(banner);
+              return;
+            }
+
             const sent = document.createElement("div");
             sent.className = "text-center py-16 md:py-24";
             sent.innerHTML = `
               <span class="script text-5xl md:text-6xl text-ember -rotate-2 inline-block mb-6">got it</span>
-              <h2 class="display-xl text-ink mt-2 mb-6">Thanks, ${name.value.trim().replace(/[<>]/g, "")}.</h2>
+              <h2 class="display-xl text-ink mt-2 mb-6">Thanks, ${cleanName}.</h2>
               <p class="lede text-xl text-graphite max-w-2xl mx-auto">
                 We'll write you back within 24 hours, most of the time within four.
                 In the meantime: we know we owe you a real response, not a thank-you template.
