@@ -102,7 +102,6 @@ const tiers = [
   {
     name: "Relational",
     price: "$3,500",
-    priceRange: "$3,500 – $4,500",
     blurb: "For agents who sell entirely through sphere and referrals.",
     features: [
       "Full migration from your current CRM",
@@ -115,7 +114,6 @@ const tiers = [
   {
     name: "Relational + Modern",
     price: "$3,500",
-    priceRange: "$3,500 – $5,000",
     blurb: "For agents adding modern marketing on top of their sphere.",
     featured: true,
     features: [
@@ -129,7 +127,6 @@ const tiers = [
   {
     name: "Full Marketing",
     price: "$5,000",
-    priceRange: "$5,000 – $7,500",
     blurb: "For agents going all-in on modern marketing at scale.",
     features: [
       "Everything in Relational + Modern",
@@ -165,7 +162,7 @@ const faqs = [
   {
     q: "What modern marketing tools come built in?",
     a:
-      "Depends on your tier. The Relational tier ($3,500–4,500) includes branded monthly newsletters that look like 2026 and sphere drip campaigns. Relational + Modern ($3,500–5,000) adds embeddable lead-capture forms for your site and Instagram bio, a social post composer with AI captions, and review request automation. Full Marketing ($5,000–7,500) layers on personal video greetings (BombBomb-style), TCPA-compliant SMS, light analytics, and a 1:1 marketing strategy session.",
+      "Depends on your tier. The Relational tier (from $3,500) includes branded monthly newsletters that look like 2026 and sphere drip campaigns. Relational + Modern (from $3,500) adds embeddable lead-capture forms for your site and Instagram bio, a social post composer with AI captions, and review request automation. Full Marketing (from $5,000) layers on personal video greetings (BombBomb-style), TCPA-compliant SMS, light analytics, and a 1:1 marketing strategy session.",
   },
   {
     q: "Can my whole team use it? My assistant, my buyer's agent, my TC?",
@@ -515,8 +512,8 @@ const serviceSchema = {
           >
             <p class="text-xs font-mono uppercase tracking-[0.14em] text-ember">{t.name}</p>
             <p class="font-display tracking-tight text-bone flex items-baseline gap-2">
+              <span class="text-base text-bone/65 font-normal">from</span>
               <span class="text-4xl font-bold">{t.price}</span>
-              <span class="text-base text-bone/65">to {t.priceRange.split("–")[1].trim()}</span>
             </p>
             <p class="text-bone/85 leading-snug">{t.blurb}</p>
             <ul class="mt-3 space-y-2.5 flex-1">

@@ -90,7 +90,7 @@ export const services: Record<string, Service> = {
     tiers: [
       {
         name: "Custom CRM",
-        price: "$3,500 – $10,000",
+        price: "From $3,500",
         cadence: "+ hosting from $50/mo",
         blurb: "For relationship-driven businesses. Yours forever, hosted by us, shaped to how your team actually tracks people and follow-ups.",
         features: [
@@ -104,7 +104,7 @@ export const services: Record<string, Service> = {
       },
       {
         name: "Client Portals",
-        price: "$5,000 – $15,000",
+        price: "From $5,000",
         cadence: "+ hosting from $50/mo",
         blurb: "Where your clients see their work, sign contracts, and pay invoices.",
         features: [
@@ -117,7 +117,7 @@ export const services: Record<string, Service> = {
       },
       {
         name: "Internal tools & dashboards",
-        price: "$4,000 – $12,000",
+        price: "From $4,000",
         cadence: "+ hosting from $50/mo",
         blurb: "PM tools, ops dashboards, reporting, whatever your team operates on.",
         features: [
