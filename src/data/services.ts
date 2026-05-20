@@ -91,7 +91,7 @@ export const services: Record<string, Service> = {
       {
         name: "Custom CRM",
         price: "$3,500 – $10,000",
-        cadence: "+ $50/mo hosting",
+        cadence: "+ hosting from $50/mo",
         blurb: "For relationship-driven businesses. Yours forever, hosted by us, shaped to how your team actually tracks people and follow-ups.",
         features: [
           "Discovery + scoping session",
@@ -99,13 +99,13 @@ export const services: Record<string, Service> = {
           "Built around your terminology",
           "Relationship-first contact + activity tracking",
           "6-week typical build",
-          "$50/mo includes backups, uptime, bug fixes",
+          "Hosting from $50/mo: backups, uptime, bug fixes",
         ],
       },
       {
         name: "Client Portals",
         price: "$5,000 – $15,000",
-        cadence: "+ $50/mo hosting",
+        cadence: "+ hosting from $50/mo",
         blurb: "Where your clients see their work, sign contracts, and pay invoices.",
         features: [
           "Project + file delivery",
@@ -118,7 +118,7 @@ export const services: Record<string, Service> = {
       {
         name: "Internal tools & dashboards",
         price: "$4,000 – $12,000",
-        cadence: "+ $50/mo hosting",
+        cadence: "+ hosting from $50/mo",
         blurb: "PM tools, ops dashboards, reporting, whatever your team operates on.",
         features: [
           "Discovery → build → operate",
@@ -150,7 +150,7 @@ export const services: Record<string, Service> = {
     tiers: [
       {
         name: "Brand Creation",
-        price: "$750",
+        price: "$1,500",
         blurb: "Logo, palette, typography, and a real usage guide.",
         features: [
           "Logo + mark (3 concepts)",
@@ -174,7 +174,7 @@ export const services: Record<string, Service> = {
       {
         name: "Newsletter System",
         price: "$1,500",
-        cadence: "+ $50/mo hosting",
+        cadence: "+ hosting from $50/mo",
         blurb: "Branded newsletter, list management, and the cadence to ship it.",
         features: [
           "Branded email template",

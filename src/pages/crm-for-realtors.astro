@@ -74,7 +74,7 @@ const differentiators = [
   {
     title: "Roles for your team, no per-seat fees",
     body:
-      "Your TC sees deals but not commission. Your buyer's agent sees buyer leads but not your sphere. Your assistant manages contacts. Add as many agents and admins as you want. Hosting stays flat at $50/mo.",
+      "Your TC sees deals but not commission. Your buyer's agent sees buyer leads but not your sphere. Your assistant manages contacts. Add as many agents and admins as you want. Hosting starts at $50/mo.",
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/><circle cx="12" cy="11" r="2.5"/><path d="M8.5 17c.5-2 2-3 3.5-3s3 1 3.5 3"/></svg>`,
   },
 ];
@@ -214,7 +214,7 @@ const serviceSchema = {
   },
   areaServed: { "@type": "Country", name: "United States" },
   description:
-    "Relational-first custom CRM software for realtors who close deals through sphere and referrals. Includes branded newsletters, personal video greetings, social composer, SMS, and review automation, built on a sphere-and-household backbone. Three setup tiers starting at $3,500 plus flat $50/mo hosting.",
+    "Relational-first custom CRM software for realtors who close deals through sphere and referrals. Includes branded newsletters, personal video greetings, social composer, SMS, and review automation, built on a sphere-and-household backbone. Three setup tiers starting at $3,500 plus hosting from $50/mo.",
   offers: {
     "@type": "Offer",
     price: "3500",
@@ -232,7 +232,7 @@ const serviceSchema = {
 
 <BaseLayout
   title="Custom CRM for Realtors"
-  description="Custom CRM software for realtors who close deals through trust, not Zillow leads. Sphere-and-household backbone with modern marketing layered on. Three tiers from $3,500. Flat $50/mo hosting, no per-seat fees."
+  description="Custom CRM software for realtors who close deals through trust, not Zillow leads. Sphere-and-household backbone with modern marketing layered on. Three tiers from $3,500. Hosting from $50/mo, no per-seat fees."
 >
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
@@ -267,7 +267,7 @@ const serviceSchema = {
           <div class="mt-10 flex flex-wrap gap-3">
             {[
               { label: "Starts at", value: "$3,500" },
-              { label: "Hosting", value: "$50/mo flat" },
+              { label: "Hosting", value: "From $50/mo" },
               { label: "Team size", value: "No per-seat fees" },
             ].map((p) => (
               <div class="inline-flex flex-col items-center px-5 py-3 bg-white border border-fog rounded-pill min-w-[150px]">
@@ -503,7 +503,7 @@ const serviceSchema = {
         <h2 data-split class="mt-6 text-bone">Pick the tier that fits where you are.</h2>
         <p class="lede mt-6 mx-auto text-center text-bone/70">
           Three setup tiers depending on how much marketing you want layered
-          on. Hosting stays flat at $50/mo across all three. Unlimited team
+          on. Hosting starts at $50/mo across all three. Unlimited team
           members, no per-seat fees.
         </p>
       </div>
@@ -534,7 +534,7 @@ const serviceSchema = {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto mt-10">
         <div class="bg-bone/5 border border-bone/10 rounded-xl p-6 text-center">
           <p class="text-[11px] font-mono uppercase tracking-[0.14em] text-bone/65 mb-2">Hosting · same across tiers</p>
-          <p class="font-display text-bone tracking-tight"><span class="text-3xl font-bold">$50</span>/mo</p>
+          <p class="font-display text-bone tracking-tight"><span class="text-2xl font-bold">from</span> <span class="text-3xl font-bold">$50</span>/mo</p>
           <p class="text-sm text-bone/70 mt-2 leading-snug">Hosting, backups, security, bug fixes. Cancel anytime.</p>
         </div>
         <div class="bg-bone/5 border border-bone/10 rounded-xl p-6 text-center">
