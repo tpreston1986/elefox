@@ -1,0 +1,121 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Container from "../../../components/Container.astro";
+import Eyebrow from "../../../components/Eyebrow.astro";
+import Section from "../../../components/discovery/Section.astro";
+import { getForm } from "../../../data/discovery/forms";
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+const form = slug ? getForm(slug) : null;
+
+if (!form) {
+  return Astro.redirect("/404");
+}
+
+const submitLabel = form.submitLabel ?? "Send it";
+const error = Astro.url.searchParams.get("error");
+---
+
+<BaseLayout title={`${form.title}, ${form.subtitle}`} noindex>
+  <section class="pt-20 md:pt-32 pb-12">
+    <Container size="full">
+      <Eyebrow>{form.subtitle}</Eyebrow>
+      <h1 data-split class="display-xl mt-6 max-w-[22ch]">
+        {form.title}.
+      </h1>
+      {
+        form.intro && (
+          <p class="lede mt-10 text-xl max-w-3xl">{form.intro}</p>
+        )
+      }
+    </Container>
+  </section>
+
+  <section class="pb-24 md:pb-32">
+    <Container size="default">
+      {
+        error && (
+          <div
+            role="alert"
+            class="mb-8 rounded-lg border border-ember/40 bg-ember/5 px-5 py-4 text-ink"
+          >
+            <p class="font-medium mb-1">Something went sideways on our end.</p>
+            <p class="text-sm text-graphite">
+              {error === "send_failed"
+                ? "We couldn't send your responses just now. Try again, or email hello@elefoxstudio.com directly."
+                : error === "validation"
+                  ? "A couple of required fields are still empty. Scroll up and check the ones marked with a red asterisk."
+                  : "Try again, or email hello@elefoxstudio.com directly."}
+            </p>
+          </div>
+        )
+      }
+
+      <form
+        action="/api/discovery/submit"
+        method="post"
+        novalidate
+        id="discovery-form"
+        class="space-y-14 bg-white border border-fog rounded-2xl p-8 md:p-12"
+      >
+        <input type="hidden" name="_slug" value={form.slug} />
+        <input type="hidden" name="_t" value={Date.now()} />
+        <div class="absolute -left-[9999px]">
+          <label>
+            Website
+            <input type="text" name="_hp" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
+
+        {
+          form.sections.map((section, i) => (
+            <Section section={section} index={i} />
+          ))
+        }
+
+        <div
+          class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-6 border-t border-fog"
+        >
+          <p class="text-sm text-graphite">
+            We'll review your responses and follow up within 24 hours.
+          </p>
+          <button
+            type="submit"
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-forest text-bone rounded-pill text-lg font-medium hover:bg-forest-deep transition-colors disabled:opacity-50"
+          >
+            {submitLabel}
+          </button>
+        </div>
+      </form>
+
+      <script is:inline>
+        (() => {
+          const form = document.getElementById("discovery-form");
+          if (!form) return;
+
+          const submitBtn = form.querySelector('button[type="submit"]');
+          const originalLabel = submitBtn?.textContent;
+
+          form.addEventListener("submit", (e) => {
+            // Native HTML5 validation handles required fields. We just lock the
+            // button so a slow connection doesn't get double-submitted.
+            const required = form.querySelectorAll("[required]");
+            for (const el of required) {
+              if (!el.value || (el.type === "radio" && !form.querySelector(`input[name="${el.name}"]:checked`))) {
+                el.reportValidity?.();
+                e.preventDefault();
+                return;
+              }
+            }
+            if (submitBtn) {
+              submitBtn.disabled = true;
+              submitBtn.textContent = "Sending...";
+            }
+          });
+        })();
+      </script>
+    </Container>
+  </section>
+</BaseLayout>
