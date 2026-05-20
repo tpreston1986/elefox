@@ -349,6 +349,16 @@ async function forwardToPortal(args: {
   }
 }
 
+// Relative 303 redirect. We must NOT build an absolute URL from request.url:
+// behind Railway's proxy the Node server sees the request host as localhost, so
+// an absolute redirect sends the browser to https://localhost/... and fails
+// ("Unsafe attempt to load URL ... Domains, protocols and ports must match").
+// A relative Location header is resolved by the browser against the public
+// origin it actually requested (elefoxstudio.com).
+function seeOther(path: string): Response {
+  return new Response(null, { status: 303, headers: { Location: path } });
+}
+
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   const fd = await request.formData();
 
@@ -356,14 +366,14 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const hp = fd.get("_hp");
   if (typeof hp === "string" && hp.trim() !== "") {
     // Silently accept so bots don't know they were caught
-    return Response.redirect(new URL(`/discovery/${fd.get("_slug")}/thank-you`, request.url), 303);
+    return seeOther(`/discovery/${fd.get("_slug")}/thank-you`);
   }
 
   // Timing: legitimate users take at least 3 seconds to fill this out
   const tRaw = fd.get("_t");
   const t = typeof tRaw === "string" ? Number(tRaw) : NaN;
   if (Number.isFinite(t) && Date.now() - t < 3000) {
-    return Response.redirect(new URL(`/discovery/${fd.get("_slug")}/thank-you`, request.url), 303);
+    return seeOther(`/discovery/${fd.get("_slug")}/thank-you`);
   }
 
   // Rate limit
@@ -390,9 +400,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   // Validate required fields
   const validation = validateRequired(form, fd);
   if (!validation.ok) {
-    const back = new URL(`/discovery/${form.slug}`, request.url);
-    back.searchParams.set("error", "validation");
-    return Response.redirect(back, 303);
+    return seeOther(`/discovery/${form.slug}?error=validation`);
   }
 
   // Shape responses
@@ -404,34 +412,34 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     ? (fd.get("contact_name") as string).trim()
     : null;
 
-  // Kick off AI summary in parallel with sending
-  const aiPromise = generateAiSummary(form, responses);
-
-  try {
-    const aiSummary = await aiPromise;
-    await sendNotificationEmail({
+  // The AI summary (Opus call) takes several seconds and is embedded in the
+  // notification email, so the email can't go out until it's done. Rather than
+  // make the prospect stare at a spinner, run the whole notification pipeline in
+  // the background and redirect immediately. Railway runs a persistent Node
+  // process, so this promise finishes after the response is flushed. Failures
+  // are logged for monitoring — the prospect has already been thanked, and
+  // Tiffany is expecting the submission, so a missed email is recoverable.
+  const notify = async () => {
+    try {
+      const aiSummary = await generateAiSummary(form, responses);
+      await sendNotificationEmail({
+        form,
+        responses,
+        aiSummary,
+        contactEmail: contactEmail && contactEmail !== "" ? contactEmail : null,
+      });
+    } catch (err) {
+      console.error("Discovery notification email failed:", err);
+    }
+    await forwardToPortal({
       form,
       responses,
-      aiSummary,
+      contactName: contactName && contactName !== "" ? contactName : null,
       contactEmail: contactEmail && contactEmail !== "" ? contactEmail : null,
     });
-  } catch (err) {
-    console.error("Discovery submit failed:", err);
-    const back = new URL(`/discovery/${form.slug}`, request.url);
-    back.searchParams.set("error", "send_failed");
-    return Response.redirect(back, 303);
-  }
+  };
 
-  // Fire-and-forget portal forward
-  forwardToPortal({
-    form,
-    responses,
-    contactName: contactName && contactName !== "" ? contactName : null,
-    contactEmail: contactEmail && contactEmail !== "" ? contactEmail : null,
-  });
+  void notify();
 
-  return Response.redirect(
-    new URL(`/discovery/${form.slug}/thank-you`, request.url),
-    303,
-  );
+  return seeOther(`/discovery/${form.slug}/thank-you`);
 };
