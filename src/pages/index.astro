@@ -60,13 +60,14 @@ const aiExamples = [
   >
     <HeroAtmosphere />
 
-    <Container size="full" class="relative z-10">
-      <p class="font-mono text-xs uppercase tracking-[0.22em] text-graphite mb-8 flex items-center gap-3">
+    <Container size="full" class="relative z-10 text-center">
+      <p class="font-mono text-xs uppercase tracking-[0.22em] text-graphite mb-8 flex items-center justify-center gap-3">
         <span class="inline-block w-8 h-px bg-ember"></span>
         Design · Software · AI studio
+        <span class="inline-block w-8 h-px bg-ember"></span>
       </p>
 
-      <h1 data-split class="font-display font-extrabold tracking-[-0.04em] leading-[0.92] text-[clamp(2.75rem,9vw,7.5rem)] text-ink max-w-[15ch]">
+      <h1 data-split class="font-display font-extrabold tracking-[-0.04em] leading-[0.92] text-[clamp(2.75rem,9vw,7.5rem)] text-ink max-w-[18ch] mx-auto">
         Drive sales. Save hours. Build a brand
         <span class="relative inline-block">
           <em class="not-italic text-gradient-flow">they remember</em>.
@@ -76,16 +77,14 @@ const aiExamples = [
         </span>
       </h1>
 
-      <div class="mt-12 md:mt-16 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-20 items-end">
-        <p class="lede lg:col-span-7 text-xl md:text-2xl text-graphite">
-          We design websites, build custom software, and shape brand systems
-          that earn their keep. For small businesses that deserve more than
-          a template. Carefully. For fewer clients at a time than most studios.
-        </p>
-        <div class="lg:col-span-5 flex flex-wrap gap-4 lg:justify-end">
-          <Button href="/services" size="lg" class="btn-magnetic">See what we do</Button>
-          <Button href="/contact" variant="secondary" size="lg" class="btn-magnetic">Start a project</Button>
-        </div>
+      <p class="lede mx-auto mt-10 md:mt-12 text-xl md:text-2xl text-graphite text-center">
+        We design websites, build custom software, and shape brand systems
+        that earn their keep. For small businesses that deserve more than
+        a template. Carefully. For fewer clients at a time than most studios.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4 justify-center">
+        <Button href="/services" size="lg" class="btn-magnetic">See what we do</Button>
+        <Button href="/contact" variant="secondary" size="lg" class="btn-magnetic">Start a project</Button>
       </div>
     </Container>
 

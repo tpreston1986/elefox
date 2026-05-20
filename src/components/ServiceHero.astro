@@ -20,20 +20,20 @@ const { category, title, description } = Astro.props;
 >
   <HeroAtmosphere />
 
-  <Container size="full" class="relative z-10">
+  <Container size="full" class="relative z-10 text-center">
     <div class="mb-12">
       <Eyebrow>{category}</Eyebrow>
     </div>
 
-    <h1 data-split class="display-xl text-ink max-w-[16ch]">
+    <h1 data-split class="display-xl text-ink max-w-[16ch] mx-auto">
       {title}
     </h1>
 
-    <p class="lede mt-12 text-xl md:text-2xl max-w-3xl">
+    <p class="lede mt-12 text-xl md:text-2xl max-w-3xl mx-auto text-center">
       {description}
     </p>
 
-    <div class="mt-12 flex flex-wrap gap-4">
+    <div class="mt-12 flex flex-wrap gap-4 justify-center">
       <Button href="/contact" size="lg" class="btn-magnetic">Start a project</Button>
       <Button href="/contact#book" variant="secondary" size="lg" class="btn-magnetic">Book a call</Button>
     </div>
