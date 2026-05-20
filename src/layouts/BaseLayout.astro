@@ -8,6 +8,9 @@ type Props = {
   description?: string;
   ogImage?: string;
   noindex?: boolean;
+  /** Standalone mode: drop the site header + footer for focused pages
+   *  (e.g. discovery forms sent directly to a prospect). */
+  bare?: boolean;
 };
 
 const {
@@ -15,6 +18,7 @@ const {
   description = "elefox studio builds the websites, internal tools, and AI automations that small companies grow on.",
   ogImage = "/og/default.png",
   noindex = false,
+  bare = false,
 } = Astro.props;
 
 const fullTitle =
@@ -65,17 +69,21 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://elefoxstudi
     />
   </head>
   <body class="min-h-screen flex flex-col">
-    <a
-      href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:bg-forest focus:text-bone focus:px-4 focus:py-2 focus:rounded-pill focus:z-50"
-    >
-      Skip to content
-    </a>
-    <Header />
+    {
+      !bare && (
+        <a
+          href="#main"
+          class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:bg-forest focus:text-bone focus:px-4 focus:py-2 focus:rounded-pill focus:z-50"
+        >
+          Skip to content
+        </a>
+      )
+    }
+    {!bare && <Header />}
     <main id="main" class="flex-1">
       <slot />
     </main>
-    <Footer />
+    {!bare && <Footer />}
 
     <script>
       import Lenis from "lenis";
