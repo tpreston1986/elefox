@@ -1,0 +1,579 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import EndCTA from "../components/EndCTA.astro";
+
+/* The three biggest frustrations a relationship-driven agent has with
+   the existing CRM landscape. Rendered as editorial pull-quotes. */
+const painQuotes = [
+  {
+    quote:
+      "My old CRM is built for the agent I'm not. It chases Zillow leads, not my sphere.",
+    tag: "Wrong-CRM problem",
+  },
+  {
+    quote: "Top Producer's newsletter still looks like it's from 2008.",
+    tag: "Stuck-in-time problem",
+  },
+  {
+    quote: "FUB charges me $69 a month for each new buyer's agent.",
+    tag: "Per-seat problem",
+  },
+];
+
+/* Color-coded migration source chips. Real logos can replace these
+   later by dropping PNGs in /public/crm-logos/. */
+const migrations = [
+  { name: "Top Producer", letters: "TP", color: "#E63946" },
+  { name: "Follow Up Boss", letters: "FU", color: "#2D7DD2" },
+  { name: "KW Command", letters: "KW", color: "#B11B22" },
+  { name: "LionDesk", letters: "LD", color: "#F97316" },
+  { name: "kvCORE", letters: "KV", color: "#1F3A5F" },
+  { name: "Wise Agent", letters: "WA", color: "#2E7D32" },
+  { name: "Real Geeks", letters: "RG", color: "#F47820" },
+  { name: "CINC", letters: "CI", color: "#E5841A" },
+  { name: "Chime", letters: "CH", color: "#00A6C8" },
+  { name: "Brivity", letters: "BR", color: "#2B4C7E" },
+  { name: "Google Sheets", letters: "GS", color: "#0F9D58" },
+  { name: "Excel chaos", letters: "XL", color: "#1F7244" },
+];
+
+const differentiators = [
+  {
+    title: "Household-model contacts",
+    body:
+      "A married couple is one record, not two with a fragile tag linking them. Birthdays, anniversaries, life events, and shared properties all live where they belong.",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="16" cy="9" r="2.5"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M14.5 18c0-2.5 2-4 4-4s2 1 2 1"/></svg>`,
+  },
+  {
+    title: "Branded modern newsletters",
+    body:
+      "Clean, mobile-first, on-brand. Looks like 2026, not 2008. Built on your sphere data so personalization just works. Neighborhood market snapshots for past clients, event invites for your community group.",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>`,
+  },
+  {
+    title: "Relationship-driven automation",
+    body:
+      "Birthday tomorrow? Prompt for a video greeting. Past client at 1 year? Send a neighborhood market update. Closing date? Schedule the review request. Your data, your touchpoints, on autopilot.",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><path d="M8.5 14.5l2 2 4-4"/></svg>`,
+  },
+  {
+    title: "Personal video greetings",
+    body:
+      "Record a 30-second video on your phone, attach to an email or text, track who watched. BombBomb-quality, native to your CRM. The thing that actually makes you feel like a real person to a past client.",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m23 7-7 5 7 5z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>`,
+  },
+  {
+    title: "Notes that don't get lost",
+    body:
+      "Long-form, properly formatted, dated, fully searchable. The kind of notes you actually want to scroll through before picking up the phone, not the kind buried under 13,000 contacts.",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M8 13h8M8 17h6"/></svg>`,
+  },
+  {
+    title: "Roles for your team, no per-seat fees",
+    body:
+      "Your TC sees deals but not commission. Your buyer's agent sees buyer leads but not your sphere. Your assistant manages contacts. Add as many agents and admins as you want. Hosting stays flat at $50/mo.",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/><circle cx="12" cy="11" r="2.5"/><path d="M8.5 17c.5-2 2-3 3.5-3s3 1 3.5 3"/></svg>`,
+  },
+];
+
+const profiles = [
+  {
+    tag: "The seasoned relational pro",
+    body:
+      "30+ years in the business, deep sphere, knows the importance of staying in touch but stopped doing it consistently. Wants the data done right and a modern way to send the monthly newsletter that doesn't look like 2008.",
+  },
+  {
+    tag: "The hybrid agent",
+    body:
+      "5 to 15 years in. Growing sphere. Does some Instagram, occasional email, inconsistent. Wants automation that respects the relationship, not blast-and-pray marketing. The right CRM lets them look like a pro without becoming a marketer.",
+    featured: true,
+  },
+  {
+    tag: "The modern relational agent",
+    body:
+      "Newer to the business (5 yrs in), engaged audience, active on social, allergic to spam. Wants the full modern marketing stack: newsletters, video, social, SMS. Tied to a real CRM, not a pile of disconnected tools.",
+  },
+];
+
+const tiers = [
+  {
+    name: "Relational",
+    price: "$3,500",
+    priceRange: "$3,500 – $4,500",
+    blurb: "For agents who sell entirely through sphere and referrals.",
+    features: [
+      "Full migration from your current CRM",
+      "Sphere segmentation and tag system",
+      "Drip campaigns for sphere nurture",
+      "Branded monthly newsletter setup",
+      "Daily task engine (birthdays, anniversaries)",
+    ],
+  },
+  {
+    name: "Relational + Modern",
+    price: "$3,500",
+    priceRange: "$3,500 – $5,000",
+    blurb: "For agents adding modern marketing on top of their sphere.",
+    featured: true,
+    features: [
+      "Everything in Relational",
+      "Embeddable lead-capture forms (site + IG bio)",
+      "Social post composer with AI captions",
+      "Review request automation",
+      "Light analytics dashboard",
+    ],
+  },
+  {
+    name: "Full Marketing",
+    price: "$5,000",
+    priceRange: "$5,000 – $7,500",
+    blurb: "For agents going all-in on modern marketing at scale.",
+    features: [
+      "Everything in Relational + Modern",
+      "Video greeting workflow (BombBomb-style)",
+      "SMS with TCPA-compliant opt-in tracking",
+      "Full analytics and reporting",
+      "1:1 marketing strategy session included",
+    ],
+  },
+];
+
+const faqs = [
+  {
+    q: "How is this different from Follow Up Boss, Lofty, or kvCORE?",
+    a:
+      "Those tools are built for lead-volume agents: speed-to-lead, paid traffic, round-robin team routing. They work great for that. They're the wrong shape for an agent who closes deals through sphere and referrals. A relational-first CRM treats sphere segments, household relationships, life events, and long-term nurture as the core, then layers modern marketing (newsletters, video, social, SMS, reviews) on top of that data instead of bolting it on as an afterthought.",
+  },
+  {
+    q: "How is this different from Top Producer, Wise Agent, or LionDesk?",
+    a:
+      "Those tools have the right data model for relational agents. The marketing UI is frozen in 2010. Newsletters look like the 2008 Mailchimp template, no native video, no modern lead capture forms, no social composer, no review automation. A custom build gives you the same relational backbone you're used to, with marketing tools built this decade. And you own the code, so it'll still work in 5 years.",
+  },
+  {
+    q: "Will I have to learn to be a marketing person?",
+    a:
+      "No. The point of the setup phase is that I build your relationship-driven automations during onboarding (birthdays, anniversaries, post-close sequences, your monthly newsletter, your review request flow) so they run themselves. Your job is to keep your notes good and record the occasional 30-second video. Mine is to make sure the engine fires correctly and stays current.",
+  },
+  {
+    q: "Can you migrate my contacts from my current CRM?",
+    a:
+      "Yes. I've written migration scripts for Top Producer (including the messy exports), Follow Up Boss CSVs, KW Command, LionDesk, Wise Agent, kvCORE, and others. Notes, tags, household linkage, action plans, properties, past transactions all preserved. Send me an export on the discovery call and I'll tell you exactly what comes over.",
+  },
+  {
+    q: "What modern marketing tools come built in?",
+    a:
+      "Depends on your tier. The Relational tier ($3,500–4,500) includes branded monthly newsletters that look like 2026 and sphere drip campaigns. Relational + Modern ($3,500–5,000) adds embeddable lead-capture forms for your site and Instagram bio, a social post composer with AI captions, and review request automation. Full Marketing ($5,000–7,500) layers on personal video greetings (BombBomb-style), TCPA-compliant SMS, light analytics, and a 1:1 marketing strategy session.",
+  },
+  {
+    q: "Can my whole team use it? My assistant, my buyer's agent, my TC?",
+    a:
+      "Yes. Each person gets their own login with role-based permissions. Your assistant can manage contacts but not see commission, your TC can see deals but not your full sphere, etc. There's no per-seat fee, no matter how many people are on the team.",
+  },
+  {
+    q: "Does it work on my phone? I'm out showing homes all day.",
+    a:
+      "Yes. The whole product is mobile-first. Same experience on your phone between showings as on a desktop. Record a video greeting from your car, log a call after a closing, send a personal text, all from the same app. No separate mobile app to install or update.",
+  },
+  {
+    q: "How long does the build take?",
+    a:
+      "Usually 4 to 6 weeks. Week 1 is discovery. We sit down and map exactly how you work today (your sphere segments, your tags, your follow-up cadences, your touchpoint calendar). Weeks 2 to 4 are build with weekly demos so you steer the direction. Week 5 is migration and team training. Week 6 you're live.",
+  },
+];
+
+const calendlyUrl =
+  import.meta.env.CALENDLY_URL ||
+  "https://calendly.com/contact-tiffanyrussell/discovery-call";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  serviceType: "Custom CRM Software for Real Estate Agents",
+  provider: {
+    "@type": "ProfessionalService",
+    name: "elefox studio",
+    url: "https://elefoxstudio.com",
+  },
+  audience: {
+    "@type": "Audience",
+    audienceType:
+      "Real estate agents, realtors, and small real estate teams",
+  },
+  areaServed: { "@type": "Country", name: "United States" },
+  description:
+    "Relational-first custom CRM software for realtors who close deals through sphere and referrals. Includes branded newsletters, personal video greetings, social composer, SMS, and review automation, built on a sphere-and-household backbone. Three setup tiers starting at $3,500 plus flat $50/mo hosting.",
+  offers: {
+    "@type": "Offer",
+    price: "3500",
+    priceCurrency: "USD",
+    priceSpecification: {
+      "@type": "PriceSpecification",
+      price: "3500.00",
+      priceCurrency: "USD",
+      description:
+        "Build starts at $3,500 (Relational tier). Quoted after discovery call.",
+    },
+  },
+};
+---
+
+<BaseLayout
+  title="Custom CRM for Realtors"
+  description="Custom CRM software for realtors who close deals through trust, not Zillow leads. Sphere-and-household backbone with modern marketing layered on. Three tiers from $3,500. Flat $50/mo hosting, no per-seat fees."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Hero                                                                 -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="pt-20 md:pt-28 pb-12 md:pb-20 relative overflow-hidden">
+    <Container size="full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div class="lg:col-span-7">
+          <Eyebrow>Custom CRM for Realtors</Eyebrow>
+          <h1 data-split class="display-xl mt-6 max-w-[16ch]">
+            Relationships first.
+            <span class="relative inline-block">
+              <em class="not-italic text-forest">Modern marketing</em>
+              <svg viewBox="0 0 320 14" class="absolute left-0 -bottom-2 md:-bottom-3 w-full h-3 text-ember underline-draw" aria-hidden="true" preserveAspectRatio="none">
+                <path d="M2 8 Q 50 2, 100 7 T 200 8 T 280 6 T 318 7" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              </svg>
+            </span>
+            on top.
+          </h1>
+          <p class="lede mt-8 text-xl max-w-2xl">
+            A custom CRM for the realtors who close deals through trust and
+            referrals, not Zillow leads. Built on a real sphere-and-household
+            backbone. Modern marketing layered on: branded newsletters that
+            look like 2026, personal video greetings, social composer, SMS,
+            review automation. Without turning you into a marketing agency.
+          </p>
+
+          <div class="mt-10 flex flex-wrap gap-3">
+            {[
+              { label: "Starts at", value: "$3,500" },
+              { label: "Hosting", value: "$50/mo flat" },
+              { label: "Team size", value: "No per-seat fees" },
+            ].map((p) => (
+              <div class="inline-flex flex-col items-center px-5 py-3 bg-white border border-fog rounded-pill min-w-[150px]">
+                <span class="text-[10px] font-mono uppercase tracking-[0.14em] text-stone">{p.label}</span>
+                <span class="font-display font-bold text-ink tracking-tight mt-0.5">{p.value}</span>
+              </div>
+            ))}
+          </div>
+
+          <div class="mt-10 flex flex-wrap gap-4">
+            <a
+              href={calendlyUrl}
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-forest text-bone rounded-pill text-lg font-medium hover:bg-forest-deep transition-colors"
+            >
+              Book a discovery call
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+          <p class="mt-5 text-sm text-graphite max-w-xl leading-relaxed">
+            30-minute call. No quote until I understand your workflow: your
+            sphere, your pipeline, your tools. Then I'll tell you whether a
+            custom CRM is right for you, honestly.
+          </p>
+        </div>
+
+        {/* Phone mockup — realtor CRM contact view */}
+        <div class="lg:col-span-5 flex justify-center lg:justify-end" aria-hidden="true">
+          <div class="relative w-[280px] h-[560px] md:w-[300px] md:h-[600px] -rotate-2 hover:rotate-0 transition-transform duration-500" style="background:#0d0d17;border-radius:42px;padding:12px;box-shadow:0 30px 60px -10px rgba(13,13,23,0.35),0 18px 36px -18px rgba(200,98,58,0.4),inset 0 0 0 1.5px rgba(255,255,255,0.06);">
+            <div class="absolute top-3 left-1/2 -translate-x-1/2 w-[110px] h-[22px] rounded-b-[14px] z-10" style="background:#0d0d17;"></div>
+            <div class="w-full h-full rounded-[32px] overflow-hidden flex flex-col px-[18px] pt-[38px] pb-[18px]" style="background:var(--color-paper);">
+              <div class="flex items-center justify-between text-sm text-ink pb-3">
+                <span class="text-forest text-lg">←</span>
+                <span class="font-display font-bold text-[14px]">Contact</span>
+                <span class="text-stone text-lg tracking-wider">⋯</span>
+              </div>
+
+              <div class="text-center pb-4">
+                <div class="w-14 h-14 mx-auto mb-2.5 rounded-full flex items-center justify-center text-bone font-display font-bold text-lg shadow-md" style="background:linear-gradient(135deg,#3f5a2e 0%,#2a3f1f 100%);">MR</div>
+                <h3 class="font-display font-bold text-[17px] text-ink leading-tight mb-2.5">Maya &amp; Tom<br/>Reed</h3>
+                <div class="inline-flex gap-1.5">
+                  <span class="text-[10px] font-bold tracking-[0.1em] uppercase px-2.5 py-1 rounded-full" style="background:rgba(200,98,58,0.14);color:var(--color-ember);">Sphere</span>
+                  <span class="text-[10px] font-bold tracking-[0.1em] uppercase px-2.5 py-1 rounded-full" style="background:rgba(63,90,46,0.15);color:var(--color-forest);">Past Client</span>
+                </div>
+              </div>
+
+              <div class="bg-white border border-fog rounded-[14px] p-3.5 mb-2.5">
+                <p class="text-[10px] font-bold tracking-[0.14em] uppercase text-stone mb-2">Properties · 2</p>
+                <div class="flex items-center gap-2.5 py-1">
+                  <span class="w-7 h-7 inline-flex items-center justify-center rounded-lg" style="background:rgba(200,98,58,0.12);color:var(--color-ember);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+                  </span>
+                  <div class="min-w-0">
+                    <p class="text-[12px] font-bold text-ink leading-tight">412 Coral Way</p>
+                    <p class="text-[10px] text-stone mt-0.5">Primary · Bought 2019</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2.5 py-1 border-t border-fog">
+                  <span class="w-7 h-7 inline-flex items-center justify-center rounded-lg" style="background:rgba(200,98,58,0.12);color:var(--color-ember);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M9 15h.01M15 15h.01"/></svg>
+                  </span>
+                  <div class="min-w-0">
+                    <p class="text-[12px] font-bold text-ink leading-tight">Sunset Investment</p>
+                    <p class="text-[10px] text-stone mt-0.5">Rental · 3 units</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounded-[14px] p-3.5" style="background:linear-gradient(135deg,var(--color-forest-wash) 0%,var(--color-paper-dim) 100%);border:1px solid rgba(63,90,46,0.16);">
+                <p class="text-[10px] font-bold tracking-[0.14em] uppercase text-stone mb-2">Today's tasks</p>
+                <div class="flex items-center gap-2 py-1 text-[12px] text-ink font-medium">
+                  <span class="w-2 h-2 rounded-full" style="background:var(--color-ember);"></span>
+                  <span>Maya's birthday. Call her.</span>
+                </div>
+                <div class="flex items-center gap-2 py-1 text-[12px] text-ink font-medium border-t" style="border-color:rgba(63,90,46,0.15);">
+                  <span class="w-2 h-2 rounded-full" style="background:var(--color-forest);"></span>
+                  <span>5-year home anniversary</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- The pain                                                             -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="py-20 md:py-32 bg-cream">
+    <Container size="default">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <Eyebrow>The relational gap</Eyebrow>
+        <h2 data-split class="mt-6">The existing CRMs aren't built for how you sell.</h2>
+        <p class="lede mt-6 mx-auto text-center">
+          The market splits into two camps. Lead-volume CRMs (Follow Up Boss,
+          kvCORE, Lofty) are built for speed-to-lead and paid traffic.
+          Old-school relational CRMs (Top Producer, Wise Agent, LionDesk) have
+          the right data model. Their marketing tools are stuck in 2008.
+          Neither is built for agents who close on trust and want modern
+          marketing without becoming a marketing agency.
+        </p>
+      </div>
+
+      <div class="max-w-3xl mx-auto text-center">
+        {painQuotes.map((p, i) => (
+          <figure class={`py-10 ${i > 0 ? "border-t border-fog" : ""}`}>
+            <p class="font-display italic text-2xl md:text-3xl leading-tight text-ink tracking-tight">
+              <span class="text-ember/50 mr-1">"</span>{p.quote}<span class="text-ember/50 ml-1">"</span>
+            </p>
+            <figcaption class="mt-4 text-xs font-mono uppercase tracking-[0.18em] text-ember">{p.tag}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- What's different                                                     -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="py-20 md:py-32">
+    <Container size="full">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <Eyebrow>Built different</Eyebrow>
+        <h2 data-split class="mt-6">The relational backbone, with modern marketing layered on.</h2>
+        <p class="lede mt-6 mx-auto text-center">
+          The old-school CRMs nail the data: sphere, households, notes, life
+          events. The modern ones nail the marketing: newsletters, video,
+          social. Yours does both, and the relationship data drives the
+          marketing automatically.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {differentiators.map((d, i) => (
+          <article
+            data-reveal
+            class={`group bg-white border border-fog rounded-2xl p-8 hover:shadow-lift transition-all duration-500 hover:-translate-y-1 ${i % 2 === 0 ? "hover:-rotate-1" : "hover:rotate-1"}`}
+          >
+            <span
+              class="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-5 transition-transform duration-300 group-hover:scale-110"
+              style="background:rgba(200,98,58,0.12);color:var(--color-ember);"
+              aria-hidden="true"
+              set:html={d.icon}
+            />
+            <h3 class="text-xl text-ink mb-3 leading-tight">{d.title}</h3>
+            <p class="text-graphite leading-relaxed">{d.body}</p>
+          </article>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Migration sources                                                    -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="py-20 md:py-32 bg-forest-wash">
+    <Container size="default">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <Eyebrow>Migration</Eyebrow>
+        <h2 data-split class="mt-6">Coming from one of these?</h2>
+        <p class="lede mt-6 mx-auto text-center">
+          Bring everything with you: contacts, notes, tags, action plans,
+          properties. I've migrated all of these.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
+        {migrations.map((m) => (
+          <div
+            class="inline-flex items-center gap-2.5 pl-1.5 pr-4 py-1.5 bg-white border border-fog rounded-pill text-sm font-medium text-ink transition-all hover:-translate-y-0.5 hover:shadow-soft"
+            style={`border-color: rgba(13,13,23,0.08);`}
+          >
+            <span
+              class="inline-flex items-center justify-center w-8 h-8 rounded-full text-bone font-display font-bold text-xs"
+              style={`background: ${m.color};`}
+              aria-hidden="true"
+            >
+              {m.letters}
+            </span>
+            <span>{m.name}</span>
+          </div>
+        ))}
+      </div>
+      <p class="text-center mt-8 text-sm text-graphite max-w-xl mx-auto leading-relaxed">
+        Bringing it from somewhere else? Send me an export on the discovery
+        call. I'll tell you exactly what'll come over and what won't.
+      </p>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Audience profiles                                                    -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="py-20 md:py-32 bg-cream">
+    <Container size="full">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <Eyebrow>Who it's for</Eyebrow>
+        <h2 data-split class="mt-6">Built for three kinds of relational agents.</h2>
+        <p class="lede mt-6 mx-auto text-center">
+          You don't need to fit one perfectly. Most agents are somewhere along
+          this spectrum. What matters is that you sell through trust, not by
+          chasing strangers.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        {profiles.map((p) => (
+          <div
+            class={`rounded-2xl p-8 border ${p.featured ? "bg-forest-wash border-forest/30 shadow-soft" : "bg-white border-fog"}`}
+          >
+            <h3 class="text-xl text-ink mb-3 leading-tight">{p.tag}</h3>
+            <p class="text-graphite leading-relaxed">{p.body}</p>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Pricing                                                              -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section
+    class="py-20 md:py-32 bg-ink text-bone relative overflow-hidden"
+    style="background-image:radial-gradient(at 20% 20%, rgba(63,90,46,0.35) 0px, transparent 50%),radial-gradient(at 80% 90%, rgba(200,98,58,0.18) 0px, transparent 55%);"
+  >
+    <Container size="full">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <Eyebrow tone="bone">Pricing</Eyebrow>
+        <h2 data-split class="mt-6 text-bone">Pick the tier that fits where you are.</h2>
+        <p class="lede mt-6 mx-auto text-center text-bone/70">
+          Three setup tiers depending on how much marketing you want layered
+          on. Hosting stays flat at $50/mo across all three. Unlimited team
+          members, no per-seat fees.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        {tiers.map((t) => (
+          <article
+            class={`rounded-2xl p-8 flex flex-col gap-3 ${t.featured ? "bg-ember/10 border-ember/40 shadow-ember" : "bg-bone/5 border-bone/10"} border`}
+          >
+            <p class="text-xs font-mono uppercase tracking-[0.14em] text-ember">{t.name}</p>
+            <p class="font-display tracking-tight text-bone flex items-baseline gap-2">
+              <span class="text-4xl font-bold">{t.price}</span>
+              <span class="text-base text-bone/65">to {t.priceRange.split("–")[1].trim()}</span>
+            </p>
+            <p class="text-bone/85 leading-snug">{t.blurb}</p>
+            <ul class="mt-3 space-y-2.5 flex-1">
+              {t.features.map((f) => (
+                <li class="flex gap-3 text-[15px] leading-snug text-bone/85">
+                  <span class="text-ember shrink-0" aria-hidden="true">✓</span>
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto mt-10">
+        <div class="bg-bone/5 border border-bone/10 rounded-xl p-6 text-center">
+          <p class="text-[11px] font-mono uppercase tracking-[0.14em] text-bone/65 mb-2">Hosting · same across tiers</p>
+          <p class="font-display text-bone tracking-tight"><span class="text-3xl font-bold">$50</span>/mo</p>
+          <p class="text-sm text-bone/70 mt-2 leading-snug">Hosting, backups, security, bug fixes. Cancel anytime.</p>
+        </div>
+        <div class="bg-bone/5 border border-bone/10 rounded-xl p-6 text-center">
+          <p class="text-[11px] font-mono uppercase tracking-[0.14em] text-bone/65 mb-2">Changes after launch</p>
+          <p class="font-display text-bone tracking-tight"><span class="text-3xl font-bold">$150</span>/hr</p>
+          <p class="text-sm text-bone/70 mt-2 leading-snug">Or flat-fee mini-projects when the scope is clear.</p>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- FAQ                                                                  -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="py-20 md:py-32">
+    <Container size="default">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <Eyebrow>Quick answers</Eyebrow>
+        <h2 data-split class="mt-6">Realtor-specific FAQ</h2>
+      </div>
+
+      <div class="space-y-3 max-w-3xl mx-auto">
+        {faqs.map((f) => (
+          <details class="group bg-white border border-fog rounded-xl px-6 py-5 open:shadow-lift transition-shadow">
+            <summary class="font-display font-bold text-ink cursor-pointer list-none flex items-start justify-between gap-4">
+              <span>{f.q}</span>
+              <span class="text-2xl text-ember font-light leading-none transition-transform group-open:rotate-45 shrink-0">+</span>
+            </summary>
+            <p class="mt-4 text-graphite leading-relaxed">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Final CTA                                                            -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <EndCTA
+    heading="Built for the way you actually sell."
+    primary={{ label: "Book a discovery call", href: calendlyUrl }}
+    secondary={{ label: "See the custom-software offering", href: "/services/software" }}
+  />
+</BaseLayout>
