@@ -235,21 +235,66 @@ const aiExamples = [
               <span class="text-[10px] md:text-xs font-mono text-bone/80 tracking-wider">portal.elefoxstudio.com</span>
               <span class="w-10" aria-hidden="true" />
             </div>
-            <video
-              src="/video/portal-overview.mp4"
-              poster="/work/portal.webp"
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="metadata"
-              aria-label="Client portal walkthrough: project management, contracts, and billing"
-              class="block w-full h-auto"
-            ></video>
+            <div class="relative">
+              <video
+                id="portal-demo"
+                src="/video/portal-overview.mp4"
+                poster="/work/portal.webp"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                aria-label="Client portal walkthrough: project management, contracts, and billing"
+                class="block w-full h-auto"
+              ></video>
+              <button
+                type="button"
+                id="portal-demo-sound"
+                aria-label="Turn on sound"
+                aria-pressed="false"
+                class="absolute bottom-3 right-3 inline-flex items-center gap-2 px-3 py-2 rounded-pill bg-ink/70 backdrop-blur-sm text-bone text-xs font-medium hover:bg-ink/90 transition-colors"
+              >
+                <svg data-icon="muted" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M11 5 6 9H3v6h3l5 4V5Z" fill="currentColor"/>
+                  <path d="m16 9 5 6m0-6-5 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                </svg>
+                <svg data-icon="sound" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="hidden">
+                  <path d="M11 5 6 9H3v6h3l5 4V5Z" fill="currentColor"/>
+                  <path d="M16 8.5a4 4 0 0 1 0 7M18.5 6a7 7 0 0 1 0 12" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                </svg>
+                <span data-label>Sound off</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </Container>
+
+    <script is:inline>
+      (() => {
+        const video = document.getElementById("portal-demo");
+        const btn = document.getElementById("portal-demo-sound");
+        if (!video || !btn) return;
+        const mutedIcon = btn.querySelector('[data-icon="muted"]');
+        const soundIcon = btn.querySelector('[data-icon="sound"]');
+        const label = btn.querySelector("[data-label]");
+        const sync = () => {
+          const on = !video.muted;
+          btn.setAttribute("aria-pressed", String(on));
+          btn.setAttribute("aria-label", on ? "Turn off sound" : "Turn on sound");
+          label.textContent = on ? "Sound on" : "Sound off";
+          mutedIcon.classList.toggle("hidden", on);
+          soundIcon.classList.toggle("hidden", !on);
+        };
+        btn.addEventListener("click", () => {
+          video.muted = !video.muted;
+          if (!video.muted) video.play().catch(() => {});
+          sync();
+        });
+        sync();
+      })();
+    </script>
   </section>
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
