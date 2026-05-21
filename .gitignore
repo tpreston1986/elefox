@@ -29,3 +29,6 @@ npm-debug.log*
 
 # misc
 .cache/
+
+# Design source binaries
+Brand/*.ai
