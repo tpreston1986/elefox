@@ -88,7 +88,7 @@ export const services: Record<string, Service> = {
     title: "CRMs, portals, and the software your team actually wants to use.",
     titleAccent: "actually wants to use",
     oneLiner:
-      "Custom CRMs for realtors, advisors, therapists, and small teams who run on relationships, plus client portals and the internal tools that hold it all together.",
+      "Custom CRMs for realtors, advisors, therapists, and small teams who run on relationships, plus client portals, booking systems, and the internal tools that hold it all together.",
     description:
       "Off-the-shelf CRM software makes you adapt to it: the same fields, the same pipeline, the same vocabulary as every other customer. We build the opposite. Tools that match your terminology, your workflow, and the way you actually talk about your clients. Hosted, supported, and yours.",
     tiers: [
