@@ -6,9 +6,12 @@ import Eyebrow from "../components/Eyebrow.astro";
 import HeroAtmosphere from "../components/HeroAtmosphere.astro";
 import { allServices } from "../data/services";
 
-const capabilityServices = allServices.filter((s) =>
-  ["websites", "software", "brand", "ai"].includes(s.slug)
-);
+// Ordered by how we lead: custom software first, the website that ties
+// into it, the automations, then brand and social as supporting work.
+const capabilityOrder = ["software", "websites", "ai", "brand"];
+const capabilityServices = capabilityOrder
+  .map((slug) => allServices.find((s) => s.slug === slug))
+  .filter((s): s is NonNullable<typeof s> => Boolean(s));
 
 const processSteps = [
   {
@@ -61,20 +64,21 @@ const aiExamples = [
     <HeroAtmosphere />
 
     <Container size="full" class="relative z-10 text-center">
-      <h1 data-split class="font-display font-extrabold tracking-[-0.04em] leading-[0.92] text-[clamp(2.75rem,9vw,7.5rem)] text-ink max-w-[18ch] mx-auto">
-        Drive sales. Save hours. Build a brand
+      <h1 data-split class="font-display font-extrabold tracking-[-0.04em] leading-[0.92] text-[clamp(2.5rem,8vw,6.5rem)] text-ink max-w-[20ch] mx-auto">
+        Software built around
         <span class="relative inline-block">
-          <em class="not-italic text-gradient-flow">they remember</em>.
+          <em class="not-italic text-gradient-flow">your business</em>,
           <svg viewBox="0 0 260 14" class="absolute left-0 -bottom-2 md:-bottom-3 w-full h-3 text-ember underline-draw" aria-hidden="true" preserveAspectRatio="none">
             <path d="M2 8 Q 40 2, 80 7 T 160 8 T 220 6 T 258 7" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
           </svg>
         </span>
+        not the other way around.
       </h1>
 
       <p class="lede mx-auto mt-10 md:mt-12 text-xl md:text-2xl text-graphite text-center">
-        We design websites, build custom software, and shape brand systems
-        that earn their keep. For small businesses that deserve more than
-        a template. Carefully. For fewer clients at a time than most studios.
+        Off-the-shelf tools force you to adapt. We build the opposite: CRMs,
+        portals, and automations shaped to how you actually work, wired into
+        your site (yours or one we build). Brand and social when you need them.
       </p>
       <div class="mt-10 flex flex-wrap gap-4 justify-center">
         <Button href="/services" size="lg" class="btn-magnetic">See what we do</Button>
@@ -91,13 +95,13 @@ const aiExamples = [
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div class="lg:col-span-5">
           <Eyebrow>What we do</Eyebrow>
-          <h2 data-split class="mt-6">Four capabilities. One studio.</h2>
+          <h2 data-split class="mt-6">Custom software, at the core.</h2>
         </div>
         <p class="lg:col-span-6 lg:col-start-7 lede self-end">
-          Most studios pick one. We do all four because real businesses
-          don't split that cleanly. The CRM, the website, the brand, and
-          the automations all have to talk to each other. We make sure they
-          do.
+          It starts with the tools your business runs on: a CRM, a portal,
+          the automations behind the scenes. From there we build, or rebuild,
+          the website that ties into them. Brand and social round it out when
+          you want one team handling all of it.
         </p>
       </div>
     </Container>
@@ -113,8 +117,8 @@ const aiExamples = [
             scroll →
           </span>
           <p class="text-3xl md:text-5xl font-display tracking-tight text-ink leading-tight">
-            Four capabilities, side by side. The way most real engagements
-            actually run.
+            The pieces, in the order we usually build them. Each one connects
+            to the next.
           </p>
           <span class="font-mono text-xs uppercase tracking-[0.18em] text-ember mt-8 inline-flex items-center gap-2">
             Keep going
