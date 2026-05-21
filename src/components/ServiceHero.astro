@@ -8,10 +8,18 @@ type Props = {
   index?: string;
   category: string;
   title: string;
+  /** Substring of `title` to wrap in the animated gradient accent. */
+  titleAccent?: string;
   description: string;
 };
 
-const { category, title, description } = Astro.props;
+const { category, title, titleAccent, description } = Astro.props;
+
+const accentIndex =
+  titleAccent && title.includes(titleAccent) ? title.indexOf(titleAccent) : -1;
+const before = accentIndex >= 0 ? title.slice(0, accentIndex) : title;
+const after =
+  accentIndex >= 0 ? title.slice(accentIndex + titleAccent!.length) : "";
 ---
 
 <section
@@ -26,7 +34,13 @@ const { category, title, description } = Astro.props;
     </div>
 
     <h1 data-split class="display-xl text-ink max-w-[16ch] mx-auto">
-      {title}
+      {accentIndex >= 0 ? (
+        <>
+          {before}<span class="text-gradient-flow">{titleAccent}</span>{after}
+        </>
+      ) : (
+        title
+      )}
     </h1>
 
     <p class="lede mt-12 text-xl md:text-2xl max-w-3xl mx-auto text-center">
