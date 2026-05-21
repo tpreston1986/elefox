@@ -1,0 +1,433 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import Button from "../components/Button.astro";
+import HeroAtmosphere from "../components/HeroAtmosphere.astro";
+import EndCTA from "../components/EndCTA.astro";
+
+// ── Color system ──────────────────────────────────────────────────────────
+type Swatch = {
+  name: string;
+  token: string;
+  hex: string;
+  use: string;
+  dark?: boolean; // light text on this swatch
+};
+
+const colorGroups: { label: string; note: string; swatches: Swatch[] }[] = [
+  {
+    label: "Forest",
+    note: "The core. Buttons, links, brand moments, dark sections.",
+    swatches: [
+      { name: "Forest", token: "forest", hex: "#3F5A2E", use: "Primary brand color. Buttons, links, focus rings.", dark: true },
+      { name: "Forest Deep", token: "forest-deep", hex: "#2A3F1F", use: "Hover and pressed states, deep backgrounds.", dark: true },
+      { name: "Forest Wash", token: "forest-wash", hex: "#EEF1E9", use: "Soft tints. Active nav pills, hover fills." },
+    ],
+  },
+  {
+    label: "Ink & neutrals",
+    note: "Type and structure. Most of the page is built from these.",
+    swatches: [
+      { name: "Ink", token: "ink", hex: "#1A1F1B", use: "Headlines, dark sections, primary text.", dark: true },
+      { name: "Graphite", token: "graphite", hex: "#3A3E3A", use: "Body copy and secondary text.", dark: true },
+      { name: "Mist", token: "mist", hex: "#C9C7C0", use: "Borders, dividers, muted UI." },
+      { name: "Fog", token: "fog", hex: "#E6E3DC", use: "Hairline borders, the lightest division." },
+    ],
+  },
+  {
+    label: "Surfaces",
+    note: "Backgrounds. Warm paper, never pure white at the page level.",
+    swatches: [
+      { name: "Bone", token: "bone", hex: "#F7F4ED", use: "Default page background. Carries a subtle paper grain." },
+      { name: "Cream", token: "cream", hex: "#EFE9DD", use: "Alternating section backgrounds." },
+      { name: "White", token: "white", hex: "#FFFFFF", use: "Cards and panels that need to lift off the paper." },
+    ],
+  },
+  {
+    label: "Accents",
+    note: "Used sparingly. A little goes a long way.",
+    swatches: [
+      { name: "Ember", token: "ember", hex: "#C8623A", use: "The signature pop. Underlines, marks, the occasional accent.", dark: true },
+      { name: "Signal", token: "signal", hex: "#7FA653", use: "Lighter green. Aurora fields, success, subtle highlights.", dark: true },
+    ],
+  },
+];
+
+// ── Type scale ────────────────────────────────────────────────────────────
+const typeScale = [
+  { label: "Display", cls: "display-xl", note: "Manrope 800 · clamp 3–8.5rem · hero headlines only", sample: "Built for you." },
+  { label: "Heading 1", cls: "text-[clamp(2.75rem,7vw,6rem)] font-display font-bold tracking-[-0.025em] leading-[1.05]", note: "Manrope 700 · page titles", sample: "Tools that fit." },
+  { label: "Heading 2", cls: "text-[clamp(2rem,4.5vw,3.75rem)] font-display font-bold tracking-[-0.025em] leading-[1.05]", note: "Manrope 700 · section titles", sample: "How we work." },
+  { label: "Heading 3", cls: "text-[clamp(1.5rem,2.5vw,2rem)] font-display font-bold tracking-[-0.02em] leading-[1.05]", note: "Manrope 700 · sub-sections", sample: "A boutique pace." },
+  { label: "Lede", cls: "lede !max-w-none", note: "Inter 400 · clamp 1.125–1.375rem · intro paragraphs", sample: "The one or two sentences that set up a section and carry the voice." },
+  { label: "Body", cls: "text-base text-graphite", note: "Inter 400 · 1rem · 1.6 line-height · default copy", sample: "Body text runs in Inter at a comfortable measure. Warm graphite, never pure black, so long passages stay easy on the eyes." },
+  { label: "Eyebrow", cls: "eyebrow text-base", note: "JetBrains Mono 500 · uppercase · 0.14em tracking · section kickers", sample: "What we do" },
+];
+
+// ── Logo lockups ──────────────────────────────────────────────────────────
+const logos = [
+  { src: "/brand/logo-horizontal.png", label: "Horizontal · light", dark: false },
+  { src: "/brand/logo-stacked.png", label: "Stacked · light", dark: false },
+  { src: "/brand/logo-horizontal-white.png", label: "Horizontal · dark", dark: true },
+  { src: "/brand/logo-stacked-white.png", label: "Stacked · dark", dark: true },
+];
+
+const logoMisuse = [
+  "Don't recolor the mark. Use the supplied light or dark version.",
+  "Don't stretch, squash, or rotate it.",
+  "Don't add shadows, outlines, or gradients to the logo itself.",
+  "Don't place the light logo on a busy or low-contrast background.",
+  "Don't recreate the wordmark in another typeface.",
+];
+
+// ── Voice ─────────────────────────────────────────────────────────────────
+const voicePrinciples = [
+  { h: "Plain, not corporate", p: "Write the way you'd explain it to a smart friend over coffee. Short sentences. Real words. If a phrase sounds like a brochure, cut it." },
+  { h: "Warm, not cute", p: "We're friendly and human, but we respect the reader's time and intelligence. Confidence without the hard sell." },
+  { h: "Specific, not vague", p: "Name the real thing. \"A CRM that tracks your follow-ups\" beats \"a powerful solution.\" Concrete details build trust." },
+  { h: "Honest about fit", p: "Every service page has a \"skip if\" section for a reason. We'd rather say no than oversell. A yes that means yes." },
+];
+
+const voiceRules = [
+  { rule: "No em dashes", why: "They read as an AI tell. Use periods, colons, parentheses, or commas instead." },
+  { rule: "Stay vendor-neutral on AI", why: "Don't name model providers in client-facing copy. Say \"AI agents\" or \"an LLM pipeline.\"" },
+  { rule: "No template clichés", why: "No scrolling marquees, no \"01 / 02 / 03\" numbered steps, no left-bar accent cards. They scream stock template." },
+  { rule: "Never fabricate the work", why: "Only describe projects that actually happened, the way they happened. No invented metrics, no made-up dates." },
+];
+---
+
+<BaseLayout
+  title="Brand guide"
+  description="The elefox studio brand system: logo, color, typography, and voice, in one place."
+>
+  <!-- Hero -->
+  <section data-glow class="relative overflow-hidden pt-24 md:pt-36 pb-16">
+    <HeroAtmosphere />
+    <Container size="full" class="relative z-10 text-center">
+      <Eyebrow>Brand guide</Eyebrow>
+      <h1 data-split class="display-xl mt-6 max-w-[16ch] mx-auto">
+        The look, in
+        <span class="text-gradient-flow">one place</span>.
+      </h1>
+      <p class="lede mt-10 text-xl max-w-3xl mx-auto text-center">
+        Every color, type choice, and turn of phrase that makes elefox feel
+        like elefox. This page renders from the same tokens the live site
+        runs on, so it never drifts out of date.
+      </p>
+    </Container>
+  </section>
+
+  <!-- The name -->
+  <section class="py-20 md:py-28">
+    <Container size="full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16" data-reveal>
+        <div class="lg:col-span-4">
+          <Eyebrow>The name</Eyebrow>
+          <h2 class="mt-6">Elephant, fox.</h2>
+        </div>
+        <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="bg-cream rounded-xl p-8">
+            <h3 class="mb-3">Elephant</h3>
+            <p class="text-graphite leading-relaxed">
+              Memory and the long view. We build things meant to last, and we
+              remember the details that matter to the people we work with.
+            </p>
+          </div>
+          <div class="bg-cream rounded-xl p-8">
+            <h3 class="mb-3">Fox</h3>
+            <p class="text-graphite leading-relaxed">
+              Cleverness and resourcefulness. Small, sharp, adaptable. We solve
+              problems with craft, not headcount.
+            </p>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Logo -->
+  <section class="py-20 md:py-28 bg-cream">
+    <Container size="full">
+      <div class="max-w-3xl mb-12 md:mb-16" data-reveal>
+        <Eyebrow>Logo</Eyebrow>
+        <h2 class="mt-6 mb-6">Four lockups. Two backgrounds.</h2>
+        <p class="lede !max-w-none">
+          A horizontal lockup for headers and wide spaces, a stacked lockup for
+          tight or square placements. Each comes in a light version for dark
+          backgrounds and a dark version for light ones. Always keep clear
+          space around the mark, at least the height of the "e," and never
+          crowd it.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6" data-reveal-stagger>
+        {
+          logos.map((l) => (
+            <figure class="rounded-xl border border-fog overflow-hidden">
+              <div
+                class={`flex items-center justify-center p-12 md:p-16 ${l.dark ? "bg-ink" : "bg-white"}`}
+              >
+                <img src={l.src} alt={`elefox logo, ${l.label}`} class="max-h-16 w-auto" loading="lazy" />
+              </div>
+              <figcaption class="px-5 py-3 text-sm font-mono text-graphite bg-bone border-t border-fog">
+                {l.label}
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8" data-reveal>
+        <div>
+          <h3 class="text-xl mb-4">Don't</h3>
+          <ul class="space-y-3">
+            {
+              logoMisuse.map((m) => (
+                <li class="flex gap-3 text-graphite">
+                  <span class="text-ember font-bold flex-shrink-0" aria-hidden="true">×</span>
+                  <span>{m}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="flex items-end">
+          <Button href="/brand/logo-horizontal.png" variant="secondary" external>
+            Download logo files
+          </Button>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Color -->
+  <section class="py-20 md:py-28">
+    <Container size="full">
+      <div class="max-w-3xl mb-12 md:mb-16" data-reveal>
+        <Eyebrow>Color</Eyebrow>
+        <h2 class="mt-6 mb-6">Warm paper, deep forest, one ember.</h2>
+        <p class="lede !max-w-none">
+          The palette is calm and editorial: a warm paper base, forest green
+          for everything structural, and ember used sparingly as the spark.
+          Click any swatch to copy its hex.
+        </p>
+      </div>
+
+      <div class="space-y-12">
+        {
+          colorGroups.map((group) => (
+            <div data-reveal>
+              <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-5">
+                <h3 class="text-xl">{group.label}</h3>
+                <p class="text-sm text-graphite">{group.note}</p>
+              </div>
+              <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" data-reveal-stagger>
+                {
+                  group.swatches.map((s) => (
+                    <button
+                      type="button"
+                      data-copy={s.hex}
+                      class="group text-left rounded-xl border border-fog overflow-hidden hover:shadow-lift transition-shadow"
+                    >
+                      <div
+                        class={`h-28 flex items-end p-3 ${s.dark ? "text-bone" : "text-ink"}`}
+                        style={`background:${s.hex}`}
+                      >
+                        <span data-copy-note class="text-xs font-mono opacity-0 group-hover:opacity-90 transition-opacity">
+                          Click to copy
+                        </span>
+                      </div>
+                      <div class="p-4 bg-white">
+                        <div class="flex items-center justify-between">
+                          <span class="font-medium text-ink">{s.name}</span>
+                          <span class="text-sm font-mono text-graphite uppercase">{s.hex}</span>
+                        </div>
+                        <p class="text-sm text-graphite mt-1 leading-snug">{s.use}</p>
+                        <code class="text-xs font-mono text-forest mt-2 inline-block">bg-{s.token}</code>
+                      </div>
+                    </button>
+                  ))
+                }
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <!-- Typography -->
+  <section class="py-20 md:py-28 bg-cream">
+    <Container size="full">
+      <div class="max-w-3xl mb-12 md:mb-16" data-reveal>
+        <Eyebrow>Typography</Eyebrow>
+        <h2 class="mt-6 mb-6">Manrope leads. Inter reads. Mono labels.</h2>
+        <p class="lede !max-w-none">
+          <strong class="text-ink font-semibold">Manrope</strong> carries every
+          headline, tight and confident. <strong class="text-ink font-semibold">Inter</strong>
+          handles all body copy for clean, comfortable reading.
+          <strong class="text-ink font-semibold">JetBrains Mono</strong> is
+          reserved for eyebrows, labels, and code-like detail.
+        </p>
+      </div>
+
+      <div class="divide-y divide-fog border-y border-fog" data-reveal>
+        {
+          typeScale.map((t) => (
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 py-8 items-baseline">
+              <div class="md:col-span-3">
+                <span class="font-mono text-xs uppercase tracking-[0.14em] text-forest">{t.label}</span>
+                <p class="text-sm text-graphite mt-2 leading-snug">{t.note}</p>
+              </div>
+              <div class={`md:col-span-9 text-ink ${t.cls}`}>{t.sample}</div>
+            </div>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <!-- Voice -->
+  <section class="py-20 md:py-28">
+    <Container size="full">
+      <div class="max-w-3xl mb-12 md:mb-16" data-reveal>
+        <Eyebrow>Voice & tone</Eyebrow>
+        <h2 class="mt-6 mb-6">Sound like a person, not a platform.</h2>
+        <p class="lede !max-w-none">
+          The writing should feel like one capable person talking straight to
+          one business owner. Warm, plain, and specific.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16" data-reveal-stagger>
+        {
+          voicePrinciples.map((v) => (
+            <div class="bg-cream rounded-xl p-8">
+              <h3 class="text-2xl mb-3">{v.h}</h3>
+              <p class="text-graphite leading-relaxed">{v.p}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div data-reveal>
+        <h3 class="text-xl mb-6">The hard rules</h3>
+        <div class="divide-y divide-fog border-y border-fog">
+          {
+            voiceRules.map((r) => (
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-8 py-5">
+                <p class="md:col-span-4 font-medium text-ink flex items-baseline gap-2">
+                  <span class="text-ember" aria-hidden="true">×</span>
+                  {r.rule}
+                </p>
+                <p class="md:col-span-8 text-graphite">{r.why}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- UI tokens -->
+  <section class="py-20 md:py-28 bg-cream">
+    <Container size="full">
+      <div class="max-w-3xl mb-12 md:mb-16" data-reveal>
+        <Eyebrow>UI tokens</Eyebrow>
+        <h2 class="mt-6 mb-6">Buttons, corners, depth, motion.</h2>
+        <p class="lede !max-w-none">
+          The small, repeatable decisions that keep every screen feeling like
+          part of the same family.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12" data-reveal>
+        <!-- Buttons -->
+        <div>
+          <h3 class="text-xl mb-6">Buttons</h3>
+          <div class="bg-white border border-fog rounded-xl p-8 flex flex-wrap items-center gap-4">
+            <Button href="/contact">Primary</Button>
+            <Button href="/contact" variant="secondary">Secondary</Button>
+            <Button href="/contact" variant="ghost">Ghost</Button>
+            <Button href="/contact" variant="link">Link</Button>
+          </div>
+          <p class="text-sm text-graphite mt-4">
+            Pill-shaped, generous padding. Primary is forest. Secondary is bone
+            with a mist border. Use one primary action per view.
+          </p>
+        </div>
+
+        <!-- Radius + shadow -->
+        <div>
+          <h3 class="text-xl mb-6">Corners & depth</h3>
+          <div class="bg-white border border-fog rounded-xl p-8 space-y-6">
+            <div class="flex flex-wrap items-end gap-4">
+              {[
+                { n: "sm", c: "rounded-sm" },
+                { n: "md", c: "rounded-md" },
+                { n: "lg", c: "rounded-lg" },
+                { n: "xl", c: "rounded-xl" },
+                { n: "pill", c: "rounded-pill" },
+              ].map((r) => (
+                <div class="text-center">
+                  <div class={`w-16 h-16 bg-forest-wash border border-mist ${r.c}`}></div>
+                  <span class="text-xs font-mono text-graphite mt-2 block">{r.n}</span>
+                </div>
+              ))}
+            </div>
+            <div class="flex flex-wrap gap-6 pt-2">
+              <div class="text-center">
+                <div class="w-24 h-16 bg-white rounded-lg shadow-soft"></div>
+                <span class="text-xs font-mono text-graphite mt-2 block">shadow-soft</span>
+              </div>
+              <div class="text-center">
+                <div class="w-24 h-16 bg-white rounded-lg shadow-lift"></div>
+                <span class="text-xs font-mono text-graphite mt-2 block">shadow-lift</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 bg-white border border-fog rounded-xl p-8" data-reveal>
+        <h3 class="text-xl mb-3">Motion</h3>
+        <p class="text-graphite leading-relaxed max-w-3xl">
+          Movement is calm and purposeful, never frantic. Content reveals on
+          scroll with a soft rise and fade. Headlines split word-by-word.
+          Easing leans on <code class="text-sm font-mono text-forest">ease-out-quint</code>
+          for the settle and a gentle spring for playful accents. All of it
+          respects <code class="text-sm font-mono text-forest">prefers-reduced-motion</code>.
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <EndCTA
+    eyebrow="Want this for your business?"
+    heading="We build brand systems like this one."
+    primary={{ label: "Start a project", href: "/contact?service=brand" }}
+    secondary={{ label: "See brand work", href: "/services/brand" }}
+  />
+
+  <script is:inline>
+    document.querySelectorAll("[data-copy]").forEach((el) => {
+      const note = el.querySelector("[data-copy-note]");
+      el.addEventListener("click", async () => {
+        const hex = el.getAttribute("data-copy");
+        try {
+          await navigator.clipboard.writeText(hex);
+          if (note) {
+            const prev = note.textContent;
+            note.textContent = "Copied " + hex;
+            note.style.opacity = "1";
+            setTimeout(() => {
+              note.textContent = prev;
+              note.style.opacity = "";
+            }, 1200);
+          }
+        } catch (e) {}
+      });
+    });
+  </script>
+</BaseLayout>
