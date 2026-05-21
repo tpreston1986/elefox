@@ -430,7 +430,7 @@ const voiceRules = [
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" data-reveal>
         <!-- Aurora background field -->
         <figure>
-          <div class="relative overflow-hidden rounded-xl border border-fog h-72 bg-bone">
+          <div class="aurora-demo relative overflow-hidden rounded-xl border border-fog h-72 bg-bone">
             <div class="aurora" aria-hidden="true">
               <span class="aurora__blob aurora__blob--forest"></span>
               <span class="aurora__blob aurora__blob--ember"></span>
@@ -481,6 +481,24 @@ const voiceRules = [
     primary={{ label: "Start a project", href: "/contact?service=brand" }}
     secondary={{ label: "See brand work", href: "/services/brand" }}
   />
+
+  <style>
+    /* Scale the aurora blobs to fill the small demo card (the live version is
+       sized for full-viewport heroes, so it reads too faint in a 288px box). */
+    .aurora-demo .aurora {
+      filter: blur(40px) saturate(1.2);
+    }
+    .aurora-demo .aurora__blob {
+      width: 70%;
+      height: 90%;
+      max-width: none;
+      max-height: none;
+      opacity: 0.85;
+    }
+    .aurora-demo .aurora__blob--forest { top: -10%; left: -8%; }
+    .aurora-demo .aurora__blob--ember { top: 10%; right: -8%; left: auto; }
+    .aurora-demo .aurora__blob--signal { bottom: -15%; left: 25%; top: auto; }
+  </style>
 
   <script is:inline>
     document.querySelectorAll("[data-copy]").forEach((el) => {
