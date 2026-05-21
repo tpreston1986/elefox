@@ -11,6 +11,12 @@ there; this file is the plain-text reference.
 
 **elefox** = elephant + fox.
 
+The name is personal: it's for Tiffany's two kids. She decorated her daughter's
+nursery in elephants and her son's in foxes, and has both tattooed on her. When
+the studio needed a name that wasn't her own, the answer was already with her.
+
+The public reading carries it into the brand values:
+
 - **Elephant** — memory and the long view. We build things meant to last and
   remember the details that matter to the people we work with.
 - **Fox** — cleverness and resourcefulness. Small, sharp, adaptable. Craft over
