@@ -12,6 +12,8 @@ export type Service = {
   slug: string;
   name: string;
   title: string;
+  /** Substring of `title` to render with the animated gradient accent. */
+  titleAccent?: string;
   oneLiner: string;
   description: string;
   tiers?: Tier[];
@@ -24,6 +26,7 @@ export const services: Record<string, Service> = {
     slug: "websites",
     name: "Websites",
     title: "Websites that earn their keep.",
+    titleAccent: "earn their keep",
     oneLiner:
       "Sites built for the way you actually sell. Fast, clear, ready to convert.",
     description:
@@ -83,6 +86,7 @@ export const services: Record<string, Service> = {
     slug: "software",
     name: "Custom software",
     title: "CRMs, portals, and the software your team actually wants to use.",
+    titleAccent: "actually wants to use",
     oneLiner:
       "Custom CRMs for realtors, advisors, therapists, and small teams who run on relationships, plus client portals and the internal tools that hold it all together.",
     description:
@@ -144,6 +148,7 @@ export const services: Record<string, Service> = {
     slug: "brand",
     name: "Brand & marketing",
     title: "Brand that reads as professional, and feels like you.",
+    titleAccent: "feels like you",
     oneLiner: "Brand kits, social systems, and marketing infrastructure for the long haul.",
     description:
       "Strong brand isn't a logo, it's a system. We build the kit, the templates, and the production rhythm so your business looks consistent everywhere.",
@@ -210,6 +215,7 @@ export const services: Record<string, Service> = {
     slug: "ai",
     name: "AI & automation",
     title: "AI, where it earns its keep.",
+    titleAccent: "earns its keep",
     oneLiner:
       "We help you figure out where AI fits in your business, and quietly wire it in.",
     description:
