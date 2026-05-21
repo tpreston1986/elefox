@@ -138,6 +138,22 @@ Sound like one capable person talking straight to one business owner.
 
 ---
 
+## Signature elements
+
+The two recurring moments that make a page unmistakably elefox. Both use one
+recipe: **forest → ember → signal**.
+
+- **Aurora gradient field** (`.aurora`) — three large, blurred, slowly drifting
+  blobs (forest, ember, signal) behind hero content. See
+  `src/components/HeroAtmosphere.astro`. Backgrounds only, never behind body
+  copy; always layer content above at full contrast.
+- **Gradient text accent** (`.text-gradient-flow`) — an animated
+  forest → ember → signal → forest linear gradient clipped to the type.
+  Reserve for **one key phrase per headline**. Never on body text, links, or
+  more than one phrase at a time.
+
+---
+
 ## Where things live
 
 | Thing | Path |
