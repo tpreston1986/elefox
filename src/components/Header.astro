@@ -17,8 +17,11 @@ const currentPath = Astro.url.pathname;
         src="/brand/logo-horizontal.png"
         alt="elefox studio"
         class="h-7 md:h-8 w-auto transition-opacity group-hover:opacity-80"
-        width="180"
-        height="40"
+        loading="eager"
+        fetchpriority="high"
+        decoding="sync"
+        width="790"
+        height="100"
       />
     </a>
 

@@ -20,7 +20,9 @@ import HeroAtmosphere from "../../components/HeroAtmosphere.astro";
       src="/people/tiffany.webp"
       alt="Tiffany Russell, founder of elefox studio"
       class="hidden lg:block absolute top-24 right-0 w-[36vw] max-w-[520px] aspect-[4/5] object-cover object-[center_30%] pointer-events-none select-none z-[2]"
-      loading="lazy"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
       width="600"
       height="750"
     />
