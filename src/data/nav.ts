@@ -26,7 +26,6 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "About", href: "/about" },
       { label: "The founder", href: "/about/founder" },
       { label: "Pricing", href: "/pricing" },
-      { label: "Brand guide", href: "/brand" },
     ],
   },
   {

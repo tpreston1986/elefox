@@ -17,7 +17,7 @@ export default defineConfig({
   security: { checkOrigin: false },
   integrations: [
     sitemap({
-      filter: (page) => !page.includes("/lp/"),
+      filter: (page) => !page.includes("/lp/") && !page.includes("/brand"),
     }),
   ],
   prefetch: { prefetchAll: true, defaultStrategy: "hover" },
