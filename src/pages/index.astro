@@ -224,35 +224,28 @@ const aiExamples = [
         </div>
 
         <div class="lg:col-span-6 order-1 lg:order-2 relative">
-          {/* Layered screenshots, front + back, tilted, with hover straighten */}
-          <div class="relative aspect-[4/3]">
-            <div class="absolute top-0 left-4 md:left-12 right-0 bottom-8 rounded-xl overflow-hidden shadow-soft -rotate-2 hover:rotate-0 transition-transform duration-700 bg-gradient-to-br from-forest to-forest-deep">
-              <img
-                src="/work/crm-detail.webp"
-                alt="Custom CRM, detail view"
-                loading="lazy"
-                class="absolute inset-0 w-full h-full object-cover opacity-95"
-                onerror="this.style.display='none'"
-              />
-            </div>
-            <div class="absolute top-8 right-0 left-4 md:left-12 bottom-0 rounded-xl overflow-hidden shadow-lift rotate-2 hover:rotate-0 transition-transform duration-700 bg-gradient-to-br from-ink to-forest-deep">
-              <img
-                src="/work/portal-2.webp"
-                alt="Custom CRM, pipeline view"
-                loading="lazy"
-                class="absolute inset-0 w-full h-full object-cover"
-                onerror="this.style.display='none'"
-              />
-              <div class="absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-black/35 to-transparent pointer-events-none" />
-              <div class="absolute inset-x-0 top-0 p-4 flex items-center justify-between">
-                <div class="flex gap-1.5">
-                  <span class="w-2 h-2 rounded-full bg-bone/70" />
-                  <span class="w-2 h-2 rounded-full bg-bone/70" />
-                  <span class="w-2 h-2 rounded-full bg-bone/70" />
-                </div>
-                <span class="text-[10px] font-mono text-bone tracking-wider">crm.yourbiz.com</span>
+          {/* Product walkthrough, framed in browser chrome */}
+          <div class="relative rounded-xl overflow-hidden shadow-lift bg-ink">
+            <div class="flex items-center justify-between px-4 py-3 bg-ink/95 border-b border-white/10">
+              <div class="flex gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-bone/70" />
+                <span class="w-2.5 h-2.5 rounded-full bg-bone/70" />
+                <span class="w-2.5 h-2.5 rounded-full bg-bone/70" />
               </div>
+              <span class="text-[10px] md:text-xs font-mono text-bone/80 tracking-wider">portal.elefoxstudio.com</span>
+              <span class="w-10" aria-hidden="true" />
             </div>
+            <video
+              src="/video/portal-overview.mp4"
+              poster="/work/portal.webp"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-label="Client portal walkthrough: project management, contracts, and billing"
+              class="block w-full h-auto"
+            ></video>
           </div>
         </div>
       </div>
