@@ -85,6 +85,30 @@ const SERVICE_LABELS: Record<string, string> = {
   other: "Not sure yet",
 };
 
+/* ── Cloudflare Turnstile verification ────────────────────────────────
+   When TURNSTILE_SECRET_KEY is set, the token from the widget is verified
+   against Cloudflare. If the secret is unset (e.g. local dev), verification
+   is skipped so the form still works. */
+async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
+  const secret = import.meta.env.TURNSTILE_SECRET_KEY;
+  if (!secret) return true; // not configured -> skip
+  if (!token) return false;
+
+  try {
+    const body = new URLSearchParams({ secret, response: token });
+    if (ip && ip !== "unknown") body.append("remoteip", ip);
+    const res = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      { method: "POST", body },
+    );
+    const data = (await res.json().catch(() => ({}))) as { success?: boolean };
+    return data.success === true;
+  } catch (err) {
+    console.error("[api/contact] Turnstile verify failed:", err);
+    return false;
+  }
+}
+
 function json(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
     status,
@@ -248,6 +272,22 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return json(
       { ok: false, error: "Too many submissions. Try again shortly." },
       429,
+    );
+  }
+
+  // Cloudflare Turnstile. Verifies the human-challenge token (no-op if the
+  // secret isn't configured).
+  const turnstileToken = (() => {
+    const v = fd.get("cf-turnstile-response");
+    return typeof v === "string" ? v : "";
+  })();
+  if (!(await verifyTurnstile(turnstileToken, ip))) {
+    return json(
+      {
+        ok: false,
+        error: "Couldn't verify you're human. Please refresh and try again.",
+      },
+      403,
     );
   }
 
