@@ -125,6 +125,7 @@ type Shaped = {
   timeline: string;
   name: string;
   email: string;
+  phone: string;
   message: string;
 };
 
@@ -149,6 +150,7 @@ function buildEmailHtml(d: Shaped): string {
       <table style="width:100%;border-collapse:collapse">
         ${row("Name", d.name)}
         ${row("Email", d.email)}
+        ${row("Phone", d.phone)}
         ${row("Services", d.services)}
         ${row("Business name", d.businessName)}
         ${row("Industry", d.industry)}
@@ -207,6 +209,7 @@ async function forwardToPortal(d: Shaped): Promise<void> {
   if (!secret) return; // portal fails closed without the shared secret
 
   const messageParts = [
+    d.phone && `Phone: ${d.phone}`,
     d.description && `Business: ${d.description}`,
     d.services && `Interested in: ${d.services}`,
     d.budget && `Budget: ${d.budget}`,
@@ -317,6 +320,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     timeline: get("timeline"),
     name,
     email,
+    phone: get("phone"),
     message: get("message"),
   };
 

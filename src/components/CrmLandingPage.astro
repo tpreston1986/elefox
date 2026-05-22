@@ -1,0 +1,234 @@
+---
+import LandingLayout from "../layouts/LandingLayout.astro";
+import HeroAtmosphere from "./HeroAtmosphere.astro";
+import InlineLeadForm from "./InlineLeadForm.astro";
+import type { LandingData } from "../data/crm-landing";
+
+type Props = { data: LandingData };
+const { data } = Astro.props;
+
+const calendlyUrl =
+  import.meta.env.CALENDLY_URL ||
+  "https://calendly.com/contact-tiffanyrussell/discovery-call";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: data.faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  serviceType: data.metaTitle,
+  provider: {
+    "@type": "ProfessionalService",
+    name: "elefox studio",
+    url: "https://elefoxstudio.com",
+    telephone: "+1-954-780-6508",
+  },
+  areaServed: { "@type": "Country", name: "United States" },
+  description: data.metaDescription,
+  offers: {
+    "@type": "Offer",
+    price: "3500",
+    priceCurrency: "USD",
+  },
+};
+---
+
+<LandingLayout title={data.metaTitle} description={data.metaDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+
+  <!-- Hero with lead form -->
+  <section data-glow class="relative overflow-hidden pt-12 md:pt-20 pb-16 md:pb-24">
+    <HeroAtmosphere />
+    <div class="relative z-10 mx-auto max-w-6xl px-5 md:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+        <div class="lg:col-span-7">
+          <span class="eyebrow">{data.eyebrow}</span>
+          <h1 class="display-xl mt-5 text-[clamp(2.5rem,6vw,4.75rem)] leading-[0.98]">
+            {data.headlineLead}<span class="relative inline-block">
+              <em class="not-italic text-gradient-flow">{data.headlineAccent}</em>
+              <svg viewBox="0 0 320 14" class="absolute left-0 -bottom-1 w-full h-3 text-ember" aria-hidden="true" preserveAspectRatio="none">
+                <path d="M2 8 Q 50 2, 100 7 T 200 8 T 280 6 T 318 7" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              </svg>
+            </span>{data.headlineTail}
+          </h1>
+          <p class="lede mt-7 text-lg md:text-xl !max-w-xl">{data.subhead}</p>
+
+          <ul class="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5 max-w-xl">
+            {data.bullets.map((b) => (
+              <li class="flex items-start gap-2.5 text-ink">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="text-forest mt-0.5 shrink-0" aria-hidden="true">
+                  <circle cx="10" cy="10" r="9" fill="currentColor" opacity="0.12" />
+                  <path d="M6 10.5l2.5 2.5L14 7.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="leading-snug">{b}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="mt-8 flex flex-wrap gap-2.5">
+            {data.proofChips.map((p) => (
+              <div class="inline-flex flex-col px-4 py-2 bg-white border border-fog rounded-xl">
+                <span class="text-[10px] font-mono uppercase tracking-[0.14em] text-graphite">{p.label}</span>
+                <span class="font-display font-bold text-ink tracking-tight text-sm mt-0.5">{p.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 lg:sticky lg:top-24">
+          <InlineLeadForm
+            title={data.formTitle}
+            subtitle={data.formSubtitle}
+            serviceValue={data.serviceValue}
+            industry={data.industry}
+            toolLabel={data.toolLabel}
+            toolPlaceholder={data.toolPlaceholder}
+            source={data.slug}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem -->
+  <section class="py-16 md:py-24 bg-cream">
+    <div class="mx-auto max-w-5xl px-5 md:px-8">
+      <div class="max-w-2xl mb-10">
+        <h2 class="text-3xl md:text-5xl font-display font-bold tracking-tight text-ink">{data.problemTitle}</h2>
+        <p class="lede mt-5 !max-w-none">{data.problemIntro}</p>
+      </div>
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
+        {data.problems.map((p) => (
+          <li class="flex items-start gap-3 text-graphite text-lg">
+            <span class="text-ember font-bold text-xl leading-none mt-0.5 shrink-0" aria-hidden="true">×</span>
+            <span class="leading-snug">{p}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="py-16 md:py-24">
+    <div class="mx-auto max-w-6xl px-5 md:px-8">
+      <div class="max-w-2xl mb-12">
+        <span class="eyebrow">Built for you</span>
+        <h2 class="text-3xl md:text-5xl font-display font-bold tracking-tight text-ink mt-5">{data.featuresTitle}</h2>
+        <p class="lede mt-5 !max-w-none">{data.featuresIntro}</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {data.features.map((f) => (
+          <article class="bg-white border border-fog rounded-2xl p-7 hover:shadow-lift transition-shadow">
+            <h3 class="text-xl text-ink mb-2.5 leading-tight">{f.title}</h3>
+            <p class="text-graphite leading-relaxed">{f.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Migrations -->
+  <section class="py-16 md:py-24 bg-forest-wash">
+    <div class="mx-auto max-w-4xl px-5 md:px-8 text-center">
+      <h2 class="text-2xl md:text-4xl font-display font-bold tracking-tight text-ink">{data.migrationsTitle}</h2>
+      <div class="flex flex-wrap justify-center gap-2.5 mt-8">
+        {data.migrations.map((m) => (
+          <span class="inline-flex items-center px-4 py-2 bg-white border border-fog rounded-pill text-sm font-medium text-ink">
+            {m}
+          </span>
+        ))}
+      </div>
+      <p class="text-graphite mt-6 max-w-xl mx-auto">
+        Bringing it from somewhere else? Send us an export on the call and we'll
+        tell you exactly what comes over.
+      </p>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section
+    class="py-16 md:py-24 bg-ink text-bone relative overflow-hidden"
+    style="background-image:radial-gradient(at 18% 18%, rgba(63,90,46,0.35) 0, transparent 50%),radial-gradient(at 85% 92%, rgba(200,98,58,0.16) 0, transparent 55%);"
+  >
+    <div class="mx-auto max-w-5xl px-5 md:px-8">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <span class="eyebrow eyebrow--bone">Pricing</span>
+        <h2 class="text-3xl md:text-5xl font-display font-bold tracking-tight text-bone mt-5">{data.tiersTitle}</h2>
+        <p class="lede mt-5 mx-auto text-bone/70">{data.tiersIntro}</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {data.tiers.map((t) => (
+          <article class={`rounded-2xl p-7 flex flex-col gap-3 border ${t.featured ? "bg-ember/10 border-ember/40" : "bg-bone/5 border-bone/10"}`}>
+            <p class="text-xs font-mono uppercase tracking-[0.14em] text-ember">{t.name}</p>
+            <p class="font-display tracking-tight text-bone flex items-baseline gap-2">
+              {t.price !== "Custom" && <span class="text-base text-bone/65 font-normal">from</span>}
+              <span class="text-4xl font-bold">{t.price}</span>
+            </p>
+            <p class="text-bone/85 leading-snug">{t.blurb}</p>
+            <ul class="mt-2 space-y-2.5 flex-1">
+              {t.features.map((f) => (
+                <li class="flex gap-2.5 text-[15px] leading-snug text-bone/85">
+                  <span class="text-ember shrink-0" aria-hidden="true">✓</span>
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+      <p class="text-center text-bone/70 mt-8 text-sm">
+        Hosting from $50/mo across all tiers: hosting, backups, security, bug fixes. Cancel anytime.
+      </p>
+      <div class="text-center mt-8">
+        <a href="#lead" class="inline-flex items-center gap-2 px-8 py-4 bg-bone text-ink rounded-pill text-lg font-medium hover:bg-cream transition-colors">
+          Get a quote →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-16 md:py-24">
+    <div class="mx-auto max-w-3xl px-5 md:px-8">
+      <h2 class="text-3xl md:text-5xl font-display font-bold tracking-tight text-ink text-center mb-10">{data.faqTitle}</h2>
+      <div class="space-y-3">
+        {data.faqs.map((f) => (
+          <details class="group bg-white border border-fog rounded-xl px-6 py-5 open:shadow-lift transition-shadow">
+            <summary class="font-display font-bold text-ink cursor-pointer list-none flex items-start justify-between gap-4">
+              <span>{f.q}</span>
+              <span class="text-2xl text-ember font-light leading-none transition-transform group-open:rotate-45 shrink-0">+</span>
+            </summary>
+            <p class="mt-4 text-graphite leading-relaxed">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-16 md:py-24 bg-forest text-bone">
+    <div class="mx-auto max-w-4xl px-5 md:px-8 text-center">
+      <h2 class="text-3xl md:text-5xl font-display font-bold tracking-tight text-bone max-w-[20ch] mx-auto">{data.finalHeading}</h2>
+      <p class="text-bone/80 text-lg mt-5 max-w-xl mx-auto">
+        Get a custom demo and a real quote, or book a 30-minute call. No pressure, no obligation.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4 justify-center">
+        <a href="#lead" class="inline-flex items-center gap-2 px-8 py-4 bg-bone text-ink rounded-pill text-lg font-medium hover:bg-cream transition-colors">
+          Get my demo + quote
+        </a>
+        <a href={calendlyUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-8 py-4 bg-transparent text-bone border-2 border-bone/70 rounded-pill text-lg font-medium hover:bg-bone hover:text-forest transition-colors">
+          Book a discovery call
+        </a>
+      </div>
+    </div>
+  </section>
+</LandingLayout>
