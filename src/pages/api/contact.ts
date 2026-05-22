@@ -37,6 +37,45 @@ function escHtml(s: string): string {
 
 const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 
+/* ── Content spam scoring ─────────────────────────────────────────────
+   The honeypot + timing trap catch dumb bots; these heuristics catch the
+   JS-executing SEO-spam wave ("register your site in GoogleSearchIndex",
+   "submit your site", links to searchregister.info, etc.). We score the
+   combined text and silently drop high-confidence spam so the sender never
+   learns it was blocked. Thresholds are tuned so a real client who pastes
+   their own website URL is NOT blocked. */
+const STRONG_SPAM_PATTERNS: RegExp[] = [
+  /google\s*search\s*index/i,
+  /search\s*register/i,
+  /\bsearchregister\b/i,
+  /appear\s+in\s+(?:web\s+)?search/i,
+  /(?:submit|list|index|register|rank)\s+(?:your\s+)?(?:site|website|url|business|domain)/i,
+  /search\s+engine\s+(?:results|ranking|optimization|index)/i,
+  /(?:back ?links?|link\s*building)/i,
+  /first\s+page\s+of\s+google/i,
+  /\b(?:viagra|cialis|casino|crypto|bitcoin|forex|porn|escort)\b/i,
+];
+const URL_RE =
+  /\b(?:https?:\/\/|www\.)\S+|\b[a-z0-9-]+\.(?:info|xyz|top|click|online|site|biz|shop|live|cyou|sbs)\b/gi;
+
+function spamScore(d: Shaped, allServicesCount: number): number {
+  const text = `${d.name} ${d.businessName} ${d.industry} ${d.description} ${d.message}`;
+  let score = 0;
+  for (const re of STRONG_SPAM_PATTERNS) if (re.test(text)) score += 3;
+
+  const urls = d.message.match(URL_RE) ?? [];
+  score += Math.min(urls.length, 3); // 1 url is mild, 2+ is a real signal
+
+  // A lookalike sender domain (search-elefoxstudio.com, etc.) impersonating us.
+  if (/elefox/i.test(d.email.split("@")[1] ?? "") && !/@elefoxstudio\.com$/i.test(d.email))
+    score += 2;
+
+  // "Everything + cheapest + ASAP" with no real description is a bot fingerprint.
+  if (allServicesCount >= 5 && !d.description) score += 1;
+
+  return score;
+}
+
 const SERVICE_LABELS: Record<string, string> = {
   crm: "Custom CRM",
   software: "Custom software",
@@ -224,11 +263,10 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!email || !isEmail(email))
     return json({ ok: false, error: "A valid email is required." }, 400);
 
-  const services = fd
+  const serviceValues = fd
     .getAll("services")
-    .filter((v): v is string => typeof v === "string")
-    .map((v) => SERVICE_LABELS[v] ?? v)
-    .join(", ");
+    .filter((v): v is string => typeof v === "string");
+  const services = serviceValues.map((v) => SERVICE_LABELS[v] ?? v).join(", ");
 
   const shaped: Shaped = {
     services,
@@ -241,6 +279,16 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     email,
     message: get("message"),
   };
+
+  // Content spam filter. Silently accept (so the bot doesn't retry) but skip
+  // the notification email and CRM lead entirely.
+  const score = spamScore(shaped, serviceValues.length);
+  if (score >= 3) {
+    console.warn(
+      `[api/contact] dropped suspected spam (score ${score}) from ${ip} <${shaped.email}>`,
+    );
+    return json({ ok: true });
+  }
 
   try {
     await sendNotificationEmail(shaped);
