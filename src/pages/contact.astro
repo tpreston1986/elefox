@@ -268,6 +268,23 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
 
           const submitBtn = form.querySelector('button[type="submit"]');
 
+          // Turnstile can take a few seconds to issue its token. If the visitor
+          // submits before it lands, wait for it rather than failing the send.
+          const hasTurnstile = !!form.querySelector(".cf-turnstile");
+          const tokenValue = () => {
+            const f = form.querySelector('[name="cf-turnstile-response"]');
+            return f ? f.value : "";
+          };
+          const waitForToken = (ms = 12000) =>
+            new Promise((resolve) => {
+              if (!hasTurnstile || tokenValue()) return resolve(true);
+              let waited = 0;
+              const iv = setInterval(() => {
+                if (tokenValue()) { clearInterval(iv); resolve(true); }
+                else if ((waited += 300) >= ms) { clearInterval(iv); resolve(false); }
+              }, 300);
+            });
+
           form.addEventListener("submit", async (e) => {
             e.preventDefault();
             clearErrors();
@@ -297,6 +314,24 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
             // Submit to the live endpoint.
             const originalLabel = submitBtn.innerHTML;
             submitBtn.disabled = true;
+
+            // Wait for the Turnstile token if it hasn't landed yet.
+            if (hasTurnstile && !tokenValue()) {
+              submitBtn.innerHTML = "Verifying…";
+              const ready = await waitForToken();
+              if (!ready) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalLabel;
+                if (window.turnstile) { try { window.turnstile.reset(); } catch (_) {} }
+                const b = document.createElement("p");
+                b.dataset.error = "";
+                b.className = "text-sm font-medium text-ember mt-3";
+                b.textContent = "Verification is taking a moment. Tap send again, or email hello@elefoxstudio.com.";
+                submitBtn.parentElement.appendChild(b);
+                return;
+              }
+            }
+
             submitBtn.innerHTML = "Sending…";
 
             let ok = false;
