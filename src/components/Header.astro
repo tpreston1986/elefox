@@ -85,45 +85,100 @@ const currentPath = Astro.url.pathname;
     </div>
   </Container>
 
-  <div
-    id="mobile-menu"
-    class="md:hidden hidden border-t border-fog"
-    aria-hidden="true"
-  >
-    <Container size="wide" class="py-4 flex flex-col gap-1">
+  <!-- (mobile menu overlay lives outside the header; see below) -->
+</header>
+
+<!-- Full-screen mobile menu overlay. Must NOT live inside <header>: the
+     header's backdrop-blur creates a containing block that would trap a
+     position:fixed child and stop it covering the viewport. -->
+<div
+  id="mobile-menu"
+  class="md:hidden fixed inset-0 z-50 bg-bone flex flex-col opacity-0 translate-y-2 pointer-events-none transition-[opacity,transform] duration-300 ease-[var(--ease-out-quint)]"
+  aria-hidden="true"
+>
+    <div class="flex items-center justify-between h-16 px-6 border-b border-fog/60 flex-shrink-0">
+      <a href="/" class="flex items-center" aria-label="elefox studio, home">
+        <img
+          src="/brand/logo-horizontal.png"
+          alt="elefox studio"
+          class="h-7 w-auto"
+          width="790"
+          height="100"
+        />
+      </a>
+      <button
+        id="mobile-menu-close"
+        class="p-2 -mr-2 text-ink hover:text-forest transition-colors"
+        aria-label="Close menu"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+
+    <nav
+      class="flex-1 overflow-y-auto flex flex-col justify-center px-6 gap-1"
+      aria-label="Mobile navigation"
+    >
       {
-        primaryNav.map((item) => (
-          <a
-            href={item.href}
-            class="px-4 py-3 text-base font-medium text-ink hover:text-forest hover:bg-forest-wash rounded-lg transition-colors"
-          >
-            {item.label}
-          </a>
-        ))
+        primaryNav.map((item) => {
+          const active =
+            currentPath === item.href ||
+            (item.href !== "/" && currentPath.startsWith(item.href));
+          return (
+            <a
+              href={item.href}
+              class={`py-3 text-4xl font-display font-bold tracking-tight transition-colors ${
+                active ? "text-forest" : "text-ink hover:text-forest"
+              }`}
+            >
+              {item.label}
+            </a>
+          );
+        })
       }
       <a
         href="https://portal.elefoxstudio.com/login"
-        class="px-4 py-3 text-base font-medium text-graphite hover:text-forest hover:bg-forest-wash rounded-lg transition-colors"
+        class="py-3 text-2xl font-display tracking-tight text-graphite hover:text-forest transition-colors mt-2"
       >
         Client portal
       </a>
+    </nav>
+
+    <div class="px-6 pb-10 pt-4 flex-shrink-0">
       <a
         href="/contact"
-        class="mt-3 px-4 py-3 text-center text-base font-medium bg-forest text-bone rounded-pill hover:bg-forest-deep transition-colors"
+        class="block w-full px-6 py-4 text-center text-lg font-medium bg-forest text-bone rounded-pill hover:bg-forest-deep transition-colors"
       >
         Start a project →
       </a>
-    </Container>
+    </div>
   </div>
-</header>
 
 <script>
   const toggle = document.getElementById("mobile-menu-toggle");
+  const closeBtn = document.getElementById("mobile-menu-close");
   const menu = document.getElementById("mobile-menu");
-  toggle?.addEventListener("click", () => {
-    const isOpen = !menu?.classList.contains("hidden");
-    menu?.classList.toggle("hidden");
-    toggle.setAttribute("aria-expanded", String(!isOpen));
-    menu?.setAttribute("aria-hidden", String(isOpen));
+
+  const setMenu = (open: boolean) => {
+    if (!menu || !toggle) return;
+    menu.classList.toggle("opacity-0", !open);
+    menu.classList.toggle("translate-y-2", !open);
+    menu.classList.toggle("pointer-events-none", !open);
+    toggle.setAttribute("aria-expanded", String(open));
+    menu.setAttribute("aria-hidden", String(!open));
+    document.documentElement.style.overflow = open ? "hidden" : "";
+  };
+
+  toggle?.addEventListener("click", () => setMenu(true));
+  closeBtn?.addEventListener("click", () => setMenu(false));
+  // Close when any link inside the menu is tapped.
+  menu?.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => setMenu(false)),
+  );
+  // Close on Escape.
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setMenu(false);
   });
 </script>
