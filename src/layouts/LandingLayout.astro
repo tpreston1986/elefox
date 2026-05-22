@@ -1,0 +1,70 @@
+---
+// Distraction-free chrome for paid-traffic landing pages: logo + a single
+// "Book a call" action, no nav. Minimal footer with contact + legal only.
+import BaseLayout from "./BaseLayout.astro";
+
+type Props = {
+  title: string;
+  description?: string;
+  ogImage?: string;
+};
+
+const { title, description, ogImage } = Astro.props;
+
+const calendlyUrl =
+  import.meta.env.CALENDLY_URL ||
+  "https://calendly.com/contact-tiffanyrussell/discovery-call";
+
+const year = new Date().getFullYear();
+---
+
+<BaseLayout title={title} description={description} ogImage={ogImage} bare>
+  <!-- Minimal top bar -->
+  <header class="sticky top-0 z-40 bg-bone/85 backdrop-blur-md border-b border-fog/60">
+    <div class="mx-auto max-w-6xl px-5 md:px-8 flex items-center justify-between h-16">
+      <a href="/" class="flex items-center" aria-label="elefox studio, home">
+        <img
+          src="/brand/logo-horizontal.png"
+          alt="elefox studio"
+          class="h-7 w-auto"
+          loading="eager"
+          fetchpriority="high"
+          width="790"
+          height="100"
+        />
+      </a>
+      <div class="flex items-center gap-3 md:gap-4">
+        <a
+          href="tel:+19547806508"
+          class="hidden sm:inline text-sm font-medium text-graphite hover:text-forest transition-colors"
+        >
+          954.780.6508
+        </a>
+        <a
+          href={calendlyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-forest text-bone rounded-pill text-sm font-medium hover:bg-forest-deep transition-colors"
+        >
+          Book a call
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <slot />
+
+  <!-- Minimal footer -->
+  <footer class="bg-ink text-bone/80">
+    <div class="mx-auto max-w-6xl px-5 md:px-8 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm">
+      <div class="flex items-center gap-3">
+        <img src="/brand/logo-horizontal-white.png" alt="elefox studio" class="h-6 w-auto" width="790" height="100" />
+      </div>
+      <p class="text-bone/60">
+        © {year} elefox studio · Coral Springs, FL ·
+        <a href="tel:+19547806508" class="hover:text-bone">954.780.6508</a> ·
+        <a href="mailto:hello@elefoxstudio.com" class="hover:text-bone">hello@elefoxstudio.com</a>
+      </p>
+    </div>
+  </footer>
+</BaseLayout>

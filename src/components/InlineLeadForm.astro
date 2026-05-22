@@ -1,0 +1,183 @@
+---
+// Conversion lead form for the industry CRM landing pages. Posts to the same
+// /api/contact endpoint (Turnstile + spam filter already enforced there).
+type Props = {
+  title: string;
+  subtitle: string;
+  serviceValue: string; // hidden "services" value, e.g. "crm"
+  industry: string; // stored on the lead so we know which page converted
+  toolLabel: string;
+  toolPlaceholder: string;
+  source: string; // e.g. "realtor-landing"
+};
+
+const { title, subtitle, serviceValue, industry, toolLabel, toolPlaceholder, source } =
+  Astro.props;
+
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
+---
+
+<div
+  id="lead"
+  class="bg-white border border-fog rounded-2xl shadow-lift p-6 md:p-8"
+>
+  <h2 class="text-2xl md:text-3xl font-display font-bold tracking-tight text-ink">
+    {title}
+  </h2>
+  <p class="text-graphite mt-2 leading-relaxed">{subtitle}</p>
+
+  <form id="lead-form" action="/api/contact" method="post" novalidate class="mt-6 space-y-4">
+    <input type="hidden" name="_t" value={Date.now()} />
+    <input type="hidden" name="services" value={serviceValue} />
+    <input type="hidden" name="industry" value={industry} />
+    <input type="hidden" name="source" value={source} />
+    <div class="absolute -left-[9999px]" aria-hidden="true">
+      <label>Website<input type="text" name="_hp" tabindex="-1" autocomplete="off" /></label>
+    </div>
+
+    <label class="block">
+      <span class="block text-sm font-medium text-graphite mb-1.5">Name <span class="text-ember">*</span></span>
+      <input
+        type="text"
+        name="name"
+        required
+        autocomplete="name"
+        class="w-full bg-bone border border-fog hover:border-mist focus:border-forest text-ink px-4 py-3 rounded-lg outline-none transition-colors"
+      />
+    </label>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <label class="block">
+        <span class="block text-sm font-medium text-graphite mb-1.5">Email <span class="text-ember">*</span></span>
+        <input
+          type="email"
+          name="email"
+          required
+          autocomplete="email"
+          class="w-full bg-bone border border-fog hover:border-mist focus:border-forest text-ink px-4 py-3 rounded-lg outline-none transition-colors"
+        />
+      </label>
+      <label class="block">
+        <span class="block text-sm font-medium text-graphite mb-1.5">Phone</span>
+        <input
+          type="tel"
+          name="phone"
+          autocomplete="tel"
+          class="w-full bg-bone border border-fog hover:border-mist focus:border-forest text-ink px-4 py-3 rounded-lg outline-none transition-colors"
+        />
+      </label>
+    </div>
+
+    <label class="block">
+      <span class="block text-sm font-medium text-graphite mb-1.5">{toolLabel}</span>
+      <input
+        type="text"
+        name="message"
+        placeholder={toolPlaceholder}
+        class="w-full bg-bone border border-fog hover:border-mist focus:border-forest text-ink px-4 py-3 rounded-lg outline-none transition-colors"
+      />
+    </label>
+
+    {
+      turnstileSiteKey && (
+        <div
+          class="cf-turnstile"
+          data-sitekey={turnstileSiteKey}
+          data-theme="light"
+          data-size="flexible"
+        />
+      )
+    }
+
+    <button
+      type="submit"
+      class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-forest text-bone rounded-pill text-lg font-medium hover:bg-forest-deep transition-colors disabled:opacity-50"
+    >
+      Get my demo + quote →
+    </button>
+    <p class="text-xs text-graphite text-center">
+      No spam. We reply within 24 hours, usually within four.
+    </p>
+  </form>
+</div>
+
+{
+  turnstileSiteKey && (
+    <script
+      is:inline
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+      async
+      defer
+    />
+  )
+}
+
+<script is:inline>
+  (() => {
+    const form = document.getElementById("lead-form");
+    if (!form) return;
+    const btn = form.querySelector('button[type="submit"]');
+    const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+
+    const clearErrors = () => {
+      form.querySelectorAll("[data-error]").forEach((el) => el.remove());
+      form.querySelectorAll("[aria-invalid]").forEach((el) => {
+        el.removeAttribute("aria-invalid");
+        el.classList.remove("border-ember", "ring-2", "ring-ember");
+      });
+    };
+    const showError = (field, msg) => {
+      field.setAttribute("aria-invalid", "true");
+      field.classList.add("border-ember", "ring-2", "ring-ember");
+      const span = document.createElement("span");
+      span.dataset.error = "";
+      span.className = "block mt-1.5 text-sm font-medium text-ember";
+      span.textContent = msg;
+      (field.closest("label") || field.parentElement).appendChild(span);
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      clearErrors();
+      const name = form.querySelector('input[name="name"]');
+      const email = form.querySelector('input[name="email"]');
+      const errs = [];
+      if (!name.value.trim()) errs.push([name, "What should we call you?"]);
+      if (!email.value.trim()) errs.push([email, "We need somewhere to reply."]);
+      else if (!isEmail(email.value)) errs.push([email, "That doesn't look like an email."]);
+      if (errs.length) {
+        errs.forEach(([f, m]) => showError(f, m));
+        errs[0][0].focus();
+        return;
+      }
+
+      const cleanName = name.value.trim().replace(/[<>]/g, "");
+      const original = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = "Sending…";
+      try {
+        const res = await fetch("/api/contact", { method: "POST", body: new FormData(form) });
+        const data = await res.json().catch(() => ({}));
+        if (!(res.ok && data.ok)) throw new Error(data.error || "Something went wrong.");
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = original;
+        if (window.turnstile) { try { window.turnstile.reset(); } catch (_) {} }
+        const banner = document.createElement("p");
+        banner.dataset.error = "";
+        banner.className = "text-sm font-medium text-ember text-center mt-2";
+        banner.textContent =
+          (err && err.message) || "Something went wrong. Call 954.780.6508?";
+        btn.parentElement.appendChild(banner);
+        return;
+      }
+      const done = document.createElement("div");
+      done.className = "text-center py-10";
+      done.innerHTML =
+        '<span class="font-mono text-xs uppercase tracking-[0.2em] text-ember inline-block mb-4">Got it</span>' +
+        '<h3 class="text-2xl font-display font-bold text-ink mb-3">Thanks, ' + cleanName + '.</h3>' +
+        '<p class="text-graphite max-w-sm mx-auto">We\'ll reach out within 24 hours to set up your demo. Want to talk sooner? Call 954.780.6508.</p>';
+      form.replaceWith(done);
+    });
+  })();
+</script>
