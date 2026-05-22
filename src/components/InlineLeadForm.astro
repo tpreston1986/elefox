@@ -119,6 +119,23 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
     const btn = form.querySelector('button[type="submit"]');
     const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 
+    // Turnstile can take a few seconds to issue its token. If the visitor
+    // submits before it lands, wait for it (rather than 403-ing the lead).
+    const hasTurnstile = !!form.querySelector(".cf-turnstile");
+    const tokenValue = () => {
+      const f = form.querySelector('[name="cf-turnstile-response"]');
+      return f ? f.value : "";
+    };
+    const waitForToken = (ms = 12000) =>
+      new Promise((resolve) => {
+        if (!hasTurnstile || tokenValue()) return resolve(true);
+        let waited = 0;
+        const iv = setInterval(() => {
+          if (tokenValue()) { clearInterval(iv); resolve(true); }
+          else if ((waited += 300) >= ms) { clearInterval(iv); resolve(false); }
+        }, 300);
+      });
+
     const clearErrors = () => {
       form.querySelectorAll("[data-error]").forEach((el) => el.remove());
       form.querySelectorAll("[aria-invalid]").forEach((el) => {
@@ -154,6 +171,24 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
       const cleanName = name.value.trim().replace(/[<>]/g, "");
       const original = btn.innerHTML;
       btn.disabled = true;
+
+      // Wait for the Turnstile token if it hasn't landed yet.
+      if (hasTurnstile && !tokenValue()) {
+        btn.innerHTML = "Verifying…";
+        const ready = await waitForToken();
+        if (!ready) {
+          btn.disabled = false;
+          btn.innerHTML = original;
+          if (window.turnstile) { try { window.turnstile.reset(); } catch (_) {} }
+          const b = document.createElement("p");
+          b.dataset.error = "";
+          b.className = "text-sm font-medium text-ember text-center mt-2";
+          b.textContent = "Verification is taking a moment. Tap again, or call 954.780.6508.";
+          btn.parentElement.appendChild(b);
+          return;
+        }
+      }
+
       btn.innerHTML = "Sending…";
       try {
         const res = await fetch("/api/contact", { method: "POST", body: new FormData(form) });
