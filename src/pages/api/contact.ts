@@ -101,7 +101,16 @@ async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
       "https://challenges.cloudflare.com/turnstile/v0/siteverify",
       { method: "POST", body },
     );
-    const data = (await res.json().catch(() => ({}))) as { success?: boolean };
+    const data = (await res.json().catch(() => ({}))) as {
+      success?: boolean;
+      "error-codes"?: string[];
+    };
+    if (data.success !== true) {
+      console.warn(
+        "[api/contact] Turnstile verify rejected:",
+        JSON.stringify(data["error-codes"] ?? data),
+      );
+    }
     return data.success === true;
   } catch (err) {
     console.error("[api/contact] Turnstile verify failed:", err);
