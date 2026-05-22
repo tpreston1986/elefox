@@ -212,6 +212,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
               data-sitekey={turnstileSiteKey}
               data-theme="light"
               data-size="flexible"
+              data-refresh-expired="auto"
+              data-refresh-timeout="auto"
             />
           )
         }
@@ -334,17 +336,30 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
 
             submitBtn.innerHTML = "Sending…";
 
-            let ok = false;
-            try {
+            const post = async () => {
               const res = await fetch("/api/contact", {
                 method: "POST",
                 body: new FormData(form),
               });
               const data = await res.json().catch(() => ({}));
-              ok = res.ok && data.ok;
-              if (!ok && data.error) {
-                throw new Error(data.error);
+              return { ok: res.ok && data.ok, status: res.status, error: data.error };
+            };
+
+            try {
+              let r = await post();
+              // 403 = stale/expired Turnstile token (widget still shows
+              // "Success" but the token died). Force a fresh one, retry once.
+              if (!r.ok && r.status === 403 && hasTurnstile) {
+                submitBtn.innerHTML = "Verifying…";
+                const tf = form.querySelector('[name="cf-turnstile-response"]');
+                if (tf) tf.value = "";
+                if (window.turnstile) { try { window.turnstile.reset(); } catch (_) {} }
+                if (await waitForToken()) {
+                  submitBtn.innerHTML = "Sending…";
+                  r = await post();
+                }
               }
+              if (!r.ok) throw new Error(r.error || "Something went wrong.");
             } catch (err) {
               submitBtn.disabled = false;
               submitBtn.innerHTML = originalLabel;

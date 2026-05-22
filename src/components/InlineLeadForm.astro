@@ -85,6 +85,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
           data-sitekey={turnstileSiteKey}
           data-theme="light"
           data-size="flexible"
+          data-refresh-expired="auto"
+          data-refresh-timeout="auto"
         />
       )
     }
@@ -190,10 +192,26 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
       }
 
       btn.innerHTML = "Sending…";
-      try {
+      const post = async () => {
         const res = await fetch("/api/contact", { method: "POST", body: new FormData(form) });
         const data = await res.json().catch(() => ({}));
-        if (!(res.ok && data.ok)) throw new Error(data.error || "Something went wrong.");
+        return { ok: res.ok && data.ok, status: res.status, error: data.error };
+      };
+      try {
+        let r = await post();
+        // A 403 means the Turnstile token was stale/expired (the widget still
+        // shows "Success" but the token died). Force a fresh one and retry once.
+        if (!r.ok && r.status === 403 && hasTurnstile) {
+          btn.innerHTML = "Verifying…";
+          const f = form.querySelector('[name="cf-turnstile-response"]');
+          if (f) f.value = "";
+          if (window.turnstile) { try { window.turnstile.reset(); } catch (_) {} }
+          if (await waitForToken()) {
+            btn.innerHTML = "Sending…";
+            r = await post();
+          }
+        }
+        if (!r.ok) throw new Error(r.error || "Something went wrong.");
       } catch (err) {
         btn.disabled = false;
         btn.innerHTML = original;
