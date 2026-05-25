@@ -25,6 +25,10 @@ const fullTitle =
   title === "elefox studio" ? title : `${title}, elefox studio`;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://elefoxstudio.com").toString();
+
+// Google Analytics 4. Set when PUBLIC_GA4_ID (G-XXXXXXX) is configured;
+// renders nothing otherwise (e.g. local dev).
+const ga4Id = import.meta.env.PUBLIC_GA4_ID || "";
 ---
 
 <!doctype html>
@@ -75,6 +79,16 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://elefoxstudi
       data-cf-beacon='{"token": "bc93bb58a01c445e99816377bfdda5dc"}'
     ></script>
     <!-- End Cloudflare Web Analytics -->
+
+    {/* Google Analytics 4 */}
+    {
+      ga4Id && (
+        <>
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`} />
+          <script is:inline set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${ga4Id}');`} />
+        </>
+      )
+    }
   </head>
   <body class="min-h-screen flex flex-col">
     {
