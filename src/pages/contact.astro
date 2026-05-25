@@ -247,6 +247,16 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
           const form = document.getElementById("contact-form");
           if (!form) return;
 
+          // GA4: fire form_start once, on first interaction.
+          let formStarted = false;
+          form.addEventListener("focusin", () => {
+            if (formStarted) return;
+            formStarted = true;
+            if (typeof window.gtag === "function") {
+              window.gtag("event", "form_start", { source: "contact-form", form: "contact" });
+            }
+          });
+
           const showError = (field, msg) => {
             field.setAttribute("aria-invalid", "true");
             field.classList.add("ring-2", "ring-ember", "border-ember");

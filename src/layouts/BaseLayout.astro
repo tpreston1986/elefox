@@ -313,6 +313,28 @@ const ga4Id = import.meta.env.PUBLIC_GA4_ID || "";
           });
         });
       }
+
+      // -- Intent events (GA4) ---------------------------------------------
+      // Track high-signal clicks: booking a call, tapping the phone, email.
+      // gtag respects the ga-disable opt-out, so the owner's own taps (?noga=1)
+      // are excluded automatically.
+      const track = (name: string, params: Record<string, unknown>) => {
+        const g = (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag;
+        if (typeof g === "function") g("event", name, params);
+      };
+      document.addEventListener("click", (e) => {
+        const target = e.target as HTMLElement | null;
+        const a = target?.closest?.("a");
+        if (!a) return;
+        const href = a.getAttribute("href") || "";
+        if (href.includes("calendly.com")) {
+          track("book_call_click", { page: location.pathname });
+        } else if (href.startsWith("tel:")) {
+          track("phone_click", { page: location.pathname });
+        } else if (href.startsWith("mailto:")) {
+          track("email_click", { page: location.pathname });
+        }
+      });
     </script>
   </body>
 </html>
