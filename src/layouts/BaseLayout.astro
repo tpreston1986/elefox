@@ -84,6 +84,13 @@ const ga4Id = import.meta.env.PUBLIC_GA4_ID || "";
     {
       ga4Id && (
         <>
+          {/* Personal opt-out: visit ?noga=1 once on a device to stop GA
+              counting you (testing). ?noga=0 re-enables. Persists per-browser
+              and must run before gtag config sets the disable flag. */}
+          <script
+            is:inline
+            set:html={`(function(){try{var p=new URLSearchParams(location.search);if(p.has('noga')){if(p.get('noga')==='0'){localStorage.removeItem('elefox_noga')}else{localStorage.setItem('elefox_noga','1')}}if(localStorage.getItem('elefox_noga')==='1'){window['ga-disable-${ga4Id}']=true;}}catch(e){}})();`}
+          />
           <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`} />
           <script is:inline set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${ga4Id}');`} />
         </>
