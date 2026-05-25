@@ -121,6 +121,18 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
     const btn = form.querySelector('button[type="submit"]');
     const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 
+    // GA4: fire form_start once, on first interaction, so we can see
+    // start -> submit drop-off per landing page.
+    let started = false;
+    form.addEventListener("focusin", () => {
+      if (started) return;
+      started = true;
+      if (typeof window.gtag === "function") {
+        const src = (form.querySelector('[name="source"]') || {}).value || "lead-form";
+        window.gtag("event", "form_start", { source: src, form: "crm-landing" });
+      }
+    });
+
     // Turnstile can take a few seconds to issue its token. If the visitor
     // submits before it lands, wait for it (rather than 403-ing the lead).
     const hasTurnstile = !!form.querySelector(".cf-turnstile");
