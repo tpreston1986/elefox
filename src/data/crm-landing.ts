@@ -376,4 +376,159 @@ export const contractor: LandingData = {
   toolPlaceholder: "Jobber, Housecall Pro, a spreadsheet…",
 };
 
-export const landingPages = { realtor, contractor };
+export const general: LandingData = {
+  slug: "custom-crm",
+  industry: "General (CRM landing page)",
+  serviceValue: "crm",
+
+  metaTitle: "Custom CRM for Your Business",
+  metaDescription:
+    "A custom CRM built around how your business actually works: your pipeline, your team, your follow-ups. No per-seat fees, hosted by us, live in 4 to 6 weeks. Build from $3,500.",
+
+  eyebrow: "Custom CRM",
+  headlineLead: "The CRM built for how ",
+  headlineAccent: "your business",
+  headlineTail: " actually works.",
+  subhead:
+    "Every lead, customer, and follow-up in one place, built around how your business actually runs instead of a generic template. Your whole team included, no per-seat fees, hosted by us.",
+  proofChips: SHARED_CHIPS,
+  bullets: [
+    "Full migration from your current tools",
+    "Built around how you actually work",
+    "Your whole team, unlimited logins",
+    "Works anywhere, on any device",
+  ],
+
+  problemTitle: "The tools you've tried weren't built for you.",
+  problemIntro:
+    "Off-the-shelf CRMs make you bend to them. You pay per seat for features you don't use while the workflow never quite fits how you run things.",
+  problems: [
+    "You pay per seat, so every person you add costs more every month.",
+    "The pipeline doesn't match how your business actually works.",
+    "Half the features are bloat, and the ones you need are missing.",
+    "Leads, notes, and follow-ups are scattered across apps and spreadsheets.",
+    "Follow-ups slip through the cracks because nothing reminds you.",
+    "You're renting it. Prices rise, features change, and you own nothing.",
+  ],
+
+  featuresTitle: "What you get.",
+  featuresIntro:
+    "A CRM shaped to your business: your pipeline stages, your fields, your follow-up cadence. Here's what's inside.",
+  features: [
+    {
+      title: "Your real pipeline",
+      body: "Whatever your stages are, from first contact to closed. Move deals through a board that matches how you actually work.",
+    },
+    {
+      title: "Every contact in one place",
+      body: "Leads, customers, partners. Searchable notes, full history, and the last time you talked, all on one screen.",
+    },
+    {
+      title: "Automated follow-ups",
+      body: "New lead, check-in, post-sale, renewal. The CRM reminds you or sends it for you, so nothing slips.",
+    },
+    {
+      title: "Your whole team, no per-seat fees",
+      body: "Owners, staff, contractors. Role-based access so people see only what they should. Add as many as you want.",
+    },
+    {
+      title: "Works anywhere",
+      body: "Desktop, tablet, phone. Update a deal, log a call, or message a customer from wherever you are. Nothing to install.",
+    },
+    {
+      title: "Migrate everything",
+      body: "Contacts, notes, history, deals. We move it all from your current tools so you start day one with your data intact.",
+    },
+  ],
+
+  migrationsTitle: "Coming from one of these? We'll bring it all over.",
+  migrations: [
+    "HubSpot",
+    "Salesforce",
+    "Zoho",
+    "Pipedrive",
+    "monday.com",
+    "Airtable",
+    "Google Sheets",
+    "Spreadsheets",
+  ],
+
+  tiersTitle: "Straightforward pricing.",
+  tiersIntro:
+    "A one-time build, then low monthly hosting. No per-seat fees, ever.",
+  tiers: [
+    {
+      name: "Starter",
+      price: "$3,500",
+      blurb: "The core CRM, built around your workflow and migrated from your current tools.",
+      features: [
+        "Custom pipeline + contact fields",
+        "Full migration from your current tools",
+        "Automated follow-up reminders",
+        "Unlimited team logins",
+        "Mobile-first, live in about 4 weeks",
+      ],
+    },
+    {
+      name: "Growth",
+      price: "$5,000",
+      featured: true,
+      blurb: "Adds the marketing and automation layer on top of the core.",
+      features: [
+        "Everything in Starter",
+        "Email + SMS follow-up automations",
+        "Lead-capture forms for your site",
+        "Light reporting dashboard",
+        "Review request automation",
+      ],
+    },
+    {
+      name: "Full",
+      price: "Custom",
+      blurb: "Everything, plus integrations and a workflow strategy session.",
+      features: [
+        "Everything in Growth",
+        "Integrations (Zapier, QuickBooks, and more)",
+        "Advanced reporting",
+        "1:1 workflow strategy session",
+      ],
+    },
+  ],
+
+  faqTitle: "Quick answers.",
+  faqs: [
+    {
+      q: "Can you migrate my data from my current tools?",
+      a: "Yes. Contacts, notes, history, and deals come over from HubSpot, Salesforce, Zoho, Pipedrive, spreadsheets, and others. Send us an export on the call and we'll tell you exactly what transfers.",
+    },
+    {
+      q: "Is there really no per-seat fee?",
+      a: "Correct. You pay once for the build and a flat monthly hosting fee starting at $50. Add as many people as you want, the price doesn't change.",
+    },
+    {
+      q: "Does it work on every device?",
+      a: "Yes. It's mobile-first and runs in the browser on desktop, tablet, and phone. Nothing to install, same experience everywhere.",
+    },
+    {
+      q: "How long does it take to build?",
+      a: "Usually 4 to 6 weeks. Week 1 is discovery, weeks 2 to 4 are build with weekly demos so you steer it, then migration and training, then you're live.",
+    },
+    {
+      q: "Do I own it?",
+      a: "Yes. It's built for you and it's yours. No vendor raising prices or changing features out from under you. We host and support it, but the system is yours.",
+    },
+    {
+      q: "Do I need to be technical?",
+      a: "No. We build the automations during setup so they run themselves, and we train you and your team on the parts you touch day to day.",
+    },
+  ],
+
+  finalHeading: "See it built around your business.",
+
+  formTitle: "Get a custom demo + quote",
+  formSubtitle: "Tell us where you are now. We'll show you what it'd look like built for you, and what it'd cost. No pressure.",
+  toolLabel: "What are you using now?",
+  toolPlaceholder: "HubSpot, a spreadsheet, sticky notes…",
+};
+
+export const landingPages = { realtor, contractor, general };
