@@ -21,10 +21,49 @@ const {
   bare = false,
 } = Astro.props;
 
-const fullTitle =
-  title === "elefox studio" ? title : `${title}, elefox studio`;
+const fullTitle = title.includes("elefox studio")
+  ? title
+  : `${title} · elefox studio`;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://elefoxstudio.com").toString();
+
+// Site-wide structured data: identity, contact, local business, and social
+// profiles. Satisfies the "schema / identity / local business" SEO checks.
+const orgSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://elefoxstudio.com/#org",
+  name: "elefox studio",
+  legalName: "Tiffany Russell Studio LLC",
+  url: "https://elefoxstudio.com",
+  logo: "https://elefoxstudio.com/brand/logo-horizontal.png",
+  image: "https://elefoxstudio.com/og/default.png",
+  email: "hello@elefoxstudio.com",
+  telephone: "+1-954-780-6508",
+  founder: { "@type": "Person", name: "Tiffany Russell" },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Coral Springs",
+    addressRegion: "FL",
+    addressCountry: "US",
+  },
+  areaServed: { "@type": "Country", name: "United States" },
+  description:
+    "elefox studio builds custom tools, CRMs, client portals, and booking systems shaped around how your business runs, plus the website that ties them together.",
+  sameAs: [
+    "https://www.instagram.com/elefoxstudio/",
+    "https://www.linkedin.com/company/elefoxstudio/",
+    "https://www.facebook.com/elefoxstudio/",
+  ],
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "elefox studio",
+  url: "https://elefoxstudio.com",
+  publisher: { "@id": "https://elefoxstudio.com/#org" },
+};
 
 // Google Analytics 4. Set when PUBLIC_GA4_ID (G-XXXXXXX) is configured;
 // renders nothing otherwise (e.g. local dev).
@@ -56,6 +95,10 @@ const ga4Id = import.meta.env.PUBLIC_GA4_ID || "";
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, canonical).toString()} />
+
+    <!-- Structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 
     <!-- Theme -->
     <meta name="theme-color" content="#3f5a2e" />

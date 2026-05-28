@@ -1,0 +1,31 @@
+# elefox studio
+
+> elefox studio builds custom tools that small businesses run on: CRMs, client
+> portals, booking systems, and the automations behind the scenes, shaped around
+> how a business actually works instead of forcing it into off-the-shelf software.
+> We also build the websites that tie into those tools, and handle brand and
+> social as supporting work. Based in Coral Springs, FL. Founded by Tiffany Russell.
+
+## Services
+- [Custom software](https://elefoxstudio.com/services/software): Custom CRMs, client portals, booking systems, internal tools and dashboards. Build from $3,500, hosting from $50/mo, no per-seat fees.
+- [Websites](https://elefoxstudio.com/services/websites): Conversion-focused websites that tie into your tools, with real SEO and accessible markup.
+- [Brand & marketing](https://elefoxstudio.com/services/brand): Brand kits, social systems, and marketing infrastructure.
+- [AI & automation](https://elefoxstudio.com/services/ai): Practical automation and AI agents wired into your workflow where they earn their keep.
+
+## Landing pages
+- [Custom CRM](https://elefoxstudio.com/custom-crm): A custom CRM built around how your business actually works.
+- [CRM for realtors](https://elefoxstudio.com/crm-for-realtors): A custom CRM built for how real estate actually works.
+- [CRM for contractors](https://elefoxstudio.com/crm-for-contractors): A custom CRM for estimates, jobs, scheduling, and invoices.
+
+## Key facts
+- What we build: custom CRMs, client portals, booking systems, automations, websites
+- Who it's for: small businesses, realtors, contractors, advisors, therapists, small teams
+- Pricing: builds from $3,500, hosting from $50/mo, no per-seat fees, live in 4 to 6 weeks
+- You own the software; we host and support it
+- Location: Coral Springs, FL, United States
+- Contact: hello@elefoxstudio.com, 954.780.6508
+
+## More
+- [About](https://elefoxstudio.com/about)
+- [Pricing](https://elefoxstudio.com/pricing)
+- [Start a project](https://elefoxstudio.com/contact)
