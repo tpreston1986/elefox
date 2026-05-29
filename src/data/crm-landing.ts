@@ -531,4 +531,157 @@ export const general: LandingData = {
   toolPlaceholder: "HubSpot, a spreadsheet, sticky notes…",
 };
 
-export const landingPages = { realtor, contractor, general };
+export const therapist: LandingData = {
+  slug: "crm-for-therapists",
+  industry: "Therapy / mental health practice (therapist landing page)",
+  serviceValue: "crm",
+
+  metaTitle: "Custom CRM for Therapists & Small Practices",
+  metaDescription:
+    "A custom CRM built around how your practice actually works: intake, scheduling, client records, notes, and billing. No per-clinician fees, hosted by us, live in 4 to 6 weeks. Build from $3,500.",
+
+  eyebrow: "Custom CRM for Therapists & Practices",
+  headlineLead: "The CRM built for how ",
+  headlineAccent: "your practice",
+  headlineTail: " actually works.",
+  subhead:
+    "Intake, scheduling, client records, notes, and billing in one place, built around how your practice actually runs instead of a one-size-fits-all platform. Your whole team included, no per-clinician fees, hosted by us.",
+  proofChips: SHARED_CHIPS,
+  bullets: [
+    "Intake to scheduling to billing, one place",
+    "Built around how your practice runs",
+    "Your whole team, no per-clinician fees",
+    "Designed around client confidentiality",
+  ],
+
+  problemTitle: "The tools you've tried weren't built for your practice.",
+  problemIntro:
+    "Off-the-shelf practice software makes you bend to it. You pay per clinician for features you don't use, while the parts that actually fit how you work are missing.",
+  problems: [
+    "You pay per clinician, so growing your practice costs more every month.",
+    "The big platforms do too much, and still not the part you actually need.",
+    "Intake, scheduling, notes, and billing live in separate tools.",
+    "New inquiries slip because nothing follows up for you.",
+    "Client information is scattered across forms, inboxes, and spreadsheets.",
+    "You're renting it. Prices rise, features change, and you own nothing.",
+  ],
+
+  featuresTitle: "What you get.",
+  featuresIntro:
+    "A system shaped to your practice: your intake questions, your scheduling, your notes, your billing. Here's what's inside.",
+  features: [
+    {
+      title: "Intake, your way",
+      body: "Custom intake forms that feed straight into a client record. No re-typing what someone already told you.",
+    },
+    {
+      title: "Scheduling that fits",
+      body: "Appointments, recurring sessions, and reminders that cut no-shows, matched to how you and your clinicians actually book.",
+    },
+    {
+      title: "Every client in one place",
+      body: "Contact details, history, session notes, and documents on one screen, searchable and organized the way you think.",
+    },
+    {
+      title: "Notes that stay put",
+      body: "Long-form, dated, searchable session notes. The kind you actually want to review before a session, not buried in a clunky platform.",
+    },
+    {
+      title: "Billing + invoices",
+      body: "Invoice clients, track what's outstanding, and generate the paperwork (like superbills) without the busywork.",
+    },
+    {
+      title: "Your whole team, no per-clinician fees",
+      body: "Clinicians, admins, billing staff. Role-based access so people see only what they should. Add as many as you want.",
+    },
+  ],
+
+  migrationsTitle: "Coming from one of these? We'll bring it all over.",
+  migrations: [
+    "SimplePractice",
+    "TherapyNotes",
+    "Jane",
+    "IntakeQ",
+    "TheraNest",
+    "Spreadsheets",
+  ],
+
+  tiersTitle: "Straightforward pricing.",
+  tiersIntro:
+    "A one-time build, then low monthly hosting. No per-clinician fees, ever.",
+  tiers: [
+    {
+      name: "Starter",
+      price: "$3,500",
+      blurb: "The core system: intake, scheduling, and client records, migrated from your current tool.",
+      features: [
+        "Custom intake forms + client records",
+        "Scheduling + appointment reminders",
+        "Full migration from your current tool",
+        "Unlimited team logins",
+        "Mobile-first, live in about 4 weeks",
+      ],
+    },
+    {
+      name: "Growth",
+      price: "$5,000",
+      featured: true,
+      blurb: "Adds notes, billing, and automation.",
+      features: [
+        "Everything in Starter",
+        "Session notes + document storage",
+        "Invoicing + superbills",
+        "Email + SMS follow-up automations",
+        "Intake forms embedded on your site",
+      ],
+    },
+    {
+      name: "Full",
+      price: "Custom",
+      blurb: "Everything, plus integrations and a workflow strategy session.",
+      features: [
+        "Everything in Growth",
+        "Integrations (calendar, payments, and more)",
+        "Advanced reporting",
+        "1:1 workflow strategy session",
+      ],
+    },
+  ],
+
+  faqTitle: "Quick answers.",
+  faqs: [
+    {
+      q: "Can you migrate my data from my current tool?",
+      a: "Yes. Clients, intake info, notes, and history come over from SimplePractice, TherapyNotes, Jane, IntakeQ, TheraNest, spreadsheets, and others. Send us an export on the call and we'll tell you exactly what transfers.",
+    },
+    {
+      q: "Is there really no per-clinician fee?",
+      a: "Correct. You pay once for the build and a flat monthly hosting fee starting at $50. Add as many clinicians and admins as your practice needs, the price doesn't change.",
+    },
+    {
+      q: "Is it private and secure enough for client information?",
+      a: "Yes. It's built with client confidentiality in mind: encrypted connections, role-based access so staff only see what they should, and reputable hosting. If your practice needs specific compliance measures (like a signed BAA for HIPAA), tell us on the call and we'll scope the build to meet them.",
+    },
+    {
+      q: "Does it work on every device?",
+      a: "Yes. It's mobile-first and runs in the browser on desktop, tablet, and phone. Check your schedule, log a note, or send an invoice from wherever you are.",
+    },
+    {
+      q: "How long does it take to build?",
+      a: "Usually 4 to 6 weeks. Week 1 is discovery, weeks 2 to 4 are build with weekly demos so you steer it, then migration and training, then you're live.",
+    },
+    {
+      q: "Do I own it?",
+      a: "Yes. It's built for you and it's yours. No vendor raising prices or changing features out from under you. We host and support it, but the system is yours.",
+    },
+  ],
+
+  finalHeading: "See it built around your practice.",
+
+  formTitle: "Get a custom demo + quote",
+  formSubtitle: "Tell us where you are now. We'll show you what it'd look like built for you, and what it'd cost. No pressure.",
+  toolLabel: "What are you using now?",
+  toolPlaceholder: "SimplePractice, TherapyNotes, a spreadsheet…",
+};
+
+export const landingPages = { realtor, contractor, general, therapist };
