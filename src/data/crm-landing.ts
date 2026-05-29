@@ -538,20 +538,25 @@ export const therapist: LandingData = {
 
   metaTitle: "Custom CRM for Therapists & Small Practices",
   metaDescription:
-    "A custom CRM built around how your practice actually works: intake, scheduling, client records, notes, and billing. No per-clinician fees, hosted by us, live in 4 to 6 weeks. Build from $3,500.",
+    "A HIPAA-compliant custom CRM built around how your practice actually works: intake, scheduling, client records, notes, and billing. Hosted on AWS under a signed BAA. No per-clinician fees, live in 4 to 6 weeks. Build from $3,500.",
 
   eyebrow: "Custom CRM for Therapists & Practices",
   headlineLead: "The CRM built for how ",
   headlineAccent: "your practice",
   headlineTail: " actually works.",
   subhead:
-    "Intake, scheduling, client records, notes, and billing in one place, built around how your practice actually runs instead of a one-size-fits-all platform. Your whole team included, no per-clinician fees, hosted by us.",
-  proofChips: SHARED_CHIPS,
+    "Intake, scheduling, client records, notes, and billing in one place, built around how your practice actually runs instead of a one-size-fits-all platform. HIPAA-compliant and hosted on AWS under a signed BAA, your whole team included, no per-clinician fees.",
+  proofChips: [
+    { label: "Build from", value: "$3,500" },
+    { label: "Compliance", value: "HIPAA-compliant" },
+    { label: "Team size", value: "No per-clinician fees" },
+    { label: "Live in", value: "4–6 weeks" },
+  ],
   bullets: [
+    "HIPAA-compliant, hosted on AWS (signed BAA)",
     "Intake to scheduling to billing, one place",
     "Built around how your practice runs",
     "Your whole team, no per-clinician fees",
-    "Designed around client confidentiality",
   ],
 
   problemTitle: "The tools you've tried weren't built for your practice.",
@@ -571,6 +576,10 @@ export const therapist: LandingData = {
     "A system shaped to your practice: your intake questions, your scheduling, your notes, your billing. Here's what's inside.",
   features: [
     {
+      title: "HIPAA-compliant by design",
+      body: "Hosted on AWS under a signed Business Associate Agreement, with encryption in transit and at rest and role-based access. Client privacy is built into the foundation, not bolted on later.",
+    },
+    {
       title: "Intake, your way",
       body: "Custom intake forms that feed straight into a client record. No re-typing what someone already told you.",
     },
@@ -583,12 +592,8 @@ export const therapist: LandingData = {
       body: "Contact details, history, session notes, and documents on one screen, searchable and organized the way you think.",
     },
     {
-      title: "Notes that stay put",
-      body: "Long-form, dated, searchable session notes. The kind you actually want to review before a session, not buried in a clunky platform.",
-    },
-    {
-      title: "Billing + invoices",
-      body: "Invoice clients, track what's outstanding, and generate the paperwork (like superbills) without the busywork.",
+      title: "Notes + billing",
+      body: "Long-form, searchable session notes, plus invoicing and superbills. The admin side handled without the busywork or a clunky platform.",
     },
     {
       title: "Your whole team, no per-clinician fees",
@@ -659,8 +664,8 @@ export const therapist: LandingData = {
       a: "Correct. You pay once for the build and a flat monthly hosting fee starting at $50. Add as many clinicians and admins as your practice needs, the price doesn't change.",
     },
     {
-      q: "Is it private and secure enough for client information?",
-      a: "Yes. It's built with client confidentiality in mind: encrypted connections, role-based access so staff only see what they should, and reputable hosting. If your practice needs specific compliance measures (like a signed BAA for HIPAA), tell us on the call and we'll scope the build to meet them.",
+      q: "Is it HIPAA-compliant?",
+      a: "Yes. It's hosted on AWS under a signed Business Associate Agreement (BAA), with encryption in transit and at rest, role-based access so staff only see what they should, and activity logging. Client privacy and HIPAA compliance are built into the foundation, not added on after.",
     },
     {
       q: "Does it work on every device?",
