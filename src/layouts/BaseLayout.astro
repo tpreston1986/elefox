@@ -68,6 +68,10 @@ const websiteSchema = {
 // Google Analytics 4. Set when PUBLIC_GA4_ID (G-XXXXXXX) is configured;
 // renders nothing otherwise (e.g. local dev).
 const ga4Id = import.meta.env.PUBLIC_GA4_ID || "";
+
+// Meta (Facebook) Pixel. Set PUBLIC_META_PIXEL_ID (15-16 digit number) to
+// enable. Renders nothing otherwise. Respects the same ?noga opt-out flag.
+const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID || "";
 ---
 
 <!doctype html>
@@ -136,6 +140,22 @@ const ga4Id = import.meta.env.PUBLIC_GA4_ID || "";
           />
           <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`} />
           <script is:inline set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${ga4Id}');`} />
+        </>
+      )
+    }
+
+    {/* Meta (Facebook) Pixel — gated on PUBLIC_META_PIXEL_ID. Respects the
+        same ?noga opt-out flag so owner testing doesn't pollute the pixel. */}
+    {
+      metaPixelId && (
+        <>
+          <script
+            is:inline
+            set:html={`!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');try{if(localStorage.getItem('elefox_noga')!=='1'){fbq('init','${metaPixelId}');fbq('track','PageView');}}catch(e){fbq('init','${metaPixelId}');fbq('track','PageView');}`}
+          />
+          <noscript
+            set:html={`<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1" />`}
+          />
         </>
       )
     }

@@ -236,10 +236,13 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
         btn.parentElement.appendChild(banner);
         return;
       }
-      // Fire the GA4 lead conversion, tagged by which landing page converted.
+      // Fire conversion events, tagged by which landing page converted.
+      const src = (form.querySelector('[name="source"]') || {}).value || "lead-form";
       if (typeof window.gtag === "function") {
-        const src = (form.querySelector('[name="source"]') || {}).value || "lead-form";
         window.gtag("event", "generate_lead", { source: src, form: "crm-landing" });
+      }
+      if (typeof window.fbq === "function") {
+        window.fbq("track", "Lead", { content_category: src });
       }
 
       const done = document.createElement("div");
