@@ -99,41 +99,19 @@ const serviceSchema = {
     </div>
   </section>
 
-  <!-- Problem -->
-  <section class="py-16 md:py-24 bg-cream">
-    <div class="mx-auto max-w-5xl px-5 md:px-8">
-      <div class="max-w-2xl mb-10">
-        <h2 class="text-3xl md:text-5xl font-display font-bold tracking-tight text-ink">{data.problemTitle}</h2>
-        <p class="lede mt-5 !max-w-none">{data.problemIntro}</p>
-      </div>
-      <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
-        {data.problems.map((p) => (
-          <li class="flex items-start gap-3 text-graphite text-lg">
-            <span class="text-ember font-bold text-xl leading-none mt-0.5 shrink-0" aria-hidden="true">×</span>
-            <span class="leading-snug">{p}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  {/* Tour showcase — device mockups (monitor + phone) each iframing a live
-      HTML walkthrough at native resolution, CSS-scaled to fit. Each device
-      runs its own walkthrough so the desktop tour shows on the monitor and
-      the mobile tour shows on the phone. */}
   {
     data.tourShowcase && (
-      <section class="tour-showcase py-16 md:py-24 bg-ink text-bone overflow-hidden">
+      <section class="tour-showcase py-16 md:py-24 bg-bone overflow-hidden">
         <div class="mx-auto max-w-6xl px-5 md:px-8">
           <div class="max-w-2xl mb-12 md:mb-16 mx-auto text-center">
             {data.tourShowcase.eyebrow && (
-              <span class="eyebrow eyebrow--bone">{data.tourShowcase.eyebrow}</span>
+              <span class="eyebrow">{data.tourShowcase.eyebrow}</span>
             )}
-            <h2 class="text-3xl md:text-5xl font-display font-bold tracking-tight text-bone mt-5">
+            <h2 class="text-3xl md:text-5xl font-display font-bold tracking-tight text-ink mt-5">
               {data.tourShowcase.heading}
             </h2>
             {data.tourShowcase.description && (
-              <p class="lede mt-5 mx-auto text-bone/75">{data.tourShowcase.description}</p>
+              <p class="lede mt-5 mx-auto text-graphite">{data.tourShowcase.description}</p>
             )}
           </div>
 
@@ -270,6 +248,29 @@ const serviceSchema = {
       </section>
     )
   }
+
+  <!-- Problem -->
+  <section class="py-16 md:py-24 bg-cream">
+    <div class="mx-auto max-w-5xl px-5 md:px-8">
+      <div class="max-w-2xl mb-10">
+        <h2 class="text-3xl md:text-5xl font-display font-bold tracking-tight text-ink">{data.problemTitle}</h2>
+        <p class="lede mt-5 !max-w-none">{data.problemIntro}</p>
+      </div>
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
+        {data.problems.map((p) => (
+          <li class="flex items-start gap-3 text-graphite text-lg">
+            <span class="text-ember font-bold text-xl leading-none mt-0.5 shrink-0" aria-hidden="true">×</span>
+            <span class="leading-snug">{p}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* Tour showcase — device mockups (monitor + phone) each iframing a live
+      HTML walkthrough at native resolution, CSS-scaled to fit. Each device
+      runs its own walkthrough so the desktop tour shows on the monitor and
+      the mobile tour shows on the phone. */}
 
   <!-- Features -->
   <section class="py-16 md:py-24">
