@@ -12,6 +12,13 @@ export type LandingTier = {
 export type LandingFeature = { title: string; body: string };
 export type LandingFAQ = { q: string; a: string };
 export type ProofChip = { label: string; value: string };
+export type TourVideo = {
+  src: string;
+  poster: string;
+  eyebrow?: string;
+  heading: string;
+  description?: string;
+};
 
 export type LandingData = {
   slug: string;
@@ -50,6 +57,9 @@ export type LandingData = {
   faqs: LandingFAQ[];
 
   finalHeading: string;
+
+  /** Optional product walkthrough video, shown right after the problem section. */
+  tourVideo?: TourVideo;
 
   formTitle: string;
   formSubtitle: string;
@@ -682,6 +692,15 @@ export const therapist: LandingData = {
   ],
 
   finalHeading: "See it built around your practice.",
+
+  tourVideo: {
+    src: "/video/therapy-tour.mp4",
+    poster: "/video/therapy-tour-poster.jpg",
+    eyebrow: "A look inside",
+    heading: "45 seconds, the whole practice.",
+    description:
+      "Schedule, client records, notes, intake, and billing, running the way a real practice does. Tap play and see it.",
+  },
 
   formTitle: "Get a custom demo + quote",
   formSubtitle: "Tell us where you are now. We'll show you what it'd look like built for you, and what it'd cost. No pressure.",
