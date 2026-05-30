@@ -12,9 +12,11 @@ export type LandingTier = {
 export type LandingFeature = { title: string; body: string };
 export type LandingFAQ = { q: string; a: string };
 export type ProofChip = { label: string; value: string };
-export type TourVideo = {
-  src: string;
-  poster: string;
+export type TourShowcase = {
+  /** Self-contained HTML walkthrough sized for a desktop monitor (e.g. 1920x1080). */
+  desktopSrc: string;
+  /** Self-contained HTML walkthrough sized for a phone (e.g. 1080x1920). */
+  mobileSrc: string;
   eyebrow?: string;
   heading: string;
   description?: string;
@@ -58,8 +60,8 @@ export type LandingData = {
 
   finalHeading: string;
 
-  /** Optional product walkthrough video, shown right after the problem section. */
-  tourVideo?: TourVideo;
+  /** Optional product walkthrough (HTML showcase), shown after the problem section. */
+  tourShowcase?: TourShowcase;
 
   formTitle: string;
   formSubtitle: string;
@@ -693,13 +695,13 @@ export const therapist: LandingData = {
 
   finalHeading: "See it built around your practice.",
 
-  tourVideo: {
-    src: "/video/therapy-tour.mp4",
-    poster: "/video/therapy-tour-poster.jpg",
+  tourShowcase: {
+    desktopSrc: "/walkthroughs/therapy-desktop/index.html",
+    mobileSrc: "/walkthroughs/therapy-mobile/index.html",
     eyebrow: "A look inside",
-    heading: "45 seconds, the whole practice.",
+    heading: "Built for the desk and the field.",
     description:
-      "Schedule, client records, notes, intake, and billing, running the way a real practice does. Tap play and see it.",
+      "Same practice CRM, running on the desktop your team uses and the phone you check between sessions.",
   },
 
   formTitle: "Get a custom demo + quote",

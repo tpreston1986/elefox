@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Therapy Portal — product tour (desktop · landscape)</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=block"
+      rel="stylesheet"
+    />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0e0d16;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      :root {
+        --ink: #1b1b29;
+        --ink-2: #232336;
+        --violet: #6b4e9e;
+        --violet-deep: #4a3678;
+        --violet-light: #8366ad;
+        --bg: #f3f1f8;
+        --card: #ffffff;
+        --graphite: #5b5870;
+        --sage: #6f9266;
+      }
+      [data-composition-id="therapy-portal-tour-desktop"] {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        background: #0e0d16;
+        overflow: hidden;
+      }
+
+      /* ====================================================== */
+      /* PHOTO OFFICE INTRO                                      */
+      /* ====================================================== */
+      #photo {
+        position: absolute; inset: 0; z-index: 1; will-change: opacity, transform;
+        background-image: url("assets/office.png");
+        background-size: cover; background-position: center;
+        transform-origin: 550px 436px;
+      }
+      #photo-dim {
+        position: absolute; inset: 0; z-index: 2; opacity: 0; pointer-events: none; will-change: opacity;
+        background: radial-gradient(58% 52% at 29% 40%, rgba(8,7,14,0) 0%, rgba(8,7,14,0) 52%, rgba(8,7,14,0.5) 100%);
+      }
+      /* #camera holds the live UI; matrix3d warps it onto the angled monitor screen */
+      #camera {
+        position: absolute; top: 0; left: 0; width: 1920px; height: 1080px;
+        z-index: 3; transform-origin: 0 0; backface-visibility: hidden; will-change: transform;
+      }
+      /* glare lives inside #camera so it warps with the screen, then fades on dive */
+      .screen-glare {
+        position: absolute; inset: 0; z-index: 5; pointer-events: none; opacity: 0; will-change: opacity;
+        background: linear-gradient(116deg, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.06) 22%, rgba(255,255,255,0) 44%, rgba(255,255,255,0) 100%);
+      }
+
+      #caption { position: absolute; left: 0; right: 0; bottom: 92px; z-index: 4; text-align: center; will-change: opacity, transform; }
+      .cap-eyebrow { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 24px; letter-spacing: 0.32em; text-transform: uppercase; color: #b9b2d4; opacity: 0; margin-bottom: 18px; }
+      .cap-head { font-family: "Manrope", sans-serif; font-weight: 800; font-size: 58px; line-height: 1.04; letter-spacing: -0.015em; color: #ffffff; opacity: 0; }
+      .cap-head .kw { background: linear-gradient(90deg,#a98fd6,#caa9e8); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+      /* ====================================================== */
+      /* APP SHELL                                              */
+      /* ====================================================== */
+      .app { position: absolute; inset: 0; background: var(--bg); will-change: opacity; }
+
+      /* ---- icon rail sidebar ---- */
+      .sidebar {
+        position: absolute; left: 0; top: 0; bottom: 0; width: 104px; background: var(--ink);
+        display: flex; flex-direction: column; align-items: center; padding: 26px 0 24px;
+      }
+      .brand-logo {
+        width: 56px; height: 56px; border-radius: 16px; flex: 0 0 auto; margin-bottom: 26px;
+        background: linear-gradient(150deg, #8a5fb0, #6b4e9e); display: flex; align-items: center; justify-content: center;
+        font-family: "Manrope", sans-serif; font-weight: 800; font-size: 32px; color: #fff;
+        box-shadow: 0 8px 20px rgba(107,78,158,0.4);
+      }
+      .nav { position: relative; flex: 1 1 auto; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+      .nav-ring {
+        position: absolute; left: 50%; top: 0; width: 62px; height: 62px; margin-left: -31px; border-radius: 50%;
+        background: rgba(138,95,176,0.16); border: 2px solid var(--violet-light); z-index: 0; will-change: transform;
+      }
+      .nav-btn {
+        position: relative; z-index: 1; width: 56px; height: 56px; border-radius: 50%; flex: 0 0 auto;
+        display: flex; align-items: center; justify-content: center; opacity: 0.5; will-change: opacity;
+      }
+      .nav-btn svg { width: 27px; height: 27px; display: block; color: #d2cee2; }
+      .nav-btn[data-nav="settings"] { margin-top: auto; }
+      .nav-badge {
+        position: absolute; top: -3px; right: -2px; min-width: 24px; height: 24px; padding: 0 7px;
+        background: #c0574e; color: #fff; border-radius: 9999px; font-family: "Inter", sans-serif;
+        font-weight: 600; font-size: 15px; display: flex; align-items: center; justify-content: center; z-index: 2;
+      }
+
+      /* ---- persistent user chip ---- */
+      .userbar { position: absolute; top: 44px; right: 60px; z-index: 5; display: flex; align-items: center; gap: 16px; }
+      .userbar .uinfo { text-align: right; }
+      .userbar .uname { font-family: "Manrope", sans-serif; font-weight: 700; font-size: 23px; color: var(--ink); line-height: 1.1; }
+      .userbar .umail { font-family: "Inter", sans-serif; font-weight: 400; font-size: 18px; color: var(--graphite); margin-top: 3px; }
+      .userbar .uav { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(150deg,#8a5fb0,#4a3678); display: flex; align-items: center; justify-content: center; color: #fff; font-family: "Manrope", sans-serif; font-weight: 700; font-size: 22px; }
+      .userbar .signout { font-family: "Inter", sans-serif; font-weight: 500; font-size: 20px; color: var(--graphite); margin-left: 4px; }
+
+      /* ---- content / scenes ---- */
+      .content { position: absolute; left: 104px; right: 0; top: 0; bottom: 0; background: var(--bg); overflow: hidden; }
+      .scene { position: absolute; inset: 0; padding: 44px 60px; opacity: 0; will-change: transform, opacity; }
+      .page-eyebrow { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 20px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--graphite); margin-bottom: 10px; }
+      .page-title { font-family: "Manrope", sans-serif; font-weight: 300; font-size: 64px; line-height: 1; letter-spacing: 0.02em; text-transform: uppercase; color: var(--ink); }
+      .subtle { font-family: "Inter", sans-serif; font-weight: 400; font-size: 24px; color: var(--graphite); margin-top: 12px; }
+      .subtle .o { color: var(--ink); font-weight: 500; }
+      .open-link { font-family: "Inter", sans-serif; font-weight: 500; font-size: 22px; color: var(--violet); margin-top: 12px; }
+
+      .card { background: var(--card); border: 1px solid rgba(27,27,41,0.07); border-radius: 22px; box-shadow: 0 10px 26px rgba(27,27,41,0.05); }
+
+      .badge { font-family: "Inter", sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 0.06em; text-transform: uppercase; padding: 8px 18px; border-radius: 9999px; white-space: nowrap; display: inline-block; }
+      .b-scheduled { background: #efe2c6; color: #8a6a32; }
+      .b-confirmed { background: var(--violet); color: #fff; }
+      .b-sent { background: #efe2c6; color: #8a6a32; }
+      .b-paid { background: #e0ecdb; color: #4e7a4a; }
+      .b-overdue { background: #f1d8d4; color: #b14a40; }
+      .b-active { background: #e0ecdb; color: #4e7a4a; }
+      .b-intake { background: rgba(107,78,158,0.16); color: var(--violet-deep); }
+      .flip { position: relative; display: inline-block; }
+      .flip .b2 { position: absolute; top: 0; left: 0; opacity: 0; }
+
+      .avatar { width: 58px; height: 58px; border-radius: 50%; flex: 0 0 auto; display: flex; align-items: center; justify-content: center; font-family: "Manrope", sans-serif; font-weight: 700; font-size: 23px; color: #fff; }
+      .av-violet { background: var(--violet); }
+      .av-violet-d { background: var(--violet-deep); }
+      .av-violet-l { background: var(--violet-light); }
+      .av-graphite { background: var(--graphite); }
+
+      /* ---- DASHBOARD ---- */
+      .dash { display: grid; grid-template-columns: 1.55fr 1fr; gap: 30px; margin-top: 34px; height: calc(100% - 120px); }
+      .dash-col { display: flex; flex-direction: column; gap: 26px; }
+      .stat-row { display: flex; gap: 26px; }
+      .stat { flex: 1 1 0; padding: 28px 30px; }
+      .slbl { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 18px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); }
+      .sval { font-family: "Manrope", sans-serif; font-weight: 800; font-size: 62px; color: var(--ink); line-height: 1; margin-top: 12px; }
+      .sval.accent { color: var(--violet-deep); }
+      .chart-card { flex: 1 1 auto; padding: 30px 34px 26px; display: flex; flex-direction: column; }
+      .chart-top { display: flex; align-items: baseline; justify-content: space-between; }
+      .chart-lbl { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 20px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--graphite); }
+      .chart-sub { font-family: "Inter", sans-serif; font-weight: 500; font-size: 21px; color: var(--sage); }
+      .bars { display: flex; align-items: flex-end; gap: 22px; flex: 1 1 auto; margin-top: 22px; min-height: 0; }
+      .bar { flex: 1 1 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 12px; }
+      .bar span { display: block; width: 100%; border-radius: 12px 12px 0 0; background: #d7cfe8; transform: scaleY(0); transform-origin: bottom; will-change: transform; }
+      .bar.peak span { background: var(--violet-deep); }
+      .bar i { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 17px; color: #9a96ad; font-style: normal; }
+      .panel { padding: 28px 30px; }
+      .panel-title { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 19px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--graphite); margin-bottom: 18px; }
+      .attn-row { display: flex; align-items: center; gap: 18px; padding: 20px 0; will-change: transform, opacity; }
+      .attn-row + .attn-row { border-top: 1px solid rgba(27,27,41,0.08); }
+      .attn-dot { width: 14px; height: 14px; border-radius: 50%; flex: 0 0 auto; }
+      .dot-violet { background: var(--violet); }
+      .dot-coral { background: #c0574e; }
+      .attn-main { flex: 1 1 auto; min-width: 0; }
+      .attn-name { font-family: "Manrope", sans-serif; font-weight: 700; font-size: 25px; color: var(--ink); }
+      .attn-sub { font-family: "Inter", sans-serif; font-weight: 400; font-size: 20px; color: var(--graphite); margin-top: 5px; }
+      .attn-btn { flex: 0 0 auto; font-family: "Inter", sans-serif; font-weight: 500; font-size: 20px; color: #fff; background: var(--ink); padding: 11px 22px; border-radius: 9999px; white-space: nowrap; }
+      .mini-row { display: flex; align-items: center; gap: 16px; padding: 16px 0; will-change: transform, opacity; }
+      .mini-row + .mini-row { border-top: 1px solid rgba(27,27,41,0.07); }
+      .mini-av { width: 48px; height: 48px; border-radius: 50%; flex: 0 0 auto; display: flex; align-items: center; justify-content: center; font-family: "Manrope", sans-serif; font-weight: 700; font-size: 19px; color: #fff; }
+      .mini-name { font-family: "Manrope", sans-serif; font-weight: 700; font-size: 23px; color: var(--ink); }
+      .mini-sub { font-family: "Inter", sans-serif; font-weight: 400; font-size: 19px; color: var(--graphite); margin-top: 3px; }
+      .mini-right { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 19px; color: var(--graphite); }
+
+      /* ---- SCHEDULE ---- */
+      .sched-toolbar { display: flex; align-items: center; gap: 22px; margin-top: 26px; }
+      .seg { display: inline-flex; background: #e9e6f2; border-radius: 9999px; padding: 6px; }
+      .seg b { font-family: "Inter", sans-serif; font-weight: 500; font-size: 21px; color: var(--graphite); padding: 11px 26px; border-radius: 9999px; }
+      .seg b.on { background: #fff; color: var(--ink); box-shadow: 0 2px 6px rgba(27,27,41,0.1); }
+      .seg-nav { font-family: "Inter", sans-serif; font-weight: 500; font-size: 23px; color: var(--graphite); letter-spacing: 0.16em; }
+      .cal { background: var(--card); border: 1px solid rgba(27,27,41,0.07); border-radius: 22px; box-shadow: 0 10px 26px rgba(27,27,41,0.05); overflow: hidden; margin-top: 24px; }
+      .cal-grid { display: grid; grid-template-columns: 116px repeat(5, 1fr); }
+      .cal-cell { border-right: 1px solid rgba(27,27,41,0.06); border-bottom: 1px solid rgba(27,27,41,0.06); min-height: 132px; position: relative; }
+      .cal-cell.ch { min-height: auto; padding: 18px 0; text-align: center; border-bottom: 1px solid rgba(27,27,41,0.1); }
+      .cal-cell.ct { display: flex; align-items: flex-start; justify-content: flex-end; padding: 12px 16px; min-height: 132px; }
+      .dow { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 20px; letter-spacing: 0.08em; color: var(--graphite); }
+      .dom { font-family: "Manrope", sans-serif; font-weight: 700; font-size: 28px; color: var(--ink); margin-top: 3px; }
+      .ctime { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 19px; color: var(--graphite); }
+      .appt { position: absolute; inset: 8px; border-radius: 12px; padding: 12px 14px; overflow: hidden; will-change: transform, opacity; }
+      .appt.v { background: rgba(107,78,158,0.14); border-left: 5px solid var(--violet); }
+      .appt.g { background: rgba(111,146,102,0.18); border-left: 5px solid var(--sage); }
+      .appt .at { font-family: "Inter", sans-serif; font-weight: 400; font-size: 17px; color: var(--graphite); }
+      .appt .an { font-family: "Manrope", sans-serif; font-weight: 700; font-size: 22px; color: var(--ink); margin-top: 5px; line-height: 1.05; }
+
+      /* ---- APPOINTMENT DETAIL ---- */
+      .appt-wrap { display: grid; grid-template-columns: 1.05fr 1fr; gap: 34px; margin-top: 30px; }
+      .appt-name { font-family: "Manrope", sans-serif; font-weight: 300; font-size: 62px; line-height: 1; letter-spacing: 0.01em; text-transform: uppercase; color: var(--ink); }
+      .appt-statusrow { display: flex; align-items: center; gap: 22px; margin-top: 26px; }
+      .appt-confirm { font-family: "Inter", sans-serif; font-weight: 600; font-size: 24px; color: #fff; background: var(--violet); padding: 16px 34px; border-radius: 9999px; box-shadow: 0 10px 26px rgba(107,78,158,0.3); }
+      .appt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 30px; margin-top: 38px; }
+      .appt-grid .k { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 18px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--graphite); }
+      .appt-grid .v { font-family: "Manrope", sans-serif; font-weight: 700; font-size: 30px; color: var(--ink); margin-top: 8px; }
+      .tele-card, .note-card { padding: 30px 32px; }
+      .tele-card { display: flex; align-items: center; justify-content: space-between; }
+      .tele-lbl { font-family: "Manrope", sans-serif; font-weight: 700; font-size: 30px; color: var(--ink); }
+      .tele-sub { font-family: "Inter", sans-serif; font-weight: 400; font-size: 22px; color: var(--graphite); margin-top: 6px; }
+      .tele-join { display: flex; align-items: center; gap: 12px; font-family: "Inter", sans-serif; font-weight: 600; font-size: 24px; color: #fff; background: var(--ink); padding: 15px 30px; border-radius: 9999px; }
+      .tele-join svg { width: 26px; height: 26px; }
+      .note-card { margin-top: 30px; }
+      .note-row { display: flex; align-items: center; justify-content: space-between; }
+      .note-lbl { font-family: "Manrope", sans-serif; font-weight: 700; font-size: 30px; color: var(--ink); }
+      .note-btn { font-family: "Inter", sans-serif; font-weight: 500; font-size: 22px; color: var(--violet); border: 1.5px solid rgba(107,78,158,0.4); padding: 12px 26px; border-radius: 9999px; }
+      .note-empty { font-family: "Inter", sans-serif; font-weight: 400; font-size: 23px; color: var(--graphite); margin-top: 20px; }
+
+      /* ---- TABLE (patients / invoices) ---- */
+      .tbl { margin-top: 28px; background: var(--card); border: 1px solid rgba(27,27,41,0.07); border-radius: 22px; box-shadow: 0 10px 26px rgba(27,27,41,0.05); overflow: hidden; }
+      .tbl-head, .tbl-row { display: grid; align-items: center; padding: 0 36px; }
+      .tbl-head { height: 66px; background: #ece9f5; }
+      .th { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 17px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--graphite); }
+      .th.r, .td.r { text-align: right; justify-self: end; }
+      .tbl-row { height: 96px; border-top: 1px solid rgba(27,27,41,0.07); will-change: transform, opacity; }
+      .td { font-family: "Inter", sans-serif; font-size: 24px; color: var(--ink); }
+      .td.name { display: flex; align-items: center; gap: 18px; font-family: "Manrope", sans-serif; font-weight: 700; }
+      .td.mail { color: var(--graphite); font-size: 22px; }
+      .td.mono { font-family: "JetBrains Mono", monospace; font-weight: 500; }
+      .td .inv-id { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 24px; color: var(--ink); }
+      .td .inv-sub { font-family: "Inter", sans-serif; font-size: 18px; color: var(--graphite); margin-top: 4px; }
+      .td.amt .a { font-family: "Manrope", sans-serif; font-weight: 700; font-size: 26px; color: var(--ink); }
+      .td.amt .due { font-family: "Inter", sans-serif; font-size: 17px; color: #a07a74; margin-top: 4px; }
+      .pt-cols { grid-template-columns: 2fr 2.4fr 1fr 1.1fr; }
+      .inv-cols { grid-template-columns: 1.2fr 1.7fr 1fr 1.1fr 1fr; }
+      .count-pill { min-width: 56px; height: 50px; padding: 0 20px; border-radius: 9999px; border: 1.5px solid rgba(27,27,41,0.14); background: #fff; color: var(--ink); font-family: "Manrope", sans-serif; font-weight: 700; font-size: 26px; display: inline-flex; align-items: center; justify-content: center; }
+
+      /* invoices controls */
+      .inv-controls { display: flex; align-items: center; justify-content: space-between; margin-top: 26px; }
+      .filter-chips { display: inline-flex; gap: 12px; }
+      .filter-chips b { font-family: "Inter", sans-serif; font-weight: 500; font-size: 21px; color: var(--graphite); padding: 11px 26px; border-radius: 9999px; border: 1.5px solid rgba(27,27,41,0.14); }
+      .filter-chips b.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+      .new-inv { font-family: "Inter", sans-serif; font-weight: 600; font-size: 22px; color: #fff; background: var(--ink); padding: 14px 30px; border-radius: 9999px; }
+
+      /* ---- MESSAGES ---- */
+      .back-link { font-family: "Inter", sans-serif; font-weight: 500; font-size: 22px; color: var(--graphite); margin-top: 22px; }
+      .conv { margin-top: 22px; height: calc(100% - 220px); background: var(--card); border: 1px solid rgba(27,27,41,0.07); border-radius: 22px; box-shadow: 0 10px 26px rgba(27,27,41,0.05); display: flex; flex-direction: column; overflow: hidden; }
+      .conv-head { display: flex; align-items: center; gap: 18px; padding: 26px 34px; border-bottom: 1px solid rgba(27,27,41,0.08); }
+      .conv-head .cn { font-family: "Manrope", sans-serif; font-weight: 700; font-size: 26px; color: var(--ink); }
+      .conv-head .cs { font-family: "Inter", sans-serif; font-weight: 400; font-size: 20px; color: var(--graphite); margin-top: 3px; }
+      .bubbles { flex: 1 1 auto; padding: 34px 40px; display: flex; flex-direction: column; gap: 14px; }
+      .brow { display: flex; flex-direction: column; will-change: transform, opacity; }
+      .brow.out { align-items: flex-end; }
+      .brow.in { align-items: flex-start; }
+      .bubble { max-width: 64%; padding: 22px 28px; border-radius: 26px; font-family: "Inter", sans-serif; font-size: 25px; line-height: 1.36; }
+      .bubble-in { background: #f1eff7; border: 1px solid rgba(27,27,41,0.06); color: var(--ink); border-bottom-left-radius: 8px; }
+      .bubble-out { background: linear-gradient(120deg, #6b4e9e, #5a3f8a); color: #fff; border-bottom-right-radius: 8px; }
+      .bmeta { font-family: "Inter", sans-serif; font-size: 18px; color: #9a97aa; margin: 8px 8px 0; }
+      .typing { display: inline-flex; gap: 10px; padding: 24px 30px; background: #f1eff7; border: 1px solid rgba(27,27,41,0.06); border-radius: 26px; border-bottom-left-radius: 8px; align-self: flex-start; }
+      .typing i { width: 14px; height: 14px; border-radius: 50%; background: #c0bcd0; display: block; }
+      .composer { display: flex; align-items: center; gap: 18px; padding: 22px 30px; border-top: 1px solid rgba(27,27,41,0.08); }
+      .composer .clip { width: 34px; height: 34px; color: var(--graphite); flex: 0 0 auto; }
+      .composer .clip svg { width: 34px; height: 34px; }
+      .composer .cfield { flex: 1 1 auto; height: 64px; border: 1.5px solid rgba(27,27,41,0.14); border-radius: 9999px; display: flex; align-items: center; padding: 0 28px; font-family: "Inter", sans-serif; font-size: 22px; color: #9a97aa; }
+      .composer .send { flex: 0 0 auto; display: flex; align-items: center; gap: 10px; font-family: "Inter", sans-serif; font-weight: 600; font-size: 22px; color: #fff; background: var(--violet); padding: 16px 30px; border-radius: 9999px; }
+      .composer .send svg { width: 24px; height: 24px; }
+
+      /* ====================================================== */
+      /* CURSOR                                                 */
+      /* ====================================================== */
+      #cursor { position: absolute; top: 0; left: 0; z-index: 7; pointer-events: none; opacity: 0; will-change: transform, opacity; }
+      #cursor svg { display: block; filter: drop-shadow(0 4px 9px rgba(0,0,0,0.45)); }
+      #clickRing { position: absolute; top: 0; left: 0; width: 64px; height: 64px; border-radius: 50%; z-index: 6; border: 3px solid rgba(107,78,158,0.85); pointer-events: none; opacity: 0; will-change: transform, opacity; }
+
+      /* ====================================================== */
+      /* END CARD                                               */
+      /* ====================================================== */
+      .endcard { position: absolute; inset: 0; z-index: 8; opacity: 0; background: var(--bg); overflow: hidden; }
+      .end-aurora { position: absolute; inset: 0; pointer-events: none; }
+      .end-blob { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.42; }
+      .eb1 { width: 1100px; height: 1100px; left: -200px; top: -260px; background: radial-gradient(circle, #6b4e9e 0%, rgba(107,78,158,0) 68%); }
+      .eb2 { width: 1000px; height: 1000px; right: -240px; bottom: -280px; background: radial-gradient(circle, #4a3678 0%, rgba(74,54,120,0) 68%); }
+      .eb3 { width: 900px; height: 900px; right: -180px; top: -160px; background: radial-gradient(circle, #9c6bae 0%, rgba(156,107,174,0) 70%); }
+      .end-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 34px; }
+      .end-logo { display: flex; align-items: center; gap: 22px; opacity: 0; will-change: transform, opacity; }
+      .end-logo .lg { width: 92px; height: 92px; border-radius: 24px; background: linear-gradient(150deg,#8a5fb0,#6b4e9e); display: flex; align-items: center; justify-content: center; font-family: "Manrope", sans-serif; font-weight: 800; font-size: 50px; color: #fff; box-shadow: 0 14px 36px rgba(107,78,158,0.4); }
+      .end-wm { font-family: "Manrope", sans-serif; font-size: 86px; line-height: 1; letter-spacing: -0.02em; }
+      .end-wm .e { font-weight: 800; color: var(--ink); }
+      .end-wm .s { font-weight: 300; color: var(--violet); }
+      .end-underline { width: 560px; height: 6px; border-radius: 9999px; background: var(--violet); transform: scaleX(0); transform-origin: center; will-change: transform; }
+      .end-tag { font-family: "Manrope", sans-serif; font-weight: 700; font-size: 42px; color: var(--ink); text-align: center; opacity: 0; will-change: transform, opacity; max-width: 1000px; line-height: 1.2; }
+      .end-eye { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 25px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--graphite); opacity: 0; will-change: transform, opacity; }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="therapy-portal-tour-desktop"
+      data-start="0"
+      data-duration="40"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- ============ PHOTO OFFICE BACKGROUND ============ -->
+      <div id="photo"></div>
+      <div id="photo-dim"></div>
+
+      <!-- ============ APP (warped onto the monitor screen) ============ -->
+      <div id="camera">
+        <div class="app">
+          <!-- icon rail -->
+          <aside class="sidebar">
+            <div class="brand-logo">T</div>
+            <nav class="nav" id="nav">
+              <div class="nav-ring" id="navRing"></div>
+              <div class="nav-btn" data-nav="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+              <div class="nav-btn" data-nav="inbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13h5l1.5 3h5L21 13"/><path d="M3 13l2.5-8h13L21 13v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg><span class="nav-badge">2</span></div>
+              <div class="nav-btn" data-nav="patients"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M2.5 20c0-3.4 3-5.2 6.5-5.2s6.5 1.8 6.5 5.2"/><path d="M16 5.2a3.4 3.4 0 0 1 0 6.4"/><path d="M21.5 20c0-2.6-1.6-4.3-3.8-5"/></svg></div>
+              <div class="nav-btn" data-nav="schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg><span class="nav-badge">2</span></div>
+              <div class="nav-btn" data-nav="notes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h9l5 5v11H5z"/><path d="M14 4v5h5"/><path d="M9 13.5l2 2 4-4"/></svg></div>
+              <div class="nav-btn" data-nav="invoices"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l4 4v16H6z"/><path d="M14 2v5h5"/><path d="M9 13h6M9 17h4"/></svg><span class="nav-badge">1</span></div>
+              <div class="nav-btn" data-nav="messages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l.9-5A8 8 0 1 1 21 12z"/></svg></div>
+              <div class="nav-btn" data-nav="files"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+              <div class="nav-btn" data-nav="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.2a1.7 1.7 0 0 0-2.9-1.2l-.1.1A2 2 0 1 1 4.1 16.7l.1-.1a1.7 1.7 0 0 0-1.2-2.9H3a2 2 0 1 1 0-4h.2a1.7 1.7 0 0 0 1.2-2.9l-.1-.1A2 2 0 1 1 7.1 4l.1.1a1.7 1.7 0 0 0 2.9-1.2V3a2 2 0 1 1 4 0v.2a1.7 1.7 0 0 0 2.9 1.2l.1-.1A2 2 0 1 1 20 7.1l-.1.1a1.7 1.7 0 0 0-.5 1.3z"/></svg></div>
+            </nav>
+          </aside>
+
+          <!-- persistent user chip -->
+          <div class="userbar">
+            <div class="uinfo">
+              <div class="uname">Dr. Taylor Reed</div>
+              <div class="umail">admin@therapyportal.app</div>
+            </div>
+            <div class="uav">DT</div>
+            <div class="signout">Sign out</div>
+          </div>
+
+          <!-- content -->
+          <div class="content">
+            <!-- DASHBOARD -->
+            <div class="scene" id="scene-dashboard">
+              <div class="page-title">Dashboard</div>
+              <div class="subtle">Welcome back, Taylor. Here is your week at a glance.</div>
+              <div class="dash">
+                <div class="dash-col">
+                  <div class="stat-row">
+                    <div class="card stat"><div class="slbl">Sessions this week</div><div class="sval accent">13</div></div>
+                    <div class="card stat"><div class="slbl">Completed</div><div class="sval">12</div></div>
+                    <div class="card stat"><div class="slbl">Outstanding</div><div class="sval">$500</div></div>
+                  </div>
+                  <div class="card chart-card">
+                    <div class="chart-top"><div class="chart-lbl">Sessions · last 6 weeks</div><div class="chart-sub">▲ 18% vs prior</div></div>
+                    <div class="bars">
+                      <div class="bar"><span style="height:40%"></span><i>W1</i></div>
+                      <div class="bar"><span style="height:48%"></span><i>W2</i></div>
+                      <div class="bar"><span style="height:60%"></span><i>W3</i></div>
+                      <div class="bar"><span style="height:56%"></span><i>W4</i></div>
+                      <div class="bar"><span style="height:78%"></span><i>W5</i></div>
+                      <div class="bar peak"><span style="height:100%"></span><i>W6</i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dash-col">
+                  <div class="card panel">
+                    <div class="panel-title">Needs your attention</div>
+                    <div class="attn-row">
+                      <div class="attn-dot dot-violet"></div>
+                      <div class="attn-main"><div class="attn-name">Rachel Green · new inquiry</div><div class="attn-sub">Website form · awaiting intake</div></div>
+                      <div class="attn-btn">Review</div>
+                    </div>
+                    <div class="attn-row">
+                      <div class="attn-dot dot-coral"></div>
+                      <div class="attn-main"><div class="attn-name">INV-1004 overdue</div><div class="attn-sub">David Kim · $150</div></div>
+                      <div class="attn-btn">Follow up</div>
+                    </div>
+                  </div>
+                  <div class="card panel">
+                    <div class="panel-title">Recent patients</div>
+                    <div class="mini-row"><div class="mini-av av-violet">MC</div><div class="attn-main"><div class="mini-name">Maya Chen</div><div class="mini-sub">Individual · telehealth</div></div><div class="mini-right">Today</div></div>
+                    <div class="mini-row"><div class="mini-av av-violet-d">JA</div><div class="attn-main"><div class="mini-name">Jordan Avery</div><div class="mini-sub">Individual · telehealth</div></div><div class="mini-right">Today</div></div>
+                    <div class="mini-row"><div class="mini-av av-violet-l">SR</div><div class="attn-main"><div class="mini-name">Sofia Rodriguez</div><div class="mini-sub">In person</div></div><div class="mini-right">Yest.</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PATIENTS -->
+            <div class="scene" id="scene-patients">
+              <div class="page-title">Patients</div>
+              <div class="subtle"><span class="o">8 active</span> · 1 awaiting intake</div>
+              <div class="tbl">
+                <div class="tbl-head pt-cols">
+                  <div class="th">Patient</div><div class="th">Email</div><div class="th r">Sessions</div><div class="th r">Status</div>
+                </div>
+                <div class="tbl-row pt-cols">
+                  <div class="td name"><div class="avatar av-violet">ET</div>Emma Thompson</div>
+                  <div class="td mail">emma.thompson@example.com</div>
+                  <div class="td r"><span class="count-pill">1</span></div>
+                  <div class="td r"><span class="badge b-active">Active</span></div>
+                </div>
+                <div class="tbl-row pt-cols">
+                  <div class="td name"><div class="avatar av-violet-d">LO</div>Liam O'Brien</div>
+                  <div class="td mail">liam.obrien@example.com</div>
+                  <div class="td r"><span class="count-pill">2</span></div>
+                  <div class="td r"><span class="badge b-active">Active</span></div>
+                </div>
+                <div class="tbl-row pt-cols">
+                  <div class="td name"><div class="avatar av-violet-l">DK</div>David Kim</div>
+                  <div class="td mail">david.kim@example.com</div>
+                  <div class="td r"><span class="count-pill">3</span></div>
+                  <div class="td r"><span class="badge b-active">Active</span></div>
+                </div>
+                <div class="tbl-row pt-cols">
+                  <div class="td name"><div class="avatar av-violet">SR</div>Sofia Rodriguez</div>
+                  <div class="td mail">sofia.rodriguez@example.com</div>
+                  <div class="td r"><span class="count-pill">4</span></div>
+                  <div class="td r"><span class="badge b-active">Active</span></div>
+                </div>
+                <div class="tbl-row pt-cols">
+                  <div class="td name"><div class="avatar av-graphite">RG</div>Rachel Green</div>
+                  <div class="td mail">rachel.green@example.com</div>
+                  <div class="td r"><span class="count-pill">0</span></div>
+                  <div class="td r"><span class="badge b-intake">Intake</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SCHEDULE -->
+            <div class="scene" id="scene-schedule">
+              <div class="page-title">Schedule</div>
+              <div class="sched-toolbar">
+                <div class="seg"><b class="on">Week</b><b>Month</b></div>
+                <div class="seg-nav">‹ MAY 25 – 29 ›</div>
+              </div>
+              <div class="cal">
+                <div class="cal-grid">
+                  <div class="cal-cell ch"></div>
+                  <div class="cal-cell ch"><div class="dow">MON</div><div class="dom">25</div></div>
+                  <div class="cal-cell ch"><div class="dow">TUE</div><div class="dom">26</div></div>
+                  <div class="cal-cell ch"><div class="dow">WED</div><div class="dom">27</div></div>
+                  <div class="cal-cell ch"><div class="dow">THU</div><div class="dom">28</div></div>
+                  <div class="cal-cell ch"><div class="dow">FRI</div><div class="dom">29</div></div>
+
+                  <div class="cal-cell ct"><div class="ctime">9 AM</div></div>
+                  <div class="cal-cell"><div class="appt v" id="schedMaya"><div class="at">9:00 · Telehealth</div><div class="an">Maya Chen</div></div></div>
+                  <div class="cal-cell"></div>
+                  <div class="cal-cell"><div class="appt v"><div class="at">9:30 · Telehealth</div><div class="an">Jordan Avery</div></div></div>
+                  <div class="cal-cell"></div>
+                  <div class="cal-cell"><div class="appt g"><div class="at">9:00 · In person</div><div class="an">Noah Bennett</div></div></div>
+
+                  <div class="cal-cell ct"><div class="ctime">10 AM</div></div>
+                  <div class="cal-cell"></div>
+                  <div class="cal-cell"><div class="appt g"><div class="at">10:00 · In person</div><div class="an">Sofia Rodriguez</div></div></div>
+                  <div class="cal-cell"></div>
+                  <div class="cal-cell"><div class="appt v"><div class="at">10:30 · Intake</div><div class="an">Aisha Patel</div></div></div>
+                  <div class="cal-cell"></div>
+
+                  <div class="cal-cell ct"><div class="ctime">11 AM</div></div>
+                  <div class="cal-cell"><div class="appt g"><div class="at">11:00 · Couples</div><div class="an">Marcus Williams</div></div></div>
+                  <div class="cal-cell"></div>
+                  <div class="cal-cell"></div>
+                  <div class="cal-cell"><div class="appt v"><div class="at">11:00 · Telehealth</div><div class="an">Liam O'Brien</div></div></div>
+                  <div class="cal-cell"></div>
+
+                  <div class="cal-cell ct"><div class="ctime">12 PM</div></div>
+                  <div class="cal-cell"></div>
+                  <div class="cal-cell"><div class="appt v"><div class="at">12:00 · Telehealth</div><div class="an">Emma Thompson</div></div></div>
+                  <div class="cal-cell"></div>
+                  <div class="cal-cell"></div>
+                  <div class="cal-cell"><div class="appt g"><div class="at">12:00 · Family</div><div class="an">Diaz Family</div></div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- APPOINTMENT DETAIL -->
+            <div class="scene" id="scene-appt">
+              <div class="page-eyebrow reveal">Individual session</div>
+              <div class="appt-name reveal">Maya Chen</div>
+              <div class="appt-wrap">
+                <div>
+                  <div class="appt-statusrow reveal">
+                    <div class="flip" id="apptStatus">
+                      <div class="badge b-scheduled b1">Scheduled</div>
+                      <div class="badge b-confirmed b2">Confirmed</div>
+                    </div>
+                    <div class="appt-confirm" id="apptConfirm">Confirm</div>
+                  </div>
+                  <div class="appt-grid reveal">
+                    <div><div class="k">Provider</div><div class="v">Taylor Reed, LPC</div></div>
+                    <div><div class="k">Modality</div><div class="v">Telehealth</div></div>
+                    <div><div class="k">When</div><div class="v">Jun 1 · 10:00 AM</div></div>
+                    <div><div class="k">Duration</div><div class="v">50 min</div></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="card tele-card reveal">
+                    <div>
+                      <div class="tele-lbl">Telehealth session</div>
+                      <div class="tele-sub">Secure video room</div>
+                    </div>
+                    <div class="tele-join"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></svg> Join</div>
+                  </div>
+                  <div class="card note-card reveal">
+                    <div class="note-row">
+                      <div class="note-lbl">Clinical note</div>
+                      <div class="note-btn">Write note</div>
+                    </div>
+                    <div class="note-empty">No note yet for this session.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- INVOICES -->
+            <div class="scene" id="scene-invoices">
+              <div class="page-title">Invoices</div>
+              <div class="subtle">5 total · <span class="o" id="invOutstanding">$500.00</span> outstanding</div>
+              <div class="inv-controls">
+                <div class="filter-chips"><b class="on">All</b><b>Draft</b><b>Sent</b><b>Overdue</b><b>Paid</b><b>Voided</b></div>
+                <div class="new-inv">+ New invoice</div>
+              </div>
+              <div class="tbl">
+                <div class="tbl-head inv-cols">
+                  <div class="th">Invoice</div><div class="th">Patient</div><div class="th">Status</div><div class="th">Due</div><div class="th r">Amount</div>
+                </div>
+                <div class="tbl-row inv-cols">
+                  <div class="td"><div class="inv-id">INV-1005</div><div class="inv-sub">Superbill</div></div>
+                  <div class="td">Jordan Avery</div>
+                  <div class="td"><span class="badge b-sent">Sent</span></div>
+                  <div class="td mono">Jun 4, 2026</div>
+                  <div class="td r amt"><div class="a">$150.00</div><div class="due">$150.00 due</div></div>
+                </div>
+                <div class="tbl-row inv-cols">
+                  <div class="td"><div class="inv-id">INV-1004</div><div class="inv-sub">Superbill</div></div>
+                  <div class="td">David Kim</div>
+                  <div class="td"><div class="flip"><div class="badge b-overdue b1">Overdue</div><div class="badge b-paid b2">Paid</div></div></div>
+                  <div class="td mono">May 19, 2026</div>
+                  <div class="td r amt"><div class="a">$150.00</div><div class="due" id="inv4due">$150.00 due</div></div>
+                </div>
+                <div class="tbl-row inv-cols">
+                  <div class="td"><div class="inv-id">INV-1003</div><div class="inv-sub">Superbill</div></div>
+                  <div class="td">Marcus Williams</div>
+                  <div class="td"><span class="badge b-sent">Sent</span></div>
+                  <div class="td mono">Jun 4, 2026</div>
+                  <div class="td r amt"><div class="a">$200.00</div><div class="due">$200.00 due</div></div>
+                </div>
+                <div class="tbl-row inv-cols">
+                  <div class="td"><div class="inv-id">INV-1002</div><div class="inv-sub">Superbill</div></div>
+                  <div class="td">Sofia Rodriguez</div>
+                  <div class="td"><span class="badge b-paid">Paid</span></div>
+                  <div class="td mono">May 29, 2026</div>
+                  <div class="td r amt"><div class="a">$150.00</div></div>
+                </div>
+                <div class="tbl-row inv-cols">
+                  <div class="td"><div class="inv-id">INV-1001</div><div class="inv-sub">Superbill</div></div>
+                  <div class="td">Maya Chen</div>
+                  <div class="td"><span class="badge b-paid">Paid</span></div>
+                  <div class="td mono">May 26, 2026</div>
+                  <div class="td r amt"><div class="a">$150.00</div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- MESSAGES -->
+            <div class="scene" id="scene-messages">
+              <div class="page-eyebrow">Thread</div>
+              <div class="page-title">Jordan Avery</div>
+              <div class="open-link">Open patient</div>
+              <div class="back-link">‹ Back to all messages</div>
+              <div class="conv">
+                <div class="conv-head">
+                  <div class="avatar av-violet">JA</div>
+                  <div><div class="cn">Jordan Avery</div><div class="cs">patient@example.com</div></div>
+                </div>
+                <div class="bubbles">
+                  <div class="brow out"><div class="bubble bubble-out">Hi Jordan, confirming your upcoming telehealth session. Let me know if anything comes up beforehand.</div><div class="bmeta">May 23, 5:00 AM</div></div>
+                  <div class="typing" id="msgTyping"><i></i><i></i><i></i></div>
+                  <div class="brow in" id="msgIn"><div class="bubble bubble-in">Thanks! Should I fill anything out before we meet?</div><div class="bmeta">May 24, 3:00 PM</div></div>
+                  <div class="brow out" id="msgOut2"><div class="bubble bubble-out">Just the brief check-in form I sent over. See you soon!</div><div class="bmeta">May 24, 4:00 PM</div></div>
+                </div>
+                <div class="composer">
+                  <div class="clip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5l-8.6 8.6a5 5 0 0 1-7-7l8.5-8.6a3.3 3.3 0 0 1 4.7 4.7l-8.5 8.5a1.6 1.6 0 0 1-2.3-2.3l7.8-7.8"/></svg></div>
+                  <div class="cfield">Write a message...</div>
+                  <div class="send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg> Send</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="screen-glare"></div>
+        </div>
+      </div>
+
+      <!-- ============ INTRO CAPTION ============ -->
+      <div id="caption">
+        <div class="cap-eyebrow">Therapy Portal</div>
+        <div class="cap-head">Run your <span class="kw">whole practice</span> from one screen.</div>
+      </div>
+
+      <!-- ============ CURSOR ============ -->
+      <div id="clickRing"></div>
+      <div id="cursor">
+        <svg viewBox="0 0 24 24" width="48" height="48">
+          <path d="M5 2.5 L19.5 12 L12.4 13.1 L16.4 21 L13.1 22.2 L9.1 14.3 L5 18.4 Z" fill="#ffffff" stroke="#1b1b29" stroke-width="1.3" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <!-- ============ END CARD ============ -->
+      <div class="endcard" id="endcard">
+        <div class="end-aurora">
+          <div class="end-blob eb1"></div>
+          <div class="end-blob eb2"></div>
+          <div class="end-blob eb3"></div>
+        </div>
+        <div class="end-inner">
+          <div class="end-logo"><div class="lg">T</div><div class="end-wm"><span class="e">Therapy</span> <span class="s">Portal</span></div></div>
+          <div class="end-underline"></div>
+          <div class="end-tag">Your whole practice, in one calm place.</div>
+          <div class="end-eye">For modern therapy practices</div>
+        </div>
+      </div>
+
+      <script>
+        (function () {
+          const id = "therapy-portal-tour-desktop";
+          const q = (s) => '[data-composition-id="therapy-portal-tour-desktop"] ' + s;
+          const root = document.querySelector('[data-composition-id="therapy-portal-tour-desktop"]');
+          const sel = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+
+          // ---- nav lookups ----
+          const navBtns = {};
+          root.querySelectorAll(".nav-btn").forEach((el) => (navBtns[el.dataset.nav] = el));
+
+          const centerOf = (el) => {
+            let x = 0, y = 0, n = el;
+            while (n && n !== root) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; }
+            return { x: x + el.offsetWidth / 2, y: y + el.offsetHeight / 2 };
+          };
+          const navCenter = {};
+          const navTop = {};
+          Object.keys(navBtns).forEach((k) => {
+            navCenter[k] = centerOf(navBtns[k]);
+            // ring is 62px tall and centered on a 56px button -> offset by -3
+            navTop[k] = navBtns[k].offsetTop - 3;
+          });
+          const navList = ["dashboard", "patients", "schedule", "invoices", "messages"];
+
+          // ---------- screen homography (warp live UI onto angled monitor) ----------
+          const APPW = 1920, APPH = 1080;
+          const SRC = [[0, 0], [APPW, 0], [APPW, APPH], [0, APPH]];
+          const FULL_QUAD = SRC;
+          // measured screen-glass corners (comp px): TL, TR, BR, BL
+          const SCREEN_QUAD = [[118, 157], [926, 191], [877, 650], [130, 744]];
+          const solveLin = (M, v) => {
+            const n = v.length;
+            const A = M.map((row, i) => row.concat([v[i]]));
+            for (let col = 0; col < n; col++) {
+              let piv = col;
+              for (let r = col + 1; r < n; r++) if (Math.abs(A[r][col]) > Math.abs(A[piv][col])) piv = r;
+              const tmp = A[col]; A[col] = A[piv]; A[piv] = tmp;
+              const d = A[col][col];
+              for (let c = col; c <= n; c++) A[col][c] /= d;
+              for (let r = 0; r < n; r++) {
+                if (r === col) continue;
+                const f = A[r][col];
+                if (f === 0) continue;
+                for (let c = col; c <= n; c++) A[r][c] -= f * A[col][c];
+              }
+            }
+            return A.map((row) => row[n]);
+          };
+          const homography = (src, dst) => {
+            const M = [], v = [];
+            for (let i = 0; i < 4; i++) {
+              const [x, y] = src[i], [X, Y] = dst[i];
+              M.push([x, y, 1, 0, 0, 0, -x * X, -y * X]); v.push(X);
+              M.push([0, 0, 0, x, y, 1, -x * Y, -y * Y]); v.push(Y);
+            }
+            return solveLin(M, v); // [a,b,c,d,e,f,g,h]
+          };
+          const matrix3dFor = (dst) => {
+            const h = homography(SRC, dst);
+            return `matrix3d(${h[0]},${h[3]},0,${h[6]},${h[1]},${h[4]},0,${h[7]},0,0,1,0,${h[2]},${h[5]},0,1)`;
+          };
+          const lerpQuad = (q0, q1, p) =>
+            q0.map((pt, i) => [pt[0] + (q1[i][0] - pt[0]) * p, pt[1] + (q1[i][1] - pt[1]) * p]);
+          const applyQuad = (dst) => { sel("#camera").style.transform = matrix3dFor(dst); };
+
+          // ---------- initial state ----------
+          applyQuad(SCREEN_QUAD);
+          gsap.set(q("#camera"), { opacity: 0 });
+          gsap.set(q("#photo"), { opacity: 0 });
+          gsap.set(q("#photo-dim"), { opacity: 0 });
+          gsap.set(q(".screen-glare"), { opacity: 0 });
+
+          gsap.set(q("#navRing"), { y: navTop.dashboard });
+          gsap.set(navBtns.dashboard, { opacity: 1 });
+
+          gsap.set(q("#scene-dashboard"), { opacity: 1, y: 0 });
+          gsap.set(q("#scene-dashboard .bar span"), { scaleY: 1 });
+          gsap.set(q("#scene-dashboard .attn-row"), { opacity: 0, x: 24 });
+          gsap.set(q("#scene-dashboard .mini-row"), { opacity: 0, x: 24 });
+          gsap.set(q("#scene-patients .tbl-row"), { opacity: 0, y: 18 });
+          gsap.set(q("#scene-schedule .appt"), { opacity: 0, y: 10 });
+          gsap.set(q("#scene-appt .reveal"), { opacity: 0, y: 16 });
+          gsap.set(q("#scene-invoices .tbl-row"), { opacity: 0, y: 18 });
+          gsap.set(q("#scene-messages #msgIn"), { opacity: 0, y: 16 });
+          gsap.set(q("#scene-messages #msgOut2"), { opacity: 0, y: 16 });
+          gsap.set(q("#cursor"), { opacity: 0, x: 360, y: 720, scale: 1 });
+          gsap.set(q("#clickRing"), { xPercent: -50, yPercent: -50, opacity: 0, scale: 0.4 });
+
+          // ---------- helpers ----------
+          const sceneIn = (s, t) => tl.fromTo(q(s), { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, t);
+          const sceneOut = (s, t) => tl.to(q(s), { opacity: 0, y: -24, duration: 0.5, ease: "power2.in" }, t);
+          const flip = (cardSel, t) => {
+            tl.to(q(cardSel + " .b1"), { opacity: 0, scale: 0.7, duration: 0.3, ease: "power2.in" }, t);
+            tl.fromTo(q(cardSel + " .b2"), { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, t + 0.12);
+          };
+          const cursorTo = (p, t, dur) => tl.to(q("#cursor"), { x: p.x - 4, y: p.y - 3, duration: dur || 0.6, ease: "power2.inOut" }, t);
+          const cursorClick = (t, p) => {
+            tl.to(q("#cursor"), { scale: 0.84, duration: 0.1, ease: "power2.in" }, t);
+            tl.to(q("#cursor"), { scale: 1, duration: 0.22, ease: "back.out(2)" }, t + 0.1);
+            tl.set(q("#clickRing"), { x: p.x, y: p.y }, t);
+            tl.fromTo(q("#clickRing"), { opacity: 0.65, scale: 0.4 }, { opacity: 0, scale: 1.7, duration: 0.5, ease: "power2.out" }, t);
+          };
+          const ringTo = (name, t) => tl.to(q("#navRing"), { y: navTop[name], duration: 0.5, ease: "power3.inOut" }, t);
+          const activate = (name, t) => {
+            navList.forEach((k) => { if (k !== name) tl.to(navBtns[k], { opacity: 0.5, duration: 0.4, ease: "power1.out" }, t); });
+            tl.to(navBtns[name], { opacity: 1, duration: 0.4, ease: "power1.out" }, t);
+          };
+          // full sidebar nav: cursor glides to icon, clicks, ring + active swap
+          const navTo = (name, t) => {
+            cursorTo(navCenter[name], t, 0.6);
+            cursorClick(t + 0.62, navCenter[name]);
+            ringTo(name, t + 0.66);
+            activate(name, t + 0.66);
+          };
+
+          // ====================================================
+          // A: PHOTO OFFICE + DIVE THROUGH THE SCREEN
+          // ====================================================
+          // fade up the photographed office, then the crisp live UI on the monitor
+          tl.to(q("#photo"), { opacity: 1, duration: 0.8, ease: "power2.out" }, 0.0);
+          tl.to(q("#photo-dim"), { opacity: 1, duration: 0.9, ease: "power2.out" }, 0.2);
+          tl.to(q("#camera"), { opacity: 1, duration: 0.7, ease: "power2.out" }, 0.4);
+          tl.to(q(".screen-glare"), { opacity: 1, duration: 0.7, ease: "power2.out" }, 0.4);
+          tl.fromTo(q(".cap-eyebrow"), { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" }, 0.9);
+          tl.fromTo(q(".cap-head"), { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power3.out" }, 1.2);
+          tl.to(q("#caption"), { opacity: 0, y: -16, duration: 0.5, ease: "power2.in" }, 2.7);
+          // dive: morph the angled screen quad out to the full frame while the photo
+          // pushes in toward the screen center and fades -> fly through the glass
+          const dive = { p: 0 };
+          tl.to(dive, {
+            p: 1, duration: 1.7, ease: "power3.inOut",
+            onUpdate() { applyQuad(lerpQuad(SCREEN_QUAD, FULL_QUAD, dive.p)); },
+          }, 3.2);
+          tl.to(q(".screen-glare"), { opacity: 0, duration: 0.7, ease: "power2.in" }, 3.2);
+          tl.to(q("#photo"), { scale: 2.2, opacity: 0, duration: 1.5, ease: "power3.in" }, 3.2);
+          tl.to(q("#photo-dim"), { opacity: 0, duration: 1.0, ease: "power2.in" }, 3.4);
+
+          // ====================================================
+          // B: DASHBOARD (live)
+          // ====================================================
+          tl.to(q("#scene-dashboard .attn-row"), { opacity: 1, x: 0, duration: 0.55, ease: "power2.out", stagger: 0.16 }, 5.0);
+          tl.to(q("#scene-dashboard .mini-row"), { opacity: 1, x: 0, duration: 0.5, ease: "power2.out", stagger: 0.12 }, 5.4);
+          tl.to(q("#cursor"), { opacity: 1, duration: 0.3, ease: "power2.out" }, 5.2);
+          tl.fromTo(q("#cursor"), { x: 520, y: 760 }, { x: navCenter.dashboard.x - 4, y: navCenter.dashboard.y - 3, duration: 0.9, ease: "power2.inOut" }, 5.2);
+
+          // ---- nav -> Patients ----
+          navTo("patients", 9.0);
+          sceneOut("#scene-dashboard", 9.25);
+          sceneIn("#scene-patients", 9.55);
+          tl.to(q("#scene-patients .tbl-row"), { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", stagger: 0.09 }, 9.9);
+
+          // ---- nav -> Schedule ----
+          navTo("schedule", 13.3);
+          sceneOut("#scene-patients", 13.55);
+          sceneIn("#scene-schedule", 13.85);
+          tl.to(q("#scene-schedule .appt"), { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", stagger: 0.05 }, 14.2);
+
+          // ---- click appointment (Maya) ----
+          const mayaC = centerOf(sel("#schedMaya"));
+          cursorTo(mayaC, 15.9, 0.7);
+          cursorClick(16.55, mayaC);
+          sceneOut("#scene-schedule", 16.7);
+
+          // ====================================================
+          // C: APPOINTMENT DETAIL
+          // ====================================================
+          sceneIn("#scene-appt", 17.0);
+          tl.to(q("#scene-appt .reveal"), { opacity: 1, y: 0, duration: 0.55, ease: "power2.out", stagger: 0.1 }, 17.35);
+          const confirmC = centerOf(sel("#apptConfirm"));
+          cursorTo(confirmC, 18.8, 0.7);
+          cursorClick(19.45, confirmC);
+          flip("#apptStatus", 19.6);
+          sceneOut("#scene-appt", 21.5);
+
+          // ---- nav -> Invoices ----
+          navTo("invoices", 21.3);
+          sceneIn("#scene-invoices", 21.85);
+          tl.to(q("#scene-invoices .tbl-row"), { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", stagger: 0.09 }, 22.2);
+          flip("#scene-invoices .flip", 24.0);
+          tl.to(q("#inv4due"), { opacity: 0, duration: 0.3, ease: "power1.in" }, 24.0);
+          const outC = { v: 500 };
+          tl.to(outC, { v: 350, duration: 0.7, ease: "power2.out", onUpdate() { sel("#invOutstanding").textContent = "$" + outC.v.toFixed(2); } }, 24.1);
+
+          // ---- nav -> Messages ----
+          navTo("messages", 26.3);
+          sceneOut("#scene-invoices", 26.55);
+          sceneIn("#scene-messages", 26.85);
+          tl.to(q("#msgTyping"), { opacity: 0, height: 0, margin: 0, padding: 0, duration: 0.3, ease: "power1.in" }, 28.9);
+          tl.fromTo(q("#msgIn"), { opacity: 0, y: 16, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.7)" }, 29.1);
+          tl.fromTo(q("#msgOut2"), { opacity: 0, y: 16, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.7)" }, 30.0);
+
+          // ====================================================
+          // D: END CARD
+          // ====================================================
+          tl.to(q("#cursor"), { opacity: 0, duration: 0.4, ease: "power2.in" }, 32.3);
+          tl.to(q("#endcard"), { opacity: 1, duration: 0.6, ease: "power2.out" }, 32.6);
+          tl.fromTo(q("#endcard .end-logo"), { y: 44, opacity: 0, scale: 0.965 }, { y: 0, opacity: 1, scale: 1, duration: 0.9, ease: "power3.out" }, 32.9);
+          tl.to(q("#endcard .end-underline"), { scaleX: 1, duration: 0.6, ease: "power2.out" }, 33.8);
+          tl.fromTo(q("#endcard .end-tag"), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" }, 34.2);
+          tl.fromTo(q("#endcard .end-eye"), { y: 13, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" }, 34.8);
+
+          window.__timelines = window.__timelines || {};
+          window.__timelines[id] = tl;
+        })();
+      </script>
+    </div>
+
+    <script>
+      (function () {
+        const id = "therapy-portal-tour-desktop";
+        // Browser-only autoplay loop for opening the file directly. Driven by
+        // gsap.ticker (NOT requestAnimationFrame) so the HyperFrames renderer
+        // keeps deterministic timeline-seeking mode instead of falling back to
+        // virtual-time/screenshot mode (which would freeze the timeline).
+        //
+        // The renderer-detection flags are read via computed property names so
+        // this script is NEVER matched by the render pipeline's embedded-runtime
+        // stripper. That stripper removes any inline script whose text contains a
+        // runtime marker token (the renderReady / player globals). At render time
+        // the body scripts are coalesced into one block, so any literal marker
+        // anywhere here (even in a comment) would strip the timeline-building
+        // script too, leaving the player with no timeline and a blank video.
+        if (window.frameElement) return;
+        const w = window;
+        const playerKey = "__player";
+        const renderKey = "__render" + "Ready";
+        let start = null;
+        function drive(time) {
+          if (w[playerKey] || w[renderKey]) return; // yield to renderer
+          const reg = w.__timelines;
+          const tl = reg && reg[id];
+          if (!tl) return;
+          if (start === null) start = time;
+          const dur = tl.duration();
+          const hold = 1.4;
+          const t = (time - start) % (dur + hold);
+          tl.time(Math.min(t, dur));
+        }
+        gsap.ticker.add(drive);
+      })();
+    </script>
+  </body>
+</html>
