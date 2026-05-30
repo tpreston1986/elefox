@@ -117,69 +117,156 @@ const serviceSchema = {
     </div>
   </section>
 
-  {/* Tour video — optional, shown for verticals that have a walkthrough.
-      Click-to-play with poster + big play button; native controls and sound
-      reveal on play (same pattern as the homepage portal demo). */}
+  {/* Tour showcase — device mockups (monitor + phone) each iframing a live
+      HTML walkthrough at native resolution, CSS-scaled to fit. Each device
+      runs its own walkthrough so the desktop tour shows on the monitor and
+      the mobile tour shows on the phone. */}
   {
-    data.tourVideo && (
-      <section class="py-16 md:py-24 bg-ink text-bone">
-        <div class="mx-auto max-w-5xl px-5 md:px-8">
-          <div class="max-w-2xl mb-10 md:mb-12 mx-auto text-center">
-            {data.tourVideo.eyebrow && (
-              <span class="eyebrow eyebrow--bone">{data.tourVideo.eyebrow}</span>
+    data.tourShowcase && (
+      <section class="tour-showcase py-16 md:py-24 bg-ink text-bone overflow-hidden">
+        <div class="mx-auto max-w-6xl px-5 md:px-8">
+          <div class="max-w-2xl mb-12 md:mb-16 mx-auto text-center">
+            {data.tourShowcase.eyebrow && (
+              <span class="eyebrow eyebrow--bone">{data.tourShowcase.eyebrow}</span>
             )}
             <h2 class="text-3xl md:text-5xl font-display font-bold tracking-tight text-bone mt-5">
-              {data.tourVideo.heading}
+              {data.tourShowcase.heading}
             </h2>
-            {data.tourVideo.description && (
-              <p class="lede mt-5 mx-auto text-bone/75">{data.tourVideo.description}</p>
+            {data.tourShowcase.description && (
+              <p class="lede mt-5 mx-auto text-bone/75">{data.tourShowcase.description}</p>
             )}
           </div>
 
-          <div class="relative rounded-xl overflow-hidden shadow-lift bg-black group max-w-4xl mx-auto">
-            <video
-              id="tour-video"
-              src={data.tourVideo.src}
-              poster={data.tourVideo.poster}
-              playsinline
-              preload="metadata"
-              aria-label="Product walkthrough video"
-              class="block w-full h-auto"
-            />
-            <button
-              type="button"
-              id="tour-video-play"
-              aria-label="Play product walkthrough"
-              class="absolute inset-0 flex items-center justify-center bg-ink/20 hover:bg-ink/10 transition-colors"
-            >
-              <span class="flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full bg-bone/95 text-forest shadow-lift group-hover:scale-105 transition-transform">
-                <svg
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  class="ml-1"
-                >
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </span>
-            </button>
+          <div class="relative flex flex-col items-center md:flex-row md:justify-center md:items-end gap-8 md:gap-0">
+            {/* Monitor */}
+            <div class="device-monitor relative md:mr-[-90px] lg:mr-[-120px]">
+              <div class="monitor-bezel">
+                <div class="monitor-screen">
+                  <iframe
+                    src={data.tourShowcase.desktopSrc}
+                    class="monitor-iframe"
+                    title="Desktop walkthrough"
+                    sandbox="allow-scripts allow-same-origin"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+              <div class="monitor-stand mx-auto" />
+              <div class="monitor-base mx-auto" />
+            </div>
+
+            {/* Phone */}
+            <div class="device-phone relative z-10 md:mb-6">
+              <div class="phone-bezel">
+                <div class="phone-notch" />
+                <div class="phone-screen">
+                  <iframe
+                    src={data.tourShowcase.mobileSrc}
+                    class="phone-iframe"
+                    title="Mobile walkthrough"
+                    sandbox="allow-scripts allow-same-origin"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <script is:inline>
-          (() => {
-            const v = document.getElementById("tour-video");
-            const b = document.getElementById("tour-video-play");
-            if (!v || !b) return;
-            b.addEventListener("click", () => {
-              v.setAttribute("controls", "");
-              b.remove();
-              v.play().catch(() => {});
-            });
-          })();
-        </script>
+        <style>
+          {/* MONITOR */}
+          .tour-showcase .monitor-bezel {
+            background: #0e0d16;
+            padding: 8px;
+            border-radius: 14px;
+            box-shadow: 0 18px 50px -12px rgba(0, 0, 0, 0.55);
+          }
+          .tour-showcase .monitor-screen {
+            position: relative;
+            width: 320px;
+            height: 180px;
+            overflow: hidden;
+            border-radius: 6px;
+            background: #000;
+          }
+          .tour-showcase .monitor-iframe {
+            width: 1920px;
+            height: 1080px;
+            border: 0;
+            transform: scale(0.1667);
+            transform-origin: top left;
+          }
+          .tour-showcase .monitor-stand {
+            width: 84px;
+            height: 10px;
+            background: #0e0d16;
+            border-radius: 0 0 6px 6px;
+          }
+          .tour-showcase .monitor-base {
+            width: 160px;
+            height: 6px;
+            background: #0e0d16;
+            border-radius: 4px;
+            margin-top: 2px;
+          }
+          @media (min-width: 768px) {
+            .tour-showcase .monitor-screen {
+              width: 720px;
+              height: 405px;
+              border-radius: 8px;
+            }
+            .tour-showcase .monitor-iframe { transform: scale(0.375); }
+            .tour-showcase .monitor-stand { width: 140px; height: 14px; }
+            .tour-showcase .monitor-base { width: 260px; height: 8px; }
+          }
+
+          {/* PHONE */}
+          .tour-showcase .phone-bezel {
+            position: relative;
+            background: #0e0d16;
+            padding: 8px;
+            border-radius: 28px;
+            box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.6);
+          }
+          .tour-showcase .phone-notch {
+            position: absolute;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 16px;
+            background: #0e0d16;
+            border-radius: 0 0 12px 12px;
+            z-index: 2;
+          }
+          .tour-showcase .phone-screen {
+            position: relative;
+            width: 200px;
+            height: 360px;
+            overflow: hidden;
+            border-radius: 22px;
+            background: #000;
+          }
+          .tour-showcase .phone-iframe {
+            width: 1080px;
+            height: 1920px;
+            border: 0;
+            transform: scale(0.1852);
+            transform-origin: top left;
+          }
+          @media (min-width: 768px) {
+            .tour-showcase .phone-screen {
+              width: 224px;
+              height: 400px;
+              border-radius: 26px;
+            }
+            .tour-showcase .phone-iframe { transform: scale(0.2074); }
+            .tour-showcase .phone-notch {
+              width: 84px;
+              height: 18px;
+            }
+          }
+        </style>
       </section>
     )
   }
