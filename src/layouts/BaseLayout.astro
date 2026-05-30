@@ -71,7 +71,29 @@ const ga4Id = import.meta.env.PUBLIC_GA4_ID || "";
 
 // Meta (Facebook) Pixel. Set PUBLIC_META_PIXEL_ID (15-16 digit number) to
 // enable. Renders nothing otherwise. Respects the same ?noga opt-out flag.
+// We assemble the markup as a raw HTML string and inject via Fragment
+// set:html — Astro's <script is:inline> transform chokes on the standard
+// Meta Pixel snippet (the nested braces in the IIFE), so we sidestep it.
 const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID || "";
+const metaPixelMarkup = (() => {
+  if (!metaPixelId) return "";
+  const stub =
+    "!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');";
+  const init =
+    "try{if(localStorage.getItem('elefox_noga')!=='1'){fbq('init','" +
+    metaPixelId +
+    "');fbq('track','PageView');}}catch(e){fbq('init','" +
+    metaPixelId +
+    "');fbq('track','PageView');}";
+  return (
+    "<script>" +
+    stub +
+    init +
+    "</script><noscript><img height=\"1\" width=\"1\" style=\"display:none\" src=\"https://www.facebook.com/tr?id=" +
+    metaPixelId +
+    "&ev=PageView&noscript=1\" /></noscript>"
+  );
+})();
 ---
 
 <!doctype html>
@@ -145,20 +167,10 @@ const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID || "";
     }
 
     {/* Meta (Facebook) Pixel — gated on PUBLIC_META_PIXEL_ID. Respects the
-        same ?noga opt-out flag so owner testing doesn't pollute the pixel. */}
-    {
-      metaPixelId && (
-        <>
-          <script
-            is:inline
-            set:html={`!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');try{if(localStorage.getItem('elefox_noga')!=='1'){fbq('init','${metaPixelId}');fbq('track','PageView');}}catch(e){fbq('init','${metaPixelId}');fbq('track','PageView');}`}
-          />
-          <noscript
-            set:html={`<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1" />`}
-          />
-        </>
-      )
-    }
+        same ?noga opt-out flag. Injected via Fragment set:html so Astro
+        doesn't process the script content (which trips its inline-script
+        transform on this particular IIFE pattern). */}
+    {metaPixelId && <Fragment set:html={metaPixelMarkup} />}
   </head>
   <body class="min-h-screen flex flex-col">
     {
