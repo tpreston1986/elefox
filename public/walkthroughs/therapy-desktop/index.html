@@ -837,7 +837,8 @@
         // the body scripts are coalesced into one block, so any literal marker
         // anywhere here (even in a comment) would strip the timeline-building
         // script too, leaving the player with no timeline and a blank video.
-        if (window.frameElement) return;
+        // [elefox] Removed `if (window.frameElement) return;` so the autoplay
+        // loop runs when this walkthrough is iframed into a landing page.
         const w = window;
         const playerKey = "__player";
         const renderKey = "__render" + "Ready";
