@@ -838,10 +838,12 @@
         // anywhere here (even in a comment) would strip the timeline-building
         // script too, leaving the player with no timeline and a blank video.
         // [elefox] Removed `if (window.frameElement) return;` so the autoplay
-        // loop runs when this walkthrough is iframed into a landing page.
+        // loop runs when iframed into a landing page. Also added SKIP_INTRO so
+        // we skip the photo/dive intro and loop just the portal interface.
         const w = window;
         const playerKey = "__player";
         const renderKey = "__render" + "Ready";
+        const SKIP_INTRO = 5.0; // seconds; jumps past the photo + dive sequence
         let start = null;
         function drive(time) {
           if (w[playerKey] || w[renderKey]) return; // yield to renderer
@@ -851,7 +853,8 @@
           if (start === null) start = time;
           const dur = tl.duration();
           const hold = 1.4;
-          const t = (time - start) % (dur + hold);
+          const loopLen = Math.max(0.01, dur - SKIP_INTRO);
+          const t = SKIP_INTRO + ((time - start) % (loopLen + hold));
           tl.time(Math.min(t, dur));
         }
         gsap.ticker.add(drive);
