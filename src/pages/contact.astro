@@ -388,9 +388,12 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
               return;
             }
 
-            // Fire the GA4 lead conversion.
+            // Fire conversion events.
             if (typeof window.gtag === "function") {
               window.gtag("event", "generate_lead", { source: "contact-form", form: "contact" });
+            }
+            if (typeof window.fbq === "function") {
+              window.fbq("track", "Lead", { content_category: "contact-form" });
             }
 
             const sent = document.createElement("div");
