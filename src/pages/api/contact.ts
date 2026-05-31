@@ -1,4 +1,9 @@
 import type { APIRoute } from "astro";
+import {
+  type Shaped,
+  forwardToPortal,
+  buildApproveUrl,
+} from "../../lib/lead";
 
 export const prerender = false;
 
@@ -149,19 +154,6 @@ function json(body: unknown, status = 200): Response {
   });
 }
 
-type Shaped = {
-  services: string;
-  businessName: string;
-  industry: string;
-  description: string;
-  budget: string;
-  timeline: string;
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
-};
-
 function buildEmailHtml(d: Shaped, spam?: SpamResult): string {
   const submittedAt = new Date().toLocaleString("en-US", {
     timeZone: "America/New_York",
@@ -177,11 +169,16 @@ function buildEmailHtml(d: Shaped, spam?: SpamResult): string {
   };
 
   const flagged = !!spam && spam.score >= 3;
+  const approveUrl = flagged ? buildApproveUrl(d) : "";
+  const approveButton = approveUrl
+    ? `<div style="margin-top:14px"><a href="${approveUrl}" style="display:inline-block;background:#3F5A2E;color:#F7F4ED;text-decoration:none;font-weight:600;padding:9px 18px;border-radius:9999px;font-size:13px">Approve and push to CRM →</a></div>`
+    : "";
   const banner = flagged
     ? `<div style="background:#fff4ec;border:1px solid #f0c8a6;border-left:4px solid #c8623a;padding:14px 16px;margin:0 0 20px;border-radius:8px;font-size:13px;color:#7a3a1a">
          <strong style="display:block;font-size:14px;margin-bottom:6px">⚠ Possibly spam (score ${spam!.score})</strong>
-         <p style="margin:0 0 6px">This submission was flagged but is being delivered anyway so you can review it. The CRM lead was NOT created. If it's real, you can manually log it.</p>
+         <p style="margin:0 0 6px">This submission was flagged but is being delivered anyway so you can review it. The CRM lead was NOT created. If it's a real lead, click below to push it to the portal.</p>
          <ul style="margin:6px 0 0 18px;padding:0;font-size:12px;color:#7a3a1a;line-height:1.5">${spam!.reasons.map((r) => `<li>${escHtml(r)}</li>`).join("")}</ul>
+         ${approveButton}
        </div>`
     : "";
 
@@ -248,47 +245,6 @@ async function sendNotificationEmail(d: Shaped, spam?: SpamResult): Promise<void
     const err = await response.json().catch(() => ({}));
     console.error("[api/contact] Resend error:", err);
     throw new Error("Resend API error");
-  }
-}
-
-/* Fire-and-forget: also create a Lead row in the portal CRM. */
-async function forwardToPortal(d: Shaped): Promise<void> {
-  const url = import.meta.env.PORTAL_LEADS_WEBHOOK_URL;
-  if (!url) return;
-  const secret = import.meta.env.PORTAL_LEADS_WEBHOOK_SECRET;
-  if (!secret) return; // portal fails closed without the shared secret
-
-  const messageParts = [
-    d.phone && `Phone: ${d.phone}`,
-    d.description && `Business: ${d.description}`,
-    d.services && `Interested in: ${d.services}`,
-    d.budget && `Budget: ${d.budget}`,
-    d.timeline && `Timeline: ${d.timeline}`,
-    d.message && `Notes: ${d.message}`,
-  ].filter(Boolean);
-
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-leads-secret": secret,
-      },
-      body: JSON.stringify({
-        name: d.name,
-        email: d.email,
-        company: d.businessName || undefined,
-        message: messageParts.join("\n") || undefined,
-        source: "elefoxstudio-contact",
-        _hp: "",
-      }),
-    });
-    if (!response.ok) {
-      const text = await response.text().catch(() => "");
-      console.error("[api/contact] Portal webhook error:", response.status, text);
-    }
-  } catch (err) {
-    console.error("[api/contact] Portal webhook POST failed:", err);
   }
 }
 
