@@ -40,10 +40,13 @@ const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 /* ── Content spam scoring ─────────────────────────────────────────────
    The honeypot + timing trap catch dumb bots; these heuristics catch the
    JS-executing SEO-spam wave ("register your site in GoogleSearchIndex",
-   "submit your site", links to searchregister.info, etc.). We score the
-   combined text and silently drop high-confidence spam so the sender never
-   learns it was blocked. Thresholds are tuned so a real client who pastes
-   their own website URL is NOT blocked. */
+   "submit your site", links to searchregister.info, etc.).
+
+   IMPORTANT: we no longer silently drop high-score submissions — that risked
+   eating real leads. Instead, we always send the notification email and just
+   prefix the subject with [POSSIBLY SPAM] and add a banner listing the
+   reasons it was flagged, so the owner can review. The CRM webhook is still
+   skipped for flagged submissions to keep the portal clean. */
 const STRONG_SPAM_PATTERNS: RegExp[] = [
   /google\s*search\s*index/i,
   /search\s*register/i,
@@ -58,22 +61,43 @@ const STRONG_SPAM_PATTERNS: RegExp[] = [
 const URL_RE =
   /\b(?:https?:\/\/|www\.)\S+|\b[a-z0-9-]+\.(?:info|xyz|top|click|online|site|biz|shop|live|cyou|sbs)\b/gi;
 
-function spamScore(d: Shaped, allServicesCount: number): number {
+type SpamResult = { score: number; reasons: string[] };
+
+function spamScore(d: Shaped, allServicesCount: number): SpamResult {
   const text = `${d.name} ${d.businessName} ${d.industry} ${d.description} ${d.message}`;
   let score = 0;
-  for (const re of STRONG_SPAM_PATTERNS) if (re.test(text)) score += 3;
+  const reasons: string[] = [];
+
+  for (const re of STRONG_SPAM_PATTERNS) {
+    if (re.test(text)) {
+      score += 3;
+      reasons.push(`Matched spam phrase: ${re}`);
+    }
+  }
 
   const urls = d.message.match(URL_RE) ?? [];
-  score += Math.min(urls.length, 3); // 1 url is mild, 2+ is a real signal
+  if (urls.length) {
+    const add = Math.min(urls.length, 3);
+    score += add;
+    reasons.push(`URLs in message (${urls.length}, +${add}): ${urls.slice(0, 3).join(", ")}`);
+  }
 
   // A lookalike sender domain (search-elefoxstudio.com, etc.) impersonating us.
-  if (/elefox/i.test(d.email.split("@")[1] ?? "") && !/@elefoxstudio\.com$/i.test(d.email))
+  if (
+    /elefox/i.test(d.email.split("@")[1] ?? "") &&
+    !/@elefoxstudio\.com$/i.test(d.email)
+  ) {
     score += 2;
+    reasons.push(`Lookalike sender domain (+2): ${d.email}`);
+  }
 
   // "Everything + cheapest + ASAP" with no real description is a bot fingerprint.
-  if (allServicesCount >= 5 && !d.description) score += 1;
+  if (allServicesCount >= 5 && !d.description) {
+    score += 1;
+    reasons.push("All services selected + no description (+1)");
+  }
 
-  return score;
+  return { score, reasons };
 }
 
 const SERVICE_LABELS: Record<string, string> = {
@@ -138,7 +162,7 @@ type Shaped = {
   message: string;
 };
 
-function buildEmailHtml(d: Shaped): string {
+function buildEmailHtml(d: Shaped, spam?: SpamResult): string {
   const submittedAt = new Date().toLocaleString("en-US", {
     timeZone: "America/New_York",
     dateStyle: "medium",
@@ -152,9 +176,21 @@ function buildEmailHtml(d: Shaped): string {
     return `<tr><td style="padding:10px 0;vertical-align:top;color:#6b7280;width:35%;font-size:13px">${label}</td><td style="padding:10px 0;vertical-align:top;font-size:14px">${v}</td></tr>`;
   };
 
+  const flagged = !!spam && spam.score >= 3;
+  const banner = flagged
+    ? `<div style="background:#fff4ec;border:1px solid #f0c8a6;border-left:4px solid #c8623a;padding:14px 16px;margin:0 0 20px;border-radius:8px;font-size:13px;color:#7a3a1a">
+         <strong style="display:block;font-size:14px;margin-bottom:6px">⚠ Possibly spam (score ${spam!.score})</strong>
+         <p style="margin:0 0 6px">This submission was flagged but is being delivered anyway so you can review it. The CRM lead was NOT created. If it's real, you can manually log it.</p>
+         <ul style="margin:6px 0 0 18px;padding:0;font-size:12px;color:#7a3a1a;line-height:1.5">${spam!.reasons.map((r) => `<li>${escHtml(r)}</li>`).join("")}</ul>
+       </div>`
+    : "";
+
+  const title = flagged ? "Inquiry flagged as possible spam" : "New project inquiry";
+
   return `
     <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,sans-serif;max-width:680px;margin:0 auto;color:#1a1f1b;padding:0 16px">
-      <h1 style="margin:0 0 8px;font-size:24px;color:#1a1f1b">New project inquiry</h1>
+      ${banner}
+      <h1 style="margin:0 0 8px;font-size:24px;color:#1a1f1b">${title}</h1>
       <p style="margin:0 0 24px;color:#6b7280;font-size:14px">elefoxstudio.com contact form &middot; ${escHtml(submittedAt)} ET</p>
       <table style="width:100%;border-collapse:collapse">
         ${row("Name", d.name)}
@@ -173,7 +209,7 @@ function buildEmailHtml(d: Shaped): string {
   `;
 }
 
-async function sendNotificationEmail(d: Shaped): Promise<void> {
+async function sendNotificationEmail(d: Shaped, spam?: SpamResult): Promise<void> {
   const apiKey = import.meta.env.RESEND_API_KEY;
   if (!apiKey) {
     console.error("[api/contact] RESEND_API_KEY missing");
@@ -188,6 +224,11 @@ async function sendNotificationEmail(d: Shaped): Promise<void> {
     "hello@elefoxstudio.com";
 
   const servicesSuffix = d.services ? ` (${d.services})` : "";
+  const flagged = !!spam && spam.score >= 3;
+  const subject = flagged
+    ? `[POSSIBLY SPAM, score ${spam!.score}] inquiry: ${d.name}${servicesSuffix}`
+    : `New project inquiry: ${d.name}${servicesSuffix}`;
+
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -197,8 +238,8 @@ async function sendNotificationEmail(d: Shaped): Promise<void> {
     body: JSON.stringify({
       from,
       to: [to],
-      subject: `New project inquiry: ${d.name}${servicesSuffix}`,
-      html: buildEmailHtml(d),
+      subject,
+      html: buildEmailHtml(d, spam),
       reply_to: d.email,
     }),
   });
@@ -333,18 +374,20 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     message: get("message"),
   };
 
-  // Content spam filter. Silently accept (so the bot doesn't retry) but skip
-  // the notification email and CRM lead entirely.
-  const score = spamScore(shaped, serviceValues.length);
-  if (score >= 3) {
+  // Content spam scoring — we send the email regardless and flag in-subject
+  // so a real lead never gets eaten. Only the CRM webhook is skipped for
+  // suspected spam (you can manually create a portal lead if it's legit).
+  const spam = spamScore(shaped, serviceValues.length);
+  const flagged = spam.score >= 3;
+  if (flagged) {
     console.warn(
-      `[api/contact] dropped suspected spam (score ${score}) from ${ip} <${shaped.email}>`,
+      `[api/contact] flagged as possible spam (score ${spam.score}) from ${ip} <${shaped.email}>:`,
+      spam.reasons.join(" | "),
     );
-    return json({ ok: true });
   }
 
   try {
-    await sendNotificationEmail(shaped);
+    await sendNotificationEmail(shaped, spam);
   } catch (err) {
     console.error("[api/contact] send failed:", err);
     return json(
@@ -353,8 +396,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     );
   }
 
-  // CRM lead creation is best-effort; don't block the user on it.
-  forwardToPortal(shaped);
+  // CRM lead creation is best-effort; skip for flagged submissions.
+  if (!flagged) forwardToPortal(shaped);
 
   return json({ ok: true });
 };
