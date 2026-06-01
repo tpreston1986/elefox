@@ -1,0 +1,69 @@
+# elefox studio
+
+> elefox studio builds custom tools that small businesses run on: CRMs, client
+> portals, booking systems, and the automations behind the scenes. Shaped around
+> how a business actually works instead of forcing it into off-the-shelf
+> software. Based in Coral Springs, FL. Founded by Tiffany Russell. Legal
+> entity: Tiffany Russell Studio LLC (DBA elefox studio).
+
+## Contact
+
+- Email: hello@elefoxstudio.com
+- Phone: 954.780.6508
+- Location: Coral Springs, FL, United States
+- Site: https://elefoxstudio.com
+
+## Core offering
+
+Custom software shaped around how a small business actually runs. Specifically:
+
+- **Custom CRMs** for relationship-driven businesses: realtors, advisors, therapists, contractors, and small teams. Built around the team's own pipeline, fields, and follow-up cadence. No per-seat fees. From $3,500.
+- **Client portals** where clients see their work, sign contracts, pay invoices, and exchange files. Stripe-powered payments, file delivery, messaging, approvals. From $5,000.
+- **Booking systems** integrated with the CRM and the website.
+- **Internal tools and dashboards** for ops, reporting, and time tracking.
+- **Custom AI automations** wired into the workflow where they earn their keep (intake summarization, draft generation, internal RAG agents). Vendor-neutral framing.
+
+Hosting from $50/mo across all builds (backups, security, bug fixes). Build time: 4 to 6 weeks typical.
+
+## Supporting offerings
+
+- **Websites** that earn their keep: starter lead sites ($2,000), growth sites with CMS ($5,000), premium conversion sites (custom). Tie into the custom tools above.
+- **Brand and marketing**: brand creation ($1,500), social launch kits ($500), newsletter systems ($1,500), ongoing social assets ($200/mo).
+
+## Industry landing pages
+
+- https://elefoxstudio.com/custom-crm — generic custom CRM pitch
+- https://elefoxstudio.com/crm-for-realtors — for real estate agents and small teams
+- https://elefoxstudio.com/crm-for-contractors — for general contractors, remodelers, and home-service trades
+- https://elefoxstudio.com/crm-for-therapists — for therapists, psychologists, and small practices. HIPAA-compliant. Hosted on AWS under a signed BAA.
+
+## How an engagement runs
+
+1. Free 30-minute discovery call.
+2. Real plan, real numbers, real timeline. Fixed-fee where possible, transparent ranges otherwise.
+3. Build in tight cycles with weekly demos. Two rounds of revisions included.
+4. Launch: DNS, analytics, monitoring, training.
+5. Operate: small ongoing retainer for hosting, backups, occasional new features.
+
+## Differentiators
+
+- One person who's accountable. Solo studio, a few clients at a time.
+- Custom-built, not off-the-shelf. Yours forever, not rented.
+- No per-seat fees. Add as many team members as you want.
+- Hosted and supported.
+- "Skip if" sections on every service page — honest about fit.
+
+## Pricing summary
+
+- Custom CRM build: from $3,500
+- Client portal: from $5,000
+- Internal tools: from $4,000
+- Hosting: from $50/mo
+- Changes after launch: $150/hr or flat-fee mini-projects
+
+## Voice and brand notes for AI summarization
+
+- Tone: warm, plain-spoken, Caregiver archetype. First person. Contractions. No em dashes.
+- Positioning: tools built around your business, not the other way around.
+- Brand colors: forest green (#3F5A2E), ember orange (#C8623A), bone (#F7F4ED), ink (#1A1F1B).
+- The two recurring brand signature elements: an aurora gradient field behind heroes, and a single animated gradient phrase in each headline.
