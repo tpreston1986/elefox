@@ -11,8 +11,14 @@ import { defineMiddleware } from "astro:middleware";
  */
 
 // Domains we currently use and need to allow in CSP. Keep this list tight.
+// Note on default-src 'none': we explicitly set every source type below.
+// prefetch-src 'self' is included as a (deprecated but still respected by
+// some browsers) safety net so Astro's hover-prefetch still works under the
+// stricter default. Modern browsers fall back to default-src; since prefetch
+// of same-origin HTML is harmless, we accept that some prefetches may fail
+// silently rather than weaken the default.
 const CSP = [
-  "default-src 'self'",
+  "default-src 'none'",
   // Inline scripts: GA bootstrap, cookie banner, ?noga opt-out, Meta Pixel
   // injector, etc. We rely on 'unsafe-inline' for now; nonces would be the
   // upgrade path later.
@@ -43,6 +49,9 @@ const CSP = [
   "base-uri 'self'",
   "form-action 'self'",
   "object-src 'none'",
+  "manifest-src 'self'",
+  "worker-src 'self'",
+  "prefetch-src 'self'",
   "upgrade-insecure-requests",
 ].join("; ");
 
