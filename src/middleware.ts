@@ -61,12 +61,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url);
 
   // 301 /sitemap.xml → /sitemap-index.xml so crawlers that try either land
-  // on a real sitemap.
+  // on a real sitemap. Use a Location header with a relative path: in SSR
+  // mode the request URL's origin is the internal localhost, not the public
+  // domain, so Response.redirect(...absolute...) would point at localhost.
   if (url.pathname === "/sitemap.xml") {
-    return Response.redirect(
-      new URL("/sitemap-index.xml", url).toString(),
-      301,
-    );
+    return new Response(null, {
+      status: 301,
+      headers: { Location: "/sitemap-index.xml" },
+    });
   }
 
   const response = await next();
