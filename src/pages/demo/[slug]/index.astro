@@ -1,0 +1,578 @@
+---
+import DemoLayout from "../../../layouts/DemoLayout.astro";
+import { getDemoClient } from "../../../data/demos/clients";
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+const config = slug ? getDemoClient(slug) : null;
+
+if (!config) {
+  return Astro.redirect("/404");
+}
+
+// Bucket services by category for the services section
+const byCategory = config.services.reduce<Record<string, typeof config.services>>(
+  (acc, s) => {
+    const key = s.category ?? "Other";
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(s);
+    return acc;
+  },
+  {},
+);
+const categoryOrder = Object.keys(byCategory);
+---
+
+<DemoLayout config={config}>
+  <!-- Top nav (client-side, mocked) -->
+  <header class="site-nav">
+    <div class="nav-inner">
+      <div class="brand">
+        {config.brand.logoUrl
+          ? <img src={config.brand.logoUrl} alt={config.brand.wordmark} />
+          : <span class="wordmark">{config.brand.wordmark}</span>}
+      </div>
+      <nav class="primary-nav">
+        <a href="#services">Services</a>
+        <a href="#team">Our team</a>
+        <a href="#locations">Locations</a>
+        <a href="#book" class="nav-cta">Book a visit</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Welcome to {config.clientName}</p>
+      <h1>
+        Care that meets you<br />
+        where you are.
+      </h1>
+      {config.pitch.tagline && (
+        <p class="lede">{config.pitch.tagline}</p>
+      )}
+      <div class="cta-row">
+        <a href="#book" class="cta-primary">Book a visit</a>
+        <a href="#services" class="cta-secondary">Explore services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick info strip -->
+  <section class="info-strip">
+    <div class="info-strip-inner">
+      {config.locations.map((loc) => (
+        <div class="info-card">
+          <span class="info-label">{loc.name}</span>
+          {loc.city && <p class="info-line">{loc.city}</p>}
+          {loc.phone && <p class="info-line"><a href={`tel:${loc.phone}`}>{loc.phone}</a></p>}
+          {loc.hours && <p class="info-line info-muted">{loc.hours}</p>}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="section">
+    <div class="section-inner">
+      <p class="section-eyebrow">What we offer</p>
+      <h2>Our services</h2>
+      <div class="services-grid">
+        {categoryOrder.map((cat) => (
+          <div class="services-col">
+            <h3 class="services-col-title">{cat}</h3>
+            <ul class="services-list">
+              {byCategory[cat].map((s) => (
+                <li>
+                  <span class="service-name">{s.name}</span>
+                  {s.durationMinutes && (
+                    <span class="service-meta">{s.durationMinutes} min</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section id="team" class="section section-alt">
+    <div class="section-inner">
+      <p class="section-eyebrow">Who you'll see</p>
+      <h2>Our team</h2>
+      <div class="team-grid">
+        {config.practitioners.map((p) => (
+          <div class="team-card">
+            <div class="avatar" aria-hidden="true">
+              {p.name
+                .split(" ")
+                .filter((w) => w[0] && /[A-Z]/.test(w[0]))
+                .slice(0, 2)
+                .map((w) => w[0])
+                .join("")}
+            </div>
+            <p class="team-name">{p.name}</p>
+            <p class="team-creds">{p.credentials}</p>
+            {p.role && <p class="team-role">{p.role}</p>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Locations -->
+  <section id="locations" class="section">
+    <div class="section-inner">
+      <p class="section-eyebrow">Find us</p>
+      <h2>Two locations</h2>
+      <div class="loc-grid">
+        {config.locations.map((loc) => (
+          <div class="loc-card">
+            <h3>{loc.name}</h3>
+            {loc.city && <p>{loc.city}</p>}
+            {loc.phone && (
+              <p>
+                <a href={`tel:${loc.phone}`}>{loc.phone}</a>
+              </p>
+            )}
+            {loc.hours && <p class="loc-hours">{loc.hours}</p>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Book CTA -->
+  <section id="book" class="section section-cta">
+    <div class="section-inner book-cta">
+      <h2>Ready to book?</h2>
+      <p>
+        Pick a service, a practitioner, a time. The whole thing should take
+        under a minute.
+      </p>
+      <a href="#" class="cta-primary cta-large">Start booking</a>
+      <p class="book-fineprint">
+        (booking flow scaffolded — wires into the platform we'd build for you)
+      </p>
+    </div>
+  </section>
+
+  <!-- Site footer -->
+  <footer class="site-footer">
+    <div class="section-inner footer-inner">
+      <p class="footer-brand">{config.brand.wordmark}</p>
+      <p class="footer-mute">
+        {config.locations.map((l) => l.name).join(" · ")}
+      </p>
+    </div>
+  </footer>
+</DemoLayout>
+
+<style>
+  /* ── Nav ────────────────────────────────────────────────────────────── */
+  .site-nav {
+    border-bottom: 1px solid var(--brandBorder);
+    background: var(--brandBg);
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .brand .wordmark {
+    font-family: var(--brandDisplayFont);
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    color: var(--brandText);
+  }
+  .brand img {
+    max-height: 40px;
+    width: auto;
+  }
+  .primary-nav {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+  }
+  .primary-nav a {
+    color: var(--brandText);
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 500;
+  }
+  .primary-nav a:hover {
+    color: var(--brandPrimary);
+  }
+  .nav-cta {
+    background: var(--brandPrimary);
+    color: var(--brandBg) !important;
+    padding: 8px 18px;
+    border-radius: 9999px;
+    transition: background 0.18s ease;
+  }
+  .nav-cta:hover {
+    background: var(--brandPrimaryDeep);
+  }
+
+  @media (max-width: 720px) {
+    .nav-inner {
+      padding: 14px 18px;
+    }
+    .primary-nav {
+      gap: 14px;
+    }
+    .primary-nav a:not(.nav-cta) {
+      display: none;
+    }
+  }
+
+  /* ── Hero ───────────────────────────────────────────────────────────── */
+  .hero {
+    padding: 120px 32px 100px;
+    background: var(--brandBg);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: auto -10% -30% auto;
+    width: 60%;
+    height: 80%;
+    border-radius: 50%;
+    background: var(--brandAccent);
+    opacity: 0.07;
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    color: var(--brandTextMuted);
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+  .hero h1 {
+    font-size: clamp(2.6rem, 6.5vw, 5rem);
+    font-weight: 500;
+    color: var(--brandText);
+  }
+  .lede {
+    font-size: 1.25rem;
+    max-width: 56ch;
+    color: var(--brandTextMuted);
+    margin-top: 28px;
+    line-height: 1.5;
+  }
+  .cta-row {
+    display: flex;
+    gap: 14px;
+    margin-top: 44px;
+    flex-wrap: wrap;
+  }
+  .cta-primary {
+    background: var(--brandPrimary);
+    color: var(--brandBg);
+    padding: 14px 28px;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.18s ease;
+  }
+  .cta-primary:hover {
+    background: var(--brandPrimaryDeep);
+  }
+  .cta-primary.cta-large {
+    padding: 18px 36px;
+    font-size: 1.05rem;
+  }
+  .cta-secondary {
+    border: 1px solid var(--brandBorder);
+    color: var(--brandText);
+    padding: 14px 26px;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-weight: 500;
+    transition:
+      border-color 0.18s ease,
+      color 0.18s ease;
+  }
+  .cta-secondary:hover {
+    border-color: var(--brandPrimary);
+    color: var(--brandPrimary);
+  }
+
+  /* ── Info strip ─────────────────────────────────────────────────────── */
+  .info-strip {
+    background: var(--brandSurface);
+    border-top: 1px solid var(--brandBorder);
+    border-bottom: 1px solid var(--brandBorder);
+  }
+  .info-strip-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 32px;
+  }
+  .info-label {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.7rem;
+    color: var(--brandPrimary);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .info-line {
+    color: var(--brandText);
+    font-size: 0.95rem;
+    margin: 2px 0;
+  }
+  .info-line a {
+    color: var(--brandText);
+    text-decoration: none;
+  }
+  .info-line a:hover {
+    color: var(--brandPrimary);
+  }
+  .info-muted {
+    color: var(--brandTextMuted);
+    font-size: 0.88rem;
+  }
+
+  /* ── Section base ───────────────────────────────────────────────────── */
+  .section {
+    padding: 100px 32px;
+  }
+  .section-alt {
+    background: var(--brandSurface);
+  }
+  .section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    color: var(--brandTextMuted);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .section h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 500;
+    margin-bottom: 50px;
+  }
+
+  /* ── Services ───────────────────────────────────────────────────────── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 40px;
+  }
+  .services-col-title {
+    font-family: var(--brandBodyFont);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.72rem;
+    color: var(--brandPrimary);
+    font-weight: 600;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--brandBorder);
+  }
+  .services-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .services-list li {
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    border-bottom: 1px dashed var(--brandBorder);
+  }
+  .services-list li:last-child {
+    border-bottom: none;
+  }
+  .service-name {
+    color: var(--brandText);
+    font-size: 0.95rem;
+  }
+  .service-meta {
+    color: var(--brandTextMuted);
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+
+  /* ── Team ───────────────────────────────────────────────────────────── */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 28px;
+  }
+  .team-card {
+    background: var(--brandBg);
+    border: 1px solid var(--brandBorder);
+    border-radius: 12px;
+    padding: 28px 22px;
+    text-align: center;
+  }
+  .avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 9999px;
+    background: var(--brandPrimary);
+    color: var(--brandBg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-family: var(--brandDisplayFont);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .team-name {
+    font-family: var(--brandDisplayFont);
+    font-size: 1.15rem;
+    color: var(--brandText);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .team-creds {
+    color: var(--brandPrimary);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .team-role {
+    color: var(--brandTextMuted);
+    font-size: 0.86rem;
+  }
+
+  /* ── Locations ──────────────────────────────────────────────────────── */
+  .loc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+  }
+  .loc-card {
+    background: var(--brandSurface);
+    border: 1px solid var(--brandBorder);
+    border-left: 3px solid var(--brandPrimary);
+    border-radius: 6px;
+    padding: 32px;
+  }
+  .loc-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+  .loc-card p {
+    color: var(--brandText);
+    margin: 4px 0;
+  }
+  .loc-card a {
+    color: var(--brandPrimary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .loc-hours {
+    color: var(--brandTextMuted);
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+
+  /* ── Book CTA ───────────────────────────────────────────────────────── */
+  .section-cta {
+    background: var(--brandPrimaryDeep);
+    color: var(--brandBg);
+  }
+  .section-cta h2,
+  .section-cta p {
+    color: var(--brandBg);
+  }
+  .book-cta {
+    text-align: center;
+  }
+  .book-cta p {
+    max-width: 50ch;
+    margin: 0 auto 36px;
+    opacity: 0.85;
+    font-size: 1.1rem;
+  }
+  .book-cta .cta-primary {
+    background: var(--brandBg);
+    color: var(--brandPrimaryDeep);
+  }
+  .book-cta .cta-primary:hover {
+    background: var(--brandSurface);
+  }
+  .book-fineprint {
+    margin-top: 24px !important;
+    font-size: 0.82rem !important;
+    opacity: 0.6 !important;
+    font-style: italic;
+  }
+
+  /* ── Footer ─────────────────────────────────────────────────────────── */
+  .site-footer {
+    background: var(--brandBg);
+    border-top: 1px solid var(--brandBorder);
+  }
+  .footer-inner {
+    padding: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-brand {
+    font-family: var(--brandDisplayFont);
+    font-size: 1.1rem;
+    color: var(--brandText);
+    font-weight: 500;
+  }
+  .footer-mute {
+    color: var(--brandTextMuted);
+    font-size: 0.88rem;
+  }
+
+  @media (max-width: 600px) {
+    .hero {
+      padding: 80px 22px 70px;
+    }
+    .section {
+      padding: 70px 22px;
+    }
+    .info-strip-inner {
+      padding: 24px 22px;
+    }
+    .footer-inner {
+      padding: 24px 22px;
+    }
+  }
+</style>
