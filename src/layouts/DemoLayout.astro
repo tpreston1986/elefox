@@ -28,6 +28,26 @@ const fontsHref = `https://fonts.googleapis.com/css2?family=${encodeURIComponent
 ).replace(/%20/g, "+")}:wght@400;500;600;700&family=${encodeURIComponent(
   bodyFont,
 ).replace(/%20/g, "+")}:wght@300;400;500;600&display=swap`;
+
+// Per-client favicon. If the config has a faviconUrl, use it directly.
+// Otherwise generate an SVG favicon from the wordmark initials + brand
+// primary color, inlined as a data URI — so the browser tab is FULLY
+// client-branded with zero asset hosting, even before a real logo exists.
+function initialsFor(name: string): string {
+  return name
+    .split(/\s+/)
+    .filter((w) => /^[A-Z]/.test(w))
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("");
+}
+const initials = initialsFor(brand.wordmark);
+const faviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="${brand.primary}"/><text x="16" y="22" font-family="Georgia,serif" font-size="15" font-weight="600" text-anchor="middle" fill="${brand.background}" letter-spacing="-0.5">${initials}</text></svg>`;
+const generatedFavicon = `data:image/svg+xml;utf8,${encodeURIComponent(faviconSvg)}`;
+const faviconHref = brand.faviconUrl ?? generatedFavicon;
+
+// OG card uses the client's identity, not elefox.
+const ogDescription = config.pitch.tagline ?? `${clientName}`;
 ---
 
 <!doctype html>
@@ -37,6 +57,22 @@ const fontsHref = `https://fonts.googleapis.com/css2?family=${encodeURIComponent
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="robots" content="noindex,nofollow" />
+    <meta name="description" content={ogDescription} />
+    <meta name="theme-color" content={brand.primary} />
+
+    <!-- Per-client favicon (SVG-from-initials fallback, override via brand.faviconUrl). -->
+    <link rel="icon" type="image/svg+xml" href={faviconHref} />
+    <!-- Block the default /favicon.ico fallback so the elefox favicon never loads. -->
+    <link rel="shortcut icon" href={faviconHref} />
+
+    <!-- OG / social — client's identity, not elefox. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:site_name" content={clientName} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={ogDescription} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
