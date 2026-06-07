@@ -6,18 +6,25 @@ export const fiveElementWellness: ClientDemoConfig = {
 
   brand: {
     wordmark: "Five Element Wellness",
-    // Sage + warm cream + terracotta — deliberately distinct from elefox forest.
-    // Swap once we pull her real brand assets.
-    primary: "#5B7553",
-    primaryDeep: "#3F5239",
-    background: "#FAF6EE",
-    surface: "#FFFFFF",
-    text: "#1A1F1A",
-    textMuted: "#5C625B",
-    border: "#E8E3D6",
-    accent: "#C97B5B",
-    displayFont: "Cormorant Garamond",
-    bodyFont: "Inter",
+    // Palette pulled from 5ewc.com itself (CSS frequency analysis):
+    //   primary brick red #99140c is overwhelmingly THE brand color (180 uses
+    //   in their CSS); #6a0e08 is the darker pressed/hover state already in
+    //   their styles; #c81a10 is the brighter accent variant.
+    //   White bg + black text + #626262 muted gray + #dedede borders match
+    //   their actual layout. Slate #60687a appears in their CSS as a subtle
+    //   secondary touch.
+    // Fonts: Montserrat (body, 80+ uses) + Quattrocento Sans (display, 42 uses)
+    //   — their actual pairing, both already on Google Fonts.
+    primary: "#99140c",
+    primaryDeep: "#6a0e08",
+    background: "#FFFFFF",
+    surface: "#F9F9F9",
+    text: "#1A1A1A",
+    textMuted: "#626262",
+    border: "#DEDEDE",
+    accent: "#60687A",
+    displayFont: "Quattrocento Sans",
+    bodyFont: "Montserrat",
   },
 
   pitch: {
