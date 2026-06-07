@@ -1,7 +1,11 @@
 import { defineMiddleware } from "astro:middleware";
+import { allDemoSlugs } from "./data/demos/clients";
 
 /**
  * Site-wide response middleware:
+ *  - Host-based rewrite: concept.elefoxstudio.com/<slug> → /demo/<slug>
+ *    (prospect-demo subdomain — URL shared with prospects doesn't carry the
+ *    elefox marketing site's /demo path)
  *  - 301 redirect /sitemap.xml → /sitemap-index.xml (crawlers try both)
  *  - Apply security headers to every response (HSTS, CSP, nosniff, etc.)
  *  - Apply Cache-Control by path category (long for hashed assets, short for HTML)
@@ -9,6 +13,15 @@ import { defineMiddleware } from "astro:middleware";
  * If a third-party script/font/connect domain is added to the site, also add it
  * to the matching CSP source list below or the page will silently break.
  */
+
+// Hosts that serve prospect-demo pages. Add more if we ever spin up staging
+// variants. The list of valid slugs is derived from the demo client registry,
+// so adding a new client config under src/data/demos/clients/ automatically
+// makes <slug> visible on the demo subdomain on next deploy.
+const DEMO_SUBDOMAINS = new Set<string>([
+  "concept.elefoxstudio.com",
+]);
+const DEMO_SLUGS = new Set<string>(allDemoSlugs());
 
 // Domains we currently use and need to allow in CSP. Keep this list tight.
 // Note on default-src 'none': we explicitly set every source type below.
@@ -68,6 +81,49 @@ const SECURITY_HEADERS: Record<string, string> = {
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url);
+
+  // ── Prospect-demo subdomain rewrite ───────────────────────────────────
+  // Behind Railway's proxy, request.url's host is localhost, so we read
+  // the real public host off x-forwarded-host. On the demo subdomain we
+  // only accept known demo slugs and asset paths — random paths return 404
+  // so the main elefox marketing site doesn't leak through the demo URL.
+  const rawHost =
+    context.request.headers.get("x-forwarded-host") ??
+    context.request.headers.get("host") ??
+    "";
+  const host = rawHost.toLowerCase().split(":")[0];
+
+  if (DEMO_SUBDOMAINS.has(host)) {
+    const path = url.pathname;
+
+    // Bare root on the demo subdomain has no demo to show.
+    if (path === "/" || path === "") {
+      return new Response("Not Found", { status: 404 });
+    }
+
+    const isAsset =
+      path.startsWith("/_") || // /_astro/* and /_image/* etc.
+      /\.[a-z0-9]{2,5}(?:$|\?)/i.test(path); // anything with a file extension
+
+    // Already on the /demo route — let it through.
+    if (path === "/demo" || path.startsWith("/demo/")) {
+      return next();
+    }
+
+    // Assets pass through to Astro's normal routing.
+    if (isAsset) {
+      return next();
+    }
+
+    // Otherwise interpret first segment as a demo slug.
+    const firstSeg = path.split("/").filter(Boolean)[0];
+    if (firstSeg && DEMO_SLUGS.has(firstSeg)) {
+      return context.rewrite(`/demo${path}${url.search}`);
+    }
+
+    // Unknown slug → 404 (don't expose the marketing site here).
+    return new Response("Not Found", { status: 404 });
+  }
 
   // 301 /sitemap.xml → /sitemap-index.xml so crawlers that try either land
   // on a real sitemap. Use a Location header with a relative path: in SSR
