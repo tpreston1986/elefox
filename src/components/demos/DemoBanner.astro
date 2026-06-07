@@ -1,21 +1,18 @@
 ---
 // Persistent, non-dismissible top bar that marks every demo page as a concept.
-// Colored in elefox brand (forest + bone) so it visually reads as Tiffany's
-// overlay sitting on top of the client's mockup, not part of their design.
+// Uses the CLIENT'S brand colors (via CSS vars set by DemoLayout) so the bar
+// reads as part of their visual system — not a vendor stamp from us.
+// No elefox attribution: the demo is meant to feel like the prospect's site
+// with a discreet "this is a concept" indicator, not a co-branded thing.
 
 type Props = { clientName: string };
 const { clientName } = Astro.props;
 ---
 
-<div
-  role="note"
-  aria-label="Demo notice"
-  class="demo-banner"
->
+<div role="note" aria-label="Demo notice" class="demo-banner">
   <span class="demo-banner__dot" aria-hidden="true"></span>
   <span>
     Concept demo for <strong>{clientName}</strong>
-    <span class="demo-banner__sep">·</span> prepared by elefox studio
     <span class="demo-banner__sep">·</span> not a live product
   </span>
 </div>
@@ -24,6 +21,9 @@ const { clientName } = Astro.props;
 <div class="demo-banner__spacer" aria-hidden="true"></div>
 
 <style>
+  /* All colors flow from the client's brand vars (set by DemoLayout).
+     This way the bar always looks like part of the client's design system,
+     never an elefox-colored overlay. */
   .demo-banner {
     position: fixed;
     top: 0;
@@ -34,27 +34,19 @@ const { clientName } = Astro.props;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    background: #1a1f1b;
-    color: #f7f4ed;
-    font-family:
-      "Inter",
-      ui-sans-serif,
-      system-ui,
-      -apple-system,
-      "Segoe UI",
-      Roboto,
-      sans-serif;
+    background: var(--brandText);
+    color: var(--brandBg);
+    font-family: var(--brandBodyFont);
     font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.01em;
     padding: 9px 16px;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
     text-align: center;
   }
 
   .demo-banner strong {
     font-weight: 600;
-    color: #d4a574;
+    color: var(--brandBg);
   }
 
   .demo-banner__sep {
@@ -64,11 +56,11 @@ const { clientName } = Astro.props;
 
   .demo-banner__dot {
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 9999px;
-    background: #c8623a;
-    box-shadow: 0 0 0 3px rgba(200, 98, 58, 0.18);
+    background: var(--brandAccent);
+    opacity: 0.95;
   }
 
   .demo-banner__spacer {
