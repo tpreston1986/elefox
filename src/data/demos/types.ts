@@ -31,6 +31,10 @@ export type DemoBrand = {
   wordmark: string;
   /** Optional logo image URL — falls back to wordmark text. */
   logoUrl?: string;
+  /** Optional favicon URL (SVG / PNG / ICO). If omitted, DemoLayout
+   *  generates an SVG favicon from the wordmark initials + primary color
+   *  — keeps the browser tab fully client-branded even without a real logo. */
+  faviconUrl?: string;
   /** Primary CTA / accent color. */
   primary: string;
   /** Hover/pressed primary. */
