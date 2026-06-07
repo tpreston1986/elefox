@@ -1,0 +1,116 @@
+---
+// Independent shell for /demo/[slug] pages. Does NOT use BaseLayout so the
+// elefox brand tokens (forest/bone, Manrope) don't bleed into the client's
+// mockup. Injects per-client brand as CSS custom properties so all demo
+// content can reference --brand-primary, --brand-bg, etc.
+
+import DemoBanner from "../components/demos/DemoBanner.astro";
+import type { ClientDemoConfig } from "../data/demos/types";
+
+type Props = {
+  config: ClientDemoConfig;
+  pageTitle?: string;
+};
+
+const { config, pageTitle } = Astro.props;
+const { brand, clientName } = config;
+
+const fullTitle = pageTitle
+  ? `${pageTitle} · ${clientName}`
+  : clientName;
+
+const displayFont = brand.displayFont ?? "Cormorant Garamond";
+const bodyFont = brand.bodyFont ?? "Inter";
+
+// Encode the family names for the Google Fonts URL
+const fontsHref = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(
+  displayFont,
+).replace(/%20/g, "+")}:wght@400;500;600;700&family=${encodeURIComponent(
+  bodyFont,
+).replace(/%20/g, "+")}:wght@300;400;500;600&display=swap`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="robots" content="noindex,nofollow" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href={fontsHref} rel="stylesheet" />
+
+    <style is:global define:vars={{
+      brandPrimary: brand.primary,
+      brandPrimaryDeep: brand.primaryDeep,
+      brandBg: brand.background,
+      brandSurface: brand.surface,
+      brandText: brand.text,
+      brandTextMuted: brand.textMuted,
+      brandBorder: brand.border,
+      brandAccent: brand.accent ?? brand.primary,
+      brandDisplayFont: `"${displayFont}", Georgia, serif`,
+      brandBodyFont: `"${bodyFont}", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`,
+    }}>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+      }
+
+      body {
+        margin: 0;
+        background: var(--brandBg);
+        color: var(--brandText);
+        font-family: var(--brandBodyFont);
+        font-weight: 400;
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: var(--brandDisplayFont);
+        font-weight: 500;
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+        margin: 0;
+        color: var(--brandText);
+      }
+
+      p {
+        margin: 0;
+      }
+
+      a {
+        color: var(--brandPrimary);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+      }
+
+      ::selection {
+        background: var(--brandPrimary);
+        color: var(--brandBg);
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--brandPrimary);
+        outline-offset: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <DemoBanner clientName={clientName} />
+    <slot />
+  </body>
+</html>
