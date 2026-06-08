@@ -6,14 +6,21 @@
  * data-glow`, and keep the hero's real content in a sibling with `relative
  * z-10` so it sits above the backdrop.
  *
+ * Pass `warm` to weight the field toward ember/amber (for warm-toned heroes);
+ * the default mix is forest/ember/signal.
+ *
  * The cursor-glow tracking is wired globally in BaseLayout for every
  * [data-glow] section, so no per-page script is needed.
  */
+interface Props {
+  warm?: boolean;
+}
+const { warm = false } = Astro.props;
 ---
 
-<div class="aurora" aria-hidden="true">
-  <div class="aurora__blob aurora__blob--forest"></div>
+<div class={`aurora${warm ? " is-warm" : ""}`} aria-hidden="true">
+  <div class={`aurora__blob ${warm ? "aurora__blob--amber" : "aurora__blob--forest"}`}></div>
   <div class="aurora__blob aurora__blob--ember"></div>
-  <div class="aurora__blob aurora__blob--signal"></div>
+  <div class={`aurora__blob ${warm ? "aurora__blob--ember-2" : "aurora__blob--signal"}`}></div>
 </div>
 <div class="cursor-glow" aria-hidden="true"></div>

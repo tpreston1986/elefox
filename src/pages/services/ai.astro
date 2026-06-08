@@ -49,7 +49,7 @@ const phases = [
   />
 
   <!-- Stance section -->
-  <section class="py-20 md:py-32 bg-cream">
+  <section class="py-20 md:py-32">
     <Container size="default" data-reveal>
       <Eyebrow>Our stance</Eyebrow>
       <h2 class="mt-6 mb-12">AI is a capability, not a product.</h2>
@@ -88,35 +88,37 @@ const phases = [
   </section>
 
   <!-- Engagement phases -->
-  <section class="py-20 md:py-32 bg-forest text-bone">
-    <Container size="full" data-reveal>
-      <div class="max-w-3xl mb-16">
-        <Eyebrow tone="bone">How we engage</Eyebrow>
-        <h2 class="mt-6 text-bone">Four phases. No surprise tiers.</h2>
-      </div>
+  <section class="py-6 md:py-12">
+    <Container size="full">
+      <div data-reveal class="bg-forest text-bone rounded-[28px] md:rounded-[40px] px-6 md:px-16 py-20 md:py-32">
+        <div class="max-w-3xl mb-16">
+          <Eyebrow tone="bone">How we engage</Eyebrow>
+          <h2 class="mt-6 text-bone">Four phases. No surprise tiers.</h2>
+        </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
-        {
-          phases.map((p) => (
-            <div class="border-t border-bone/30 pt-6">
-              <h3 class="text-2xl text-bone mb-3 font-display tracking-tight">{p.t}.</h3>
-              <p class="text-bone/75 leading-relaxed">{p.p}</p>
-            </div>
-          ))
-        }
-      </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
+          {
+            phases.map((p) => (
+              <div class="border-t border-bone/30 pt-6">
+                <h3 class="text-2xl text-bone mb-3 font-display tracking-tight">{p.t}.</h3>
+                <p class="text-bone/75 leading-relaxed">{p.p}</p>
+              </div>
+            ))
+          }
+        </div>
 
-      <p class="mt-16 text-bone/70 max-w-2xl text-lg">
-        Every engagement is priced bespoke after we scope the actual problem.
-        No tiers, no menu, no figure before we understand the work.
-      </p>
+        <p class="mt-16 text-bone/70 max-w-2xl text-lg">
+          Every engagement is priced bespoke after we scope the actual problem.
+          No tiers, no menu, no figure before we understand the work.
+        </p>
+      </div>
     </Container>
   </section>
 
   <FitCheck good={s.good} skip={s.skip} />
 
   <!-- What we won't do -->
-  <section class="py-20 md:py-32 bg-cream">
+  <section class="py-20 md:py-32">
     <Container size="default" data-reveal>
       <Eyebrow>Refreshingly honest</Eyebrow>
       <h2 class="mt-6 mb-10">What we won't do.</h2>

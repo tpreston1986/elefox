@@ -57,6 +57,11 @@
 @layer base {
   :root {
     color-scheme: light;
+    /* Paper grain, shared by the body and the framed content card so the
+       texture survives the v3 inset-frame treatment. */
+    --paper-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1  0 0 0 0 0.12  0 0 0 0 0.1  0 0 0 0.045 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    /* Inset-frame gutter: the margin of deeper paper showing around the card. */
+    --frame-gutter: clamp(7px, 1.05vw, 15px);
   }
 
   html {
@@ -75,7 +80,7 @@
     line-height: 1.6;
     font-feature-settings: "ss01", "cv11", "kern";
     /* Subtle paper grain, keeps the bone background from feeling sterile */
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1  0 0 0 0 0.12  0 0 0 0 0.1  0 0 0 0.045 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    background-image: var(--paper-grain);
     background-attachment: fixed;
   }
 
@@ -125,7 +130,8 @@
      keep specificity at 0 so explicit Tailwind utilities still win. */
   .bg-ink :where(p, h1, h2, h3, h4, li, dd, dt, blockquote),
   .bg-forest :where(p, h1, h2, h3, h4, li, dd, dt, blockquote),
-  .bg-forest-deep :where(p, h1, h2, h3, h4, li, dd, dt, blockquote) {
+  .bg-forest-deep :where(p, h1, h2, h3, h4, li, dd, dt, blockquote),
+  .bg-ember :where(p, h1, h2, h3, h4, li, dd, dt, blockquote) {
     color: inherit;
   }
 
@@ -212,8 +218,8 @@
   .display-xl {
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: clamp(3rem, 9vw, 8.5rem);
-    line-height: 0.92;
+    font-size: clamp(2.5rem, 5.5vw, 5.25rem);
+    line-height: 0.95;
     letter-spacing: -0.04em;
   }
 
@@ -405,6 +411,28 @@
     left: 32%;
     animation: aurora-c 34s ease-in-out infinite alternate;
   }
+  /* Warm-hero aurora: amber + a second ember swap in for forest/signal so the
+     field reads orange rather than going muddy over a peach background. */
+  .aurora__blob--amber {
+    background: radial-gradient(circle at 50% 50%, #e8923f, transparent 68%);
+    top: -8%;
+    left: 4%;
+    animation: aurora-a 26s ease-in-out infinite alternate;
+  }
+  .aurora__blob--ember-2 {
+    background: radial-gradient(circle at 50% 50%, var(--color-ember), transparent 70%);
+    bottom: -16%;
+    left: 30%;
+    animation: aurora-c 34s ease-in-out infinite alternate;
+  }
+  /* Warm heroes: keep the drift but dial the colour way down so it reads as a
+     soft glow over the warm background, not a saturated patchy field. */
+  .aurora.is-warm {
+    filter: blur(72px) saturate(1);
+  }
+  .aurora.is-warm .aurora__blob {
+    opacity: 0.26;
+  }
   @keyframes aurora-a {
     0% { transform: translate3d(0, 0, 0) scale(1); }
     100% { transform: translate3d(14%, 10%, 0) scale(1.18); }
@@ -516,6 +544,98 @@
     70% { opacity: 0; transform: translateY(12px); }
     100% { opacity: 0; transform: translateY(12px); }
   }
+
+  /* ════════════════════════════════════════════════════════════════════ */
+  /* v3 — Munch-adapted shell + motion                                      */
+  /* Inset "card" frame, floating pill nav, scroll-draw timeline, showcase. */
+  /* Scroll-driven motion is gated by the prefers-reduced-motion block.     */
+  /* ════════════════════════════════════════════════════════════════════ */
+
+  /* -- Floating frosted pill nav ---------------------------------------- */
+  .nav-floating {
+    position: fixed;
+    inset: 0 0 auto 0;
+    top: calc(var(--frame-gutter) + 0.4rem);
+    z-index: 50;
+    pointer-events: none; /* gutter behind the pill stays inert, not blocking */
+  }
+  /* At the top of the page the nav is flush with the hero: transparent, no
+     pill. Once scrolled, it morphs into a frosted floating pill. */
+  .nav-pill {
+    pointer-events: auto;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    transition: background-color 350ms var(--ease-out-quint),
+      border-color 350ms var(--ease-out-quint),
+      box-shadow 350ms var(--ease-out-quint),
+      backdrop-filter 350ms var(--ease-out-quint);
+  }
+  .nav-scrolled .nav-pill {
+    background: color-mix(in srgb, var(--color-bone) 80%, transparent);
+    border-color: color-mix(in srgb, var(--color-fog) 75%, transparent);
+    box-shadow: var(--shadow-lift);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    backdrop-filter: blur(18px) saturate(1.6);
+  }
+
+  /* -- Scroll-draw timeline --------------------------------------------- */
+  /* A vertical spine whose ember fill height tracks scroll progress
+     (--draw, 0→1, set by JS in BaseLayout). A head dot rides the edge. */
+  .timeline {
+    position: relative;
+  }
+  .timeline__spine {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: color-mix(in srgb, var(--color-mist) 70%, transparent);
+    border-radius: 9999px;
+  }
+  .timeline__fill {
+    position: absolute;
+    inset: 0 0 auto 0;
+    width: 100%;
+    height: calc(var(--draw, 0) * 100%);
+    background: linear-gradient(
+      to bottom,
+      var(--color-ember),
+      color-mix(in srgb, var(--color-ember) 55%, var(--color-signal))
+    );
+    border-radius: 9999px;
+    will-change: height;
+  }
+  .timeline__head {
+    position: absolute;
+    left: 50%;
+    top: calc(var(--draw, 0) * 100%);
+    width: 14px;
+    height: 14px;
+    margin-left: -7px;
+    margin-top: -7px;
+    border-radius: 9999px;
+    background: var(--color-ember);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-ember) 16%, transparent);
+    opacity: calc(0.15 + var(--draw, 0));
+    will-change: top;
+  }
+
+  /* -- Showcase wall: tilt + scroll parallax (NOT an auto-scroll marquee) */
+  /* Entrance is handled by a [data-reveal-stagger] parent; this element only
+     carries the static tilt (--tilt) and the parallax offset (--py, set by
+     JS). No transform transition, so parallax stays crisp on scroll. */
+  .showcase-card {
+    transform: rotate(var(--tilt, 0deg)) translate3d(0, var(--py, 0px), 0);
+    transition: box-shadow 450ms var(--ease-out-quint);
+    will-change: transform;
+  }
+  .showcase-card:hover {
+    box-shadow: var(--shadow-lift);
+  }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -532,5 +652,10 @@
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+  /* The draw JS is skipped for these users, so present the timeline as a
+     complete static spine rather than an empty track. */
+  .timeline {
+    --draw: 1;
   }
 }
