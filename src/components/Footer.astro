@@ -5,8 +5,10 @@ import { footerNav } from "../data/nav";
 const year = new Date().getFullYear();
 ---
 
-<footer class="bg-ink text-bone">
-  <Container size="wide" class="pt-24 pb-12">
+<footer class="pt-6 md:pt-10 pb-2 md:pb-4">
+  <Container size="full">
+    <div class="bg-ink text-bone rounded-[28px] md:rounded-[40px] px-6 sm:px-10 md:px-16 pt-16 md:pt-20 pb-10 md:pb-12">
+      <div class="max-w-7xl mx-auto">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
       <div class="lg:col-span-5">
         <img
@@ -116,6 +118,8 @@ const year = new Date().getFullYear();
       <div class="flex items-center gap-5">
         <a href="/privacy" class="hover:text-bone transition-colors">Privacy</a>
         <span class="font-mono text-xs tracking-wider">elefoxstudio.com</span>
+      </div>
+    </div>
       </div>
     </div>
   </Container>

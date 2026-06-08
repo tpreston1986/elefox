@@ -1,0 +1,61 @@
+---
+// Mock-UI composite: a client portal home, the "one clean place" view.
+// Class hooks: .portal-row for staggered reveal, .portal-bar for fill.
+const steps = [
+  { label: "Kickoff call", done: true },
+  { label: "Design review", done: true },
+  { label: "Build in progress", done: false, active: true },
+  { label: "Launch", done: false },
+];
+---
+
+<div class="composite portal w-full rounded-xl bg-white border border-fog shadow-soft overflow-hidden select-none">
+  <div class="flex items-center justify-between px-4 py-3 border-b border-fog/80">
+    <div class="flex items-center gap-2">
+      <span class="w-5 h-5 rounded-full bg-ember/15 grid place-items-center text-ember text-[10px] font-bold">e</span>
+      <span class="text-[13px] font-display font-bold tracking-tight text-ink">Your portal</span>
+    </div>
+    <span class="font-mono text-[9px] uppercase tracking-[0.14em] text-forest">On track</span>
+  </div>
+
+  <div class="p-4">
+    <p class="text-[11px] text-graphite/80 mb-3">Here's where your project stands.</p>
+
+    <!-- progress bar -->
+    <div class="flex items-center gap-2 mb-4">
+      <span class="portal-bar h-1.5 flex-1 rounded-full bg-forest/12 overflow-hidden block">
+        <span class="block h-full w-1/2 rounded-full bg-gradient-to-r from-forest to-signal"></span>
+      </span>
+      <span class="text-[10px] font-mono text-graphite/60">50%</span>
+    </div>
+
+    <!-- checklist -->
+    <ul class="space-y-2">
+      {
+        steps.map((s) => (
+          <li class="portal-row flex items-center gap-2.5">
+            <span
+              class={`w-4 h-4 rounded-full grid place-items-center shrink-0 ${s.done ? "bg-forest text-bone" : s.active ? "bg-ember/15 border border-ember" : "bg-fog"}`}
+            >
+              {s.done && (
+                <svg width="9" height="9" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                  <path d="M2 5l2 2 4-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              )}
+              {s.active && <span class="w-1.5 h-1.5 rounded-full bg-ember" />}
+            </span>
+            <span class={`text-[11px] ${s.done ? "text-graphite/60 line-through decoration-graphite/30" : s.active ? "text-ink font-semibold" : "text-graphite/70"}`}>
+              {s.label}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- invoice chip -->
+    <div class="portal-row mt-4 flex items-center justify-between rounded-lg bg-bone/70 border border-fog px-3 py-2">
+      <span class="text-[10px] font-mono text-graphite/70">INV-2026-014</span>
+      <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-forest/10 text-forest">Paid</span>
+    </div>
+  </div>
+</div>

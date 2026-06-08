@@ -4,7 +4,19 @@ import Container from "../components/Container.astro";
 import Button from "../components/Button.astro";
 import Eyebrow from "../components/Eyebrow.astro";
 import HeroAtmosphere from "../components/HeroAtmosphere.astro";
+import CrmPipeline from "../components/composites/CrmPipeline.astro";
+import WebsiteMock from "../components/composites/WebsiteMock.astro";
+import AutomationFlow from "../components/composites/AutomationFlow.astro";
+import BrandKit from "../components/composites/BrandKit.astro";
 import { allServices } from "../data/services";
+
+// Which tool mockup illustrates each service, keyed by slug.
+const COMPS: Record<string, any> = {
+  software: CrmPipeline,
+  websites: WebsiteMock,
+  ai: AutomationFlow,
+  brand: BrandKit,
+};
 
 // Ordered by how we lead: custom software first, the website that ties
 // into it, the automations, then brand and social as supporting work.
@@ -16,38 +28,62 @@ const capabilityServices = capabilityOrder
 const processSteps = [
   {
     title: "Discover",
+    kind: "discover",
     body: "A free 30-minute discovery call. We learn your business, your stack, and where the friction actually lives. You leave with notes and next steps either way.",
   },
   {
     title: "Plan",
+    kind: "plan",
     body: "A real plan with real numbers and a real timeline. Fixed-fee where we can, transparent ranges where we can't.",
   },
   {
     title: "Build",
+    kind: "build",
     body: "We design and ship in tight cycles. You see progress every week, not at the end. Two rounds of revisions are baked in.",
   },
   {
     title: "Launch",
+    kind: "launch",
     body: "We handle the boring parts, DNS, analytics, monitoring, training your team. You handle the celebration.",
   },
   {
     title: "Operate",
+    kind: "operate",
     body: "Most clients stay on a small retainer. Hosting, backups, the occasional new feature. We're the team you don't have to hire.",
   },
 ];
 
-const aiExamples = [
+// Small uptime bars for the Operate phase mockup.
+const uptimeBars = [60, 80, 50, 90, 70, 100, 85, 95, 65, 88, 75, 92];
+
+const faqs = [
   {
-    line: "An AI-powered intake summarizer for a therapy practice.",
-    detail: "Six hours of weekly admin, gone.",
+    q: "How long does a build take?",
+    a: "A custom CRM is a six-week build, typically. Smaller sites and tools are faster. Either way, you get a real timeline in the plan up front, not a vague range that drifts.",
   },
   {
-    line: "Personalized check-in drafts inside a realtor's CRM.",
-    detail: "Segmented by sphere, written in their voice.",
+    q: "Do I own what you build?",
+    a: "Yes. It's yours forever. We host it for you and keep it running, but the build and your data belong to you. No lock-in, no holding your business hostage.",
   },
   {
-    line: "An internal RAG agent over a coaching firm's session notes.",
-    detail: "Recommendations in minutes, not hours.",
+    q: "What does it cost?",
+    a: "Most engagements are fixed-fee: half to start, half on delivery, two rounds of revisions baked in. Custom work runs in transparent ranges. Full numbers live on the pricing page.",
+  },
+  {
+    q: "I already have a website. Can you work with it?",
+    a: "Usually, yes. We build the tools and wire them into your existing site. If the site itself is holding you back, we'll say so and rebuild it.",
+  },
+  {
+    q: "Do you only build CRMs?",
+    a: "No. CRMs are the core, but we also build client portals, booking systems, internal dashboards, the websites that tie into them, plus brand and automation when you want one team on all of it.",
+  },
+  {
+    q: "What happens after launch?",
+    a: "Most clients stay on a small retainer for hosting, backups, and the occasional new feature. We're the team you don't have to hire.",
+  },
+  {
+    q: "Will you actually take my project?",
+    a: "We cap how many software clients we take each year so every build gets real attention. If we're not the right fit, we'll tell you on the first call.",
   },
 ];
 ---
@@ -56,44 +92,62 @@ const aiExamples = [
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <!-- Hero                                                                 -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <section
-    id="hero"
-    data-glow
-    class="relative overflow-hidden min-h-[90vh] flex flex-col justify-center pt-28 md:pt-32 pb-16"
-  >
-    <HeroAtmosphere />
+  <section class="pt-2 md:pt-4">
+    <Container size="full">
+      <div
+        id="hero"
+        data-glow
+        class="relative overflow-hidden rounded-[28px] md:rounded-[44px] min-h-[82vh] flex flex-col justify-center pt-28 md:pt-36 pb-20 md:pb-24 px-6 md:px-12 bg-gradient-to-b from-[#FBF1E9] via-[#F8ECE0] to-[#F2E2D2]"
+      >
+        <HeroAtmosphere warm />
 
-    <Container size="full" class="relative z-10 text-center">
-      <h1 data-split class="font-display font-extrabold tracking-[-0.04em] leading-[0.92] text-[clamp(2.5rem,8vw,6.5rem)] text-ink max-w-[20ch] mx-auto">
-        Tools built around
-        <span class="relative inline-block">
-          <em class="not-italic text-gradient-flow">your business</em>,
-          <svg viewBox="0 0 260 14" class="absolute left-0 -bottom-2 md:-bottom-3 w-full h-3 text-ember underline-draw" aria-hidden="true" preserveAspectRatio="none">
-            <path d="M2 8 Q 40 2, 80 7 T 160 8 T 220 6 T 258 7" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          </svg>
-        </span>
-        not the other way around.
-      </h1>
+        <div class="relative z-10 text-center max-w-5xl mx-auto">
+          <h1 data-split class="font-display font-extrabold tracking-[-0.04em] leading-[0.92] text-[clamp(2.5rem,7vw,6rem)] text-ink max-w-[20ch] mx-auto">
+            Tools built around
+            <span class="relative inline-block">
+              <em class="not-italic text-gradient-flow">your business</em>,
+              <svg viewBox="0 0 260 14" class="absolute left-0 -bottom-2 md:-bottom-3 w-full h-3 text-ember underline-draw" aria-hidden="true" preserveAspectRatio="none">
+                <path d="M2 8 Q 40 2, 80 7 T 160 8 T 220 6 T 258 7" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              </svg>
+            </span>
+            not the other way around.
+          </h1>
 
-      <p class="lede mx-auto mt-10 md:mt-12 text-xl md:text-2xl text-graphite text-center">
-        Off-the-shelf tools force you to adapt. We build the opposite: CRMs,
-        client portals, booking systems, and automations shaped to how you
-        actually work, wired into your site (yours or one we build). Brand and
-        social when you need them.
-      </p>
-      <div class="mt-10 flex flex-wrap gap-4 justify-center">
-        <Button href="/services" size="lg" class="btn-magnetic">See what we do</Button>
-        <Button href="/contact" variant="secondary" size="lg" class="btn-magnetic">Start a project</Button>
+          <p class="lede mx-auto mt-10 md:mt-12 text-xl md:text-2xl text-graphite text-center">
+            Off-the-shelf tools force you to adapt. We build the opposite: CRMs,
+            client portals, booking systems, and automations shaped to how you
+            actually work, wired into your site (yours or one we build). Brand and
+            social when you need them.
+          </p>
+          <div class="mt-10 flex flex-wrap gap-4 justify-center">
+            <Button href="/services" size="lg" class="btn-magnetic">See what we do</Button>
+            <Button href="/contact" variant="secondary" size="lg" class="btn-magnetic">Start a project</Button>
+          </div>
+        </div>
       </div>
     </Container>
   </section>
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <!-- Capabilities, section intro, then a pinned horizontal-scroll panel  -->
+  <!-- Statement, single big centered line (Munch cadence)                  -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <section class="pt-16 md:pt-24 pb-12 md:pb-20 relative" id="capabilities">
+  <section class="pt-12 pb-20 md:pt-20 md:pb-32">
+    <Container size="default">
+      <h2 data-split class="text-center font-display font-extrabold tracking-[-0.03em] leading-[1.02] text-[clamp(2.25rem,6vw,5rem)] text-ink max-w-[22ch] mx-auto">
+        One studio for the
+        <span class="text-gradient-flow">software, site, and systems</span>
+        your business runs on.
+      </h2>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Capabilities, the four services as alternating feature rows with     -->
+  <!-- a live tool mockup beside each.                                      -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="pb-8 md:pb-12 relative" id="capabilities">
     <Container size="full">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16 md:mb-24">
         <div class="lg:col-span-5">
           <Eyebrow>What we do</Eyebrow>
           <h2 data-split class="mt-6">Custom tools, at the core.</h2>
@@ -101,158 +155,128 @@ const aiExamples = [
         <p class="lg:col-span-6 lg:col-start-7 lede self-end">
           It starts with the tools your business runs on: a CRM, a portal,
           online booking, the automations behind the scenes. From there we
-          build, or rebuild,
-          the website that ties into them. Brand and social round it out when
-          you want one team handling all of it.
+          build, or rebuild, the website that ties into them. Brand and social
+          round it out when you want one team handling all of it.
         </p>
+      </div>
+
+      <div class="space-y-20 md:space-y-28">
+        {
+          capabilityServices.map((s) => {
+            const Comp = COMPS[s.slug];
+            return (
+              <div data-reveal class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+                <div>
+                  <span class="font-mono text-xs uppercase tracking-[0.14em] text-forest/70">
+                    {s.name}
+                  </span>
+                  <h3 class="mt-4 text-3xl md:text-5xl text-ink font-display tracking-tight leading-[0.98]">
+                    {s.name}.
+                  </h3>
+                  <p class="text-graphite text-lg leading-relaxed max-w-md mt-5">
+                    {s.oneLiner}
+                  </p>
+                  <a
+                    href={`/services/${s.slug}`}
+                    class="group inline-flex items-center gap-2 mt-7 text-forest font-medium hover:gap-3 transition-all"
+                  >
+                    Explore {s.name.toLowerCase()}
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M2 8h11m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </a>
+                </div>
+                <div class="tool-frame rounded-2xl bg-cream/50 border border-fog p-5 md:p-9">
+                  {Comp && <Comp />}
+                </div>
+              </div>
+            );
+          })
+        }
       </div>
     </Container>
   </section>
 
-  {/* Pinned horizontal scroll, the four capability panels                 */}
-  <section data-horiz class="bg-cream relative">
-    <div class="horiz__inner">
-      <div class="horiz__track items-stretch">
-        {/* Intro panel, sets context, gives the scroll a beginning */}
-        <div class="flex-shrink-0 w-[80vw] md:w-[55vw] flex flex-col justify-center pr-8 md:pr-16">
-          <span class="font-mono text-xs uppercase tracking-[0.14em] text-forest mb-4">
-            scroll →
-          </span>
-          <p class="text-3xl md:text-5xl font-display tracking-tight text-ink leading-tight">
-            The pieces, in the order we usually build them. Each one connects
-            to the next.
-          </p>
-          <span class="font-mono text-xs uppercase tracking-[0.18em] text-ember mt-8 inline-flex items-center gap-2">
-            Keep going
-            <svg width="20" height="8" viewBox="0 0 20 8" fill="none" aria-hidden="true"><path d="M0 4h18m0 0l-4-3m4 3l-4 3" stroke="currentColor" stroke-width="1.5"/></svg>
-          </span>
-        </div>
-
-        {
-          capabilityServices.map((s, i) => (
-            <a
-              href={`/services/${s.slug}`}
-              class={`group flex-shrink-0 w-[80vw] md:w-[50vw] bg-white border border-fog hover:border-forest p-8 md:p-14 rounded-xl transition-all duration-500 hover:shadow-lift flex flex-col gap-6 overflow-hidden ${i % 2 === 0 ? "hover:-rotate-1" : "hover:rotate-1"}`}
-            >
-              <div class="flex items-start justify-between">
-                <span class="font-mono text-xs uppercase tracking-[0.14em] text-forest/70">
-                  {s.name}
-                </span>
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  class="text-graphite group-hover:text-forest group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"
-                >
-                  <path
-                    d="M5 15L15 5M15 5H7M15 5v8"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-
-              <h3 class="text-4xl md:text-6xl text-ink mt-auto font-display tracking-tight leading-[0.95]">
-                {s.name}.
-              </h3>
-              <p class="text-graphite text-lg md:text-xl leading-relaxed max-w-md">
-                {s.oneLiner}
-              </p>
-            </a>
-          ))
-        }
-
-        {/* Tail panel, soft outro */}
-        <div class="flex-shrink-0 w-[50vw] md:w-[32vw] flex items-center">
-          <span class="text-3xl md:text-5xl font-display font-bold tracking-tight text-ink leading-tight">
-            That's the <span class="text-gradient-flow">studio</span>.
-          </span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-  {/* Featured product, Custom CRM (a real product, not the hero focus)   */}
-  {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-  <section class="py-20 md:py-32 bg-forest-wash relative overflow-hidden">
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Featured product, Custom CRM, as an inset rounded card              -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="py-6 md:py-10">
     <Container size="full">
-      <div data-reveal class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-        <div class="lg:col-span-6 order-2 lg:order-1">
-          <div class="flex items-center gap-3 mb-6">
-            <span class="font-mono text-xs text-forest tracking-[0.14em] uppercase">Featured product</span>
-            <span class="text-mist">·</span>
-            <span class="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.14em] text-ember">
-              <span class="w-1.5 h-1.5 rounded-full bg-ember"></span>
-              Live in production
-            </span>
-          </div>
-
-          <h2 data-split class="mt-2 max-w-[14ch]">
-            A Custom CRM, built for how you actually run.
-          </h2>
-
-          <p class="lede mt-8 text-xl">
-            For realtors, advisors, therapists, and small teams who live in
-            their pipeline. Custom fields, your stages, your terminology
-            and your data, hosted by us, yours forever. Six-week typical
-            build. We use the same engine in our own studio.
-          </p>
-
-          <div class="mt-10 flex flex-wrap gap-3">
-            {["Custom fields", "Your terminology", "Relationship-first", "Hosted by us", "Yours forever"].map((t) => (
-              <span class="text-xs font-mono text-forest bg-bone border border-forest/20 px-3 py-1.5 rounded-pill">
-                {t}
+      <div class="bg-forest-wash rounded-[28px] md:rounded-[40px] px-6 md:px-16 py-16 md:py-24 relative overflow-hidden">
+        <div data-reveal class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+          <div class="lg:col-span-6 order-2 lg:order-1">
+            <div class="flex items-center gap-3 mb-6">
+              <span class="font-mono text-xs text-forest tracking-[0.14em] uppercase">Featured product</span>
+              <span class="text-mist">·</span>
+              <span class="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.14em] text-ember">
+                <span class="w-1.5 h-1.5 rounded-full bg-ember"></span>
+                Live in production
               </span>
-            ))}
-          </div>
+            </div>
 
-          <div class="mt-12 flex flex-wrap gap-4">
-            <a
-              href="/services/software"
-              class="inline-flex items-center gap-2 px-6 py-3 bg-forest text-bone rounded-pill font-medium hover:bg-forest-deep transition-colors"
-            >
-              How we build CRMs
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
-            <a
-              href="/contact?service=crm"
-              class="inline-flex items-center gap-2 px-6 py-3 bg-transparent text-forest border-2 border-forest/40 rounded-pill font-medium hover:bg-forest hover:text-bone transition-colors"
-            >
-              Talk to us about yours
-            </a>
-          </div>
-        </div>
+            <h2 data-split class="mt-2 max-w-[14ch]">
+              A Custom CRM, built for how you actually run.
+            </h2>
 
-        <div class="lg:col-span-6 order-1 lg:order-2 relative">
-          {/* Product walkthrough */}
-          <div class="relative rounded-xl overflow-hidden shadow-lift bg-ink group">
-            <video
-              id="portal-demo"
-              src="/video/portal-overview.mp4"
-              poster="/video/portal-poster.jpg"
-              playsinline
-              preload="metadata"
-              aria-label="Client portal walkthrough: project management, contracts, and billing"
-              class="block w-full h-auto"
-            ></video>
-            <button
-              type="button"
-              id="portal-demo-play"
-              aria-label="Play client portal walkthrough"
-              class="absolute inset-0 flex items-center justify-center bg-ink/20 hover:bg-ink/10 transition-colors"
-            >
-              <span class="flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full bg-bone/95 text-forest shadow-lift group-hover:scale-105 transition-transform">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-1">
-                  <path d="M8 5v14l11-7z"/>
+            <p class="lede mt-8 text-xl">
+              For realtors, advisors, therapists, and small teams who live in
+              their pipeline. Custom fields, your stages, your terminology
+              and your data, hosted by us, yours forever. Six-week typical
+              build. We use the same engine in our own studio.
+            </p>
+
+            <div class="mt-10 flex flex-wrap gap-3">
+              {["Custom fields", "Your terminology", "Relationship-first", "Hosted by us", "Yours forever"].map((t) => (
+                <span class="text-xs font-mono text-forest bg-bone border border-forest/20 px-3 py-1.5 rounded-pill">
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            <div class="mt-12 flex flex-wrap gap-4">
+              <a
+                href="/services/software"
+                class="inline-flex items-center gap-2 px-6 py-3 bg-forest text-bone rounded-pill font-medium hover:bg-forest-deep transition-colors"
+              >
+                How we build CRMs
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-              </span>
-            </button>
+              </a>
+              <a
+                href="/contact?service=crm"
+                class="inline-flex items-center gap-2 px-6 py-3 bg-transparent text-forest border-2 border-forest/40 rounded-pill font-medium hover:bg-forest hover:text-bone transition-colors"
+              >
+                Talk to us about yours
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-6 order-1 lg:order-2 relative">
+            {/* Product walkthrough */}
+            <div class="relative rounded-xl overflow-hidden shadow-lift bg-ink group">
+              <video
+                id="portal-demo"
+                src="/video/portal-overview.mp4"
+                poster="/video/portal-poster.jpg"
+                playsinline
+                preload="metadata"
+                aria-label="Client portal walkthrough: project management, contracts, and billing"
+                class="block w-full h-auto"
+              ></video>
+              <button
+                type="button"
+                id="portal-demo-play"
+                aria-label="Play client portal walkthrough"
+                class="absolute inset-0 flex items-center justify-center bg-ink/20 hover:bg-ink/10 transition-colors"
+              >
+                <span class="flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full bg-bone/95 text-forest shadow-lift group-hover:scale-105 transition-transform">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-1">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -273,154 +297,404 @@ const aiExamples = [
   </section>
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <!-- Process, five-step                                                  -->
+  <!-- How we work, the five phases as a scroll-draw timeline              -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <section class="py-24 md:py-40 relative">
+  <section class="py-20 md:py-32 relative">
     <Container size="full">
-      <div class="max-w-3xl mb-20 md:mb-28">
-        <Eyebrow>How we work</Eyebrow>
-        <h2 data-split class="mt-6">
-          A boutique pace, an agency process.
-        </h2>
-        <p class="lede mt-6">
-          Every engagement runs the same five-step shape. No mystery, no
-          surprise invoices, no calls to figure out where the project is.
-        </p>
+      <div class="max-w-5xl mx-auto">
+        <div class="mb-16 md:mb-24 max-w-2xl">
+          <Eyebrow>How we work</Eyebrow>
+          <h2 data-split class="mt-6">
+            A boutique pace, an agency process.
+          </h2>
+          <p class="lede mt-6">
+            Every engagement runs the same five-step shape. No mystery, no
+            surprise invoices, no calls to figure out where the project is.
+          </p>
+        </div>
+
+        <div data-timeline class="timeline relative">
+        {/* Vertical spine: left on mobile, centered on desktop. The ember
+            fill height + head dot track scroll progress (--draw, set by JS). */}
+        <div class="timeline__spine left-[10px] md:left-1/2 md:-translate-x-1/2" aria-hidden="true">
+          <div class="timeline__fill"></div>
+          <div class="timeline__head"></div>
+        </div>
+
+        <ol class="space-y-12 md:space-y-0">
+          {
+            processSteps.map((step) => (
+              <li
+                data-reveal
+                class="relative pl-9 md:pl-0 md:grid md:grid-cols-2 md:gap-16 md:items-center md:py-10"
+              >
+                {/* Node dot, on the centre spine */}
+                <span
+                  class="absolute left-[10px] top-1.5 md:top-1/2 md:left-1/2 -translate-x-1/2 md:-translate-y-1/2 w-3.5 h-3.5 rounded-full bg-bone border-2 border-ember z-10"
+                  aria-hidden="true"
+                />
+
+                {/* Text, always left */}
+                <div class="md:col-start-1 md:pr-8">
+                  <h3 class="text-2xl md:text-4xl text-ink font-display tracking-tight">
+                    {step.title}.
+                  </h3>
+                  <p class="text-graphite leading-relaxed mt-3 max-w-md">
+                    {step.body}
+                  </p>
+                </div>
+
+                {/* Mockup, always right (desktop only) */}
+                <div class="hidden md:flex md:col-start-2 md:justify-start">
+                  <div class={`timeline-mock tl-${step.kind} w-full max-w-[440px] rounded-xl bg-white border border-fog shadow-soft p-5`}>
+                    {step.kind === "discover" && (
+                      <>
+                        <span class="text-[10px] font-mono uppercase tracking-[0.12em] text-graphite/50">Discovery call</span>
+                        <div class="mt-3 space-y-2">
+                          <p class="text-[12.5px] bg-bone rounded-2xl rounded-tl-sm px-3 py-2 w-fit max-w-[88%] text-graphite">Where does the day actually go?</p>
+                          <p class="tl-chat text-[12.5px] bg-forest text-bone rounded-2xl rounded-br-sm px-3 py-2 w-fit max-w-[88%] ml-auto">Re-typing the same client info, everywhere.</p>
+                        </div>
+                      </>
+                    )}
+                    {step.kind === "plan" && (
+                      <>
+                        <div class="flex items-center justify-between">
+                          <span class="text-[10px] font-mono uppercase tracking-[0.12em] text-graphite/50">The plan</span>
+                          <span class="text-[10px] font-mono text-forest">Fixed fee</span>
+                        </div>
+                        <ul class="mt-3 space-y-2 text-[12px]">
+                          <li class="flex justify-between"><span class="text-graphite">Custom CRM build</span><span class="font-mono text-ink">6 wks</span></li>
+                          <li class="flex justify-between"><span class="text-graphite">Portal + booking</span><span class="font-mono text-ink">incl.</span></li>
+                          <li class="flex justify-between"><span class="text-graphite">Two revision rounds</span><span class="font-mono text-ink">incl.</span></li>
+                        </ul>
+                        <div class="mt-3 pt-3 border-t border-fog flex justify-between items-center">
+                          <span class="text-[11px] text-graphite">Deposit to start</span>
+                          <span class="tl-chip text-[10px] font-mono px-2 py-0.5 rounded bg-forest/10 text-forest">50%</span>
+                        </div>
+                      </>
+                    )}
+                    {step.kind === "build" && (
+                      <>
+                        <div class="flex items-center justify-between">
+                          <span class="text-[10px] font-mono uppercase tracking-[0.12em] text-graphite/50">This week</span>
+                          <span class="text-[10px] font-mono text-forest">On track</span>
+                        </div>
+                        <div class="mt-3 h-1.5 rounded-full bg-forest/12 overflow-hidden"><span class="tl-build-bar block h-full w-[68%] rounded-full bg-gradient-to-r from-forest to-signal origin-left"></span></div>
+                        <ul class="mt-3 space-y-1.5 text-[12px]">
+                          <li class="flex items-center gap-2 text-graphite"><span class="w-1.5 h-1.5 rounded-full bg-signal shrink-0"></span>Pipeline + deal stages</li>
+                          <li class="flex items-center gap-2 text-graphite"><span class="w-1.5 h-1.5 rounded-full bg-signal shrink-0"></span>Client portal login</li>
+                          <li class="flex items-center gap-2 text-graphite/50"><span class="w-1.5 h-1.5 rounded-full bg-mist shrink-0"></span>Invoice reminders</li>
+                        </ul>
+                      </>
+                    )}
+                    {step.kind === "launch" && (
+                      <>
+                        <div class="flex items-center gap-2 rounded-lg bg-forest text-bone px-3 py-2">
+                          <span class="tl-live-dot w-1.5 h-1.5 rounded-full bg-signal shrink-0"></span>
+                          <span class="text-[12px] font-medium">You're live</span>
+                          <span class="ml-auto text-[10px] font-mono text-bone/70">yoursite.com</span>
+                        </div>
+                        <ul class="mt-3 space-y-1.5 text-[12px] text-graphite">
+                          {["DNS + SSL", "Analytics wired", "Team trained"].map((t) => (
+                            <li class="flex items-center gap-2">
+                              <span class="w-4 h-4 rounded-full bg-forest text-bone grid place-items-center shrink-0">
+                                <svg width="9" height="9" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 5l2 2 4-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                              </span>
+                              {t}
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+                    {step.kind === "operate" && (
+                      <>
+                        <div class="flex items-center justify-between">
+                          <span class="text-[10px] font-mono uppercase tracking-[0.12em] text-graphite/50">Status</span>
+                          <span class="inline-flex items-center gap-1.5 text-[10px] font-mono text-forest"><span class="tl-live-dot w-1.5 h-1.5 rounded-full bg-signal"></span>All systems go</span>
+                        </div>
+                        <div class="mt-3 flex items-end gap-[3px] h-10">
+                          {uptimeBars.map((h) => (
+                            <span class="tl-uptime-bar flex-1 rounded-sm bg-forest/30 origin-bottom" style={`height:${h}%`}></span>
+                          ))}
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-fog flex justify-between items-center text-[11px]">
+                          <span class="text-graphite">Retainer</span>
+                          <span class="font-mono text-ink/80 text-[10px]">hosting · backups · updates</span>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+        </div>
       </div>
-
-      <ol class="space-y-0 relative">
-        {/* Vertical connecting line, runs behind all steps */}
-        <span class="hidden md:block absolute left-[14px] top-4 bottom-4 w-px bg-gradient-to-b from-ember via-forest/40 to-transparent" aria-hidden="true" />
-
-        {
-          processSteps.map((step) => (
-            <li data-reveal class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 group py-10 md:py-12 border-t border-fog pl-0 md:pl-12 relative">
-              {/* Pulsing dot, vertically centered with the step heading */}
-              <span class="hidden md:block absolute left-[8px] top-1/2 -translate-y-1/2 step-dot" aria-hidden="true" />
-              <div class="md:col-span-5 self-center">
-                <h3 class="text-3xl md:text-5xl text-ink group-hover:text-forest transition-colors font-display tracking-tight">
-                  {step.title}.
-                </h3>
-              </div>
-              <p class="md:col-span-7 text-lg text-graphite leading-relaxed self-center">
-                {step.body}
-              </p>
-            </li>
-          ))
-        }
-      </ol>
     </Container>
   </section>
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <!-- Why elefox, three pillars                                          -->
+  <!-- Why elefox, inset rounded forest card                              -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <section class="py-24 md:py-40 bg-forest text-bone">
+  <section class="py-6 md:py-10">
     <Container size="full">
-      <div class="max-w-4xl mb-20 md:mb-28">
-        <Eyebrow tone="bone">Why elefox</Eyebrow>
-        <h2 data-split class="mt-6 text-bone">
-          We're built for the people who got told they were "too small" to work with a real studio.
-        </h2>
-      </div>
-
-      <div data-reveal-stagger class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
-        {
-          [
-            {
-              n: "→",
-              h: "A cap on intake.",
-              p: "We take a small number of software clients each year so every build gets real attention. When we're full, we say so.",
-            },
-            {
-              n: "→",
-              h: "Honest about scope.",
-              p: "Our pages have a 'skip if' section for a reason. We turn down projects we can't make great. You deserve a yes that means yes.",
-            },
-            {
-              n: "→",
-              h: "Built like operators.",
-              p: "We use what we ship. Our client portal, our CRM, our automations, we run on them. When something's broken, we feel it first.",
-            },
-          ].map((pillar) => (
-            <div>
-              <span class="text-3xl text-bone/40 mb-6 block">{pillar.n}</span>
-              <h3 class="text-2xl md:text-3xl text-bone mb-4">{pillar.h}</h3>
-              <p class="text-bone/75 text-lg leading-relaxed">{pillar.p}</p>
-            </div>
-          ))
-        }
-      </div>
-    </Container>
-  </section>
-
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <!-- AI, editorial section                                              -->
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <section class="py-24 md:py-40">
-    <Container size="default">
-      <Eyebrow>AI & automation</Eyebrow>
-      <h2 data-split class="mt-6 mb-12 max-w-3xl">
-        The quiet co-worker we wire into your stack.
-      </h2>
-      <p class="lede text-2xl mb-16">
-        AI isn't a product we sell, it's a capability we help you use. Tell us
-        your bottleneck. We'll figure out whether AI actually fits, and if it
-        does, what the smallest version looks like.
-      </p>
-
-      <ul data-reveal-stagger class="space-y-8 mb-16 border-t border-fog">
-        {
-          aiExamples.map((ex) => (
-            <li class="grid grid-cols-1 md:grid-cols-12 gap-4 py-8 border-b border-fog group">
-              <div class="md:col-span-8">
-                <p class="text-2xl md:text-3xl text-ink font-display tracking-tight leading-tight">
-                  {ex.line}
-                </p>
-              </div>
-              <div class="md:col-span-4 md:text-right self-end">
-                <span class="text-sm font-mono text-forest tracking-wide">
-                  {ex.detail}
-                </span>
-              </div>
-            </li>
-          ))
-        }
-      </ul>
-
-      <Button href="/services/ai" variant="secondary" size="lg">
-        How we engage on AI
-      </Button>
-    </Container>
-  </section>
-
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <!-- CTA band                                                            -->
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <section class="py-24 md:py-40 bg-ink text-bone">
-    <Container size="full">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
-        <div class="lg:col-span-8">
-          <Eyebrow tone="bone">Tell us what you're building</Eyebrow>
-          <h2 class="mt-6 text-bone display-xl">
-            Let's figure it out together.
+      <div class="bg-forest text-bone rounded-[28px] md:rounded-[40px] px-6 md:px-16 py-20 md:py-32">
+        <div class="max-w-4xl mb-16 md:mb-24">
+          <Eyebrow tone="bone">Why elefox</Eyebrow>
+          <h2 data-split class="mt-6 text-bone">
+            We're built for the people who got told they were "too small" to work with a real studio.
           </h2>
         </div>
-        <div class="lg:col-span-4 flex flex-wrap gap-4 lg:justify-end">
-          <a
-            href="/contact"
-            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-bone text-ink rounded-pill text-lg font-medium hover:bg-cream transition-colors"
-          >
-            Start a project →
-          </a>
-          <a
-            href="/contact#book"
-            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-bone border-2 border-bone/70 rounded-pill text-lg font-medium hover:bg-bone hover:text-forest transition-colors"
-          >
-            Book a call
-          </a>
+
+        <div data-reveal-stagger class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
+          {
+            [
+              {
+                n: "→",
+                h: "A cap on intake.",
+                p: "We take a small number of software clients each year so every build gets real attention. When we're full, we say so.",
+              },
+              {
+                n: "→",
+                h: "Honest about scope.",
+                p: "Our pages have a 'skip if' section for a reason. We turn down projects we can't make great. You deserve a yes that means yes.",
+              },
+              {
+                n: "→",
+                h: "Built like operators.",
+                p: "We use what we ship. Our client portal, our CRM, our automations, we run on them. When something's broken, we feel it first.",
+              },
+            ].map((pillar) => (
+              <div>
+                <span class="text-3xl text-bone/40 mb-6 block">{pillar.n}</span>
+                <h3 class="text-2xl md:text-3xl text-bone mb-4">{pillar.h}</h3>
+                <p class="text-bone/75 text-lg leading-relaxed">{pillar.p}</p>
+              </div>
+            ))
+          }
         </div>
       </div>
     </Container>
   </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- FAQ                                                                  -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="py-20 md:py-32" id="faq">
+    <Container size="full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+        <div class="lg:col-span-4">
+          <Eyebrow>Questions</Eyebrow>
+          <h2 data-split class="mt-6">The things people ask first.</h2>
+          <p class="lede mt-6">
+            Still wondering about something? Just ask. A quick call sorts out
+            more than a page of FAQs ever could.
+          </p>
+          <a
+            href="/contact"
+            class="inline-flex items-center gap-2 mt-8 text-forest font-medium hover:gap-3 transition-all"
+          >
+            Ask us anything
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 8h11m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+
+        <div data-reveal class="lg:col-span-7 lg:col-start-6 divide-y divide-fog border-t border-fog">
+          {
+            faqs.map((f) => (
+              <details class="faq-item group py-5">
+                <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
+                  <span class="text-lg md:text-xl font-display tracking-tight text-ink">
+                    {f.q}
+                  </span>
+                  <span class="faq-icon shrink-0 mt-1 w-6 h-6 rounded-full border border-mist grid place-items-center text-graphite transition-transform duration-300 group-open:rotate-45 group-open:border-forest group-open:text-forest">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                      <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                  </span>
+                </summary>
+                <p class="text-graphite leading-relaxed mt-3 pr-12 max-w-2xl">
+                  {f.a}
+                </p>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- CTA, inset rounded ink card                                        -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="py-6 md:py-12">
+    <Container size="full">
+      <div class="bg-ember text-bone rounded-[28px] md:rounded-[40px] px-6 md:px-16 py-20 md:py-32">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+          <div class="lg:col-span-8">
+            <Eyebrow tone="bone">Tell us what you're building</Eyebrow>
+            <h2 class="mt-6 text-bone display-xl">
+              Let's figure it out together.
+            </h2>
+          </div>
+          <div class="lg:col-span-4 flex flex-wrap gap-4 lg:justify-end">
+            <a
+              href="/contact"
+              class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-bone text-ink rounded-pill text-lg font-medium hover:bg-cream transition-colors"
+            >
+              Start a project →
+            </a>
+            <a
+              href="/contact#book"
+              class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-bone border-2 border-bone/70 rounded-pill text-lg font-medium hover:bg-bone hover:text-forest transition-colors"
+            >
+              Book a call
+            </a>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!reduce) {
+      // Loops run continuously. (In-view gating via ScrollTrigger play/pause
+      // was freezing tweens mid-flight; these are small and few, so we just
+      // let them run. The whole block is already gated by reduced-motion.)
+      const loopInView = (_trigger: Element, tl: gsap.core.Timeline) => {
+        tl.play();
+      };
+      const q = <T extends Element = HTMLElement>(s: string) =>
+        Array.from(document.querySelectorAll<T>(s));
+
+      // CRM: a soft highlight wave runs down the deal cards.
+      q<HTMLElement>(".composite.crm").forEach((node) => {
+        const deals = node.querySelectorAll(".crm-deal");
+        if (!deals.length) return;
+        const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.7 });
+        tl.to(deals, {
+          y: -3,
+          scale: 1.03,
+          duration: 0.45,
+          ease: "sine.inOut",
+          stagger: { each: 0.4, repeat: 1, yoyo: true },
+        });
+        loopInView(node, tl);
+      });
+
+      // Website: cursor drifts to the CTA, clicks, fades out, repeats.
+      q<HTMLElement>(".composite.website").forEach((node) => {
+        const cursor = node.querySelector<HTMLElement>(".site-cursor");
+        const cta = node.querySelector<HTMLElement>(".site-cta");
+        if (!cursor || !cta) return;
+        const target = () => {
+          // Measure relative to the cursor's own offset parent (the inner
+          // page-content div, below the browser chrome) so the pointer tip
+          // lands on the CTA rather than one chrome-height too low.
+          const parent = (cursor.offsetParent as HTMLElement) || node;
+          const pb = parent.getBoundingClientRect();
+          const cb = cta.getBoundingClientRect();
+          return {
+            x: cb.left - pb.left + cb.width / 2 - 2,
+            y: cb.top - pb.top + cb.height / 2 - 2,
+          };
+        };
+        gsap.set(cursor, { x: 36, y: 168, autoAlpha: 0 });
+        const tl = gsap.timeline({ repeat: -1, repeatDelay: 1.1, repeatRefresh: true });
+        tl.set(cursor, { x: 36, y: 168, autoAlpha: 0 })
+          .to(cursor, { autoAlpha: 1, duration: 0.3 })
+          .to(cursor, { duration: 1.05, ease: "power2.inOut", x: () => target().x, y: () => target().y })
+          .to(cta, { scale: 0.9, duration: 0.12, ease: "power2.in" }, "-=0.05")
+          .to(cta, { scale: 1, duration: 0.3, ease: "back.out(2.4)" })
+          .to(cursor, { autoAlpha: 0, duration: 0.4 }, "+=0.4");
+        loopInView(node, tl);
+      });
+
+      // Automation: nodes pulse in sequence; a spark travels each connector.
+      q<HTMLElement>(".composite.automation").forEach((node) => {
+        const nodes = node.querySelectorAll(".flow-node");
+        if (nodes.length) {
+          const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.6 });
+          tl.to(nodes, {
+            scale: 1.025,
+            duration: 0.4,
+            ease: "sine.inOut",
+            stagger: { each: 0.5, repeat: 1, yoyo: true },
+          });
+          loopInView(node, tl);
+        }
+        node.querySelectorAll<HTMLElement>(".flow-spark").forEach((s, i) => {
+          const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.7, delay: i * 0.35 });
+          tl.fromTo(
+            s,
+            { top: "-10%", autoAlpha: 0 },
+            { top: "110%", autoAlpha: 1, duration: 1, ease: "power1.inOut" }
+          );
+          loopInView(node, tl);
+        });
+      });
+
+      // Brand kit: swatches breathe in a gentle wave.
+      q<HTMLElement>(".composite.brandkit").forEach((node) => {
+        const sw = node.querySelectorAll(".swatch");
+        if (!sw.length) return;
+        const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.9 });
+        tl.to(sw, {
+          scaleY: 1.16,
+          transformOrigin: "bottom",
+          duration: 0.4,
+          ease: "sine.inOut",
+          stagger: { each: 0.1, repeat: 1, yoyo: true },
+        });
+        loopInView(node, tl);
+      });
+
+      // Timeline snippet loops.
+      q<HTMLElement>(".tl-build-bar").forEach((bar) => {
+        const tl = gsap.timeline({ repeat: -1, yoyo: true });
+        tl.fromTo(bar, { scaleX: 0.55 }, { scaleX: 1, duration: 1.8, ease: "sine.inOut" });
+        loopInView(bar, tl);
+      });
+      // uptime bars: a live-activity shimmer
+      const upBars = q<HTMLElement>(".tl-uptime-bar");
+      if (upBars.length) {
+        const tl = gsap.timeline({ repeat: -1, yoyo: true });
+        tl.to(upBars, {
+          scaleY: 0.45,
+          duration: 0.9,
+          ease: "sine.inOut",
+          stagger: { each: 0.05, from: "random" },
+        });
+        loopInView(upBars[0].closest(".timeline-mock") || upBars[0], tl);
+      }
+      // live dots pulse
+      q<HTMLElement>(".tl-live-dot").forEach((dot) => {
+        const tl = gsap.timeline({ repeat: -1, yoyo: true });
+        tl.to(dot, { scale: 1.9, opacity: 0.45, duration: 0.8, ease: "sine.inOut" });
+        loopInView(dot.closest(".timeline-mock") || dot, tl);
+      });
+      // discovery reply arrives on a loop
+      q<HTMLElement>(".tl-chat").forEach((chat) => {
+        const tl = gsap.timeline({ repeat: -1, repeatDelay: 1.6 });
+        tl.fromTo(
+          chat,
+          { autoAlpha: 0, y: 8 },
+          { autoAlpha: 1, y: 0, duration: 0.5, ease: "power2.out" }
+        ).to(chat, { autoAlpha: 0, duration: 0.4 }, "+=2.4");
+        loopInView(chat.closest(".timeline-mock") || chat, tl);
+      });
+
+      ScrollTrigger.refresh();
+    }
+  </script>
 </BaseLayout>

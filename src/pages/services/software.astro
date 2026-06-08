@@ -72,14 +72,16 @@ const s = services.software;
   <FitCheck good={s.good} skip={s.skip} />
 
   <!-- 25-client cap notice -->
-  <section class="py-20 md:py-32 bg-ink text-bone">
-    <Container size="default" data-reveal>
-      <Eyebrow tone="bone">A note on availability</Eyebrow>
-      <p class="text-3xl md:text-4xl font-display tracking-tight leading-tight mt-6 max-w-3xl">
-        We cap our custom software roster at 25 active clients. That keeps
-        builds fast, support real, and the studio honest. When we're full, we
-        say so.
-      </p>
+  <section class="py-6 md:py-12">
+    <Container size="full">
+      <div data-reveal class="bg-ink text-bone rounded-[28px] md:rounded-[40px] px-6 md:px-16 py-20 md:py-32">
+        <Eyebrow tone="bone">A note on availability</Eyebrow>
+        <p class="text-3xl md:text-4xl font-display tracking-tight leading-tight mt-6 max-w-3xl">
+          We cap our custom software roster at 25 active clients. That keeps
+          builds fast, support real, and the studio honest. When we're full, we
+          say so.
+        </p>
+      </div>
     </Container>
   </section>
 
