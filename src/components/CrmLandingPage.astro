@@ -46,13 +46,13 @@ const serviceSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
 
   <!-- Hero with lead form -->
-  <section data-glow class="relative overflow-hidden pt-12 md:pt-20 pb-16 md:pb-24">
-    <HeroAtmosphere />
+  <section data-glow class="mx-2 md:mx-4 mt-2 md:mt-4 rounded-[28px] md:rounded-[44px] relative overflow-hidden pt-28 md:pt-32 pb-14 md:pb-20 bg-gradient-to-b from-[#FBF1E9] via-[#F8ECE0] to-[#F2E2D2]">
+    <HeroAtmosphere warm />
     <div class="relative z-10 mx-auto max-w-6xl px-5 md:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
         <div class="lg:col-span-7">
           <span class="eyebrow">{data.eyebrow}</span>
-          <h1 class="display-xl mt-5 text-[clamp(2.5rem,6vw,4.75rem)] leading-[0.98]">
+          <h1 class="display-xl mt-5 text-[clamp(2.25rem,4.2vw,3.75rem)] leading-[1.02]">
             {data.headlineLead}<span class="relative inline-block">
               <em class="not-italic text-gradient-flow">{data.headlineAccent}</em>
               <svg viewBox="0 0 320 14" class="absolute left-0 -bottom-1 w-full h-3 text-ember" aria-hidden="true" preserveAspectRatio="none">
@@ -84,7 +84,7 @@ const serviceSchema = {
           </div>
         </div>
 
-        <div class="lg:col-span-5 lg:sticky lg:top-24">
+        <div class="lg:col-span-5">
           <InlineLeadForm
             title={data.formTitle}
             subtitle={data.formSubtitle}
@@ -250,7 +250,7 @@ const serviceSchema = {
   }
 
   <!-- Problem -->
-  <section class="py-16 md:py-24 bg-cream">
+  <section class="py-16 md:py-24">
     <div class="mx-auto max-w-5xl px-5 md:px-8">
       <div class="max-w-2xl mb-10">
         <h2 class="text-3xl md:text-5xl font-display font-bold tracking-tight text-ink">{data.problemTitle}</h2>
@@ -292,7 +292,7 @@ const serviceSchema = {
   </section>
 
   <!-- Migrations -->
-  <section class="py-16 md:py-24 bg-forest-wash">
+  <section class="mx-2 md:mx-4 my-6 md:my-12 rounded-[28px] md:rounded-[40px] overflow-hidden py-16 md:py-24 bg-forest-wash">
     <div class="mx-auto max-w-4xl px-5 md:px-8 text-center">
       <h2 class="text-2xl md:text-4xl font-display font-bold tracking-tight text-ink">{data.migrationsTitle}</h2>
       <div class="flex flex-wrap justify-center gap-2.5 mt-8">
@@ -311,7 +311,7 @@ const serviceSchema = {
 
   <!-- Pricing -->
   <section
-    class="py-16 md:py-24 bg-ink text-bone relative overflow-hidden"
+    class="mx-2 md:mx-4 my-6 md:my-12 rounded-[28px] md:rounded-[40px] py-16 md:py-24 bg-ink text-bone relative overflow-hidden"
     style="background-image:radial-gradient(at 18% 18%, rgba(63,90,46,0.35) 0, transparent 50%),radial-gradient(at 85% 92%, rgba(200,98,58,0.16) 0, transparent 55%);"
   >
     <div class="mx-auto max-w-5xl px-5 md:px-8">
@@ -370,7 +370,7 @@ const serviceSchema = {
   </section>
 
   <!-- Final CTA -->
-  <section class="py-16 md:py-24 bg-forest text-bone">
+  <section class="mx-2 md:mx-4 my-6 md:my-12 rounded-[28px] md:rounded-[40px] overflow-hidden py-16 md:py-24 bg-ember text-bone">
     <div class="mx-auto max-w-4xl px-5 md:px-8 text-center">
       <h2 class="text-3xl md:text-5xl font-display font-bold tracking-tight text-bone max-w-[20ch] mx-auto">{data.finalHeading}</h2>
       <p class="text-bone/80 text-lg mt-5 max-w-xl mx-auto">

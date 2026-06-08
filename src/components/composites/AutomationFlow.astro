@@ -1,0 +1,57 @@
+---
+// Mock-UI composite: a small automation, trigger -> AI step -> action.
+// Class hooks: .flow-node (staggered pop), .flow-link (drawing connectors),
+// .flow-spark (a pulse that travels the path).
+const nodes = [
+  { label: "New lead", sub: "Form submitted", kind: "trigger" },
+  { label: "AI drafts reply", sub: "In your voice", kind: "ai" },
+  { label: "Send + log", sub: "CRM updated", kind: "action" },
+];
+---
+
+<div class="composite automation w-full rounded-xl bg-white border border-fog shadow-soft overflow-hidden select-none">
+  <div class="flex items-center justify-between px-4 py-3 border-b border-fog/80">
+    <div class="flex items-center gap-2">
+      <span class="w-5 h-5 rounded-md bg-ember/12 grid place-items-center">
+        <svg width="11" height="11" viewBox="0 0 14 14" fill="none" aria-hidden="true" class="text-ember">
+          <path d="M7 1.5L3 8h3l-1 4.5L11 6H8l1-4.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="text-[13px] font-display font-bold tracking-tight text-ink">Automation</span>
+    </div>
+    <span class="font-mono text-[9px] uppercase tracking-[0.14em] text-forest">Running</span>
+  </div>
+
+  <div class="p-4 flex flex-col gap-0">
+    {
+      nodes.map((n, i) => (
+        <>
+          <div
+            class={`flow-node flex items-center gap-3 rounded-lg border p-2.5 ${n.kind === "ai" ? "border-ember/35 bg-ember/5" : "border-fog bg-bone/55"}`}
+          >
+            <span
+              class={`w-7 h-7 rounded-lg grid place-items-center shrink-0 ${n.kind === "trigger" ? "bg-forest/12 text-forest" : n.kind === "ai" ? "bg-ember/15 text-ember" : "bg-signal/20 text-forest"}`}
+            >
+              {n.kind === "trigger" && (
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="8" r="1.8" fill="currentColor"/></svg>
+              )}
+              {n.kind === "ai" && <span class="text-[11px] font-mono font-bold">AI</span>}
+              {n.kind === "action" && (
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h9m0 0L7.5 4.5M11 8l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              )}
+            </span>
+            <div class="min-w-0">
+              <p class="text-[11px] font-semibold text-ink leading-tight truncate">{n.label}</p>
+              <p class="text-[9px] font-mono text-graphite/60 truncate">{n.sub}</p>
+            </div>
+          </div>
+          {i < nodes.length - 1 && (
+            <span class="flow-link relative h-4 w-px mx-auto my-0.5 bg-fog block">
+              <span class="flow-spark absolute left-1/2 -translate-x-1/2 top-0 w-1.5 h-1.5 rounded-full bg-ember"></span>
+            </span>
+          )}
+        </>
+      ))
+    }
+  </div>
+</div>

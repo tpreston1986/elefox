@@ -12,10 +12,11 @@ import HeroAtmosphere from "../../components/HeroAtmosphere.astro";
   description="Tiffany Russell, founder of elefox studio. UX designer, product builder, AI tinkerer. Based in South Florida."
 >
   <!-- Hero -->
-  <section data-glow class="pt-24 md:pt-36 pb-16 md:pb-24 relative overflow-hidden">
-    <HeroAtmosphere />
-    {/* Portrait, bleeds off the right edge of the viewport, sits behind
-        the headline on lg+. Cleanly stacks on mobile. */}
+  <section class="pt-2 md:pt-4 px-2 md:px-4">
+    <div data-glow class="relative overflow-hidden rounded-[28px] md:rounded-[44px] pt-28 md:pt-36 pb-16 md:pb-24 bg-gradient-to-b from-[#FBF1E9] via-[#F8ECE0] to-[#F2E2D2] max-w-[1600px] mx-auto">
+    <HeroAtmosphere warm />
+    {/* Portrait, sits behind the headline on lg+, clipped to the card.
+        Cleanly stacks on mobile. */}
     <img
       src="/people/tiffany.webp"
       alt="Tiffany Russell, founder of elefox studio"
@@ -52,10 +53,11 @@ import HeroAtmosphere from "../../components/HeroAtmosphere.astro";
         />
       </figure>
     </Container>
+    </div>
   </section>
 
   <!-- The story -->
-  <section class="py-16 md:py-24 bg-cream">
+  <section class="py-16 md:py-24">
     <Container size="default" data-reveal>
       <div class="prose-content space-y-8 text-lg md:text-xl text-graphite leading-relaxed">
         <p>
@@ -135,21 +137,23 @@ import HeroAtmosphere from "../../components/HeroAtmosphere.astro";
   </section>
 
   <!-- Closing -->
-  <section class="py-20 md:py-32 bg-forest text-bone">
-    <Container size="default" data-reveal>
-      <Eyebrow tone="bone">A note</Eyebrow>
-      <p class="text-3xl md:text-4xl font-display tracking-tight leading-tight mt-6 max-w-3xl text-bone">
-        If you're reading this and wondering whether a small studio is the
-        right call for your business, let's talk. The worst outcome is a
-        free conversation. The best is the start of something that fits.
-      </p>
-      <div class="mt-12 flex flex-wrap gap-4">
-        <a href="/contact#book" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-bone text-ink rounded-pill text-lg font-medium hover:bg-cream transition-colors">
-          Book a call
-        </a>
-        <a href="/contact" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-bone border-2 border-bone/70 rounded-pill text-lg font-medium hover:bg-bone hover:text-forest transition-colors">
-          Send a message
-        </a>
+  <section class="py-6 md:py-12">
+    <Container size="full">
+      <div data-reveal class="bg-forest text-bone rounded-[28px] md:rounded-[40px] px-6 md:px-16 py-20 md:py-32">
+        <Eyebrow tone="bone">A note</Eyebrow>
+        <p class="text-3xl md:text-4xl font-display tracking-tight leading-tight mt-6 max-w-3xl text-bone">
+          If you're reading this and wondering whether a small studio is the
+          right call for your business, let's talk. The worst outcome is a
+          free conversation. The best is the start of something that fits.
+        </p>
+        <div class="mt-12 flex flex-wrap gap-4">
+          <a href="/contact#book" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-bone text-ink rounded-pill text-lg font-medium hover:bg-cream transition-colors">
+            Book a call
+          </a>
+          <a href="/contact" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-bone border-2 border-bone/70 rounded-pill text-lg font-medium hover:bg-bone hover:text-forest transition-colors">
+            Send a message
+          </a>
+        </div>
       </div>
     </Container>
   </section>

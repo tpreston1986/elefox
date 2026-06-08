@@ -226,24 +226,35 @@ const metaPixelMarkup = (() => {
 
     <script>
       import Lenis from "lenis";
+      import { gsap } from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+      gsap.registerPlugin(ScrollTrigger);
 
       const prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
 
-      // -- Smooth scrolling (Lenis) -----------------------------------------
-      // Skipped entirely if the user has reduced-motion set.
+      // -- Smooth scrolling (Lenis) + GSAP ScrollTrigger --------------------
+      // Skipped entirely if the user has reduced-motion set. When on, Lenis is
+      // driven by GSAP's ticker (the recommended integration) and Lenis scroll
+      // events flush ScrollTrigger, so scroll-scrubbed timelines stay in sync.
       if (!prefersReducedMotion) {
         const lenis = new Lenis({
           duration: 1.15,
           easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           smoothWheel: true,
         });
+        // Keep ScrollTrigger in sync with Lenis, but drive Lenis on its own
+        // rAF so GSAP's native ticker (which runs all the tweens) is untouched.
+        lenis.on("scroll", ScrollTrigger.update);
         function raf(time: number) {
           lenis.raf(time);
           requestAnimationFrame(raf);
         }
         requestAnimationFrame(raf);
+        // Expose so page-level scripts can scroll programmatically if needed.
+        (window as unknown as { __lenis?: unknown }).__lenis = lenis;
       }
 
       // -- Word-by-word headline reveal ------------------------------------
@@ -364,6 +375,74 @@ const metaPixelMarkup = (() => {
         window.addEventListener("scroll", onScroll, { passive: true });
         onScroll();
       });
+
+      // -- Scroll-draw timeline --------------------------------------------
+      // Each [data-timeline] sets --draw (0→1) as a reference line ~55% down
+      // the viewport travels from the section's top to its bottom. The ember
+      // spine fill height and head-dot position read --draw in CSS.
+      if (!prefersReducedMotion) {
+        const timelines =
+          document.querySelectorAll<HTMLElement>("[data-timeline]");
+        timelines.forEach((section) => {
+          let ticking = false;
+          const update = () => {
+            const rect = section.getBoundingClientRect();
+            const refLine = window.innerHeight * 0.55;
+            const draw = Math.min(
+              1,
+              Math.max(0, (refLine - rect.top) / Math.max(1, rect.height))
+            );
+            section.style.setProperty("--draw", draw.toFixed(4));
+            ticking = false;
+          };
+          const onTimelineScroll = () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(update);
+          };
+          window.addEventListener("scroll", onTimelineScroll, { passive: true });
+          window.addEventListener("resize", onTimelineScroll);
+          update();
+        });
+      }
+
+      // -- Floating nav: tighten the pill once scrolled past the crest ------
+      if (document.querySelector(".nav-floating")) {
+        const onNavScroll = () => {
+          document.body.classList.toggle("nav-scrolled", window.scrollY > 24);
+        };
+        window.addEventListener("scroll", onNavScroll, { passive: true });
+        onNavScroll();
+      }
+
+      // -- Showcase parallax drift (subtle, gated; never an auto-marquee) ---
+      if (!prefersReducedMotion) {
+        const parallaxEls =
+          document.querySelectorAll<HTMLElement>("[data-parallax]");
+        if (parallaxEls.length) {
+          let pTicking = false;
+          const updateParallax = () => {
+            const vh = window.innerHeight;
+            parallaxEls.forEach((el) => {
+              const speed = parseFloat(el.dataset.parallax || "0");
+              const rect = el.getBoundingClientRect();
+              const center = rect.top + rect.height / 2;
+              // rel: +ve when element is above viewport center, -ve below.
+              const rel = (vh / 2 - center) / vh;
+              el.style.setProperty("--py", (rel * speed).toFixed(2) + "px");
+            });
+            pTicking = false;
+          };
+          const onParallaxScroll = () => {
+            if (pTicking) return;
+            pTicking = true;
+            requestAnimationFrame(updateParallax);
+          };
+          window.addEventListener("scroll", onParallaxScroll, { passive: true });
+          window.addEventListener("resize", onParallaxScroll);
+          updateParallax();
+        }
+      }
 
       // -- Cursor-follow glow ----------------------------------------------
       // Any [data-glow] section with a .cursor-glow child gets a soft glow

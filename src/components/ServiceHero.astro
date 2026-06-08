@@ -22,34 +22,38 @@ const after =
   accentIndex >= 0 ? title.slice(accentIndex + titleAccent!.length) : "";
 ---
 
-<section
-  data-glow
-  class="relative overflow-hidden pt-24 md:pt-36 pb-16 md:pb-24"
->
-  <HeroAtmosphere />
+<section class="pt-2 md:pt-4">
+  <Container size="full">
+    <div
+      data-glow
+      class="relative overflow-hidden rounded-[28px] md:rounded-[44px] pt-28 md:pt-36 pb-16 md:pb-24 px-6 md:px-12 bg-gradient-to-b from-[#FBF1E9] via-[#F8ECE0] to-[#F2E2D2]"
+    >
+      <HeroAtmosphere warm />
 
-  <Container size="full" class="relative z-10 text-center">
-    <div class="mb-12">
-      <Eyebrow>{category}</Eyebrow>
-    </div>
+      <div class="relative z-10 text-center max-w-4xl mx-auto">
+        <div class="mb-12">
+          <Eyebrow>{category}</Eyebrow>
+        </div>
 
-    <h1 data-split class="display-xl text-ink max-w-[16ch] mx-auto">
-      {accentIndex >= 0 ? (
-        <>
-          {before}<span class="text-gradient-flow">{titleAccent}</span>{after}
-        </>
-      ) : (
-        title
-      )}
-    </h1>
+        <h1 data-split class="display-xl text-ink max-w-[16ch] mx-auto">
+          {accentIndex >= 0 ? (
+            <>
+              {before}<span class="text-gradient-flow">{titleAccent}</span>{after}
+            </>
+          ) : (
+            title
+          )}
+        </h1>
 
-    <p class="lede mt-12 text-xl md:text-2xl max-w-3xl mx-auto text-center">
-      {description}
-    </p>
+        <p class="lede mt-12 text-xl md:text-2xl max-w-3xl mx-auto text-center">
+          {description}
+        </p>
 
-    <div class="mt-12 flex flex-wrap gap-4 justify-center">
-      <Button href="/contact" size="lg" class="btn-magnetic">Start a project</Button>
-      <Button href="/contact#book" variant="secondary" size="lg" class="btn-magnetic">Book a call</Button>
+        <div class="mt-12 flex flex-wrap gap-4 justify-center">
+          <Button href="/contact" size="lg" class="btn-magnetic">Start a project</Button>
+          <Button href="/contact#book" variant="secondary" size="lg" class="btn-magnetic">Book a call</Button>
+        </div>
+      </div>
     </div>
   </Container>
 </section>

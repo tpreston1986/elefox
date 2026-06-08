@@ -1,0 +1,53 @@
+---
+// Mock-UI composite: a brand kit sheet (wordmark, palette, type).
+// Class hooks: .brand-row for staggered reveal, .swatch for the palette pop.
+const swatches = [
+  { name: "Forest", cls: "bg-forest" },
+  { name: "Ember", cls: "bg-ember" },
+  { name: "Signal", cls: "bg-signal" },
+  { name: "Ink", cls: "bg-ink" },
+  { name: "Bone", cls: "bg-bone border border-fog" },
+];
+---
+
+<div class="composite brandkit w-full rounded-xl bg-white border border-fog shadow-soft overflow-hidden select-none">
+  <div class="flex items-center justify-between px-4 py-3 border-b border-fog/80">
+    <div class="flex items-center gap-2">
+      <span class="w-5 h-5 rounded-md bg-ink grid place-items-center text-bone text-[10px] font-display font-bold">e</span>
+      <span class="text-[13px] font-display font-bold tracking-tight text-ink">Brand kit</span>
+    </div>
+    <span class="font-mono text-[9px] uppercase tracking-[0.14em] text-graphite/55">v1.0</span>
+  </div>
+
+  <div class="p-5">
+    <!-- wordmark lockup -->
+    <div class="brand-row flex items-baseline gap-1.5 mb-5">
+      <span class="text-2xl font-display font-extrabold tracking-[-0.04em] text-ink">studio</span>
+      <span class="text-2xl font-display font-light tracking-tight text-graphite/60">mark</span>
+    </div>
+
+    <!-- palette -->
+    <div class="brand-row mb-5">
+      <span class="block text-[9px] font-mono uppercase tracking-[0.14em] text-graphite/50 mb-2">Palette</span>
+      <div class="flex gap-1.5">
+        {swatches.map((s) => <span class={`swatch h-8 flex-1 rounded-md ${s.cls}`} title={s.name}></span>)}
+      </div>
+    </div>
+
+    <!-- type -->
+    <div class="brand-row flex items-end justify-between gap-3">
+      <div>
+        <span class="block text-[9px] font-mono uppercase tracking-[0.14em] text-graphite/50 mb-1">Display</span>
+        <span class="text-lg font-display font-bold tracking-tight text-ink leading-none">Manrope</span>
+      </div>
+      <div>
+        <span class="block text-[9px] font-mono uppercase tracking-[0.14em] text-graphite/50 mb-1">Body</span>
+        <span class="text-base text-graphite leading-none">Inter</span>
+      </div>
+      <div>
+        <span class="block text-[9px] font-mono uppercase tracking-[0.14em] text-graphite/50 mb-1">Mono</span>
+        <span class="text-sm font-mono text-graphite/80 leading-none">JetBrains</span>
+      </div>
+    </div>
+  </div>
+</div>
