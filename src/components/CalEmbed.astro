@@ -1,0 +1,175 @@
+---
+// Inline Cal.com scheduler — the real, on-page booking widget (not the
+// BookingCalendar mock used in marketing visuals). Renders a month-view
+// calendar + time slots directly in the page, themed in the forest brand
+// color. A completed booking fires the same GA4 + Meta conversion events the
+// contact form does.
+//
+// The booking link comes from CAL_LINK (a "username/event-slug" slug, e.g.
+// "elefox/discovery-call"). See .env.example. Falls back to a placeholder so
+// the page still builds before the real Cal.com event exists.
+//
+// Layout note: the calendar is ALWAYS full-width within its Container. Cal's
+// embed only renders the clean side-by-side calendar + slots when it has the
+// room (~820px+); squeezing it into a narrow grid column makes it collapse to
+// a tall column and, on some pages, mis-measure and render squished. So the
+// "split" variant keeps the calendar full-width and places the pitch copy in a
+// compact header ABOVE it, rather than beside it.
+import Container from "./Container.astro";
+import Eyebrow from "./Eyebrow.astro";
+
+type Props = {
+  /** Cal.com link slug: "username/event-slug" (not a full URL). */
+  calLink?: string;
+  eyebrow?: string;
+  heading?: string;
+  blurb?: string;
+  id?: string;
+  /** "full" = centered heading over the calendar (contact page). "split" =
+   *  compact two-column header (heading + pitch) over the calendar. */
+  variant?: "full" | "split";
+};
+
+const {
+  calLink = import.meta.env.CAL_LINK || "elefox/discovery-call",
+  eyebrow = "Book a call",
+  heading = "Grab a time that works",
+  blurb =
+    "A 30-minute discovery call. Free, no pitch deck, just a real conversation about what you're trying to build. Pick a slot below and you're booked.",
+  id = "book",
+  variant = "full",
+} = Astro.props;
+
+const isSplit = variant === "split";
+const points = [
+  "30-minute video call",
+  "Free, no obligation",
+  "Usually booked the same week",
+];
+
+const brand = "#3F5A2E"; // forest — see BRAND.md
+---
+
+<section id={id} class={`scroll-mt-24 ${isSplit ? "py-16 md:py-24" : "py-20 md:py-28"}`}>
+  <Container size="default">
+    {
+      isSplit ? (
+        <div
+          data-reveal
+          class="grid lg:grid-cols-2 gap-6 lg:gap-12 items-end mb-10 md:mb-12"
+        >
+          <div>
+            <Eyebrow>{eyebrow}</Eyebrow>
+            <h2 class="mt-6 mb-0">{heading}</h2>
+          </div>
+          <div>
+            <p class="lede mb-0">{blurb}</p>
+            <ul class="mt-5 flex flex-wrap gap-x-6 gap-y-2">
+              {points.map((point) => (
+                <li class="flex items-center gap-2 text-sm text-graphite">
+                  <span class="w-1.5 h-1.5 rounded-full bg-forest flex-shrink-0" />
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ) : (
+        <div data-reveal class="text-center max-w-2xl mx-auto mb-10">
+          <Eyebrow>{eyebrow}</Eyebrow>
+          <h2 class="mt-6 mb-5">{heading}</h2>
+          <p class="lede mx-auto mb-0">{blurb}</p>
+        </div>
+      )
+    }
+
+    <div class="relative rounded-2xl border border-fog bg-white shadow-soft overflow-hidden">
+      <div id="elefox-cal" class="min-h-[560px] w-full" />
+      <noscript>
+        <div class="p-10 text-center">
+          <p class="text-graphite">
+            Booking needs JavaScript turned on. You can also{" "}
+            <a class="text-forest underline" href={`https://cal.com/${calLink}`}>
+              open the scheduler in a new tab
+            </a>
+            .
+          </p>
+        </div>
+      </noscript>
+    </div>
+  </Container>
+</section>
+
+<script define:vars={{ calLink, brand }}>
+  // Official Cal.com embed loader (namespaced "discovery").
+  (function (C, A, L) {
+    let p = function (a, ar) { a.q.push(ar); };
+    let d = C.document;
+    C.Cal =
+      C.Cal ||
+      function () {
+        let cal = C.Cal;
+        let ar = arguments;
+        if (!cal.loaded) {
+          cal.ns = {};
+          cal.q = cal.q || [];
+          d.head.appendChild(d.createElement("script")).src = A;
+          cal.loaded = true;
+        }
+        if (ar[0] === L) {
+          const api = function () { p(api, arguments); };
+          const namespace = ar[1];
+          api.q = api.q || [];
+          if (typeof namespace === "string") {
+            cal.ns[namespace] = cal.ns[namespace] || api;
+            p(cal.ns[namespace], ar);
+            p(cal, ["initNamespace", namespace]);
+          } else {
+            p(cal, ar);
+          }
+          return;
+        }
+        p(cal, ar);
+      };
+  })(window, "https://app.cal.com/embed/embed.js", "init");
+
+  Cal("init", "discovery", { origin: "https://cal.com" });
+
+  Cal.ns.discovery("inline", {
+    elementOrSelector: "#elefox-cal",
+    config: { layout: "month_view" },
+    calLink: calLink,
+  });
+
+  // Light theme + forest brand color; hideEventTypeDetails strips Cal's left
+  // panel (avatar, name, duration, timezone) so it reads as part of the site,
+  // not a personal Google/Cal.com account. Just the calendar + time slots.
+  Cal.ns.discovery("ui", {
+    theme: "light",
+    cssVarsPerTheme: { light: { "cal-brand": brand } },
+    hideEventTypeDetails: true,
+    // Removes the "Cal.com" footer — only honored on a paid Cal.com plan.
+    // Harmless (ignored) on free; flips on automatically once upgraded.
+    hideBranding: true,
+    layout: "month_view",
+  });
+
+  // Preserve conversion tracking. BaseLayout used to read book_call_click off
+  // outbound Calendly links; with the inline embed we fire the real lead
+  // events when a booking actually completes.
+  Cal("on", {
+    action: "bookingSuccessful",
+    callback: function () {
+      try {
+        if (typeof window.gtag === "function") {
+          window.gtag("event", "generate_lead", { source: "cal-embed", form: "book-call" });
+        }
+      } catch (e) {}
+      try {
+        if (typeof window.fbq === "function") {
+          window.fbq("track", "Lead", { content_category: "book-call" });
+        }
+      } catch (e) {}
+    },
+  });
+</script>

@@ -4,6 +4,7 @@ import Container from "../components/Container.astro";
 import Button from "../components/Button.astro";
 import Eyebrow from "../components/Eyebrow.astro";
 import HeroAtmosphere from "../components/HeroAtmosphere.astro";
+import CalEmbed from "../components/CalEmbed.astro";
 import CrmPipeline from "../components/composites/CrmPipeline.astro";
 import WebsiteMock from "../components/composites/WebsiteMock.astro";
 import AutomationFlow from "../components/composites/AutomationFlow.astro";
@@ -523,6 +524,17 @@ const faqs = [
       </div>
     </Container>
   </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Book a call, inline scheduler (compact two-column split)            -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <CalEmbed
+    variant="split"
+    id="book"
+    eyebrow="Book a call"
+    heading="See if we're a fit"
+    blurb="Grab a free 30-minute call. No pitch deck, just a straight conversation about what you're building and whether we're the right studio to build it."
+  />
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <!-- CTA, inset rounded ink card                                        -->

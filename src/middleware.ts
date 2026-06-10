@@ -28,6 +28,7 @@ const CSP = [
     "https://static.cloudflareinsights.com " +
     "https://challenges.cloudflare.com " +
     "https://connect.facebook.net " +
+    "https://app.cal.com " + // Cal.com inline scheduler embed loader
     "https://cdn.jsdelivr.net", // GSAP, used by iframed walkthroughs
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
@@ -42,9 +43,12 @@ const CSP = [
     "https://connect.facebook.net " +
     "https://challenges.cloudflare.com " +
     "https://static.cloudflareinsights.com " +
-    "https://cloudflareinsights.com",
-  // Frame sources: Turnstile widget, Meta tracking, Calendly (if ever embedded)
-  "frame-src 'self' https://challenges.cloudflare.com https://www.facebook.com https://calendly.com",
+    "https://cloudflareinsights.com " +
+    "https://app.cal.com " + // Cal.com embed availability/slot API
+    "https://cal.com",
+  // Frame sources: Turnstile widget, Meta tracking, and the Cal.com inline
+  // scheduler iframe (served from both cal.com and app.cal.com).
+  "frame-src 'self' https://challenges.cloudflare.com https://www.facebook.com https://cal.com https://app.cal.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
