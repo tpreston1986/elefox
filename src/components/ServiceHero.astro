@@ -20,6 +20,11 @@ const accentIndex =
 const before = accentIndex >= 0 ? title.slice(0, accentIndex) : title;
 const after =
   accentIndex >= 0 ? title.slice(accentIndex + titleAccent!.length) : "";
+// The word-by-word split-reveal turns each token into an inline-block, so a
+// bare trailing "." after the accent span would wrap onto its own line. When
+// the accent is followed only by punctuation, keep them glued together.
+const punctuationTail =
+  accentIndex >= 0 && /^[.,!?;:…'"’”]+$/.test(after.trim());
 ---
 
 <section class="pt-2 md:pt-4">
@@ -35,13 +40,13 @@ const after =
           <Eyebrow>{category}</Eyebrow>
         </div>
 
-        <h1 data-split class="display-xl text-ink max-w-[16ch] mx-auto">
-          {accentIndex >= 0 ? (
-            <>
-              {before}<span class="text-gradient-flow">{titleAccent}</span>{after}
-            </>
-          ) : (
+        <h1 data-split class="display-xl text-ink max-w-[16ch] mx-auto text-balance">
+          {accentIndex < 0 ? (
             title
+          ) : punctuationTail ? (
+            <>{before}<span class="whitespace-nowrap"><span class="text-gradient-flow">{titleAccent}</span>{after}</span></>
+          ) : (
+            <>{before}<span class="text-gradient-flow">{titleAccent}</span>{after}</>
           )}
         </h1>
 

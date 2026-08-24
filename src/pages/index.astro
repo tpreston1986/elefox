@@ -129,6 +129,35 @@ const faqs = [
   </section>
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Sound familiar?, the felt pains in the buyer's own words            -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="pt-16 pb-4 md:pt-24 md:pb-8">
+    <Container size="full">
+      <div data-reveal class="max-w-2xl mb-12 md:mb-16">
+        <Eyebrow>Sound familiar?</Eyebrow>
+        <h2 data-split class="mt-6">
+          The software was supposed to help.
+        </h2>
+      </div>
+      <div data-reveal-stagger class="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+        {
+          [
+            "You bought the all-in-one, and still built three workarounds.",
+            "You're re-typing the same client info into two systems.",
+            "Setup felt like a second job.",
+            "Nothing moves unless you're the one doing it.",
+          ].map((pain) => (
+            <div class="rounded-2xl border border-fog bg-white p-7 md:p-8 flex items-start gap-4">
+              <span class="mt-2 w-2 h-2 rounded-full bg-ember shrink-0" aria-hidden="true" />
+              <p class="text-lg md:text-xl text-ink leading-snug">{pain}</p>
+            </div>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <!-- Statement, single big centered line (Munch cadence)                  -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <section class="pt-12 pb-20 md:pt-20 md:pb-32">
@@ -220,6 +249,11 @@ const faqs = [
               their pipeline. Custom fields, your stages, your terminology
               and your data, hosted by us, yours forever. Six-week typical
               build. We use the same engine in our own studio.
+            </p>
+
+            <p class="mt-7 text-xl md:text-2xl font-display tracking-tight text-forest max-w-[26ch]">
+              Custom-built around how you work, priced for a small business,
+              and yours to keep.
             </p>
 
             <div class="mt-10 flex flex-wrap gap-3">
@@ -455,7 +489,7 @@ const faqs = [
               {
                 n: "→",
                 h: "Honest about scope.",
-                p: "Our pages have a 'skip if' section for a reason. We turn down projects we can't make great. You deserve a yes that means yes.",
+                p: "We turn down projects we can't make great, and we'll tell you on the first call. You deserve a yes that means yes.",
               },
               {
                 n: "→",

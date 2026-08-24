@@ -2,7 +2,6 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ServiceHero from "../../components/ServiceHero.astro";
 import TierGrid from "../../components/TierGrid.astro";
-import FitCheck from "../../components/FitCheck.astro";
 import EndCTA from "../../components/EndCTA.astro";
 import Container from "../../components/Container.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
@@ -69,7 +68,6 @@ const s = services.software;
     </Container>
   </section>
 
-  <FitCheck good={s.good} skip={s.skip} />
 
   <!-- 25-client cap notice -->
   <section class="py-6 md:py-12">

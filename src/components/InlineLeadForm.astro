@@ -9,10 +9,23 @@ type Props = {
   toolLabel: string;
   toolPlaceholder: string;
   source: string; // e.g. "realtor-landing"
+  /** Submit button label. Defaults to the CRM-landing demo/quote CTA. */
+  submitLabel?: string;
+  /** Confirmation body shown after a successful submit. */
+  successBody?: string;
 };
 
-const { title, subtitle, serviceValue, industry, toolLabel, toolPlaceholder, source } =
-  Astro.props;
+const {
+  title,
+  subtitle,
+  serviceValue,
+  industry,
+  toolLabel,
+  toolPlaceholder,
+  source,
+  submitLabel = "Get my demo + quote →",
+  successBody = "We'll reach out within 24 hours to set up your demo. Want to talk sooner? Call 954.780.6508.",
+} = Astro.props;
 
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
 ---
@@ -26,7 +39,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
   </h2>
   <p class="text-graphite mt-2 leading-relaxed">{subtitle}</p>
 
-  <form id="lead-form" action="/api/contact" method="post" novalidate class="mt-6 space-y-4">
+  <form id="lead-form" action="/api/contact" method="post" novalidate data-success={successBody} class="mt-6 space-y-4">
     <input type="hidden" name="_t" value={Date.now()} />
     <input type="hidden" name="services" value={serviceValue} />
     <input type="hidden" name="industry" value={industry} />
@@ -95,7 +108,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
       type="submit"
       class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-forest text-bone rounded-pill text-lg font-medium hover:bg-forest-deep transition-colors disabled:opacity-50"
     >
-      Get my demo + quote →
+      {submitLabel}
     </button>
     <p class="text-xs text-graphite text-center">
       No spam. We reply within 24 hours, usually within four.
@@ -245,12 +258,15 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
         window.fbq("track", "Lead", { content_category: src });
       }
 
+      const successBody =
+        form.dataset.success ||
+        "We'll reach out within 24 hours to set up your demo. Want to talk sooner? Call 954.780.6508.";
       const done = document.createElement("div");
       done.className = "text-center py-10";
       done.innerHTML =
         '<span class="font-mono text-xs uppercase tracking-[0.2em] text-ember inline-block mb-4">Got it</span>' +
         '<h3 class="text-2xl font-display font-bold text-ink mb-3">Thanks, ' + cleanName + '.</h3>' +
-        '<p class="text-graphite max-w-sm mx-auto">We\'ll reach out within 24 hours to set up your demo. Want to talk sooner? Call 954.780.6508.</p>';
+        '<p class="text-graphite max-w-sm mx-auto">' + successBody + '</p>';
       form.replaceWith(done);
     });
   })();

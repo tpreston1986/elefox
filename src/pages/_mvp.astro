@@ -1,0 +1,240 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import Button from "../components/Button.astro";
+import EndCTA from "../components/EndCTA.astro";
+import FitCheck from "../components/FitCheck.astro";
+import HeroAtmosphere from "../components/HeroAtmosphere.astro";
+
+// NOTE(Tiffany): $3,500 is a placeholder anchored to your existing pricing
+// (between the $2k Starter Site and the $3.5k Custom CRM). Set your real number.
+const PRICE = "$3,500";
+
+// The founder's dilemma — mirrors Movadex's "why you need this" framing.
+const dilemma = [
+  {
+    t: "Nothing to show yet",
+    p: "You're pitching investors or first customers off a description and a hand-wave. You need something they can actually click.",
+  },
+  {
+    t: "Scared to build blind",
+    p: "A full build is months and real money. You want to see the idea work before you bet the quarter on it.",
+  },
+  {
+    t: "Can't hire a whole team",
+    p: "A designer, a developer, a PM to wrangle them — for a first version, that's a lot of overhead to prove one idea.",
+  },
+];
+
+// The 10 days — five stages, mirroring Movadex's process.
+const stages = [
+  { day: "Day 1", t: "Kickoff call", p: "We dig into your vision, your users, and the handful of features that actually matter for a first version." },
+  { day: "Days 2–3", t: "Scope & flows", p: "We map the screens and the path through them, and agree on exactly what ships in ten days." },
+  { day: "Days 4–7", t: "Build", p: "We design and build the real thing — deployed as we go, so you watch it come to life." },
+  { day: "Day 8", t: "Review & refine", p: "You click through the working MVP and we make a round of adjustments." },
+  { day: "Days 9–10", t: "Launch & handoff", p: "We ship it live, hand over the code, and lay out the next steps to keep building." },
+];
+
+const included = [
+  "A working MVP, deployed and live — not a slide deck or a Figma file",
+  "Up to ~6 core screens and the flow that connects them",
+  "Real data and login where the idea needs them",
+  "Strategic UX so it feels like a product, not a prototype",
+  "The code, yours to keep and keep building on",
+  "Ready to demo to investors, or put in front of real users",
+];
+
+const good = [
+  "You have an idea and need to see it real, fast",
+  "You need something to show investors or first customers",
+  "You'd rather validate in two weeks than build blind for three months",
+];
+const skip = [
+  "Your idea needs 40 screens and three integrations to mean anything",
+  "You already have a full spec and just need extra hands",
+  "You want a pixel-perfect finished product, not a first version",
+];
+---
+
+<BaseLayout
+  title="MVP in 10 Days"
+  description="Concept to a working, deployed MVP in ten days. Not a clickable mockup — the real thing, running, and yours to keep."
+>
+  <!-- Hero -->
+  <section class="pt-2 md:pt-4">
+    <Container size="full">
+      <div
+        data-glow
+        class="relative overflow-hidden rounded-[28px] md:rounded-[44px] pt-28 md:pt-36 pb-16 md:pb-24 px-6 md:px-12 bg-gradient-to-b from-[#FBF1E9] via-[#F8ECE0] to-[#F2E2D2]"
+      >
+        <HeroAtmosphere warm />
+        <div class="relative z-10 text-center max-w-4xl mx-auto">
+          <div class="mb-8 flex justify-center">
+            <span class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.14em] text-forest bg-bone border border-forest/25 px-4 py-1.5 rounded-pill">
+              <span class="w-1.5 h-1.5 rounded-full bg-ember"></span>
+              Flagship offer · Fixed price
+            </span>
+          </div>
+
+          <h1 data-split class="display-xl text-ink max-w-[16ch] mx-auto">
+            Your idea, live in
+            <span class="text-gradient-flow">10 days</span>.
+          </h1>
+
+          <p class="lede mt-10 text-xl md:text-2xl max-w-3xl mx-auto text-center">
+            Concept to a working MVP — deployed, clickable, real. Not a slide
+            deck, not a Figma file. The actual thing, running, and yours to keep.
+          </p>
+
+          <div class="mt-10 flex flex-wrap items-center gap-4 justify-center">
+            <Button href="/contact#book" size="lg" class="btn-magnetic">Book a call →</Button>
+            <a href="#included" class="inline-flex items-center gap-2 text-forest font-medium hover:gap-3 transition-all">
+              See what's included
+            </a>
+          </div>
+          <p class="mt-6 text-sm font-mono text-graphite">
+            {PRICE} · fixed, all in · one idea, ten days
+          </p>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- The founder's dilemma -->
+  <section class="py-20 md:py-28">
+    <Container size="full">
+      <div data-reveal class="max-w-2xl mb-12 md:mb-16">
+        <Eyebrow>The founder's dilemma</Eyebrow>
+        <h2 data-split class="mt-6">You can't sell what nobody can see.</h2>
+      </div>
+      <div data-reveal-stagger class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+        {
+          dilemma.map((d) => (
+            <div class="rounded-2xl border border-fog bg-white p-8">
+              <h3 class="text-xl md:text-2xl text-ink mb-3">{d.t}</h3>
+              <p class="text-graphite leading-relaxed">{d.p}</p>
+            </div>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <!-- The edge: prototype vs working product -->
+  <section class="py-6 md:py-10">
+    <Container size="full">
+      <div class="bg-forest-wash rounded-[28px] md:rounded-[40px] px-6 md:px-16 py-16 md:py-24">
+        <div data-reveal class="max-w-3xl">
+          <Eyebrow>Why this one's different</Eyebrow>
+          <h2 data-split class="mt-6">
+            Most "10-day MVP" shops hand you a clickable mockup. We hand you the real thing.
+          </h2>
+          <p class="lede mt-8 text-xl">
+            A prototype looks like a product until someone tries to use it.
+            Ours is built and deployed — real screens, real data, a real login
+            where you need one. You can put it in front of a user on day ten and
+            it works, because it's actually built.
+          </p>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- The 10 days -->
+  <section class="py-20 md:py-32">
+    <Container size="full">
+      <div data-reveal class="max-w-2xl mb-14 md:mb-20">
+        <Eyebrow>How the ten days go</Eyebrow>
+        <h2 data-split class="mt-6">Five stages, one working product.</h2>
+      </div>
+      <ol data-reveal-stagger class="space-y-4 md:space-y-5">
+        {
+          stages.map((st, i) => (
+            <li class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-baseline rounded-2xl border border-fog bg-white p-7 md:p-9">
+              <div class="md:col-span-3 flex items-center gap-4">
+                <span class="text-2xl font-display font-bold text-forest tabular-nums">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span class="text-sm font-mono uppercase tracking-[0.12em] text-graphite">{st.day}</span>
+              </div>
+              <div class="md:col-span-9">
+                <h3 class="text-xl md:text-2xl text-ink">{st.t}</h3>
+                <p class="text-graphite leading-relaxed mt-2 max-w-2xl">{st.p}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </Container>
+  </section>
+
+  <!-- What's included + price -->
+  <section id="included" class="py-6 md:py-10 scroll-mt-24">
+    <Container size="full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+        <div class="lg:col-span-7 rounded-[28px] border border-fog bg-cream/50 p-8 md:p-12">
+          <Eyebrow>What you get</Eyebrow>
+          <h2 class="mt-6 mb-8">Everything in the package.</h2>
+          <ul class="space-y-4">
+            {
+              included.map((f) => (
+                <li class="flex items-start gap-3">
+                  <svg width="18" height="18" viewBox="0 0 16 16" fill="none" class="text-forest mt-1 flex-shrink-0" aria-hidden="true">
+                    <path d="M3 8.5L6 11.5L13 4.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <span class="text-lg text-ink leading-snug">{f}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="lg:col-span-5 rounded-[28px] bg-forest text-bone p-8 md:p-12 flex flex-col">
+          <Eyebrow tone="bone">The price</Eyebrow>
+          <div class="mt-6 flex items-baseline gap-2">
+            <span class="text-5xl md:text-6xl font-display font-bold tracking-tight">{PRICE}</span>
+          </div>
+          <p class="text-bone/75 text-lg leading-relaxed mt-4">
+            Fixed and all in. Half to start, half on delivery. One idea, ten
+            working days, a real product at the end.
+          </p>
+          <div class="mt-auto pt-10">
+            <a
+              href="/contact#book"
+              class="block w-full text-center px-6 py-4 bg-bone text-ink rounded-pill text-lg font-medium hover:bg-cream transition-colors"
+            >
+              Book a call →
+            </a>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- 10 days aren't enough? -->
+  <section class="py-20 md:py-28">
+    <Container size="default">
+      <div data-reveal class="text-center max-w-2xl mx-auto">
+        <Eyebrow>10 days aren't enough?</Eyebrow>
+        <h2 data-split class="mt-6">Bigger idea? We'll scope it.</h2>
+        <p class="lede mt-6">
+          Some ideas need more than ten days to mean anything. Tell us what
+          you're building and we'll send a custom estimate within 48 hours — same
+          fixed-fee, no-surprise-scope approach, just a longer runway.
+        </p>
+        <div class="mt-10">
+          <Button href="/contact" size="lg">Get a custom estimate</Button>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <FitCheck good={good} skip={skip} />
+
+  <EndCTA
+    heading="Ten days from now, your idea could be real."
+    primary={{ label: "Book a call", href: "/contact#book" }}
+    secondary={{ label: "Start a project", href: "/contact?service=mvp" }}
+  />
+</BaseLayout>

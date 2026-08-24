@@ -5,15 +5,12 @@ import TierGrid from "../../components/TierGrid.astro";
 import EndCTA from "../../components/EndCTA.astro";
 import { services } from "../../data/services";
 
-const s = services.websites;
+const s = services.uiux;
 ---
 
-<BaseLayout
-  title="Websites"
-  description={s.description}
->
+<BaseLayout title="UI/UX design" description={s.description}>
   <ServiceHero
-    index="01"
+    index="04"
     category={s.name}
     title={s.title}
     titleAccent={s.titleAccent}
@@ -22,14 +19,13 @@ const s = services.websites;
 
   <TierGrid
     tiers={s.tiers ?? []}
-    eyebrow="Tiers"
-    heading="Three shapes. Same care."
+    eyebrow="How we design"
+    heading="Wireframe to build-ready, however deep you need."
   />
 
 
   <EndCTA
-    heading="Let's get your site working for you."
-    primary={{ label: "Start a website project", href: "/contact?service=websites" }}
-    secondary={{ label: "Book a call", href: "/contact#book" }}
+    heading="Have a product that could be clearer? Let's design it."
+    primary={{ label: "Start a design project", href: "/contact?service=uiux" }}
   />
 </BaseLayout>

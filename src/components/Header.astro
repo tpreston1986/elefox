@@ -37,6 +37,68 @@ const currentPath = Astro.url.pathname;
             const active =
               currentPath === item.href ||
               (item.href !== "/" && currentPath.startsWith(item.href));
+
+            if (item.children) {
+              return (
+                <div class="relative group">
+                  <a
+                    href={item.href}
+                    aria-haspopup="true"
+                    class={`inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium tracking-tight rounded-pill transition-colors duration-150 ${
+                      active
+                        ? "text-forest bg-forest-wash"
+                        : "text-ink hover:text-forest hover:bg-forest-wash/60"
+                    }`}
+                  >
+                    {item.label}
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      aria-hidden="true"
+                      class="transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180"
+                    >
+                      <path d="M2 4.5L6 8.5L10 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </a>
+
+                  {/* Dropdown: opens on hover and on keyboard focus-within.
+                      Links are real <a> tags in the DOM, so they're crawlable
+                      whether or not the menu is open. */}
+                  <div class="absolute left-0 top-full pt-3 opacity-0 invisible translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 z-50">
+                    <div class="min-w-[280px] bg-bone border border-fog rounded-2xl shadow-lift p-2">
+                      {item.children.map((child) => {
+                        const childActive = currentPath === child.href;
+                        return (
+                          <a
+                            href={child.href}
+                            class={`block px-4 py-2.5 rounded-xl text-sm transition-colors ${
+                              childActive
+                                ? "text-forest bg-forest-wash"
+                                : "text-ink hover:text-forest hover:bg-forest-wash"
+                            }`}
+                          >
+                            {child.label}
+                          </a>
+                        );
+                      })}
+                      <div class="my-1 border-t border-fog/70" />
+                      <a
+                        href={item.href}
+                        class="flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium text-forest hover:bg-forest-wash transition-colors"
+                      >
+                        All services
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                          <path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
             return (
               <a
                 href={item.href}
@@ -122,7 +184,7 @@ const currentPath = Astro.url.pathname;
     </div>
 
     <nav
-      class="flex-1 overflow-y-auto flex flex-col justify-center px-6 gap-1"
+      class="flex-1 overflow-y-auto flex flex-col justify-start px-6 py-10 gap-1"
       aria-label="Mobile navigation"
     >
       {
@@ -130,6 +192,32 @@ const currentPath = Astro.url.pathname;
           const active =
             currentPath === item.href ||
             (item.href !== "/" && currentPath.startsWith(item.href));
+
+          if (item.children) {
+            return (
+              <div class="py-1">
+                <a
+                  href={item.href}
+                  class={`block py-2 text-4xl font-display font-bold tracking-tight transition-colors ${
+                    active ? "text-forest" : "text-ink hover:text-forest"
+                  }`}
+                >
+                  {item.label}
+                </a>
+                <div class="mt-2 mb-2 ml-1 pl-4 flex flex-col gap-0.5 border-l-2 border-fog">
+                  {item.children.map((child) => (
+                    <a
+                      href={child.href}
+                      class="py-1.5 text-lg text-graphite hover:text-forest transition-colors"
+                    >
+                      {child.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            );
+          }
+
           return (
             <a
               href={item.href}

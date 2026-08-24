@@ -5,15 +5,12 @@ import TierGrid from "../../components/TierGrid.astro";
 import EndCTA from "../../components/EndCTA.astro";
 import { services } from "../../data/services";
 
-const s = services.websites;
+const s = services["early-stage"];
 ---
 
-<BaseLayout
-  title="Websites"
-  description={s.description}
->
+<BaseLayout title="Custom build for early-stage business" description={s.description}>
   <ServiceHero
-    index="01"
+    index="07"
     category={s.name}
     title={s.title}
     titleAccent={s.titleAccent}
@@ -22,14 +19,13 @@ const s = services.websites;
 
   <TierGrid
     tiers={s.tiers ?? []}
-    eyebrow="Tiers"
-    heading="Three shapes. Same care."
+    eyebrow="Ways to start"
+    heading="One team for the whole first version."
   />
 
 
   <EndCTA
-    heading="Let's get your site working for you."
-    primary={{ label: "Start a website project", href: "/contact?service=websites" }}
-    secondary={{ label: "Book a call", href: "/contact#book" }}
+    heading="Getting a business off the ground? Let's build it together."
+    primary={{ label: "Start an early-stage build", href: "/contact?service=early-stage" }}
   />
 </BaseLayout>
