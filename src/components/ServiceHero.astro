@@ -1,64 +1,29 @@
 ---
-import Container from "./Container.astro";
-import Eyebrow from "./Eyebrow.astro";
+// Service page header: the shared calm PageHeader with a breadcrumb back to
+// the services index and the two project CTAs.
+import PageHeader from "./PageHeader.astro";
 import Button from "./Button.astro";
-import HeroAtmosphere from "./HeroAtmosphere.astro";
 
 type Props = {
   index?: string;
   category: string;
   title: string;
-  /** Substring of `title` to wrap in the animated gradient accent. */
+  /** Substring of `title` to set in the accent colour. */
   titleAccent?: string;
   description: string;
 };
 
 const { category, title, titleAccent, description } = Astro.props;
-
-const accentIndex =
-  titleAccent && title.includes(titleAccent) ? title.indexOf(titleAccent) : -1;
-const before = accentIndex >= 0 ? title.slice(0, accentIndex) : title;
-const after =
-  accentIndex >= 0 ? title.slice(accentIndex + titleAccent!.length) : "";
-// The word-by-word split-reveal turns each token into an inline-block, so a
-// bare trailing "." after the accent span would wrap onto its own line. When
-// the accent is followed only by punctuation, keep them glued together.
-const punctuationTail =
-  accentIndex >= 0 && /^[.,!?;:…'"’”]+$/.test(after.trim());
 ---
 
-<section class="pt-2 md:pt-4">
-  <Container size="full">
-    <div
-      data-glow
-      class="relative overflow-hidden rounded-[28px] md:rounded-[44px] pt-28 md:pt-36 pb-16 md:pb-24 px-6 md:px-12 bg-gradient-to-b from-[#FBF1E9] via-[#F8ECE0] to-[#F2E2D2]"
-    >
-      <HeroAtmosphere warm />
-
-      <div class="relative z-10 text-center max-w-4xl mx-auto">
-        <div class="mb-12">
-          <Eyebrow>{category}</Eyebrow>
-        </div>
-
-        <h1 data-split class="display-xl text-ink max-w-[16ch] mx-auto text-balance">
-          {accentIndex < 0 ? (
-            title
-          ) : punctuationTail ? (
-            <>{before}<span class="whitespace-nowrap"><span class="text-gradient-flow">{titleAccent}</span>{after}</span></>
-          ) : (
-            <>{before}<span class="text-gradient-flow">{titleAccent}</span>{after}</>
-          )}
-        </h1>
-
-        <p class="lede mt-12 text-xl md:text-2xl max-w-3xl mx-auto text-center">
-          {description}
-        </p>
-
-        <div class="mt-12 flex flex-wrap gap-4 justify-center">
-          <Button href="/contact" size="lg" class="btn-magnetic">Start a project</Button>
-          <Button href="/contact#book" variant="secondary" size="lg" class="btn-magnetic">Book a call</Button>
-        </div>
-      </div>
-    </div>
-  </Container>
-</section>
+<PageHeader
+  title={title}
+  accent={titleAccent}
+  lede={description}
+  crumbs={[{ label: "What we do", href: "/services" }, { label: category }]}
+>
+  <div class="mt-8 flex flex-wrap gap-3">
+    <Button href="/contact" size="lg">Start a project</Button>
+    <Button href="/contact#book" variant="secondary" size="lg">Book a call</Button>
+  </div>
+</PageHeader>

@@ -3,6 +3,7 @@
 // little grain, its name and services up top, and the drawn stage below.
 import WorkStage from "./WorkStage.astro";
 import { toneStyles, type Project } from "../data/work";
+import { services } from "../data/services";
 
 interface Props {
   project: Project;
@@ -28,14 +29,14 @@ const Heading = headingLevel;
       {
         p.status && (
           <span class="inline-flex items-center gap-1.5 shrink-0 mt-1 text-xs font-mono uppercase tracking-[0.12em] opacity-90">
-            <span class="w-1.5 h-1.5 rounded-full bg-signal animate-pulse" />
+            <span class="w-1.5 h-1.5 rounded-full bg-signal" />
             {p.status}
           </span>
         )
       }
     </div>
     <div class="mt-4 flex flex-wrap gap-2">
-      {p.services.map((s) => <span class:list={["text-xs px-3 py-1 rounded-pill border", tone.tag]}>{s}</span>)}
+      {p.services.map((s) => <span class:list={["text-xs px-3 py-1 rounded-pill border", tone.tag]}>{services[s]?.shortName ?? s}</span>)}
     </div>
   </div>
 

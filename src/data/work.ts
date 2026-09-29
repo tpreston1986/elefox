@@ -43,12 +43,15 @@ export type Thumb =
       position?: string;
       inset?: Inset;
     }
-  | { kind: "icon"; src: string };
+  | { kind: "icon"; src: string }
+  /** A mobile app: two or three phone screens rising off the card. */
+  | { kind: "phones"; screens: string[] };
 
 export type Project = {
   slug: string;
   name: string;
   tagline: string;
+  /** Service slugs (keys of data/services.ts). */
   services: string[];
   brand: Brand;
   thumb: Thumb;
@@ -66,12 +69,8 @@ export type Project = {
   outcome?: string;
 };
 
-export const SERVICES = [
-  "Custom Software",
-  "Web Development",
-  "AI",
-  "Branding",
-] as const;
+/** Service slugs from data/services.ts, so tags and filters share one list. */
+export { services as serviceData } from "./services";
 
 // Grid order reads left to right, three to a row on desktop. Colors are
 // sequenced so no two neighbors share a hue.
@@ -81,7 +80,7 @@ export const projects: Project[] = [
     name: "Etchra",
     tagline:
       "Booking software for tattoo artists. Request, quote, deposit, and calendar in one link the artist owns.",
-    services: ["Custom Software", "Branding", "Web Development"],
+    services: ["early-stage", "software", "brand"],
     brand: { field: "#5c1a28", glow: "#c25a6c", tone: "light" },
     thumb: { kind: "screen", src: "/work/etchra-1.webp" },
     url: "https://etchra.com",
@@ -129,7 +128,7 @@ export const projects: Project[] = [
     name: "Cloud Clean Laundry",
     tagline:
       "A laundry pickup service that books itself, sends the invoice, and gets paid, all from one app.",
-    services: ["Custom Software", "Web Development", "Branding"],
+    services: ["software", "websites", "brand"],
     brand: { field: "#0e4670", glow: "#58b4ea", tone: "light" },
     thumb: { kind: "screen", src: "/work/cloud-clean-1.webp" },
     url: "https://cloudcleanclt.com",
@@ -180,7 +179,7 @@ export const projects: Project[] = [
     name: "Kith",
     tagline:
       "Snap a card, capture the lead, and let it draft warm, you-voiced follow-ups on a schedule.",
-    services: ["AI", "Custom Software", "Branding"],
+    services: ["software", "uiux", "brand"],
     brand: { field: "#43243a", glow: "#9a5a86", tone: "light" },
     thumb: { kind: "screen", src: "/work/kith-today.webp" },
     status: "Live",
@@ -209,7 +208,7 @@ export const projects: Project[] = [
     name: "HowPayrollworks",
     tagline:
       "Plain-language payroll help from someone who's run payroll for 26+ years, on a site he runs himself.",
-    services: ["Web Development"],
+    services: ["websites"],
     brand: { field: "#2343c4", glow: "#7c9cff", tone: "light" },
     thumb: {
       kind: "screen",
@@ -267,7 +266,7 @@ export const projects: Project[] = [
     name: "Hey Patch",
     tagline:
       "An AI front desk that answers, texts back, and books around the clock, for local service businesses.",
-    services: ["AI", "Custom Software"],
+    services: ["software", "early-stage"],
     brand: { field: "#18172b", glow: "#7c5cff", tone: "light" },
     thumb: { kind: "screen", src: "/work/heypatch-site.webp" },
     meta: [
@@ -293,7 +292,7 @@ export const projects: Project[] = [
     name: "RKG Therapy",
     tagline:
       "A warm, disarming therapy practice site that makes booking feel less scary.",
-    services: ["Web Development", "Branding"],
+    services: ["websites", "brand"],
     brand: { field: "#35205a", glow: "#a57cf0", tone: "light" },
     thumb: {
       kind: "screen",
@@ -335,7 +334,7 @@ export const projects: Project[] = [
     name: "Client Portal",
     tagline:
       "Portal, admin, payments, contracts, and files in one custom system. The tool we run our own studio on.",
-    services: ["Web Development", "Custom Software"],
+    services: ["software", "websites", "uiux"],
     brand: { field: "#2a3f1f", glow: "#7fa653", tone: "light" },
     thumb: { kind: "screen", src: "/work/portal-dashboard.webp" },
     url: "https://portal.elefoxstudio.com",
@@ -379,7 +378,7 @@ export const projects: Project[] = [
     name: "Chenoa McGee Design",
     tagline:
       "Fifteen years of design expertise, finally with a site to match, and an intake that brings in the right clients.",
-    services: ["Web Development"],
+    services: ["websites"],
     brand: { field: "#1d2f4d", glow: "#8fb3e6", tone: "light" },
     thumb: { kind: "screen", src: "/work/chenoa-1.webp" },
     url: "https://chenoamcgeedesign.com",
@@ -417,7 +416,7 @@ export const projects: Project[] = [
     slug: "lumi-salon",
     name: "Lumi Salon",
     tagline: "Booking and client management, built for salons and studios.",
-    services: ["Custom Software", "Branding"],
+    services: ["software", "brand"],
     brand: { field: "#cb5e41", glow: "#f3a684", tone: "light" },
     thumb: { kind: "screen", src: "/work/lumi-calendar.webp" },
     meta: [
@@ -435,7 +434,7 @@ export const projects: Project[] = [
     slug: "realtor-crm",
     name: "RealtorCRM",
     tagline: "A CRM shaped to how realtors actually work their sphere.",
-    services: ["Custom Software"],
+    services: ["software"],
     brand: { field: "#0f4a44", glow: "#3fd0b9", tone: "light" },
     thumb: { kind: "screen", src: "/work/realtor-crm.webp" },
     url: "https://realtor-demo.elefoxstudio.com",
@@ -458,7 +457,7 @@ export const projects: Project[] = [
     slug: "construction-crm",
     name: "Contractor CRM",
     tagline: "Jobs, crews, quotes, and invoices for contractors.",
-    services: ["Custom Software"],
+    services: ["software"],
     brand: { field: "#7d3f03", glow: "#e0923a", tone: "light" },
     thumb: { kind: "screen", src: "/work/contractor-jobs.webp" },
     url: "https://contractor-demo.elefoxstudio.com",
@@ -485,7 +484,7 @@ export const projects: Project[] = [
     name: "Elefox Ledger",
     tagline:
       "Local-first expense, subscription, and startup-cost tracking for a small business's books.",
-    services: ["Web Development", "Custom Software"],
+    services: ["software"],
     brand: { field: "#314b26", glow: "#8fbf62", tone: "light" },
     thumb: { kind: "screen", src: "/work/ledger-subscriptions.webp" },
     meta: [
@@ -517,6 +516,11 @@ export const featuredSlugs = ["cloud-clean-laundry", "etchra", "howpayrollworks"
 export const featuredProjects = featuredSlugs
   .map((slug) => projects.find((p) => p.slug === slug))
   .filter((p): p is Project => Boolean(p));
+
+/** Projects tagged with a service, in grid order. */
+export function projectsFor(serviceSlug: string): Project[] {
+  return projects.filter((p) => p.services.includes(serviceSlug));
+}
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);

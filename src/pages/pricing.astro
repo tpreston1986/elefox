@@ -1,46 +1,36 @@
 ---
+import PageHeader from "../components/PageHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/Container.astro";
-import Eyebrow from "../components/Eyebrow.astro";
-import Button from "../components/Button.astro";
 import EndCTA from "../components/EndCTA.astro";
-import HeroAtmosphere from "../components/HeroAtmosphere.astro";
 import { menuServices } from "../data/services";
 
 // Capability pricing, straight from the mirrored services menu.
 const allTiers = menuServices.map((s) => ({
+  slug: s.slug,
   category: s.name,
+  short: s.shortName,
   tiers: s.tiers ?? [],
 }));
 
+// Grid columns follow the tier count, so a 3-tier service never shows an
+// empty fourth column.
+const cols = (n: number) =>
+  n >= 4 ? "md:grid-cols-2 lg:grid-cols-4" : n === 3 ? "md:grid-cols-3" : "md:grid-cols-2";
+
 const retainers = [
   { name: "Site Care", price: "$200", cadence: "/month", blurb: "Content updates, security, analytics, priority turnaround on small changes." },
-  { name: "Software Hosting", price: "From $50", cadence: "/month", blurb: "Backups, uptime monitoring, security patches, bug fixes.", badge: "Most Popular" },
+  { name: "Software Hosting", price: "From $50", cadence: "/month", blurb: "Backups, uptime monitoring, security patches, bug fixes." },
   { name: "Hourly add-ons", price: "$150", cadence: "/hour", blurb: "New features, integrations, and workflow changes, billed by the hour." },
 ];
 ---
 
 <BaseLayout title="Pricing" description="Transparent pricing for every service we offer, plus ongoing support and hosting.">
-  <section class="pt-2 md:pt-4">
-    <Container size="full">
-      <div data-glow class="relative overflow-hidden rounded-[28px] md:rounded-[44px] pt-28 md:pt-36 pb-16 md:pb-24 px-6 md:px-12 bg-gradient-to-b from-[#FBF1E9] via-[#F8ECE0] to-[#F2E2D2]">
-        <HeroAtmosphere warm />
-        <div class="relative z-10 text-center max-w-4xl mx-auto">
-          <Eyebrow>Pricing</Eyebrow>
-          <h1 data-split class="display-xl mt-6 max-w-[18ch] mx-auto">
-            What it costs, with no
-            <span class="whitespace-nowrap"><span class="text-gradient-flow">surprise scope</span>.</span>
-          </h1>
-          <p class="lede mt-10 text-xl max-w-3xl mx-auto text-center">
-            Every build starts with a fixed 50% deposit, with the other half
-            due on delivery and two rounds of revisions included. Custom work
-            comes with a clear range up front, not a shrug and a "depends on
-            scope."
-          </p>
-        </div>
-      </div>
-    </Container>
-  </section>
+  <PageHeader
+    title="What it costs, with no surprise scope."
+    accent="surprise scope"
+    lede={`Every build starts with a fixed 50% deposit, with the other half due on delivery and two rounds of revisions included. Custom work comes with a clear range up front, not a shrug and a "depends on scope."`}
+  />
 
   <!-- Free audit banner -->
   <section class="py-10 md:py-14">
@@ -48,10 +38,6 @@ const retainers = [
       <a href="/audit" class="group relative block bg-forest text-bone rounded-[24px] px-6 md:px-12 py-10 md:py-12 overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
           <div class="lg:col-span-8">
-            <span class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.14em] text-bone/70 mb-4">
-              <span class="w-1.5 h-1.5 rounded-full bg-ember"></span>
-              Free · No strings
-            </span>
             <h2 class="text-2xl md:text-4xl text-bone tracking-tight max-w-[22ch]">
               Start with a free website audit. We'll tell you what to fix first.
             </h2>
@@ -69,23 +55,47 @@ const retainers = [
     </Container>
   </section>
 
+  <!-- Jump to a service -->
+  <nav aria-label="Jump to a service" class="pb-2">
+    <Container size="full">
+      <ul class="flex flex-wrap gap-2 md:gap-3">
+        {allTiers.map((g) => (
+          <li>
+            <a href={`#${g.slug}`} class="inline-block px-4 py-2 rounded-pill text-sm font-medium border border-mist text-ink hover:border-forest hover:text-forest transition-colors">
+              {g.short}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a href="#retainers" class="inline-block px-4 py-2 rounded-pill text-sm font-medium border border-mist text-ink hover:border-forest hover:text-forest transition-colors">
+            Retainers
+          </a>
+        </li>
+      </ul>
+    </Container>
+  </nav>
+
   <!-- All capability tier categories -->
   {
     allTiers.map((group) => (
-      <section class="py-16 md:py-24">
+      <section id={group.slug} class="py-14 md:py-20 scroll-mt-28">
         <Container size="full" data-reveal>
-          <div class="mb-12">
-            <Eyebrow>{group.category}</Eyebrow>
+          <div class="mb-10 flex flex-wrap items-end justify-between gap-4">
+            <h2 class="text-3xl md:text-4xl">{group.category}</h2>
+            <a href={`/services/${group.slug}`} class="group inline-flex items-center gap-2 text-forest font-medium hover:gap-3 transition-all">
+              What's included
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M2 8h11m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div class:list={["grid grid-cols-1 gap-6", cols(group.tiers.length)]}>
             {group.tiers.map((tier) => (
-              <article class={`relative bg-white border rounded-xl p-8 flex flex-col ${tier.badge ? "border-forest" : "border-fog"}`}>
-                {tier.badge && (
-                  <span class="absolute -top-3 left-6 bg-forest text-bone text-xs font-mono uppercase tracking-wider px-3 py-1 rounded-pill">
-                    {tier.badge}
-                  </span>
-                )}
+              <a
+                href={`/contact?service=${group.slug}`}
+                class="group relative bg-white border border-fog hover:border-forest rounded-xl p-8 flex flex-col transition-colors"
+              >
                 <h3 class="text-2xl text-ink mb-3">{tier.name}</h3>
                 <div class="mb-5 flex items-baseline gap-2 flex-wrap">
                   {tier.price.includes("$") ? (
@@ -96,7 +106,13 @@ const retainers = [
                   {tier.cadence && <span class="text-sm text-graphite">{tier.cadence}</span>}
                 </div>
                 <p class="text-sm text-graphite leading-relaxed">{tier.blurb}</p>
-              </article>
+                <span class="mt-auto pt-6 inline-flex items-center gap-2 text-sm text-forest font-medium group-hover:gap-3 transition-all">
+                  Get a quote
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M2 8h11m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </a>
             ))}
           </div>
         </Container>
@@ -105,10 +121,11 @@ const retainers = [
   }
 
   <!-- Retainers -->
-  <section class="py-16 md:py-24">
+  <section id="retainers" class="py-14 md:py-20 scroll-mt-28">
     <Container size="full" data-reveal>
-      <div class="mb-12">
-        <Eyebrow>Retainers: keeping it running</Eyebrow>
+      <div class="mb-10">
+        <h2 class="text-3xl md:text-4xl">Retainers</h2>
+        <p class="mt-4 text-lg text-graphite">For keeping things running after launch.</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -136,8 +153,7 @@ const retainers = [
   <!-- Terms -->
   <section class="py-20 md:py-32">
     <Container size="default" data-reveal>
-      <Eyebrow>Terms</Eyebrow>
-      <h2 class="mt-6 mb-12">The fine print, in plain English.</h2>
+      <h2 class="mb-12">The fine print, in plain English.</h2>
       <dl class="space-y-8">
         {
           [

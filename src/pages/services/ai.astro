@@ -3,7 +3,6 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ServiceHero from "../../components/ServiceHero.astro";
 import EndCTA from "../../components/EndCTA.astro";
 import Container from "../../components/Container.astro";
-import Eyebrow from "../../components/Eyebrow.astro";
 import { services } from "../../data/services";
 
 const s = services.ai;
@@ -27,8 +26,7 @@ const phases = [
   <!-- Stance section -->
   <section class="py-20 md:py-32">
     <Container size="default" data-reveal>
-      <Eyebrow>Our stance</Eyebrow>
-      <h2 class="mt-6 mb-12">You shouldn't have to think about the AI part.</h2>
+      <h2 class="mb-12">You shouldn't have to think about the AI part.</h2>
       <p class="lede text-2xl max-w-3xl">
         We don't sell AI tiers or packages. We find the spots where
         automation saves you real time, wire it in, and let it fade into the
@@ -42,8 +40,7 @@ const phases = [
     <Container size="full">
       <div data-reveal class="bg-forest text-bone rounded-[28px] md:rounded-[40px] px-6 md:px-16 py-20 md:py-32">
         <div class="max-w-3xl mb-16">
-          <Eyebrow tone="bone">How we engage</Eyebrow>
-          <h2 class="mt-6 text-bone">How an AI project runs.</h2>
+          <h2 class="text-bone">How an AI project runs.</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
@@ -69,8 +66,7 @@ const phases = [
   <!-- What we won't do -->
   <section class="py-20 md:py-32">
     <Container size="default" data-reveal>
-      <Eyebrow>Our promises</Eyebrow>
-      <h2 class="mt-6 mb-10">What we won't do.</h2>
+      <h2 class="mb-10">What we won't do.</h2>
       <ul class="space-y-6">
         {
           [
@@ -91,7 +87,7 @@ const phases = [
 
   <EndCTA
     heading="Tell us your bottleneck."
-    primary={{ label: "Start with discovery", href: "/contact?service=ai" }}
+    primary={{ label: "Start with discovery", href: "/contact?service=software" }}
     secondary={{ label: "Book a call", href: "/contact#book" }}
   />
 </BaseLayout>

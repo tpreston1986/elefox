@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ServiceHero from "../../components/ServiceHero.astro";
 import TierGrid from "../../components/TierGrid.astro";
 import EndCTA from "../../components/EndCTA.astro";
+import ServiceWork from "../../components/ServiceWork.astro";
 import { services } from "../../data/services";
 
 const s = services["early-stage"];
@@ -23,6 +24,12 @@ const s = services["early-stage"];
     heading="Two ways to get started."
   />
 
+
+  <ServiceWork
+    service="early-stage"
+    heading="First versions we've built."
+    note="Brand, product, and code, all from one team."
+  />
 
   <EndCTA
     heading="Starting something new? Bring us in early."

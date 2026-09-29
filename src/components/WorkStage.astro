@@ -10,9 +10,11 @@ interface Props {
   class?: string;
   /** Eager-load when the stage is above the fold (case-study hero). */
   eager?: boolean;
+  /** CSS aspect-ratio override, e.g. "16 / 10" for wide rows. Default 5 / 4. */
+  ratio?: string;
 }
 
-const { thumb, class: className, eager = false } = Astro.props;
+const { thumb, class: className, eager = false, ratio } = Astro.props;
 const loading = eager ? "eager" : "lazy";
 
 // Screenshots with a baked-in margin get cropped by oversizing the image and
@@ -28,7 +30,7 @@ const insetStyle =
     : undefined;
 ---
 
-<div class:list={["ws", className]} aria-hidden="true">
+<div class:list={["ws", className]} style={ratio ? `aspect-ratio:${ratio}` : undefined} aria-hidden="true">
   {
     thumb.kind === "screen" ? (
       <>
@@ -59,6 +61,14 @@ const insetStyle =
           </div>
         )}
       </>
+    ) : thumb.kind === "phones" ? (
+      <div class="ws-phones">
+        {thumb.screens.slice(0, 3).map((src) => (
+          <div class="ws-handset">
+            <img src={src} alt="" loading={loading} decoding="async" />
+          </div>
+        ))}
+      </div>
     ) : (
       <img src={thumb.src} alt="" loading={loading} decoding="async" class="ws-icon" />
     )
@@ -157,6 +167,47 @@ const insetStyle =
     transition: transform 0.9s var(--ease);
   }
 
+  /* ── Mobile app: phones side by side, the lead one a step higher ───── */
+  .ws-phones {
+    position: absolute;
+    inset: 12% 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5%;
+  }
+  .ws-handset {
+    width: 34%;
+    /* Matches the 9:16 screen recordings so nothing gets cropped. */
+    aspect-ratio: 9 / 16;
+    flex-shrink: 0;
+    padding: 5px;
+    border-radius: 24px;
+    background: #0e0f12;
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.12),
+      0 34px 60px -22px rgb(0 0 0 / 0.6);
+    transition: transform 0.8s var(--ease);
+  }
+  .ws-handset:nth-child(2) {
+    margin-top: 9%;
+  }
+  .ws-handset img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 19px;
+  }
+  :global(.ws-host:hover) .ws-handset,
+  :global(.ws-host:focus-visible) .ws-handset {
+    transform: translateY(-10px);
+  }
+  :global(.ws-host:hover) .ws-handset:nth-child(2),
+  :global(.ws-host:focus-visible) .ws-handset:nth-child(2) {
+    transform: translateY(-16px);
+  }
+
   /* Hover lives on whatever card wraps the stage. */
   :global(.ws-host:hover) .ws-window,
   :global(.ws-host:focus-visible) .ws-window {
@@ -174,12 +225,14 @@ const insetStyle =
   @media (prefers-reduced-motion: reduce) {
     .ws-window,
     .ws-phone,
+    .ws-handset,
     .ws-icon {
       transition: none;
     }
     :global(.ws-host:hover) .ws-window,
     :global(.ws-host:hover) .ws-phone,
-    :global(.ws-host:hover) .ws-icon {
+    :global(.ws-host:hover) .ws-icon,
+    :global(.ws-host:hover) .ws-handset {
       transform: none;
     }
   }

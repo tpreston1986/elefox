@@ -5,6 +5,7 @@ import Eyebrow from "../../components/Eyebrow.astro";
 import EndCTA from "../../components/EndCTA.astro";
 import WorkStage from "../../components/WorkStage.astro";
 import { projects, toneStyles, type Project } from "../../data/work";
+import { services } from "../../data/services";
 
 export const prerender = true;
 
@@ -65,11 +66,11 @@ const next = projects[(idx + 1) % projects.length];
 
           <div class="mt-10 flex flex-wrap items-center gap-2 mb-6">
             {project.services.map((s) => (
-              <span class:list={["text-xs px-3 py-1 rounded-pill border", t.tag]}>{s}</span>
+              <span class:list={["text-xs px-3 py-1 rounded-pill border", t.tag]}>{services[s]?.shortName ?? s}</span>
             ))}
             {project.status && (
               <span class="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-[0.12em] opacity-90 ml-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-signal animate-pulse" />
+                <span class="w-1.5 h-1.5 rounded-full bg-signal" />
                 {project.status}
               </span>
             )}

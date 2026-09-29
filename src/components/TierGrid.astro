@@ -1,6 +1,5 @@
 ---
 import Container from "./Container.astro";
-import Eyebrow from "./Eyebrow.astro";
 import type { Tier } from "../data/services";
 
 type Props = {
@@ -15,10 +14,9 @@ const { tiers, heading, eyebrow } = Astro.props;
 <section class="py-20 md:py-32">
   <Container size="full">
     {
-      (heading || eyebrow) && (
+      heading && (
         <div data-reveal class="mb-16 md:mb-20 max-w-3xl">
-          {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-          {heading && <h2 class="mt-6">{heading}</h2>}
+          {heading && <h2>{heading}</h2>}
         </div>
       )
     }

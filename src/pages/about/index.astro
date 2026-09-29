@@ -1,10 +1,9 @@
 ---
+import PageHeader from "../../components/PageHeader.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Container from "../../components/Container.astro";
-import Eyebrow from "../../components/Eyebrow.astro";
 import Button from "../../components/Button.astro";
 import EndCTA from "../../components/EndCTA.astro";
-import HeroAtmosphere from "../../components/HeroAtmosphere.astro";
 
 const principles = [
   {
@@ -38,31 +37,16 @@ const collaborators = [
   description="elefox studio is a small design and product studio based in South Florida. Here's how we work."
 >
   <!-- Hero -->
-  <section class="pt-2 md:pt-4">
-    <Container size="full">
-      <div data-glow class="relative overflow-hidden rounded-[28px] md:rounded-[44px] pt-28 md:pt-36 pb-16 md:pb-24 px-6 md:px-12 bg-gradient-to-b from-[#FBF1E9] via-[#F8ECE0] to-[#F2E2D2]">
-        <HeroAtmosphere warm />
-        <div class="relative z-10 text-center max-w-4xl mx-auto">
-          <Eyebrow>About the studio</Eyebrow>
-          <h1 data-split class="display-xl mt-6 max-w-[20ch] mx-auto">
-            A small studio that does the work most agencies
-            <span class="text-gradient-flow">pass on</span>.
-          </h1>
-          <p class="lede mt-10 text-xl max-w-3xl mx-auto text-center">
-            elefox studio is a design and product studio in South Florida. We
-            build websites, custom software, brand systems, and quiet little AI
-            automations for small companies that have outgrown templates.
-          </p>
-        </div>
-      </div>
-    </Container>
-  </section>
+  <PageHeader
+    title="A small studio that does the work most agencies pass on."
+    accent="pass on"
+    lede="elefox studio is a design and product studio in South Florida. We build websites, custom software, brand systems, and quiet little AI automations for small companies that have outgrown templates."
+  />
 
   <!-- The story -->
   <section class="py-20 md:py-32">
     <Container size="default" data-reveal>
-      <Eyebrow>Why we exist</Eyebrow>
-      <h2 data-split class="mt-6 mb-12">The studio in three paragraphs.</h2>
+      <h2 class="mb-12">Why we exist.</h2>
       <div class="space-y-8 text-lg md:text-xl text-graphite leading-relaxed max-w-3xl">
         <p>
           We've done design and code in just about every setup: in-house,
@@ -94,8 +78,7 @@ const collaborators = [
   <section class="py-20 md:py-32">
     <Container size="full" data-reveal>
       <div class="max-w-3xl mb-16 md:mb-20">
-        <Eyebrow>How we work</Eyebrow>
-        <h2 data-split class="mt-6">Four principles we don't flex on.</h2>
+        <h2>Four principles we don't flex on.</h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
@@ -116,8 +99,7 @@ const collaborators = [
     <Container size="full">
       <div data-reveal class="bg-ink text-bone rounded-[28px] md:rounded-[40px] px-6 md:px-16 py-20 md:py-32">
         <div class="max-w-3xl mb-16">
-          <Eyebrow tone="bone">The team, honestly</Eyebrow>
-          <h2 class="mt-6 text-bone">
+          <h2 class="text-bone">
             One founder, plus the right people.
           </h2>
           <p class="lede text-bone/75 mt-6 text-xl">

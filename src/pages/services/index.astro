@@ -1,9 +1,9 @@
 ---
+import PageHeader from "../../components/PageHeader.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Container from "../../components/Container.astro";
 import Button from "../../components/Button.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
-import HeroAtmosphere from "../../components/HeroAtmosphere.astro";
 import { menuServices } from "../../data/services";
 ---
 
@@ -11,25 +11,11 @@ import { menuServices } from "../../data/services";
   title="Services"
   description="Start with a free website audit, or hire elefox studio for websites, mobile apps, custom software, UI/UX design, branding, or an early-stage build."
 >
-  <section class="pt-2 md:pt-4">
-    <Container size="full">
-      <div data-glow class="relative overflow-hidden rounded-[28px] md:rounded-[44px] pt-28 md:pt-36 pb-16 md:pb-24 px-6 md:px-12 bg-gradient-to-b from-[#FBF1E9] via-[#F8ECE0] to-[#F2E2D2]">
-        <HeroAtmosphere warm />
-        <div class="relative z-10 text-center max-w-4xl mx-auto">
-          <Eyebrow>Services</Eyebrow>
-          <h1 data-split class="display-xl mt-6 max-w-[18ch] mx-auto">
-            Start small, or
-            <span class="whitespace-nowrap"><span class="text-gradient-flow">go all in</span>.</span>
-          </h1>
-          <p class="lede mt-10 max-w-3xl text-xl mx-auto text-center">
-            If you're not sure what you need, start with the free website audit.
-            If you already know, hire us for just that piece. Most clients come
-            for one thing and stay for the others.
-          </p>
-        </div>
-      </div>
-    </Container>
-  </section>
+  <PageHeader
+    title="Start small, or go all in."
+    accent="go all in"
+    lede="If you're not sure what you need, start with the free website audit. If you already know, hire us for just that piece. Most clients come for one thing and stay for the others."
+  />
 
   <!-- Free audit hook -->
   <section class="pt-12 md:pt-20 pb-4 md:pb-8">
