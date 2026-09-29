@@ -156,12 +156,12 @@ export const services: Record<string, Service> = {
   software: {
     slug: "software",
     name: "Custom software development",
-    title: "CRMs, portals, and the software your team actually wants to use.",
+    title: "The custom software your team actually wants to use.",
     titleAccent: "wants to use",
     oneLiner:
-      "Custom CRMs for realtors, advisors, therapists, and small teams who run on relationships, plus client portals, booking systems, and the internal tools that hold it all together.",
+      "Custom software for teams no off-the-shelf tool fits — CRMs, client portals, booking systems, and the internal tools that hold it all together.",
     description:
-      "Off-the-shelf CRM software makes you adapt to it: the same fields, the same pipeline, the same vocabulary as every other customer. We build the opposite. Tools that match your terminology, your workflow, and the way you actually talk about your clients. Hosted, supported, and yours.",
+      "Off-the-shelf software makes you adapt to it — the same fields, the same workflow, the same vocabulary as every other customer. We build the opposite: software shaped to your terminology, your process, and the way you actually work. Hosted, supported, and yours.",
     tiers: [
       {
         name: "Custom CRM",

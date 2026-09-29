@@ -1,6 +1,6 @@
 # elefox studio — elefoxstudio.com
 
-Marketing site for elefox studio (DBA of Tiffany Russell Studio LLC). Astro 5 + Tailwind v4, deployed to Railway, integrated with the existing client portal at `portal.tiffanyrussell.me`.
+Marketing site for elefox studio LLC. Astro 5 + Tailwind v4, deployed to Railway, integrated with the existing client portal at `portal.tiffanyrussell.me`.
 
 ## What this is
 
@@ -107,4 +107,4 @@ A few things I picked defaults on — easy to change once you weigh in:
 
 ## License
 
-UNLICENSED — proprietary to Tiffany Russell Studio LLC.
+UNLICENSED — proprietary to elefox studio LLC.

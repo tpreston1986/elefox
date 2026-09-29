@@ -20,7 +20,7 @@ const COMPS: Record<string, any> = {
 
 // Ordered by how we lead: custom software first, the website that ties
 // into it, the automations, then brand and social as supporting work.
-const capabilityOrder = ["software", "websites", "ai", "brand"];
+const capabilityOrder = ["websites", "software", "ai", "brand"];
 const capabilityServices = capabilityOrder
   .map((slug) => allServices.find((s) => s.slug === slug))
   .filter((s): s is NonNullable<typeof s> => Boolean(s));
@@ -59,7 +59,7 @@ const uptimeBars = [60, 80, 50, 90, 70, 100, 85, 95, 65, 88, 75, 92];
 const faqs = [
   {
     q: "How long does a build take?",
-    a: "A custom CRM is a six-week build, typically. Smaller sites and tools are faster. Either way, you get a real timeline in the plan up front, not a vague range that drifts.",
+    a: "A custom app or platform is typically a few weeks to a couple of months. Smaller sites and tools are faster. Either way, you get a real timeline in the plan up front, not a vague range that drifts.",
   },
   {
     q: "Do I own what you build?",
@@ -74,8 +74,8 @@ const faqs = [
     a: "Usually, yes. We build the tools and wire them into your existing site. If the site itself is holding you back, we'll say so and rebuild it.",
   },
   {
-    q: "Do you only build CRMs?",
-    a: "No. CRMs are the core, but we also build client portals, booking systems, internal dashboards, the websites that tie into them, plus brand and automation when you want one team on all of it.",
+    q: "What can you build?",
+    a: "Websites, mobile apps, and custom software — CRMs, client portals, booking systems, internal dashboards — plus the brand and marketing that tie it all together, when you want one team on all of it.",
   },
   {
     q: "What happens after launch?",
@@ -88,7 +88,10 @@ const faqs = [
 ];
 ---
 
-<BaseLayout title="Custom CRMs & Tools for Small Businesses · elefox studio">
+<BaseLayout
+  title="Web, App & Software Development for Small Business · elefox studio"
+  description="Web, mobile, and custom software development for small business. The sites, apps, and software your business runs on — built around how you actually work, and yours to keep."
+>
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <!-- Hero                                                                 -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
@@ -103,21 +106,21 @@ const faqs = [
 
         <div class="relative z-10 text-center max-w-5xl mx-auto">
           <h1 data-split class="font-display font-extrabold tracking-[-0.04em] leading-[0.92] text-[clamp(2.5rem,7vw,6rem)] text-ink max-w-[20ch] mx-auto">
-            Tools built around
+            The websites, apps, and software
             <span class="relative inline-block">
-              <em class="not-italic text-gradient-flow">your business</em>,
+              <em class="not-italic text-gradient-flow">your business</em>
               <svg viewBox="0 0 260 14" class="absolute left-0 -bottom-2 md:-bottom-3 w-full h-3 text-ember underline-draw" aria-hidden="true" preserveAspectRatio="none">
                 <path d="M2 8 Q 40 2, 80 7 T 160 8 T 220 6 T 258 7" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
               </svg>
             </span>
-            not the other way around.
+            runs on.
           </h1>
 
           <p class="lede mx-auto mt-10 md:mt-12 text-xl md:text-2xl text-graphite text-center">
-            Off-the-shelf tools force you to adapt. We build the opposite: CRMs,
-            client portals, booking systems, and automations shaped to how you
-            actually work, wired into your site (yours or one we build). Brand and
-            social when you need them.
+            Off-the-shelf makes you bend to it. We build the opposite — sites,
+            apps, and custom software shaped to how you actually work, hosted by
+            us, and yours to keep. Brand and marketing when you want one team on
+            all of it.
           </p>
           <div class="mt-10 flex flex-wrap gap-4 justify-center">
             <Button href="/services" size="lg" class="btn-magnetic">See what we do</Button>
@@ -164,7 +167,7 @@ const faqs = [
     <Container size="default">
       <h2 data-split class="text-center font-display font-extrabold tracking-[-0.03em] leading-[1.02] text-[clamp(2.25rem,6vw,5rem)] text-ink max-w-[22ch] mx-auto">
         One studio for the
-        <span class="text-gradient-flow">software, site, and systems</span>
+        <span class="text-gradient-flow">sites, apps, and software</span>
         your business runs on.
       </h2>
     </Container>
@@ -179,13 +182,13 @@ const faqs = [
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16 md:mb-24">
         <div class="lg:col-span-5">
           <Eyebrow>What we do</Eyebrow>
-          <h2 data-split class="mt-6">Custom tools, at the core.</h2>
+          <h2 data-split class="mt-6">Development, end to end.</h2>
         </div>
         <p class="lg:col-span-6 lg:col-start-7 lede self-end">
-          It starts with the tools your business runs on: a CRM, a portal,
-          online booking, the automations behind the scenes. From there we
-          build, or rebuild, the website that ties into them. Brand and social
-          round it out when you want one team handling all of it.
+          It starts with the software your business runs on: a web app, a
+          customer portal, the CRM or booking system behind the scenes. From
+          there we build, or rebuild, the website that ties into it. Brand and
+          marketing round it out when you want one team on all of it.
         </p>
       </div>
 
@@ -232,7 +235,7 @@ const faqs = [
         <div data-reveal class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           <div class="lg:col-span-6 order-2 lg:order-1">
             <div class="flex items-center gap-3 mb-6">
-              <span class="font-mono text-xs text-forest tracking-[0.14em] uppercase">Featured product</span>
+              <span class="font-mono text-xs text-forest tracking-[0.14em] uppercase">Featured build</span>
               <span class="text-mist">·</span>
               <span class="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.14em] text-ember">
                 <span class="w-1.5 h-1.5 rounded-full bg-ember"></span>
@@ -240,15 +243,15 @@ const faqs = [
               </span>
             </div>
 
-            <h2 data-split class="mt-2 max-w-[14ch]">
-              A Custom CRM, built for how you actually run.
+            <h2 data-split class="mt-2 max-w-[16ch]">
+              Custom software, built for how you actually run.
             </h2>
 
             <p class="lede mt-8 text-xl">
-              For realtors, advisors, therapists, and small teams who live in
-              their pipeline. Custom fields, your stages, your terminology
-              and your data, hosted by us, yours forever. Six-week typical
-              build. We use the same engine in our own studio.
+              When no off-the-shelf app fits how you work: a CRM, a client
+              portal, a booking system, an internal dashboard. Your fields, your
+              terminology, your data, hosted by us and yours forever. We run our
+              own studio on the software we build.
             </p>
 
             <p class="mt-7 text-xl md:text-2xl font-display tracking-tight text-forest max-w-[26ch]">
@@ -257,7 +260,7 @@ const faqs = [
             </p>
 
             <div class="mt-10 flex flex-wrap gap-3">
-              {["Custom fields", "Your terminology", "Relationship-first", "Hosted by us", "Yours forever"].map((t) => (
+              {["Custom fields", "Your terminology", "Your workflow", "Hosted by us", "Yours forever"].map((t) => (
                 <span class="text-xs font-mono text-forest bg-bone border border-forest/20 px-3 py-1.5 rounded-pill">
                   {t}
                 </span>
@@ -269,13 +272,13 @@ const faqs = [
                 href="/services/software"
                 class="inline-flex items-center gap-2 px-6 py-3 bg-forest text-bone rounded-pill font-medium hover:bg-forest-deep transition-colors"
               >
-                How we build CRMs
+                How we build software
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                   <path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </a>
               <a
-                href="/contact?service=crm"
+                href="/contact?service=software"
                 class="inline-flex items-center gap-2 px-6 py-3 bg-transparent text-forest border-2 border-forest/40 rounded-pill font-medium hover:bg-forest hover:text-bone transition-colors"
               >
                 Talk to us about yours
