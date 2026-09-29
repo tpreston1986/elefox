@@ -25,7 +25,7 @@ const s = services.software;
   <TierGrid
     tiers={s.tiers ?? []}
     eyebrow="What we build"
-    heading="The custom software only you need — a CRM, a portal, an internal tool."
+    heading="A CRM, a client portal, or the internal tool only your team needs."
   />
 
   <!-- Comparison block -->
@@ -35,7 +35,7 @@ const s = services.software;
         <Eyebrow>Why custom</Eyebrow>
         <h2 class="mt-6">Off-the-shelf vs. built for you.</h2>
         <p class="lede mt-6">
-          Most software is built for the average customer. You aren't average.
+          Most software is built for a made-up average customer. Your business has its own quirks.
         </p>
       </div>
 
@@ -49,12 +49,12 @@ const s = services.software;
             },
             {
               t: "No-code builders",
-              p: "Fast to start, slow to scale. Vendor lock-in disguised as 'no-code freedom.'",
+              p: "Quick to set up, until you hit the ceiling. And you're still locked into their platform.",
               tone: "bg-cream border-fog",
             },
             {
               t: "Custom (us)",
-              p: "Built around your terminology, hosted by us from $50/mo, yours to take wherever.",
+              p: "Uses your words and your workflow. We host it from $50/mo, and you can take it with you whenever you want.",
               tone: "bg-forest text-bone border-forest",
             },
           ].map((c) => (
@@ -75,16 +75,16 @@ const s = services.software;
       <div data-reveal class="bg-ink text-bone rounded-[28px] md:rounded-[40px] px-6 md:px-16 py-20 md:py-32">
         <Eyebrow tone="bone">A note on availability</Eyebrow>
         <p class="text-3xl md:text-4xl font-display tracking-tight leading-tight mt-6 max-w-3xl">
-          We cap our custom software roster at 25 active clients. That keeps
-          builds fast, support real, and the studio honest. When we're full, we
-          say so.
+          We cap our custom software roster at 25 active clients, so builds
+          keep moving and support stays personal. If we're full when you reach
+          out, we'll tell you straight.
         </p>
       </div>
     </Container>
   </section>
 
   <EndCTA
-    heading="Got a workflow that nothing fits? Let's build it."
+    heading="Got a workflow nothing seems to fit? Bring it to us."
     primary={{ label: "Start a software project", href: "/contact?service=software" }}
   />
 </BaseLayout>

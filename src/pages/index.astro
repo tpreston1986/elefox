@@ -31,22 +31,22 @@ const processSteps = [
   {
     title: "Discover",
     kind: "discover",
-    body: "A free 30-minute discovery call. We learn your business, your stack, and where the friction actually lives. You leave with notes and next steps either way.",
+    body: "A free 30-minute discovery call. We learn how your business runs, what you're using now, and where things keep getting stuck. You leave with notes and next steps either way.",
   },
   {
     title: "Plan",
     kind: "plan",
-    body: "A real plan with real numbers and a real timeline. Fixed-fee where we can, transparent ranges where we can't.",
+    body: "A written plan with the price and the timeline spelled out. Fixed fee where we can, a clear range where we can't.",
   },
   {
     title: "Build",
     kind: "build",
-    body: "We design and ship in tight cycles. You see progress every week, not at the end. Two rounds of revisions are baked in.",
+    body: "We build in short cycles, so you see progress every week instead of one big reveal at the end. Two rounds of revisions are included.",
   },
   {
     title: "Launch",
     kind: "launch",
-    body: "We handle the boring parts, DNS, analytics, monitoring, training your team. You handle the celebration.",
+    body: "We handle the boring parts: DNS, analytics, monitoring, and training your team. You handle the celebrating.",
   },
   {
     title: "Operate",
@@ -61,11 +61,11 @@ const uptimeBars = [60, 80, 50, 90, 70, 100, 85, 95, 65, 88, 75, 92];
 const faqs = [
   {
     q: "How long does a build take?",
-    a: "A custom app or platform is typically a few weeks to a couple of months. Smaller sites and tools are faster. Either way, you get a real timeline in the plan up front, not a vague range that drifts.",
+    a: "A custom app or platform is typically a few weeks to a couple of months. Smaller sites and tools are faster. Either way, the timeline is written into the plan before we start, not a vague range that drifts.",
   },
   {
     q: "Do I own what you build?",
-    a: "Yes. It's yours forever. We host it for you and keep it running, but the build and your data belong to you. No lock-in, no holding your business hostage.",
+    a: "Yes. The build and your data belong to you. We host it and keep it running, but you can pack it up and take it anywhere. Nobody's holding your business hostage.",
   },
   {
     q: "What does it cost?",
@@ -77,22 +77,22 @@ const faqs = [
   },
   {
     q: "What can you build?",
-    a: "Websites, mobile apps, and custom software — CRMs, client portals, booking systems, internal dashboards — plus the brand and marketing that tie it all together, when you want one team on all of it.",
+    a: "Websites, mobile apps, and custom software (CRMs, client portals, booking systems, internal dashboards). We can do the brand and marketing too, if you'd like one team on the whole thing.",
   },
   {
     q: "What happens after launch?",
-    a: "Most clients stay on a small retainer for hosting, backups, and the occasional new feature. We're the team you don't have to hire.",
+    a: "We stick around. Most clients stay on a small retainer for hosting, backups, and the occasional new feature, so there's always someone who knows your build inside and out.",
   },
   {
     q: "Will you actually take my project?",
-    a: "We cap how many software clients we take each year so every build gets real attention. If we're not the right fit, we'll tell you on the first call.",
+    a: "Maybe! We keep our software client list small on purpose, so every build gets real attention. If we're not the right fit, you'll hear it on the first call, not three weeks in.",
   },
 ];
 ---
 
 <BaseLayout
   title="Web, App & Software Development for Small Business · elefox studio"
-  description="Web, mobile, and custom software development for small business. The sites, apps, and software your business runs on — built around how you actually work, and yours to keep."
+  description="Web, mobile, and custom software development for small business. The sites, apps, and software your business runs on, built around how you work. We host it, you own it."
 >
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <!-- Hero                                                                 -->
@@ -119,10 +119,10 @@ const faqs = [
           </h1>
 
           <p class="lede mx-auto mt-10 md:mt-12 text-xl md:text-2xl text-graphite text-center">
-            Off-the-shelf makes you bend to it. We build the opposite — sites,
-            apps, and custom software shaped to how you actually work, hosted by
-            us, and yours to keep. Brand and marketing when you want one team on
-            all of it.
+            Off-the-shelf software makes you bend your business to fit it. We
+            go the other way: sites, apps, and custom software built around how
+            you already work. We host it, you own it. And if you want one team
+            on the brand and marketing too, that's us.
           </p>
           <div class="mt-10 flex flex-wrap gap-4 justify-center">
             <Button href="/services" size="lg" class="btn-magnetic">See what we do</Button>
@@ -165,12 +165,12 @@ const faqs = [
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <!-- Statement, single big centered line (Munch cadence)                  -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <section class="pt-12 pb-20 md:pt-20 md:pb-32">
+  <section class="pt-20 pb-12 md:pt-32 md:pb-20">
     <Container size="default">
       <h2 data-split class="text-center font-display font-extrabold tracking-[-0.03em] leading-[1.02] text-[clamp(2.25rem,6vw,5rem)] text-ink max-w-[22ch] mx-auto">
-        One studio for the
-        <span class="text-gradient-flow">sites, apps, and software</span>
-        your business runs on.
+        One studio instead of
+        <span class="text-gradient-flow">five vendors</span>
+        who never talk to each other.
       </h2>
     </Container>
   </section>
@@ -187,10 +187,10 @@ const faqs = [
           <h2 data-split class="mt-6">Development, end to end.</h2>
         </div>
         <p class="lg:col-span-6 lg:col-start-7 lede self-end">
-          It starts with the software your business runs on: a web app, a
-          customer portal, the CRM or booking system behind the scenes. From
-          there we build, or rebuild, the website that ties into it. Brand and
-          marketing round it out when you want one team on all of it.
+          It starts with the software: a web app, a customer portal, the CRM
+          or booking system behind the scenes. Then we build (or rebuild) the
+          website that plugs into it. Brand and marketing are there too, if
+          you want them.
         </p>
       </div>
 
@@ -211,13 +211,13 @@ const faqs = [
                     href={`/services/${s.slug}`}
                     class="group inline-flex items-center gap-2 mt-7 text-forest font-medium hover:gap-3 transition-all"
                   >
-                    Explore {s.name.toLowerCase()}
+                    Explore {s.slug === "ai" ? s.name : s.name.toLowerCase()}
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                       <path d="M2 8h11m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                   </a>
                 </div>
-                <div class="tool-frame rounded-2xl bg-cream/50 border border-fog p-5 md:p-9">
+                <div class="tool-frame rounded-2xl bg-cream/50 border border-fog p-5 md:p-9" aria-hidden="true">
                   {Comp && <Comp />}
                 </div>
               </div>
@@ -246,23 +246,22 @@ const faqs = [
             </div>
 
             <h2 data-split class="mt-2 max-w-[16ch]">
-              Custom software, built for how you actually run.
+              Custom software, built for how you run.
             </h2>
 
             <p class="lede mt-8 text-xl">
-              When no off-the-shelf app fits how you work: a CRM, a client
-              portal, a booking system, an internal dashboard. Your fields, your
-              terminology, your data, hosted by us and yours forever. We run our
-              own studio on the software we build.
+              For when nothing off the shelf fits how you work: a CRM, a client
+              portal, a booking system, an internal dashboard. It uses your
+              fields and your words. We host it, and it belongs to you. We run
+              our own studio on the software we build.
             </p>
 
             <p class="mt-7 text-xl md:text-2xl font-display tracking-tight text-forest max-w-[26ch]">
-              Custom-built around how you work, priced for a small business,
-              and yours to keep.
+              Priced for a small business, not a Fortune 500.
             </p>
 
             <div class="mt-10 flex flex-wrap gap-3">
-              {["Custom fields", "Your terminology", "Your workflow", "Hosted by us", "Yours forever"].map((t) => (
+              {["CRMs", "Client portals", "Booking systems", "Dashboards", "Hosted by us"].map((t) => (
                 <span class="text-xs font-mono text-forest bg-bone border border-forest/20 px-3 py-1.5 rounded-pill">
                   {t}
                 </span>
@@ -388,11 +387,11 @@ const faqs = [
         <div class="mb-16 md:mb-24 max-w-2xl">
           <Eyebrow>How we work</Eyebrow>
           <h2 data-split class="mt-6">
-            A boutique pace, an agency process.
+            Small studio, grown-up process.
           </h2>
           <p class="lede mt-6">
-            Every engagement runs the same five-step shape. No mystery, no
-            surprise invoices, no calls to figure out where the project is.
+            Every project follows the same five steps, so you always know where
+            things stand. No surprise invoices, and no chasing us for an update.
           </p>
         </div>
 
@@ -536,17 +535,17 @@ const faqs = [
               {
                 n: "→",
                 h: "A cap on intake.",
-                p: "We take a small number of software clients each year so every build gets real attention. When we're full, we say so.",
+                p: "We keep our software client list small, so your build never gets lost in the pile. When we're full, we'll tell you.",
               },
               {
                 n: "→",
                 h: "Honest about scope.",
-                p: "We turn down projects we can't make great, and we'll tell you on the first call. You deserve a yes that means yes.",
+                p: "If we can't make your project great, we'll say so on the first call instead of saying yes and hoping for the best.",
               },
               {
                 n: "→",
                 h: "Built like operators.",
-                p: "We use what we ship. Our client portal, our CRM, our automations, we run on them. When something's broken, we feel it first.",
+                p: "We use what we ship. Our own client portal, CRM, and automations run the studio, so when something breaks, we feel it first.",
               },
             ].map((pillar) => (
               <div>

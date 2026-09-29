@@ -11,7 +11,7 @@ const checks = [
   { t: "Speed & performance", p: "Load times, image weight, the lag that makes visitors bounce before they read a word." },
   { t: "Mobile experience", p: "How it actually behaves on a phone, where most of your traffic already is." },
   { t: "SEO foundations", p: "Titles, structure, and the basics Google needs to find and rank you at all." },
-  { t: "Lead capture", p: "Whether the path from visitor to enquiry is obvious, or quietly leaking prospects." },
+  { t: "Lead capture", p: "Whether the path from visitor to inquiry is obvious, or quietly leaking prospects." },
   { t: "Design & trust", p: "First impressions: does it look like a business someone should hand money to?" },
   { t: "Accessibility", p: "The things that lock out real users, and increasingly, invite legal trouble." },
 ];
@@ -20,13 +20,13 @@ const checks = [
 const steps = [
   { t: "Send your URL", p: "Drop your website address in the form. That's the whole ask, no call required to start." },
   { t: "We audit it", p: "A real person goes through your site against the checklist above. Back to you within two business days." },
-  { t: "You get the report", p: "A clear, prioritized breakdown of what to fix first, plus an optional call to walk through it. Yours to keep." },
+  { t: "You get the report", p: "A clear, prioritized breakdown of what to fix first, plus an optional call to walk through it together." },
 ];
 ---
 
 <BaseLayout
   title="Free Website Audit"
-  description="A free, no-strings audit of your website — speed, mobile, SEO, lead capture, and the things quietly costing you customers. Real feedback from a real studio."
+  description="A free, no-strings audit of your website: speed, mobile, SEO, lead capture, and whatever else is costing you customers. Reviewed by a real person at a real studio."
 >
   <!-- Hero -->
   <section class="pt-2 md:pt-4">
@@ -50,13 +50,13 @@ const steps = [
           </h1>
 
           <p class="lede mt-10 text-xl md:text-2xl max-w-3xl mx-auto text-center">
-            A free audit of your site — speed, mobile, SEO, and the things quietly
-            losing you leads. Real feedback from a real studio, not an automated
-            score you can't do anything with.
+            A free audit of your site: speed, mobile, SEO, and the little things
+            that lose you leads. A real person reviews it, so you get notes you
+            can act on instead of an automated score.
           </p>
 
           <div class="mt-10 flex flex-wrap items-center gap-4 justify-center">
-            <Button href="#lead" size="lg" class="btn-magnetic">Get my free audit →</Button>
+            <Button href="#lead" size="lg" class="btn-magnetic">Get my free audit</Button>
             <a href="#checks" class="inline-flex items-center gap-2 text-forest font-medium hover:gap-3 transition-all">
               See what we check
             </a>
@@ -95,7 +95,7 @@ const steps = [
       <div class="bg-forest-wash rounded-[28px] md:rounded-[40px] px-6 md:px-16 py-16 md:py-24">
         <div data-reveal class="max-w-2xl mb-12 md:mb-16">
           <Eyebrow>How it works</Eyebrow>
-          <h2 data-split class="mt-6">Three steps. No sales trap.</h2>
+          <h2 data-split class="mt-6">Three steps, and no sales pitch at the end.</h2>
         </div>
         <div data-reveal-stagger class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {
@@ -120,7 +120,7 @@ const steps = [
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
         <div class="lg:col-span-6">
           <Eyebrow>Why it's free</Eyebrow>
-          <h2 data-split class="mt-6">No catch. Here's the honest version.</h2>
+          <h2 data-split class="mt-6">So what's the catch? There isn't one.</h2>
           <p class="lede mt-8">
             A good audit is the fastest way to show you we know what we're doing.
             If you want us to fix what we find, we're right here. If you'd rather
@@ -156,7 +156,7 @@ const steps = [
             toolPlaceholder="yourbusiness.com"
             source="audit-landing"
             submitLabel="Send my site for a free audit →"
-            successBody="Your free audit is on its way — expect it within two business days. Want to talk sooner? Call 954.780.6508."
+            successBody="Your free audit is on its way. Expect it in your inbox within two business days. Want to talk sooner? Call 954.780.6508."
           />
           <p class="mt-5 text-center text-sm text-graphite">
             Prefer to talk it through first? Call

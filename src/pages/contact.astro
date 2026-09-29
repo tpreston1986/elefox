@@ -20,13 +20,13 @@ const services = [
 
 const budgets = [
   "Under $2k",
-  "$2k – $5k",
-  "$5k – $10k",
+  "$2k to $5k",
+  "$5k to $10k",
   "$10k+",
   "Not sure",
 ];
 
-const timelines = ["ASAP / this month", "1–3 months", "3–6 months", "Flexible"];
+const timelines = ["ASAP / this month", "1 to 3 months", "3 to 6 months", "Flexible"];
 
 const preselected = Astro.url.searchParams.get("service") || "";
 
@@ -407,7 +407,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
               <h2 class="display-xl text-ink mt-2 mb-6">Thanks, ${cleanName}.</h2>
               <p class="lede text-xl text-graphite max-w-2xl mx-auto">
                 We'll write you back within 24 hours, most of the time within four.
-                In the meantime: we know we owe you a real response, not a thank-you template.
+                And it'll come from a person, not an auto-responder.
               </p>
             `;
             form.replaceWith(sent);
@@ -434,8 +434,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
         <Eyebrow>Or just talk</Eyebrow>
         <h2 class="mt-6 mb-6">Rather book a call?</h2>
         <p class="lede mx-auto mb-10">
-          A 30-minute discovery call, free, no pitch deck, just a real
-          conversation about what you're trying to build.
+          A free 30-minute discovery call. No pitch deck, just a conversation
+          about what you're trying to build.
         </p>
         <Button href={calendlyUrl} variant="primary" size="lg" external>
           Book a discovery call

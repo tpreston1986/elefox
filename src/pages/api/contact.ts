@@ -308,9 +308,9 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const name = get("name");
   const email = get("email");
 
-  if (!name) return json({ ok: false, error: "Name is required." }, 400);
+  if (!name) return json({ ok: false, error: "We need your name so we know who to write back to." }, 400);
   if (!email || !isEmail(email))
-    return json({ ok: false, error: "A valid email is required." }, 400);
+    return json({ ok: false, error: "That email doesn't look quite right. Mind checking it?" }, 400);
 
   const serviceValues = fd
     .getAll("services")

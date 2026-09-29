@@ -37,9 +37,9 @@ export const services: Record<string, Service> = {
     title: "Websites that earn their keep.",
     titleAccent: "earn their keep",
     oneLiner:
-      "Sites built for the way you actually sell. Fast, clear, ready to convert.",
+      "Sites that load fast, explain what you do, and make it easy for people to reach you.",
     description:
-      "From a tight one-pager to a full conversion engine. Every site ships with real SEO and accessible markup. CMS-editable from the Growth Site tier up.",
+      "Anything from a tight one-pager to a full site built to bring in leads. Every site ships with proper SEO and accessible markup, and from the Growth Site tier up, you can edit it yourself.",
     tiers: [
       {
         name: "Starter Lead Site",
@@ -59,7 +59,7 @@ export const services: Record<string, Service> = {
         blurb: "Five to seven pages with lead funnels and a real CMS.",
         badge: "Most Popular",
         features: [
-          "5–7 pages",
+          "5 to 7 pages",
           "Service area + testimonial pages",
           "Lead capture funnels",
           "Editable CMS (we'll show you the ropes)",
@@ -97,9 +97,9 @@ export const services: Record<string, Service> = {
     title: "Apps and games that actually ship.",
     titleAccent: "actually ship",
     oneLiner:
-      "iOS and Android apps, and mobile games, designed, built, and shipped to the stores.",
+      "iOS and Android apps (and mobile games), designed, built, and shipped to the stores.",
     description:
-      "We've shipped real mobile apps and games, from first idea to a live listing in the App Store and Google Play. Native-feeling, fast, and built to be updated, not abandoned the week after launch.",
+      "We've taken mobile apps and games from first idea to a live listing in the App Store and Google Play. They feel native, they run fast, and they're built to keep getting updates instead of being abandoned the week after launch.",
     tiers: [
       {
         name: "App MVP",
@@ -111,7 +111,7 @@ export const services: Record<string, Service> = {
           "Core feature set, scoped tight",
           "Real backend + data",
           "Store submission handled",
-          "4–6 week typical build",
+          "4 to 6 week typical build",
         ],
       },
       {
@@ -119,7 +119,7 @@ export const services: Record<string, Service> = {
         price: "From $12,000",
         cadence: "+ hosting from $50/mo",
         badge: "Most Popular",
-        blurb: "One codebase, both stores. The full app, iOS and Android together.",
+        blurb: "The full app from one codebase, live in both the App Store and Google Play.",
         features: [
           "iOS + Android from one codebase",
           "Push, auth, payments as needed",
@@ -158,15 +158,15 @@ export const services: Record<string, Service> = {
     title: "The custom software your team actually wants to use.",
     titleAccent: "wants to use",
     oneLiner:
-      "Custom software for teams no off-the-shelf tool fits — CRMs, client portals, booking systems, and the internal tools that hold it all together.",
+      "Custom software for teams that no off-the-shelf tool fits: CRMs, client portals, booking systems, and the internal tools that hold it all together.",
     description:
-      "Off-the-shelf software makes you adapt to it — the same fields, the same workflow, the same vocabulary as every other customer. We build the opposite: software shaped to your terminology, your process, and the way you actually work. Hosted, supported, and yours.",
+      "Off-the-shelf software makes you adapt to it: the same fields, the same workflow, and the same vocabulary as every other customer. We flip that around and build it around your terminology and your process. We host it, we support it, and it's yours.",
     tiers: [
       {
         name: "Custom CRM",
         price: "From $3,500",
         cadence: "+ hosting from $50/mo",
-        blurb: "For relationship-driven businesses. Yours forever, hosted by us, shaped to how your team actually tracks people and follow-ups.",
+        blurb: "For relationship-driven businesses. It tracks people and follow-ups the way your team already does. We host it, and it's yours for good.",
         features: [
           "Discovery + scoping session",
           "Custom fields, stages, automations",
@@ -198,7 +198,7 @@ export const services: Record<string, Service> = {
           "Discovery → build → operate",
           "Integrates with what you have",
           "Built for your real workflow",
-          "Optional AI augmentation",
+          "Optional AI features where they help",
         ],
       },
     ],
@@ -276,9 +276,9 @@ export const services: Record<string, Service> = {
     name: "Branding",
     title: "Brand that reads as professional, and feels like you.",
     titleAccent: "feels like you",
-    oneLiner: "Brand kits, social systems, and marketing infrastructure for the long haul.",
+    oneLiner: "Brand kits, social templates, and newsletters that keep you looking like you, everywhere.",
     description:
-      "Strong brand isn't a logo, it's a system. We build the kit, the templates, and the production rhythm so your business looks consistent everywhere.",
+      "A logo is just the start. We build the kit, the templates, and the routine that keep your business looking consistent everywhere you show up.",
     tiers: [
       {
         name: "Brand Creation",
@@ -321,8 +321,8 @@ export const services: Record<string, Service> = {
         cadence: "/month",
         blurb: "Monthly drop of fresh branded assets so you keep posting.",
         features: [
-          "10–15 new assets per month",
-          "Tailored to upcoming campaigns",
+          "10 to 15 new assets per month",
+          "Made for your upcoming campaigns",
           "Quick-turn requests included",
         ],
       },
@@ -346,7 +346,7 @@ export const services: Record<string, Service> = {
     oneLiner:
       "For founders who need brand, site, app, and the systems behind them, without hiring five vendors to wrangle.",
     description:
-      "When you're just getting off the ground, you don't need five freelancers and a project manager to herd them. We're one studio that takes an early-stage business from idea to launched: brand, website, product, and the tools to run it, built together so they actually fit.",
+      "When you're just getting off the ground, you don't need five freelancers and a project manager to herd them. We're one studio that takes an early-stage business from idea to launched: brand, website, product, and the tools to run it, built together so everything fits.",
     tiers: [
       {
         name: "Launch Package",
@@ -390,12 +390,12 @@ export const services: Record<string, Service> = {
   ai: {
     slug: "ai",
     name: "AI & automation",
-    title: "AI, where it earns its keep.",
-    titleAccent: "earns its keep",
+    title: "AI, but only where it helps.",
+    titleAccent: "where it helps",
     oneLiner:
       "We help you figure out where AI fits in your business, and quietly wire it in.",
     description:
-      "AI isn't a product we sell. It's a capability we help you use. Tell us your bottleneck and we'll show you whether automation actually solves it, and if it does, we'll scope and build a pilot. No chatbots on every page, no AI for AI's sake.",
+      "Tell us what's eating your team's time and we'll tell you straight whether automation can fix it. If it can, we scope a small pilot and build it. If it can't, we'll say so, and nobody gets a chatbot they didn't need.",
     good: [
       "You have repetitive work eating your team's hours",
       "You've tried an AI tool but it didn't fit your real workflow",

@@ -68,7 +68,7 @@ const next = projects[(idx + 1) % projects.length];
               <span class:list={["text-xs px-3 py-1 rounded-pill border", t.tag]}>{s}</span>
             ))}
             {project.status && (
-              <span class="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.14em] opacity-90 ml-1">
+              <span class="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-[0.12em] opacity-90 ml-1">
                 <span class="w-1.5 h-1.5 rounded-full bg-signal animate-pulse" />
                 {project.status}
               </span>
@@ -192,9 +192,9 @@ const next = projects[(idx + 1) % projects.length];
             <Eyebrow>What we built</Eyebrow>
           </div>
           <ol data-reveal-stagger class="lg:col-span-8 border-t border-fog">
-            {project.built.map((item, i) => (
-              <li class="flex gap-5 md:gap-8 py-5 md:py-6 border-b border-fog">
-                <span class="shrink-0 w-8 pt-1 font-mono text-xs text-graphite tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+            {project.built.map((item) => (
+              <li class="flex gap-4 md:gap-5 py-5 md:py-6 border-b border-fog">
+                <span class="shrink-0 mt-[0.6em] w-1.5 h-1.5 rounded-full bg-ember" aria-hidden="true" />
                 <span class="text-lg md:text-xl text-ink leading-snug">{item}</span>
               </li>
             ))}
@@ -294,7 +294,7 @@ const next = projects[(idx + 1) % projects.length];
   </section>
 
   <EndCTA
-    heading="Want something like this, built for you?"
+    heading="Want one of these for your business?"
     primary={{ label: "Start a project", href: "/contact" }}
     secondary={{ label: "Get a free audit", href: "/audit" }}
   />
