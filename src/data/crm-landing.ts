@@ -73,7 +73,7 @@ const SHARED_CHIPS: ProofChip[] = [
   { label: "Build from", value: "$3,500" },
   { label: "Hosting", value: "$50/mo" },
   { label: "Team size", value: "No per-seat fees" },
-  { label: "Live in", value: "4–6 weeks" },
+  { label: "Live in", value: "4 to 6 weeks" },
 ];
 
 export const realtor: LandingData = {
@@ -90,11 +90,11 @@ export const realtor: LandingData = {
   headlineAccent: "real estate",
   headlineTail: " actually works.",
   subhead:
-    "Every lead, deal, and follow-up in one place, built around your pipeline and your closings instead of a generic sales funnel. Your whole team included, no per-seat fees, hosted by us.",
+    "Every lead, deal, and follow-up in one place, built around your pipeline and your closings instead of a generic sales funnel. Your whole team gets in with no per-seat fees, and we handle the hosting.",
   proofChips: SHARED_CHIPS,
   bullets: [
     "Full migration from your current CRM",
-    "Built around how you actually work",
+    "Set up around your pipeline, not a template",
     "Your whole team, unlimited logins",
     "Works on your phone, between showings",
   ],
@@ -113,11 +113,11 @@ export const realtor: LandingData = {
 
   featuresTitle: "What you get.",
   featuresIntro:
-    "A CRM shaped to your business: your pipeline stages, your fields, your follow-up cadence. Here's what's inside.",
+    "A CRM shaped to your business: your pipeline stages, your fields, your follow-up cadence.",
   features: [
     {
       title: "Your real pipeline",
-      body: "Lead, nurture, active, under contract, closed, whatever your stages are. Move deals through a board that matches how you actually work.",
+      body: "Lead, nurture, active, under contract, closed, whatever your stages are. Drag deals across a board laid out the way you already sell.",
     },
     {
       title: "Every contact in one place",
@@ -205,7 +205,7 @@ export const realtor: LandingData = {
     },
     {
       q: "Is there really no per-seat fee?",
-      a: "Correct. You pay once for the build and a flat monthly hosting fee starting at $50. Add as many agents, assistants, and coordinators as you want, the price doesn't change.",
+      a: "Yep, really. You pay once for the build and a flat monthly hosting fee starting at $50. Add as many agents, assistants, and coordinators as you want. The price doesn't change.",
     },
     {
       q: "Does it work on my phone?",
@@ -217,7 +217,7 @@ export const realtor: LandingData = {
     },
     {
       q: "Do I own it?",
-      a: "Yes. It's built for you and it's yours. No vendor raising prices or changing features out from under you. We host and support it, but the system is yours.",
+      a: "Yes. No vendor can raise your price or change features out from under you. We host and support it, but the system belongs to you.",
     },
     {
       q: "Do I need to be technical?",
@@ -247,7 +247,7 @@ export const contractor: LandingData = {
   headlineAccent: "contractors",
   headlineTail: " actually work.",
   subhead:
-    "Estimates, jobs, scheduling, and invoices in one place, built around how your crew actually runs a job instead of a generic sales funnel. Your whole team included, no per-seat fees, hosted by us.",
+    "Estimates, jobs, scheduling, and invoices in one place, built around how your crew actually runs a job instead of a generic sales funnel. Your whole team gets in with no per-seat fees, and we handle the hosting.",
   proofChips: SHARED_CHIPS,
   bullets: [
     "Quote to job to invoice in one place",
@@ -270,7 +270,7 @@ export const contractor: LandingData = {
 
   featuresTitle: "What you get.",
   featuresIntro:
-    "A CRM shaped to your business: your job stages, your crews, your invoicing. Here's what's inside.",
+    "A CRM shaped to your business: your job stages, your crews, your invoicing.",
   features: [
     {
       title: "Estimates to jobs",
@@ -360,7 +360,7 @@ export const contractor: LandingData = {
     },
     {
       q: "Is there really no per-seat fee?",
-      a: "Correct. You pay once for the build and a flat monthly hosting fee starting at $50. Add as many office staff and field crew as you want, the price doesn't change.",
+      a: "Yep, really. You pay once for the build and a flat monthly hosting fee starting at $50. Add as many office staff and field crew as you want. The price doesn't change.",
     },
     {
       q: "Can my crew use it in the field?",
@@ -376,7 +376,7 @@ export const contractor: LandingData = {
     },
     {
       q: "Do I own it?",
-      a: "Yes. It's built for you and it's yours. No vendor raising prices or changing features out from under you. We host and support it, but the system is yours.",
+      a: "Yes. No vendor can raise your price or change features out from under you. We host and support it, but the system belongs to you.",
     },
   ],
 
@@ -402,11 +402,11 @@ export const general: LandingData = {
   headlineAccent: "your business",
   headlineTail: " actually works.",
   subhead:
-    "Every lead, customer, and follow-up in one place, built around how your business actually runs instead of a generic template. Your whole team included, no per-seat fees, hosted by us.",
+    "Every lead, customer, and follow-up in one place, built around how your business actually runs instead of a generic template. Your whole team gets in with no per-seat fees, and we handle the hosting.",
   proofChips: SHARED_CHIPS,
   bullets: [
     "Full migration from your current tools",
-    "Built around how you actually work",
+    "Set up around your pipeline, not a template",
     "Your whole team, unlimited logins",
     "Works anywhere, on any device",
   ],
@@ -425,11 +425,11 @@ export const general: LandingData = {
 
   featuresTitle: "What you get.",
   featuresIntro:
-    "A CRM shaped to your business: your pipeline stages, your fields, your follow-up cadence. Here's what's inside.",
+    "A CRM shaped to your business: your pipeline stages, your fields, your follow-up cadence.",
   features: [
     {
       title: "Your real pipeline",
-      body: "Whatever your stages are, from first contact to closed. Move deals through a board that matches how you actually work.",
+      body: "Whatever your stages are, from first contact to closed. Drag deals across a board laid out the way you already sell.",
     },
     {
       title: "Every contact in one place",
@@ -515,7 +515,7 @@ export const general: LandingData = {
     },
     {
       q: "Is there really no per-seat fee?",
-      a: "Correct. You pay once for the build and a flat monthly hosting fee starting at $50. Add as many people as you want, the price doesn't change.",
+      a: "Yep, really. You pay once for the build and a flat monthly hosting fee starting at $50. Add as many people as you want. The price doesn't change.",
     },
     {
       q: "Does it work on every device?",
@@ -527,7 +527,7 @@ export const general: LandingData = {
     },
     {
       q: "Do I own it?",
-      a: "Yes. It's built for you and it's yours. No vendor raising prices or changing features out from under you. We host and support it, but the system is yours.",
+      a: "Yes. No vendor can raise your price or change features out from under you. We host and support it, but the system belongs to you.",
     },
     {
       q: "Do I need to be technical?",
@@ -562,7 +562,7 @@ export const therapist: LandingData = {
     { label: "Build from", value: "$3,500" },
     { label: "Compliance", value: "HIPAA-compliant" },
     { label: "Team size", value: "No per-clinician fees" },
-    { label: "Live in", value: "4–6 weeks" },
+    { label: "Live in", value: "4 to 6 weeks" },
   ],
   bullets: [
     "HIPAA-compliant, hosted on AWS (signed BAA)",
@@ -585,7 +585,7 @@ export const therapist: LandingData = {
 
   featuresTitle: "What you get.",
   featuresIntro:
-    "A system shaped to your practice: your intake questions, your scheduling, your notes, your billing. Here's what's inside.",
+    "A system shaped to your practice: your intake questions, your scheduling, your notes, your billing.",
   features: [
     {
       title: "HIPAA-compliant by design",
@@ -673,11 +673,11 @@ export const therapist: LandingData = {
     },
     {
       q: "Is there really no per-clinician fee?",
-      a: "Correct. You pay once for the build and a flat monthly hosting fee starting at $50. Add as many clinicians and admins as your practice needs, the price doesn't change.",
+      a: "Yep, really. You pay once for the build and a flat monthly hosting fee starting at $50. Add as many clinicians and admins as your practice needs. The price doesn't change.",
     },
     {
       q: "Is it HIPAA-compliant?",
-      a: "Yes. It's hosted on AWS under a signed Business Associate Agreement (BAA), with encryption in transit and at rest, role-based access so staff only see what they should, and activity logging. Client privacy and HIPAA compliance are built into the foundation, not added on after.",
+      a: "Yes. It's hosted on AWS under a signed Business Associate Agreement (BAA), with encryption in transit and at rest, role-based access so staff only see what they should, and activity logging.",
     },
     {
       q: "Does it work on every device?",
@@ -689,7 +689,7 @@ export const therapist: LandingData = {
     },
     {
       q: "Do I own it?",
-      a: "Yes. It's built for you and it's yours. No vendor raising prices or changing features out from under you. We host and support it, but the system is yours.",
+      a: "Yes. No vendor can raise your price or change features out from under you. We host and support it, but the system belongs to you.",
     },
   ],
 
@@ -699,7 +699,7 @@ export const therapist: LandingData = {
     desktopSrc: "/walkthroughs/therapy-desktop/index.html",
     mobileSrc: "/walkthroughs/therapy-mobile/index.html",
     eyebrow: "A look inside",
-    heading: "Built for the desk and the field.",
+    heading: "At the front desk and on your phone.",
     description:
       "Same practice CRM, running on the desktop your team uses and the phone you check between sessions.",
   },

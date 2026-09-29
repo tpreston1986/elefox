@@ -93,7 +93,7 @@ export const projects: Project[] = [
       { label: "Stage", value: "Live" },
     ],
     overview:
-      "Etchra takes the mess out of booking tattoo clients. Requests, quotes, times, deposits, and a calendar, all in one link the artist owns. We built every piece of it, brand, product, and code: a request form that arrives ready to quote, a quote-and-times flow the artist can send from the chair, deposits that go straight to the artist, and a calendar that thinks in sessions. Flat monthly price, no cut of deposits, no fee on the client.",
+      "Etchra takes the mess out of booking tattoo clients. Requests, quotes, times, deposits, and a calendar, all in one link the artist owns. We built every piece of it (brand, product, and code): a request form that arrives ready to quote, a quote-and-times flow the artist can send from the chair, deposits that go straight to the artist, and a calendar that thinks in sessions. Flat monthly price, no cut of deposits, no fee on the client.",
     challenge:
       "Tattoo booking runs on DMs, screenshots, and a notes app. Artists lose requests, chase deposits, and hand a percentage to booking tools that treat them like a marketplace. The job was to replace all of that with one link, without taking a cut of the artist's money or putting a fee in front of their clients.",
     solution:
@@ -143,7 +143,7 @@ export const projects: Project[] = [
     overview:
       "Cloud Clean Laundry is a wash-and-fold pickup and delivery service in Charlotte, NC. \"We pick up. We wash. You relax.\" The owner needed more than a website. They needed the whole business to run from one place, so that's what we built: the brand, the marketing site, a booking flow, and an owner portal, in one app they actually own. No per-seat SaaS and no monthly tool stack.",
     challenge:
-      "A wash-and-fold owner didn't need a website. They needed the business to run from one place: take a pickup, confirm it, invoice it, get paid. No pile of monthly tools, no per-seat bill, and simple enough for one non-technical person to run solo.",
+      "The owner wanted to take a pickup, confirm it, invoice it, and get paid, all from one place. No pile of monthly tools, no per-seat bill, and simple enough for one non-technical person to run solo.",
     solution:
       "One app the owner owns. Customers book a pickup as a guest, no account needed, so nothing slows a new customer down. Every request lands in the owner portal as a lead, and the owner runs the whole confirm-to-paid loop from there. Square handles invoices and payment, and a webhook marks things paid the moment they are. The marketing site, booking flow, and portal are all one codebase.",
     built: [
@@ -306,7 +306,7 @@ export const projects: Project[] = [
       { label: "Year", value: "2026" },
     ],
     overview:
-      "RKG Therapy is a Coral Springs practice offering individual, couples, and family therapy, in person and online. The brief was simple: feel human, not clinical. A lot of people searching for a therapist are already anxious, and the site needed to meet them there, not make it worse. The result is a warm editorial design with bold serif type, lavender and cream tones, and copy written for someone who has never done this before.",
+      "RKG Therapy is a Coral Springs practice offering individual, couples, and family therapy, in person and online. The brief was simple: feel human, not clinical.",
     challenge:
       "People looking for a therapist are often already anxious, and a cold, clinical site makes it worse. RKG needed to feel human the second you land, and to make booking feel like a small step instead of a leap.",
     solution:
@@ -349,7 +349,7 @@ export const projects: Project[] = [
     overview:
       "Most small studios cobble together five different tools to run the business, and clients feel every seam. We built one thing that does all of it. The client side gives every client a private space to track project status, sign contracts, pay invoices, grab files, and message us. The admin side is where we run clients, leads, quotes, projects, approvals, and settings. Fully branded and self-hosted.",
     challenge:
-      "Five disconnected tools, and clients feel every one of them. The goal was one place where a client tracks a project, signs, pays, and grabs files, with the studio running leads, quotes, projects, and approvals right behind it.",
+      "The goal was one place where a client tracks a project, signs, pays, and grabs files, with the studio running leads, quotes, projects, and approvals right behind it.",
     solution:
       "Two sides, one system. A client-facing portal and a full admin CRM behind it. Role-based access so clients only ever see their own data, Stripe for paying inside the portal, secure file handoff, and all of it self-hosted, so there are no per-seat fees to anyone.",
     built: [
@@ -393,7 +393,7 @@ export const projects: Project[] = [
     overview:
       "Chenoa McGee is a South Florida graphic designer and developer with 15 years under her belt. She had the portfolio; she needed the site to match. The brief was elegance and conversion: a refined editorial look as polished as her work, paired with a six-step intake that helps clients self-qualify and arrive ready to go.",
     challenge:
-      "Fifteen years of expertise and no site to match. She needed something as polished as her work, and a way to bring in the right clients instead of every client.",
+      "She needed a site as polished as her work, and a way to bring in the right clients instead of every client.",
     solution:
       "A refined editorial design paired with a six-step intake that helps people self-qualify before the first call. Built in Astro so it stays fast and light.",
     built: [
@@ -425,7 +425,7 @@ export const projects: Project[] = [
       { label: "For", value: "Salons & studios" },
     ],
     overview:
-      "Booking and client management for salons and studios: appointments, client history, and the front-of-house flow in one place.",
+      "Appointments, client history, and the whole front-of-house flow, all in one place.",
     tech: [
       { group: "Development", items: ["Next.js", "Prisma", "Postgres", "Railway"] },
     ],
@@ -469,7 +469,7 @@ export const projects: Project[] = [
       { label: "Stage", value: "Live demo" },
     ],
     overview:
-      "Jobs, crews, quotes, and invoices for contractors. The moving parts of a build, tracked without a whiteboard and three group texts.",
+      "All the moving parts of a build, tracked without a whiteboard and three group texts.",
     tech: [
       { group: "Development", items: ["Next.js", "Prisma", "Postgres", "Railway"] },
     ],

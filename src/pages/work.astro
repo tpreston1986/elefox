@@ -29,7 +29,7 @@ const filters = ["All", ...SERVICES];
           <p class="lede mt-8 text-xl max-w-2xl">
             Sites and apps for real small businesses, plus a few products of
             our own that we built because we wanted them to exist. Most are
-            live. A couple are still in the lab.
+            live, and a few are still in the lab.
           </p>
         </div>
       </div>
@@ -68,7 +68,7 @@ const filters = ["All", ...SERVICES];
         {
           projects.map((p, i) => (
             <article class:list={["work-card", i % 3 === 1 && "is-mid"]} data-services={p.services.join("|")}>
-              <WorkCard project={p} />
+              <WorkCard project={p} headingLevel="h2" />
             </article>
           ))
         }
