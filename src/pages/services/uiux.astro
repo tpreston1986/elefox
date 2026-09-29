@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ServiceHero from "../../components/ServiceHero.astro";
+import TierGrid from "../../components/TierGrid.astro";
+import EndCTA from "../../components/EndCTA.astro";
+import { services } from "../../data/services";
+
+const s = services.uiux;
+---
+
+<BaseLayout title="UI/UX design" description={s.description}>
+  <ServiceHero
+    index="04"
+    category={s.name}
+    title={s.title}
+    titleAccent={s.titleAccent}
+    description={s.description}
+  />
+
+  <TierGrid
+    tiers={s.tiers ?? []}
+    eyebrow="How we design"
+    heading="Wireframe to build-ready, however deep you need."
+  />
+
+
+  <EndCTA
+    heading="Have a product that could be clearer? Let's design it."
+    primary={{ label: "Start a design project", href: "/contact?service=uiux" }}
+  />
+</BaseLayout>

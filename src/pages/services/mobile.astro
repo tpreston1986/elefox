@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ServiceHero from "../../components/ServiceHero.astro";
+import TierGrid from "../../components/TierGrid.astro";
+import EndCTA from "../../components/EndCTA.astro";
+import { services } from "../../data/services";
+
+const s = services.mobile;
+---
+
+<BaseLayout title="Mobile development" description={s.description}>
+  <ServiceHero
+    index="02"
+    category={s.name}
+    title={s.title}
+    titleAccent={s.titleAccent}
+    description={s.description}
+  />
+
+  <TierGrid
+    tiers={s.tiers ?? []}
+    eyebrow="What we build"
+    heading="From a first app to a game with real players."
+  />
+
+
+  <EndCTA
+    heading="Got an app or game to ship? Let's scope it."
+    primary={{ label: "Start a mobile project", href: "/contact?service=mobile" }}
+  />
+</BaseLayout>

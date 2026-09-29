@@ -2,7 +2,6 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ServiceHero from "../../components/ServiceHero.astro";
 import TierGrid from "../../components/TierGrid.astro";
-import FitCheck from "../../components/FitCheck.astro";
 import EndCTA from "../../components/EndCTA.astro";
 import { services } from "../../data/services";
 
@@ -27,7 +26,6 @@ const s = services.brand;
     heading="Brand as a system, not a one-off."
   />
 
-  <FitCheck good={s.good} skip={s.skip} />
 
   <EndCTA
     heading="Want to look as professional as you actually are?"

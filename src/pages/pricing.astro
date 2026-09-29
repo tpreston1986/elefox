@@ -5,13 +5,13 @@ import Eyebrow from "../components/Eyebrow.astro";
 import Button from "../components/Button.astro";
 import EndCTA from "../components/EndCTA.astro";
 import HeroAtmosphere from "../components/HeroAtmosphere.astro";
-import { services } from "../data/services";
+import { menuServices } from "../data/services";
 
-const allTiers = [
-  { category: "Sites", tiers: services.websites.tiers ?? [] },
-  { category: "Custom software", tiers: services.software.tiers ?? [] },
-  { category: "Brand & marketing", tiers: services.brand.tiers ?? [] },
-];
+// Capability pricing, straight from the mirrored services menu.
+const allTiers = menuServices.map((s) => ({
+  category: s.name,
+  tiers: s.tiers ?? [],
+}));
 
 const retainers = [
   { name: "Site Care", price: "$200", cadence: "/month", blurb: "Content updates, security, analytics, priority turnaround on small changes." },
@@ -20,7 +20,7 @@ const retainers = [
 ];
 ---
 
-<BaseLayout title="Pricing" description="Transparent pricing for websites, custom software, brand systems, and ongoing support.">
+<BaseLayout title="Pricing" description="Transparent pricing for two flagship offers and seven services — plus ongoing support.">
   <section class="pt-2 md:pt-4">
     <Container size="full">
       <div data-glow class="relative overflow-hidden rounded-[28px] md:rounded-[44px] pt-28 md:pt-36 pb-16 md:pb-24 px-6 md:px-12 bg-gradient-to-b from-[#FBF1E9] via-[#F8ECE0] to-[#F2E2D2]">
@@ -29,7 +29,7 @@ const retainers = [
           <Eyebrow>Pricing</Eyebrow>
           <h1 data-split class="display-xl mt-6 max-w-[18ch] mx-auto">
             Honest numbers. No
-            <span class="text-gradient-flow">surprise scope</span>.
+            <span class="whitespace-nowrap"><span class="text-gradient-flow">surprise scope</span>.</span>
           </h1>
           <p class="lede mt-10 text-xl max-w-3xl mx-auto text-center">
             Every build has a fixed-fee deposit (50% to start, 50% on delivery)
@@ -41,9 +41,36 @@ const retainers = [
     </Container>
   </section>
 
-  <!-- All tier categories -->
+  <!-- Free audit banner -->
+  <section class="py-10 md:py-14">
+    <Container size="full" data-reveal>
+      <a href="/audit" class="group relative block bg-forest text-bone rounded-[24px] px-6 md:px-12 py-10 md:py-12 overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+          <div class="lg:col-span-8">
+            <span class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.14em] text-bone/70 mb-4">
+              <span class="w-1.5 h-1.5 rounded-full bg-ember"></span>
+              Free · No strings
+            </span>
+            <h2 class="text-2xl md:text-4xl text-bone tracking-tight max-w-[22ch]">
+              Not sure where to start? Get a free website audit.
+            </h2>
+          </div>
+          <div class="lg:col-span-4 lg:text-right">
+            <span class="inline-flex items-center gap-2 px-6 py-3.5 bg-bone text-ink rounded-pill text-lg font-medium group-hover:gap-3 transition-all">
+              Get my free audit
+              <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+      </a>
+    </Container>
+  </section>
+
+  <!-- All capability tier categories -->
   {
-    allTiers.map((group, gi) => (
+    allTiers.map((group) => (
       <section class="py-16 md:py-24">
         <Container size="full" data-reveal>
           <div class="mb-12">
@@ -75,32 +102,6 @@ const retainers = [
       </section>
     ))
   }
-
-  <!-- AI -->
-  <section class="py-16 md:py-24">
-    <Container size="full" data-reveal>
-      <div class="mb-12">
-        <Eyebrow>AI & automation</Eyebrow>
-      </div>
-
-      <div class="bg-ink text-bone rounded-xl p-10 md:p-16">
-        <p class="text-2xl md:text-3xl font-display tracking-tight leading-tight max-w-3xl text-bone">
-          AI engagements are priced bespoke after we scope the actual problem.
-          No tiers, no menu, no figure before we understand the work. Tell us
-          where the bottleneck is and we'll show you whether AI is even the
-          right answer.
-        </p>
-        <div class="mt-10">
-          <a
-            href="/services/ai"
-            class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-transparent text-bone border-2 border-bone/70 rounded-pill font-medium hover:bg-bone hover:text-ink transition-colors"
-          >
-            How we engage on AI →
-          </a>
-        </div>
-      </div>
-    </Container>
-  </section>
 
   <!-- Retainers -->
   <section class="py-16 md:py-24">

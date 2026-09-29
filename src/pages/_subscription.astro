@@ -1,0 +1,171 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import Button from "../components/Button.astro";
+import TierGrid from "../components/TierGrid.astro";
+import EndCTA from "../components/EndCTA.astro";
+import FitCheck from "../components/FitCheck.astro";
+import HeroAtmosphere from "../components/HeroAtmosphere.astro";
+import type { Tier } from "../data/services";
+
+// NOTE(Tiffany): monthly prices are placeholders — leveled up from your
+// existing $200/mo Ongoing Social Assets tier and scaled to a small-biz buyer.
+// Set your real numbers before this goes live.
+const plans: Tier[] = [
+  {
+    name: "Lite",
+    price: "$500",
+    cadence: "/month",
+    blurb: "A steady stream of on-brand assets so you never go quiet.",
+    features: [
+      "Social posts, stories, carousels",
+      "Quick-turn graphics + decks",
+      "One active request at a time",
+      "2–3 day turnaround",
+      "Pause or cancel anytime",
+    ],
+  },
+  {
+    name: "Studio",
+    price: "$1,200",
+    cadence: "/month",
+    badge: "Most Popular",
+    blurb: "Your whole brand, handled — like an in-house designer on tap.",
+    features: [
+      "Everything in Lite",
+      "Brand collateral + print",
+      "Email + newsletter design",
+      "Two active requests at a time",
+      "Priority turnaround",
+    ],
+  },
+  {
+    name: "Custom",
+    price: "Custom",
+    blurb: "Design plus the build, for a brand that's moving fast.",
+    features: [
+      "Everything in Studio",
+      "Web + landing pages",
+      "Product / UI design",
+      "SEO + light dev",
+      "Scoped to your roadmap",
+    ],
+  },
+];
+
+const steps = [
+  { t: "Subscribe", p: "Pick a plan and you're set up the same day. No scoping calls, no statements of work for every little thing." },
+  { t: "Request", p: "Send requests as they come up, one queue, plain English. Add as many as you like; we work them in order." },
+  { t: "Receive", p: "On-brand work back in days, not weeks. Revise until it's right. Pause the month you don't need us." },
+];
+
+const good = [
+  "You need design constantly but not a full-time hire",
+  "Freelancers keep ghosting or quoting every tiny thing",
+  "You want one team that already knows your brand",
+];
+const skip = [
+  "You need one logo and then nothing for a year",
+  "You want the design team in your Slack 9-to-5",
+  "You have zero brand direction and need strategy first",
+];
+---
+
+<BaseLayout
+  title="Creative Services Subscription"
+  description="Design on demand — a monthly plan for on-brand design, from social to full campaigns. Like an in-house design team, without the overhead."
+>
+  <!-- Hero -->
+  <section class="pt-2 md:pt-4">
+    <Container size="full">
+      <div
+        data-glow
+        class="relative overflow-hidden rounded-[28px] md:rounded-[44px] pt-28 md:pt-36 pb-16 md:pb-24 px-6 md:px-12 bg-gradient-to-b from-[#FBF1E9] via-[#F8ECE0] to-[#F2E2D2]"
+      >
+        <HeroAtmosphere warm />
+        <div class="relative z-10 text-center max-w-4xl mx-auto">
+          <div class="mb-8 flex justify-center">
+            <span class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.14em] text-forest bg-bone border border-forest/25 px-4 py-1.5 rounded-pill">
+              <span class="w-1.5 h-1.5 rounded-full bg-ember"></span>
+              Flagship offer · Monthly
+            </span>
+          </div>
+
+          <h1 data-split class="display-xl text-ink max-w-[15ch] mx-auto">
+            Design
+            <span class="text-gradient-flow">on demand</span>, ready when you are.
+          </h1>
+
+          <p class="lede mt-10 text-xl md:text-2xl max-w-3xl mx-auto text-center">
+            A monthly plan for all your design work — social to full campaigns.
+            Request what you need, get it back in days, scale up or pause anytime.
+            Like an in-house design team, without the overhead.
+          </p>
+
+          <div class="mt-10 flex flex-wrap items-center gap-4 justify-center">
+            <Button href="#plans" size="lg" class="btn-magnetic">See the plans →</Button>
+            <a href="/contact#book" class="inline-flex items-center gap-2 text-forest font-medium hover:gap-3 transition-all">
+              Book a call
+            </a>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- How it works -->
+  <section class="py-20 md:py-28">
+    <Container size="full">
+      <div data-reveal class="max-w-2xl mb-12 md:mb-16">
+        <Eyebrow>How it works</Eyebrow>
+        <h2 data-split class="mt-6">Three steps, no drama.</h2>
+      </div>
+      <div data-reveal-stagger class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+        {
+          steps.map((s, i) => (
+            <div class="rounded-2xl border border-fog bg-white p-8">
+              <span class="text-2xl font-display font-bold text-forest tabular-nums">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 class="text-xl md:text-2xl text-ink mt-4 mb-3">{s.t}</h3>
+              <p class="text-graphite leading-relaxed">{s.p}</p>
+            </div>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <!-- Plans -->
+  <div id="plans" class="scroll-mt-24">
+    <TierGrid tiers={plans} eyebrow="Plans" heading="Pick a plan. Change it whenever." />
+  </div>
+
+  <!-- Why a subscription -->
+  <section class="py-6 md:py-10">
+    <Container size="full">
+      <div class="bg-forest-wash rounded-[28px] md:rounded-[40px] px-6 md:px-16 py-16 md:py-24">
+        <div data-reveal class="max-w-3xl">
+          <Eyebrow>Why a subscription</Eyebrow>
+          <h2 data-split class="mt-6">Cheaper than a hire. Steadier than a freelancer.</h2>
+          <p class="lede mt-8 text-xl">
+            A full-time designer is a salary, benefits, and slow weeks you still
+            pay for. Freelancers mean re-explaining your brand every time and
+            haggling over every request. A subscription is a flat monthly rate,
+            a team that already knows your brand, and the freedom to pause the
+            month things go quiet.
+          </p>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <FitCheck good={good} skip={skip} />
+
+  <EndCTA
+    heading="Ready to stop scrambling for design?"
+    primary={{ label: "Book a call", href: "/contact#book" }}
+    secondary={{ label: "Start a subscription", href: "/contact?service=subscription" }}
+  />
+</BaseLayout>
