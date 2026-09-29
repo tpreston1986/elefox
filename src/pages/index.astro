@@ -8,6 +8,8 @@ import CrmPipeline from "../components/composites/CrmPipeline.astro";
 import WebsiteMock from "../components/composites/WebsiteMock.astro";
 import AutomationFlow from "../components/composites/AutomationFlow.astro";
 import BrandKit from "../components/composites/BrandKit.astro";
+import WorkCard from "../components/WorkCard.astro";
+import { featuredProjects } from "../data/work";
 import { allServices } from "../data/services";
 
 // Which tool mockup illustrates each service, keyed by slug.
@@ -328,6 +330,53 @@ const faqs = [
         });
       })();
     </script>
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Selected work, three live builds as work cards. Three across on     -->
+  <!-- desktop with the middle one dropped, a swipe row below that.         -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="pt-20 md:pt-32 pb-4 lg:pb-20" id="work">
+    <Container size="full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 mb-12 md:mb-16">
+        <div class="lg:col-span-5">
+          <Eyebrow>Selected work</Eyebrow>
+          <h2 data-split class="mt-6">A few things we've built lately.</h2>
+        </div>
+        <div class="lg:col-span-6 lg:col-start-7 self-end">
+          <p class="lede">
+            A laundry service that books and bills itself. Booking software
+            for tattoo artists. A payroll expert's site he runs without a
+            developer. All three are live.
+          </p>
+          <a
+            href="/work"
+            class="group inline-flex items-center gap-2 mt-7 text-forest font-medium hover:gap-3 transition-all"
+          >
+            See all our work
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 8h11m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </Container>
+
+    <!-- Full-bleed below lg so cards can swipe edge to edge; the gutter comes
+         back as scroll padding so the first card still lines up with the text. -->
+    <div class="mx-auto w-full max-w-[1600px] lg:px-10">
+      <div data-reveal-stagger class="work-strip flex lg:grid lg:grid-cols-3 gap-5 md:gap-8 overflow-x-auto lg:overflow-visible snap-x snap-mandatory px-6 md:px-10 lg:px-0 pb-2">
+        {
+          featuredProjects.map((p, i) => (
+            <div class="shrink-0 w-[84%] sm:w-[62%] md:w-[46%] lg:w-auto snap-start">
+              <div class:list={["h-full", i === 1 && "lg:translate-y-[4.5rem]"]}>
+                <WorkCard project={p} />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
   </section>
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
@@ -732,3 +781,18 @@ const faqs = [
     }
   </script>
 </BaseLayout>
+
+<style>
+  .work-strip {
+    scroll-padding-inline: 1.5rem;
+    scrollbar-width: none;
+  }
+  .work-strip::-webkit-scrollbar {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .work-strip {
+      scroll-padding-inline: 2.5rem;
+    }
+  }
+</style>

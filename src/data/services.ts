@@ -26,9 +26,8 @@ export type Service = {
 // Creative Services Subscription — see /src/pages/mvp.astro & /subscription.astro)
 // followed by the capability services below.
 //
-// NOTE(Tiffany): every dollar figure on the FOUR NEW services (mobile, uiux, qa,
-// early-stage) is a placeholder anchored to your existing web/software pricing.
-// Confirm or change before this goes live.
+// Prices on the mobile, uiux, and early-stage services were anchored to the
+// existing web/software pricing and confirmed as-is on 2026-09-28.
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const services: Record<string, Service> = {

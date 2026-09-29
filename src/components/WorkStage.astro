@@ -1,0 +1,186 @@
+---
+// The drawn part of a work thumbnail: the project's real UI in a browser
+// window rising off the bottom-right edge (plus an optional phone), or its
+// product icon blended into the field. The parent supplies the field color;
+// this only paints the object. Used by WorkCard and the case-study hero.
+import type { Thumb } from "../data/work";
+
+interface Props {
+  thumb: Thumb;
+  class?: string;
+  /** Eager-load when the stage is above the fold (case-study hero). */
+  eager?: boolean;
+}
+
+const { thumb, class: className, eager = false } = Astro.props;
+const loading = eager ? "eager" : "lazy";
+
+// Screenshots with a baked-in margin get cropped by oversizing the image and
+// pulling it up and left. Percent margins resolve against width, so one
+// ratio handles both axes.
+const insetStyle =
+  thumb.kind === "screen" && thumb.inset
+    ? [
+        `width:${((thumb.inset.srcWidth / thumb.inset.width) * 100).toFixed(3)}%`,
+        `margin-left:${((-thumb.inset.left / thumb.inset.width) * 100).toFixed(3)}%`,
+        `margin-top:${((-thumb.inset.top / thumb.inset.width) * 100).toFixed(3)}%`,
+      ].join(";")
+    : undefined;
+---
+
+<div class:list={["ws", className]} aria-hidden="true">
+  {
+    thumb.kind === "screen" ? (
+      <>
+        <div class="ws-window">
+          <div class="ws-chrome">
+            <i />
+            <i />
+            <i />
+          </div>
+          <div class="ws-viewport">
+            {thumb.inset ? (
+              <img src={thumb.src} alt="" loading={loading} decoding="async" class="ws-inset" style={insetStyle} />
+            ) : (
+              <img
+                src={thumb.src}
+                alt=""
+                loading={loading}
+                decoding="async"
+                class="ws-cover"
+                style={`object-position:${thumb.position ?? "left top"}`}
+              />
+            )}
+          </div>
+        </div>
+        {thumb.mobile && (
+          <div class="ws-phone">
+            <img src={thumb.mobile} alt="" loading={loading} decoding="async" />
+          </div>
+        )}
+      </>
+    ) : (
+      <img src={thumb.src} alt="" loading={loading} decoding="async" class="ws-icon" />
+    )
+  }
+</div>
+
+<style>
+  .ws {
+    position: relative;
+    aspect-ratio: 5 / 4;
+    overflow: hidden;
+    --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  /* ── Browser window ──────────────────────────────────────────────── */
+  .ws-window {
+    position: absolute;
+    left: 10%;
+    top: 9%;
+    width: 96%;
+    height: 100%;
+    border-radius: 12px 12px 0 0;
+    background: #fff;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.14),
+      0 44px 80px -28px rgb(0 0 0 / 0.55),
+      0 14px 28px -14px rgb(0 0 0 / 0.35);
+    transition: transform 0.7s var(--ease);
+  }
+  .ws-chrome {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 22px;
+    padding-left: 12px;
+    background: #f4f1ea;
+    border-bottom: 1px solid rgb(0 0 0 / 0.06);
+  }
+  .ws-chrome i {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: rgb(0 0 0 / 0.14);
+  }
+  .ws-viewport {
+    position: absolute;
+    inset: 22px 0 0 0;
+    overflow: hidden;
+  }
+  .ws-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ws-inset {
+    display: block;
+    max-width: none;
+    height: auto;
+  }
+
+  /* ── Phone, overlapping the window's lower-left corner ───────────── */
+  .ws-phone {
+    position: absolute;
+    z-index: 1;
+    left: 4%;
+    bottom: -16%;
+    width: 25%;
+    aspect-ratio: 9 / 19;
+    padding: 5px;
+    border-radius: 22px;
+    background: #0e0f12;
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.12),
+      0 34px 60px -22px rgb(0 0 0 / 0.65);
+    transition: transform 0.85s var(--ease);
+  }
+  .ws-phone img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 17px;
+  }
+
+  /* ── Product icon, feathered into the field ──────────────────────── */
+  .ws-icon {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 56%;
+    -webkit-mask-image: radial-gradient(70% 72% at 50% 52%, #000 58%, transparent 100%);
+    mask-image: radial-gradient(70% 72% at 50% 52%, #000 58%, transparent 100%);
+    transition: transform 0.9s var(--ease);
+  }
+
+  /* Hover lives on whatever card wraps the stage. */
+  :global(.ws-host:hover) .ws-window,
+  :global(.ws-host:focus-visible) .ws-window {
+    transform: translateY(-10px);
+  }
+  :global(.ws-host:hover) .ws-phone,
+  :global(.ws-host:focus-visible) .ws-phone {
+    transform: translateY(-18px);
+  }
+  :global(.ws-host:hover) .ws-icon,
+  :global(.ws-host:focus-visible) .ws-icon {
+    transform: scale(1.045) translateY(-4px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ws-window,
+    .ws-phone,
+    .ws-icon {
+      transition: none;
+    }
+    :global(.ws-host:hover) .ws-window,
+    :global(.ws-host:hover) .ws-phone,
+    :global(.ws-host:hover) .ws-icon {
+      transform: none;
+    }
+  }
+</style>

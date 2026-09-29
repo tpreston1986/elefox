@@ -1,0 +1,326 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/Container.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import EndCTA from "../../components/EndCTA.astro";
+import WorkStage from "../../components/WorkStage.astro";
+import { projects, toneStyles, type Project } from "../../data/work";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return projects.map((p) => ({ params: { slug: p.slug }, props: { project: p } }));
+}
+
+const { project } = Astro.props as { project: Project };
+const t = toneStyles(project.brand.tone);
+const onLight = project.brand.tone === "dark";
+
+const site = Astro.site ?? new URL("https://elefoxstudio.com");
+const pageUrl = new URL(`/work/${project.slug}`, site).toString();
+const caseStudySchema = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  name: project.name,
+  description: project.tagline,
+  url: pageUrl,
+  image: project.gallery?.[0] ? new URL(project.gallery[0], site).toString() : undefined,
+  creator: { "@type": "Organization", name: "elefox studio", url: site.toString() },
+};
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: site.toString() },
+    { "@type": "ListItem", position: 2, name: "Work", item: new URL("/work", site).toString() },
+    { "@type": "ListItem", position: 3, name: project.name, item: pageUrl },
+  ],
+};
+
+const idx = projects.findIndex((p) => p.slug === project.slug);
+const next = projects[(idx + 1) % projects.length];
+---
+
+<BaseLayout
+  title={`${project.name} · Work`}
+  description={project.overview ?? project.tagline}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(caseStudySchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <!-- Hero band in the project's own colour, with its stage rising off the edge -->
+  <section class="pt-2 md:pt-4">
+    <Container size="full">
+      <div
+        class:list={["case-hero relative isolate overflow-hidden rounded-[28px] md:rounded-[44px] pt-28 md:pt-32 px-6 md:px-14 lg:min-h-[640px]", t.text]}
+        style={`--field:${project.brand.field};--glow:${project.brand.glow}`}
+      >
+        <div class="relative z-10 lg:w-[46%] lg:pb-20">
+          <a href="/work" class:list={["inline-flex items-center gap-2 text-sm font-medium opacity-80 hover:opacity-100 transition-opacity", t.sub]}>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M12 7H2m0 0l4-4M2 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            All work
+          </a>
+
+          <div class="mt-10 flex flex-wrap items-center gap-2 mb-6">
+            {project.services.map((s) => (
+              <span class:list={["text-xs px-3 py-1 rounded-pill border", t.tag]}>{s}</span>
+            ))}
+            {project.status && (
+              <span class="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.14em] opacity-90 ml-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-signal animate-pulse" />
+                {project.status}
+              </span>
+            )}
+          </div>
+
+          <h1 class="font-display font-extrabold tracking-[-0.03em] leading-[0.95] text-[clamp(2.5rem,6vw,5rem)] [color:inherit]">
+            {project.name}
+          </h1>
+          <p class:list={["mt-6 text-xl md:text-2xl leading-relaxed max-w-2xl", t.sub]}>
+            {project.tagline}
+          </p>
+
+          {project.url && (
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class:list={[
+                "mt-9 inline-flex items-center gap-2 px-6 py-3 rounded-pill font-medium transition-colors",
+                onLight ? "bg-ink text-bone hover:bg-forest" : "bg-bone text-ink hover:bg-cream",
+              ]}
+            >
+              Visit live site
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          )}
+        </div>
+
+        <div class="mt-12 -mx-6 md:-mx-14 lg:m-0 lg:absolute lg:right-0 lg:bottom-0 lg:w-[52%]">
+          <WorkStage thumb={project.thumb} eager />
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Meta strip -->
+  {project.meta && project.meta.length > 0 && (
+    <section class="py-10 md:py-14">
+      <Container size="full">
+        <dl data-reveal class="grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-fog pt-8">
+          {project.meta.map((m) => (
+            <div>
+              <dt class="text-xs font-mono uppercase tracking-[0.14em] text-graphite mb-2">{m.label}</dt>
+              <dd class="text-lg md:text-xl text-ink font-display tracking-tight">{m.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </Container>
+    </section>
+  )}
+
+  <!-- Overview -->
+  {project.overview && (
+    <section class="py-12 md:py-20">
+      <Container size="default">
+        <div data-reveal class="max-w-3xl">
+          <Eyebrow>Overview</Eyebrow>
+          <p class="mt-6 text-2xl md:text-3xl font-display tracking-tight leading-[1.25] text-ink">
+            {project.overview}
+          </p>
+        </div>
+      </Container>
+    </section>
+  )}
+
+  <!-- Challenge + Solution -->
+  {(project.challenge || project.solution) && (
+    <section class="py-12 md:py-20">
+      <Container size="full">
+        <div data-reveal-stagger class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          {project.challenge && (
+            <div class="rounded-2xl border border-fog bg-white p-8 md:p-10">
+              <Eyebrow>The challenge</Eyebrow>
+              <p class="mt-6 text-lg md:text-xl text-graphite leading-relaxed">{project.challenge}</p>
+            </div>
+          )}
+          {project.solution && (
+            <div class="rounded-2xl border border-forest/25 bg-forest-wash p-8 md:p-10">
+              <Eyebrow>The solution</Eyebrow>
+              <p class="mt-6 text-lg md:text-xl text-ink leading-relaxed">{project.solution}</p>
+            </div>
+          )}
+        </div>
+      </Container>
+    </section>
+  )}
+
+  <!-- Gallery -->
+  {project.gallery && project.gallery.length > 0 && (
+    <section class="py-12 md:py-20">
+      <Container size="full">
+        <div data-reveal-stagger class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start">
+          {project.gallery.map((src, i) => {
+            const lead = i === 0 && project.gallery!.length > 1;
+            return (
+              <figure class:list={["rounded-2xl border border-fog bg-cream/60 overflow-hidden", lead && "md:col-span-2"]}>
+                <img
+                  src={src}
+                  alt={`${project.name} screen ${i + 1}`}
+                  loading="lazy"
+                  decoding="async"
+                  class:list={["block w-full h-auto", !lead && "max-h-[760px] object-contain"]}
+                />
+              </figure>
+            );
+          })}
+        </div>
+      </Container>
+    </section>
+  )}
+
+  <!-- What we built -->
+  {project.built && project.built.length > 0 && (
+    <section class="py-12 md:py-20">
+      <Container size="full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+          <div data-reveal class="lg:col-span-4">
+            <Eyebrow>What we built</Eyebrow>
+          </div>
+          <ol data-reveal-stagger class="lg:col-span-8 border-t border-fog">
+            {project.built.map((item, i) => (
+              <li class="flex gap-5 md:gap-8 py-5 md:py-6 border-b border-fog">
+                <span class="shrink-0 w-8 pt-1 font-mono text-xs text-graphite tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+                <span class="text-lg md:text-xl text-ink leading-snug">{item}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </Container>
+    </section>
+  )}
+
+  <!-- Results -->
+  {project.results && project.results.length > 0 && (
+    <section class="py-12 md:py-20">
+      <Container size="full">
+        <div data-reveal class="mb-10">
+          <Eyebrow>Results</Eyebrow>
+        </div>
+        <div data-reveal-stagger class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {project.results.map((r) => (
+            <div class="rounded-2xl border border-fog bg-white p-8 md:p-10 flex flex-col justify-between min-h-[200px]">
+              {r.stat ? (
+                <>
+                  <span class="font-display font-extrabold tracking-[-0.04em] leading-none text-[clamp(3rem,6vw,4.5rem)] text-forest">{r.stat}</span>
+                  <span class="mt-6 text-lg text-graphite leading-snug">{r.label}</span>
+                </>
+              ) : (
+                <>
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" class="text-forest">
+                    <circle cx="14" cy="14" r="13" stroke="currentColor" stroke-width="1.5" />
+                    <path d="M8.5 14.5l3.5 3.5 7.5-8" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <span class="mt-8 text-xl md:text-2xl font-display tracking-tight text-ink leading-snug">{r.label}</span>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  )}
+
+  <!-- Tech stack -->
+  {project.tech && project.tech.length > 0 && (
+    <section class="py-12 md:py-20">
+      <Container size="full">
+        <div data-reveal class="mb-10">
+          <Eyebrow>Built with</Eyebrow>
+        </div>
+        <div data-reveal-stagger class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {project.tech.map((group) => (
+            <div class="rounded-2xl border border-fog bg-cream/40 p-6">
+              <h3 class="text-sm font-mono uppercase tracking-[0.14em] text-forest mb-4">{group.group}</h3>
+              <ul class="flex flex-wrap gap-2">
+                {group.items.map((item) => (
+                  <li class="text-sm text-ink bg-white border border-fog px-3 py-1.5 rounded-pill">{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  )}
+
+  <!-- Outcome -->
+  {project.outcome && (
+    <section class="py-6 md:py-12">
+      <Container size="full">
+        <div data-reveal class="bg-ink text-bone rounded-[28px] md:rounded-[40px] px-6 md:px-16 py-16 md:py-24">
+          <Eyebrow tone="bone">Where it stands</Eyebrow>
+          <p class="mt-6 text-2xl md:text-4xl font-display tracking-tight leading-tight max-w-3xl">
+            {project.outcome}
+          </p>
+        </div>
+      </Container>
+    </section>
+  )}
+
+  <!-- Up next -->
+  <section class="py-12 md:py-20">
+    <Container size="full">
+      <a href={`/work/${next.slug}`} class="group block" data-reveal>
+        <div class="flex items-center justify-between gap-4 border-t border-fog pt-8">
+          <div>
+            <span class="text-xs font-mono uppercase tracking-[0.14em] text-graphite">Up next</span>
+            <h2 class="text-3xl md:text-5xl text-ink font-display tracking-tight mt-2 group-hover:text-forest transition-colors">
+              {next.name}
+            </h2>
+          </div>
+          <span class="shrink-0 w-12 h-12 md:w-16 md:h-16 rounded-full border border-mist grid place-items-center text-forest group-hover:bg-forest group-hover:text-bone group-hover:border-forest transition-colors">
+            <svg width="20" height="20" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+        </div>
+      </a>
+    </Container>
+  </section>
+
+  <EndCTA
+    heading="Want something like this, built for you?"
+    primary={{ label: "Start a project", href: "/contact" }}
+    secondary={{ label: "Get a free audit", href: "/audit" }}
+  />
+</BaseLayout>
+
+<style>
+  /* The hero is a saturated brand field, so the nav starts as the frosted
+     pill it becomes on scroll, instead of transparent over the colour. */
+  :global(.nav-pill) {
+    background: color-mix(in srgb, var(--color-bone) 80%, transparent);
+    border-color: color-mix(in srgb, var(--color-fog) 75%, transparent);
+    box-shadow: var(--shadow-lift);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    backdrop-filter: blur(18px) saturate(1.6);
+  }
+
+  .case-hero {
+    background: var(--field);
+  }
+  .case-hero::before {
+    content: "";
+    position: absolute;
+    inset: -30% -10% 20% 20%;
+    z-index: -1;
+    background: radial-gradient(50% 55% at 65% 45%, var(--glow), transparent 72%);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+</style>

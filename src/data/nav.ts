@@ -19,6 +19,7 @@ export const serviceLinks: NavItem[] = menuServices.map((s) => ({
 export const primaryNav: NavItem[] = [
   { label: "Free Audit", href: "/audit" },
   { label: "What we do", href: "/services", children: serviceLinks },
+  { label: "Work", href: "/work" },
   { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
 ];
@@ -31,6 +32,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
   {
     heading: "Studio",
     items: [
+      { label: "Work", href: "/work" },
       { label: "About", href: "/about" },
       { label: "The founder", href: "/about/founder" },
       { label: "Pricing", href: "/pricing" },
