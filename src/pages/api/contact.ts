@@ -106,12 +106,16 @@ function spamScore(d: Shaped, allServicesCount: number): SpamResult {
 }
 
 const SERVICE_LABELS: Record<string, string> = {
-  crm: "Custom CRM",
-  software: "Custom software",
   websites: "Websites",
-  brand: "Brand & marketing",
-  ai: "AI & automation",
+  mobile: "Mobile apps",
+  software: "Custom software",
+  uiux: "UI/UX design",
+  brand: "Branding",
+  "early-stage": "Early-stage build",
   other: "Not sure yet",
+  // Older form values, still accepted from old links/bookmarks.
+  crm: "Custom CRM",
+  ai: "AI & automation",
 };
 
 /* ── Cloudflare Turnstile verification ────────────────────────────────

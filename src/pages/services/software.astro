@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ServiceHero from "../../components/ServiceHero.astro";
 import TierGrid from "../../components/TierGrid.astro";
 import EndCTA from "../../components/EndCTA.astro";
+import ServiceWork from "../../components/ServiceWork.astro";
 import Container from "../../components/Container.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import { services } from "../../data/services";
@@ -32,8 +33,7 @@ const s = services.software;
   <section class="py-20 md:py-32">
     <Container size="full" data-reveal>
       <div class="max-w-3xl mb-16">
-        <Eyebrow>Why custom</Eyebrow>
-        <h2 class="mt-6">Off-the-shelf vs. built for you.</h2>
+        <h2>Off-the-shelf vs. built for you.</h2>
         <p class="lede mt-6">
           Most software is built for a made-up average customer. Your business has its own quirks.
         </p>
@@ -82,6 +82,11 @@ const s = services.software;
       </div>
     </Container>
   </section>
+
+  <ServiceWork
+    service="software"
+    heading="Some of the software we've built."
+  />
 
   <EndCTA
     heading="Got a workflow nothing seems to fit? Bring it to us."

@@ -4,7 +4,6 @@ import Container from "../../components/Container.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import Button from "../../components/Button.astro";
 import EndCTA from "../../components/EndCTA.astro";
-import HeroAtmosphere from "../../components/HeroAtmosphere.astro";
 ---
 
 <BaseLayout
@@ -13,8 +12,7 @@ import HeroAtmosphere from "../../components/HeroAtmosphere.astro";
 >
   <!-- Hero -->
   <section class="pt-2 md:pt-4 px-2 md:px-4">
-    <div data-glow class="relative overflow-hidden rounded-[28px] md:rounded-[44px] pt-28 md:pt-36 pb-16 md:pb-24 bg-gradient-to-b from-[#FBF1E9] via-[#F8ECE0] to-[#F2E2D2] max-w-[1600px] mx-auto">
-    <HeroAtmosphere warm />
+    <div class="relative overflow-hidden pt-28 md:pt-40 pb-12 md:pb-16 max-w-[1600px] mx-auto">
     {/* Portrait, sits behind the headline on lg+, clipped to the card.
         Cleanly stacks on mobile. */}
     <img
@@ -30,10 +28,15 @@ import HeroAtmosphere from "../../components/HeroAtmosphere.astro";
 
     <Container size="full" data-reveal>
       <div class="relative z-10 max-w-3xl lg:max-w-[44rem]">
-        <Eyebrow>The founder</Eyebrow>
-        <h1 data-split class="mt-6 font-display font-extrabold tracking-[-0.04em] leading-[0.95] text-5xl sm:text-6xl md:text-7xl lg:text-8xl">
+        <nav aria-label="Breadcrumb" class="mb-8 md:mb-10 text-sm">
+          <ol class="flex flex-wrap items-center gap-2 text-graphite">
+            <li><a href="/about" class="hover:text-forest underline-offset-4 hover:underline">About</a></li>
+            <li class="flex items-center gap-2"><span class="text-mist" aria-hidden="true">/</span><span class="text-ink" aria-current="page">The founder</span></li>
+          </ol>
+        </nav>
+        <h1 class="font-display font-extrabold tracking-[-0.04em] leading-[0.95] text-5xl sm:text-6xl md:text-7xl lg:text-8xl">
           Hi. I'm Tiffany. I started
-          <span class="text-gradient-flow">elefox</span>.
+          <span class="text-forest">elefox</span>.
         </h1>
         <p class="mt-10 flex items-center gap-3 text-sm text-graphite">
           <span class="w-8 h-px bg-ember inline-block"></span>

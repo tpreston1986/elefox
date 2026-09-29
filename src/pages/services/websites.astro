@@ -3,9 +3,28 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ServiceHero from "../../components/ServiceHero.astro";
 import TierGrid from "../../components/TierGrid.astro";
 import EndCTA from "../../components/EndCTA.astro";
+import Container from "../../components/Container.astro";
+import ServiceWork from "../../components/ServiceWork.astro";
 import { services } from "../../data/services";
 
 const s = services.websites;
+
+// How every website engagement starts. Nobody hires us off a portfolio:
+// they see a proposal and a demo made for their business first.
+const beforeYouHire = [
+  {
+    t: "A discovery call",
+    p: "Free and about 30 minutes. We learn how your business works, who your customers are, and what the site needs to do for you.",
+  },
+  {
+    t: "A proposal written for you",
+    p: "Scope, price, and timeline for your project, based on what we heard on the call.",
+  },
+  {
+    t: "A demo of your site",
+    p: "A first look at your site, built around your business, so you can see it before you decide anything.",
+  },
+];
 ---
 
 <BaseLayout
@@ -20,12 +39,44 @@ const s = services.websites;
     description={s.description}
   />
 
+  <!-- Before you hire us -->
+  <section class="py-20 md:py-32">
+    <Container size="full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div data-reveal class="lg:col-span-5">
+          <h2 class="max-w-[14ch]">You'll see your site before you hire us.</h2>
+          <p class="mt-6 text-lg md:text-xl text-graphite leading-relaxed max-w-xl">
+            Every website starts with a discovery call. Then we send you a
+            proposal and a demo made for your business, so you know exactly
+            what you're getting (and what we can do for you) before you
+            decide.
+          </p>
+        </div>
+        <ol data-reveal-stagger class="lg:col-span-6 lg:col-start-7 relative border-l border-forest/25 ml-1.5 space-y-10 md:space-y-12">
+          {beforeYouHire.map((step) => (
+            <li class="relative pl-8 md:pl-10">
+              <span class="absolute -left-[7px] top-2 w-3 h-3 rounded-full bg-ember ring-4 ring-bone" aria-hidden="true" />
+              <h3 class="text-2xl md:text-3xl text-ink font-display tracking-tight">{step.t}</h3>
+              <p class="mt-3 text-lg text-graphite leading-relaxed max-w-lg">{step.p}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </Container>
+  </section>
+
   <TierGrid
     tiers={s.tiers ?? []}
     eyebrow="Tiers"
     heading="Three sizes, depending on how much site you need."
   />
 
+
+  <ServiceWork
+    service="websites"
+    heading="A few sites we've built."
+    note="Yours won't look like any of these. It'll look like your business, and you'll see it in the demo first."
+  />
 
   <EndCTA
     heading="Let's get your site working for you."

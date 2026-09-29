@@ -4,28 +4,39 @@ import Container from "../components/Container.astro";
 import Button from "../components/Button.astro";
 import Eyebrow from "../components/Eyebrow.astro";
 import HeroAtmosphere from "../components/HeroAtmosphere.astro";
-import CrmPipeline from "../components/composites/CrmPipeline.astro";
-import WebsiteMock from "../components/composites/WebsiteMock.astro";
-import AutomationFlow from "../components/composites/AutomationFlow.astro";
-import BrandKit from "../components/composites/BrandKit.astro";
-import WorkCard from "../components/WorkCard.astro";
-import { featuredProjects } from "../data/work";
-import { allServices } from "../data/services";
+import WorkStrip from "../components/WorkStrip.astro";
+import WorkStage from "../components/WorkStage.astro";
+import { featuredProjects, getProject, toneStyles, type Brand, type Thumb } from "../data/work";
+import { menuServices } from "../data/services";
 
-// Which tool mockup illustrates each service, keyed by slug.
-const COMPS: Record<string, any> = {
-  software: CrmPipeline,
-  websites: WebsiteMock,
-  ai: AutomationFlow,
-  brand: BrandKit,
+// "What we do": the same six services as the nav, each shown with a real
+// build. None of these repeat the three in the Selected work strip above.
+type Example = { name: string; note: string; href?: string; brand: Brand; thumb: Thumb };
+const fromWork = (slug: string, note: string): Example => {
+  const p = getProject(slug)!;
+  return { name: p.name, note, href: `/work/${p.slug}`, brand: p.brand, thumb: p.thumb };
 };
-
-// Ordered by how we lead: custom software first, the website that ties
-// into it, the automations, then brand and social as supporting work.
-const capabilityOrder = ["websites", "software", "ai", "brand"];
-const capabilityServices = capabilityOrder
-  .map((slug) => allServices.find((s) => s.slug === slug))
-  .filter((s): s is NonNullable<typeof s> => Boolean(s));
+const examples: Record<string, Example> = {
+  websites: fromWork("chenoa-mcgee-design", "Client website"),
+  mobile: {
+    name: "Cove: Ocean Puzzles",
+    note: "Our own game, on iOS and Android",
+    brand: { field: "#0c2b4a", glow: "#3fc4d4", tone: "light" },
+    thumb: { kind: "phones", screens: ["/work/cove-menu.webp", "/work/cove-blocks.webp"] },
+  },
+  software: fromWork("client-portal", "The portal we run the studio on"),
+  uiux: fromWork("kith", "Our AI lead-gen app"),
+  brand: fromWork("rkg-therapy", "Client brand and website"),
+  "early-stage": fromWork("hey-patch", "Our AI front desk: brand, site, and engine"),
+};
+const exploreLabel: Record<string, string> = {
+  websites: "Explore web development",
+  mobile: "Explore mobile development",
+  software: "Explore custom software",
+  uiux: "Explore UI/UX design",
+  brand: "Explore branding",
+  "early-stage": "Explore early-stage builds",
+};
 
 const processSteps = [
   {
@@ -139,8 +150,7 @@ const faqs = [
   <section class="pt-16 pb-4 md:pt-24 md:pb-8">
     <Container size="full">
       <div data-reveal class="max-w-2xl mb-12 md:mb-16">
-        <Eyebrow>Sound familiar?</Eyebrow>
-        <h2 data-split class="mt-6">
+        <h2 data-split>
           The software was supposed to help.
         </h2>
       </div>
@@ -163,28 +173,59 @@ const faqs = [
   </section>
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- Selected work, three live builds as work cards. Three across on     -->
+  <!-- desktop with the middle one dropped, a swipe row below that.         -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <section class="pt-20 md:pt-32 pb-4 lg:pb-20" id="work">
+    <Container size="full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 mb-12 md:mb-16">
+        <div class="lg:col-span-5">
+          <h2 data-split>A few things we've built lately.</h2>
+        </div>
+        <div class="lg:col-span-6 lg:col-start-7 self-end">
+          <p class="lede">
+            A laundry service that books and bills itself. Booking software
+            for tattoo artists. A payroll expert's site he runs without a
+            developer. All three are live.
+          </p>
+          <a
+            href="/work"
+            class="group inline-flex items-center gap-2 mt-7 text-forest font-medium hover:gap-3 transition-all"
+          >
+            See all our work
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 8h11m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </Container>
+
+    <WorkStrip projects={featuredProjects} />
+  </section>
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <!-- Statement, single big centered line (Munch cadence)                  -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <section class="pt-20 pb-12 md:pt-32 md:pb-20">
     <Container size="default">
       <h2 data-split class="text-center font-display font-extrabold tracking-[-0.03em] leading-[1.02] text-[clamp(2.25rem,6vw,5rem)] text-ink max-w-[22ch] mx-auto">
         One studio instead of
-        <span class="text-gradient-flow">five vendors</span>
+        <span class="text-ember">five vendors</span>
         who never talk to each other.
       </h2>
     </Container>
   </section>
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <!-- Capabilities, the four services as alternating feature rows with     -->
-  <!-- a live tool mockup beside each.                                      -->
+  <!-- What we do: the six services from data/services.ts, each beside a    -->
+  <!-- real build that links to its case study.                             -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <section class="pb-8 md:pb-12 relative" id="capabilities">
     <Container size="full">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16 md:mb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-10 md:mb-14">
         <div class="lg:col-span-5">
-          <Eyebrow>What we do</Eyebrow>
-          <h2 data-split class="mt-6">Development, end to end.</h2>
+          <h2 data-split>Development, end to end.</h2>
         </div>
         <p class="lg:col-span-6 lg:col-start-7 lede self-end">
           It starts with the software: a web app, a customer portal, the CRM
@@ -194,32 +235,45 @@ const faqs = [
         </p>
       </div>
 
-      <div class="space-y-20 md:space-y-28">
+      <div class="border-t border-fog">
         {
-          capabilityServices.map((s) => {
-            const Comp = COMPS[s.slug];
+          menuServices.map((s) => {
+            const ex = examples[s.slug];
+            const tone = toneStyles(ex.brand.tone);
+            const Panel = ex.href ? "a" : "div";
             return (
-              <div data-reveal class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
-                <div>
-                  <h3 class="text-3xl md:text-5xl text-ink font-display tracking-tight leading-[0.98]">
+              <div data-reveal class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center py-10 md:py-14 border-b border-fog">
+                <div class="lg:col-span-6">
+                  <h3 class="text-3xl md:text-[2.75rem] text-ink font-display tracking-tight leading-[1.02]">
                     {s.name}.
                   </h3>
-                  <p class="text-graphite text-lg leading-relaxed max-w-md mt-5">
+                  <p class="text-graphite text-lg leading-relaxed max-w-lg mt-4">
                     {s.oneLiner}
                   </p>
                   <a
                     href={`/services/${s.slug}`}
-                    class="group inline-flex items-center gap-2 mt-7 text-forest font-medium hover:gap-3 transition-all"
+                    class="group inline-flex items-center gap-2 mt-6 text-forest font-medium hover:gap-3 transition-all"
                   >
-                    Explore {s.slug === "ai" ? s.name : s.name.toLowerCase()}
+                    {exploreLabel[s.slug]}
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                       <path d="M2 8h11m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                   </a>
                 </div>
-                <div class="tool-frame rounded-2xl bg-cream/50 border border-fog p-5 md:p-9" aria-hidden="true">
-                  {Comp && <Comp />}
-                </div>
+                <figure class="lg:col-span-5 lg:col-start-8">
+                  <Panel
+                    href={ex.href}
+                    class:list={["cap-panel ws-host block rounded-[20px] overflow-hidden", tone.text]}
+                    style={`--field:${ex.brand.field};--glow:${ex.brand.glow}`}
+                    aria-label={ex.href ? `${ex.name} case study` : undefined}
+                  >
+                    <WorkStage thumb={ex.thumb} ratio="16 / 10" />
+                  </Panel>
+                  <figcaption class="mt-3 flex flex-wrap items-baseline justify-between gap-x-4 text-sm">
+                    <span class="text-ink font-medium">{ex.name}</span>
+                    <span class="text-graphite">{ex.note}</span>
+                  </figcaption>
+                </figure>
               </div>
             );
           })
@@ -332,61 +386,13 @@ const faqs = [
   </section>
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <!-- Selected work, three live builds as work cards. Three across on     -->
-  <!-- desktop with the middle one dropped, a swipe row below that.         -->
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <section class="pt-20 md:pt-32 pb-4 lg:pb-20" id="work">
-    <Container size="full">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 mb-12 md:mb-16">
-        <div class="lg:col-span-5">
-          <Eyebrow>Selected work</Eyebrow>
-          <h2 data-split class="mt-6">A few things we've built lately.</h2>
-        </div>
-        <div class="lg:col-span-6 lg:col-start-7 self-end">
-          <p class="lede">
-            A laundry service that books and bills itself. Booking software
-            for tattoo artists. A payroll expert's site he runs without a
-            developer. All three are live.
-          </p>
-          <a
-            href="/work"
-            class="group inline-flex items-center gap-2 mt-7 text-forest font-medium hover:gap-3 transition-all"
-          >
-            See all our work
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M2 8h11m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </a>
-        </div>
-      </div>
-    </Container>
-
-    <!-- Full-bleed below lg so cards can swipe edge to edge; the gutter comes
-         back as scroll padding so the first card still lines up with the text. -->
-    <div class="mx-auto w-full max-w-[1600px] lg:px-10">
-      <div data-reveal-stagger class="work-strip flex lg:grid lg:grid-cols-3 gap-5 md:gap-8 overflow-x-auto lg:overflow-visible snap-x snap-mandatory px-6 md:px-10 lg:px-0 pb-2">
-        {
-          featuredProjects.map((p, i) => (
-            <div class="shrink-0 w-[84%] sm:w-[62%] md:w-[46%] lg:w-auto snap-start">
-              <div class:list={["h-full", i === 1 && "lg:translate-y-[4.5rem]"]}>
-                <WorkCard project={p} />
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <!-- How we work, the five phases as a scroll-draw timeline              -->
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <section class="py-20 md:py-32 relative">
     <Container size="full">
       <div class="max-w-5xl mx-auto">
         <div class="mb-16 md:mb-24 max-w-2xl">
-          <Eyebrow>How we work</Eyebrow>
-          <h2 data-split class="mt-6">
+          <h2 data-split>
             Small studio, grown-up process.
           </h2>
           <p class="lede mt-6">
@@ -523,8 +529,7 @@ const faqs = [
     <Container size="full">
       <div class="bg-forest text-bone rounded-[28px] md:rounded-[40px] px-6 md:px-16 py-20 md:py-32">
         <div class="max-w-4xl mb-16 md:mb-24">
-          <Eyebrow tone="bone">Why elefox</Eyebrow>
-          <h2 data-split class="mt-6 text-bone">
+          <h2 data-split class="text-bone">
             We're built for the people who got told they were "too small" to work with a real studio.
           </h2>
         </div>
@@ -567,8 +572,7 @@ const faqs = [
     <Container size="full">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
         <div class="lg:col-span-4">
-          <Eyebrow>Questions</Eyebrow>
-          <h2 data-split class="mt-6">The things people ask first.</h2>
+          <h2 data-split>The things people ask first.</h2>
           <p class="lede mt-6">
             Still wondering about something? Just ask. A quick call sorts out
             more than a page of FAQs ever could.
@@ -782,16 +786,35 @@ const faqs = [
 </BaseLayout>
 
 <style>
-  .work-strip {
-    scroll-padding-inline: 1.5rem;
-    scrollbar-width: none;
+  /* Service-row example panels share the work cards' colour field + glow. */
+  .cap-panel {
+    position: relative;
+    isolation: isolate;
+    background: var(--field);
+    transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
-  .work-strip::-webkit-scrollbar {
-    display: none;
+  .cap-panel::before {
+    content: "";
+    position: absolute;
+    inset: -30% -20% 20% -10%;
+    z-index: -1;
+    background: radial-gradient(55% 60% at 70% 30%, var(--glow), transparent 72%);
+    opacity: 0.38;
+    pointer-events: none;
   }
-  @media (min-width: 768px) {
-    .work-strip {
-      scroll-padding-inline: 2.5rem;
+  a.cap-panel:hover {
+    transform: translateY(-3px);
+  }
+  a.cap-panel:focus-visible {
+    outline: 3px solid var(--color-ember);
+    outline-offset: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cap-panel {
+      transition: none;
+    }
+    a.cap-panel:hover {
+      transform: none;
     }
   }
 </style>

@@ -1,20 +1,17 @@
 ---
+import PageHeader from "../components/PageHeader.astro";
+import { menuServices } from "../data/services";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/Container.astro";
-import Eyebrow from "../components/Eyebrow.astro";
 import Button from "../components/Button.astro";
-import HeroAtmosphere from "../components/HeroAtmosphere.astro";
 
 const calendlyUrl =
   import.meta.env.CALENDLY_URL ||
   "https://calendly.com/contact-tiffanyrussell/discovery-call";
 
+// Same six services as the nav and pricing, plus a way out.
 const services = [
-  { value: "crm", label: "Custom CRM" },
-  { value: "software", label: "Custom software" },
-  { value: "websites", label: "Websites" },
-  { value: "brand", label: "Brand & marketing" },
-  { value: "ai", label: "AI & automation" },
+  ...menuServices.map((s) => ({ value: s.slug, label: s.shortName })),
   { value: "other", label: "Not sure yet" },
 ];
 
@@ -41,24 +38,11 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
   description="Tell us what you're building. We'll get back within 24 hours."
 >
   <!-- Hero -->
-  <section class="pt-2 md:pt-4">
-    <Container size="full">
-      <div data-glow class="relative overflow-hidden rounded-[28px] md:rounded-[44px] pt-28 md:pt-36 pb-16 md:pb-24 px-6 md:px-12 bg-gradient-to-b from-[#FBF1E9] via-[#F8ECE0] to-[#F2E2D2]">
-        <HeroAtmosphere warm />
-        <div class="relative z-10 text-center max-w-4xl mx-auto">
-          <Eyebrow>Start a project</Eyebrow>
-          <h1 data-split class="display-xl mt-6 max-w-[18ch] mx-auto">
-            Tell us what you're
-            <span class="text-gradient-flow">building</span>.
-          </h1>
-          <p class="lede mt-10 text-xl max-w-3xl mx-auto text-center">
-            Fill this out, send us a note, or book a call. We respond within
-            24 hours, most of the time within four.
-          </p>
-        </div>
-      </div>
-    </Container>
-  </section>
+  <PageHeader
+    title="Tell us what you're building."
+    accent="building"
+    lede="Fill this out, send us a note, or book a call. We respond within 24 hours, most of the time within four."
+  />
 
   <!-- Form -->
   <section class="pt-12 md:pt-20 pb-24 md:pb-32">
@@ -431,8 +415,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
 
       <!-- Book a call -->
       <div id="book" class="mt-16 md:mt-24 text-center">
-        <Eyebrow>Or just talk</Eyebrow>
-        <h2 class="mt-6 mb-6">Rather book a call?</h2>
+        <h2 class="mb-6">Rather book a call?</h2>
         <p class="lede mx-auto mb-10">
           A free 30-minute discovery call. No pitch deck, just a conversation
           about what you're trying to build.

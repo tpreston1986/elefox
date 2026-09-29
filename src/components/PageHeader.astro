@@ -1,0 +1,69 @@
+---
+// The calm header for inside pages: left-aligned headline on the page's own
+// bone background, intro and actions beside it, a breadcrumb for wayfinding,
+// and a hairline underneath. The aurora hero and gradient accent stay on the
+// homepage and the CRM landers; inside pages carry emphasis with colour alone.
+import Container from "./Container.astro";
+
+type Crumb = { label: string; href?: string };
+
+interface Props {
+  title: string;
+  /** Substring of `title` set in forest green. */
+  accent?: string;
+  lede?: string;
+  crumbs?: Crumb[];
+}
+
+const { title, accent, lede, crumbs } = Astro.props;
+
+const at = accent && title.includes(accent) ? title.indexOf(accent) : -1;
+const before = at >= 0 ? title.slice(0, at) : title;
+const after = at >= 0 ? title.slice(at + accent!.length) : "";
+const hasAside = Boolean(lede) || Astro.slots.has("default");
+---
+
+<section class="pt-28 md:pt-40">
+  <Container size="full">
+    <div class="pb-12 md:pb-16 border-b border-fog">
+      {
+        crumbs && crumbs.length > 0 && (
+          <nav aria-label="Breadcrumb" class="mb-8 md:mb-10 text-sm">
+            <ol class="flex flex-wrap items-center gap-2 text-graphite">
+              {crumbs.map((c, i) => (
+                <li class="flex items-center gap-2">
+                  {i > 0 && <span class="text-mist" aria-hidden="true">/</span>}
+                  {c.href ? (
+                    <a href={c.href} class="hover:text-forest underline-offset-4 hover:underline">{c.label}</a>
+                  ) : (
+                    <span class="text-ink" aria-current="page">{c.label}</span>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )
+      }
+
+      <div class:list={["grid grid-cols-1 gap-8 lg:gap-16 items-end", hasAside && "lg:grid-cols-12"]}>
+        <h1
+          class:list={[
+            "font-display font-extrabold tracking-[-0.035em] leading-[0.98] text-[clamp(2.5rem,5.6vw,5.25rem)] text-ink text-balance max-w-[15ch]",
+            hasAside && "lg:col-span-7",
+          ]}
+        >
+          {before}{at >= 0 && <span class="text-forest">{accent}</span>}{after}
+        </h1>
+
+        {
+          hasAside && (
+            <div class="lg:col-span-5 lg:pb-2">
+              {lede && <p class="text-lg md:text-xl text-graphite leading-relaxed max-w-xl">{lede}</p>}
+              <slot />
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </Container>
+</section>

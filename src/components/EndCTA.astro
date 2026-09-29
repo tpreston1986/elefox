@@ -1,10 +1,10 @@
 ---
 import Container from "./Container.astro";
 import Button from "./Button.astro";
-import Eyebrow from "./Eyebrow.astro";
 
 type Props = {
   heading?: string;
+  /** Deprecated: the closing card no longer shows a label above the heading. */
   eyebrow?: string;
   primary?: { label: string; href: string };
   secondary?: { label: string; href: string };
@@ -12,7 +12,6 @@ type Props = {
 
 const {
   heading = "Let's figure it out together.",
-  eyebrow = "Get in touch",
   primary = { label: "Start a project", href: "/contact" },
   secondary = { label: "Book a call", href: "/contact#book" },
 } = Astro.props;
@@ -23,8 +22,7 @@ const {
     <div data-reveal class="bg-ember text-bone rounded-[28px] md:rounded-[40px] px-6 md:px-16 py-20 md:py-32">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
         <div class="lg:col-span-8">
-          <Eyebrow tone="bone">{eyebrow}</Eyebrow>
-          <h2 class="mt-6 text-bone display-xl max-w-[18ch]">{heading}</h2>
+          <h2 class="text-bone display-xl max-w-[18ch]">{heading}</h2>
         </div>
         <div class="lg:col-span-4 flex flex-wrap gap-4 lg:justify-end">
           <a

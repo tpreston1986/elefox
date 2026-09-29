@@ -11,6 +11,8 @@ export type Tier = {
 export type Service = {
   slug: string;
   name: string;
+  /** Short label for tags and filters (work cards, pills). */
+  shortName: string;
   title: string;
   /** Substring of `title` to render with the animated gradient accent. */
   titleAccent?: string;
@@ -34,6 +36,7 @@ export const services: Record<string, Service> = {
   websites: {
     slug: "websites",
     name: "Web development",
+    shortName: "Websites",
     title: "Websites that earn their keep.",
     titleAccent: "earn their keep",
     oneLiner:
@@ -57,7 +60,6 @@ export const services: Record<string, Service> = {
         name: "Growth Site",
         price: "$5,000",
         blurb: "Five to seven pages with lead funnels and a real CMS.",
-        badge: "Most Popular",
         features: [
           "5 to 7 pages",
           "Service area + testimonial pages",
@@ -94,6 +96,7 @@ export const services: Record<string, Service> = {
   mobile: {
     slug: "mobile",
     name: "Mobile development",
+    shortName: "Mobile apps",
     title: "Apps and games that actually ship.",
     titleAccent: "actually ship",
     oneLiner:
@@ -118,7 +121,6 @@ export const services: Record<string, Service> = {
         name: "Cross-platform App",
         price: "From $12,000",
         cadence: "+ hosting from $50/mo",
-        badge: "Most Popular",
         blurb: "The full app from one codebase, live in both the App Store and Google Play.",
         features: [
           "iOS + Android from one codebase",
@@ -155,6 +157,7 @@ export const services: Record<string, Service> = {
   software: {
     slug: "software",
     name: "Custom software development",
+    shortName: "Custom software",
     title: "The custom software your team actually wants to use.",
     titleAccent: "wants to use",
     oneLiner:
@@ -217,6 +220,7 @@ export const services: Record<string, Service> = {
   uiux: {
     slug: "uiux",
     name: "UI/UX design",
+    shortName: "UI/UX",
     title: "Interfaces people know how to use.",
     titleAccent: "how to use",
     oneLiner:
@@ -238,7 +242,6 @@ export const services: Record<string, Service> = {
       {
         name: "Product Design",
         price: "From $5,000",
-        badge: "Most Popular",
         blurb: "Full UI design, build-ready, with a reusable design system.",
         features: [
           "Full UI for your product",
@@ -274,6 +277,7 @@ export const services: Record<string, Service> = {
   brand: {
     slug: "brand",
     name: "Branding",
+    shortName: "Branding",
     title: "Brand that reads as professional, and feels like you.",
     titleAccent: "feels like you",
     oneLiner: "Brand kits, social templates, and newsletters that keep you looking like you, everywhere.",
@@ -294,7 +298,6 @@ export const services: Record<string, Service> = {
       {
         name: "Social Launch Kit",
         price: "$500",
-        badge: "Most Popular",
         blurb: "Templates and assets so you can post consistently without designing every time.",
         features: [
           "20 branded templates",
@@ -341,6 +344,7 @@ export const services: Record<string, Service> = {
   "early-stage": {
     slug: "early-stage",
     name: "Custom build for early-stage business",
+    shortName: "Early-stage",
     title: "The whole first version, from one team.",
     titleAccent: "one team",
     oneLiner:
@@ -362,7 +366,6 @@ export const services: Record<string, Service> = {
       {
         name: "Full Studio",
         price: "Custom",
-        badge: "Most Popular",
         blurb: "We're your product, design, and dev team until you build your own.",
         features: [
           "Everything in Launch Package",
@@ -390,6 +393,7 @@ export const services: Record<string, Service> = {
   ai: {
     slug: "ai",
     name: "AI & automation",
+    shortName: "AI & automation",
     title: "AI, but only where it helps.",
     titleAccent: "where it helps",
     oneLiner:

@@ -1,0 +1,38 @@
+---
+// "Here's some we've built" section for a service page: a heading, an
+// optional note, and a strip of the projects tagged with that service.
+import Container from "./Container.astro";
+import WorkStrip from "./WorkStrip.astro";
+import { projectsFor } from "../data/work";
+
+interface Props {
+  service: string;
+  heading: string;
+  note?: string;
+}
+
+const { service, heading, note } = Astro.props;
+const items = projectsFor(service);
+---
+
+{
+  items.length > 0 && (
+    <section class="pb-24 md:pb-40">
+      <Container size="full">
+        <div class="flex flex-wrap items-end justify-between gap-6 mb-10 md:mb-14 border-t border-fog pt-14 md:pt-20">
+          <div class="max-w-2xl">
+            <h2>{heading}</h2>
+            {note && <p class="mt-5 text-lg text-graphite leading-relaxed">{note}</p>}
+          </div>
+          <a href="/work" class="group inline-flex items-center gap-2 text-forest font-medium hover:gap-3 transition-all">
+            All work
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 8h11m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </Container>
+      <WorkStrip projects={items} />
+    </section>
+  )
+}
