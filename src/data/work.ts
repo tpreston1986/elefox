@@ -56,6 +56,8 @@ export type Project = {
   brand: Brand;
   thumb: Thumb;
   url?: string;
+  /** App store listings, shown instead of "Visit live site" for apps. */
+  stores?: { label: string; href: string }[];
   status?: "Live";
   // ── Case study (all optional; the detail page renders what's present) ──
   meta?: { label: string; value: string }[];
@@ -390,6 +392,11 @@ export const projects: Project[] = [
       screens: ["/work/cove-store-hub.webp", "/work/cove-store-blocks.webp"],
       ratio: "9 / 19.5",
     },
+    stores: [
+      { label: "App Store", href: "https://apps.apple.com/us/app/cove-ocean-puzzles/id6784039394" },
+      { label: "Google Play", href: "https://play.google.com/store/apps/details?id=com.elefox.cove" },
+    ],
+    status: "Live",
     meta: [
       { label: "Type", value: "Our product" },
       { label: "For", value: "Casual puzzle players" },

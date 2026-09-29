@@ -83,7 +83,29 @@ const next = projects[(idx + 1) % projects.length];
             {project.tagline}
           </p>
 
-          {project.url && (
+          {project.stores && project.stores.length > 0 && (
+            <div class="mt-9 flex flex-wrap gap-3">
+              {project.stores.map((st, i) => (
+                <a
+                  href={st.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class:list={[
+                    "inline-flex items-center gap-2 px-6 py-3 rounded-pill font-medium transition-colors",
+                    i === 0
+                      ? onLight ? "bg-ink text-bone hover:bg-forest" : "bg-bone text-ink hover:bg-cream"
+                      : onLight ? "border-2 border-ink/30 text-ink hover:border-ink" : "border-2 border-bone/50 text-bone hover:border-bone",
+                  ]}
+                >
+                  {st.label}
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M4 10L10 4m0 0H5m5 0v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              ))}
+            </div>
+          )}
+          {project.url && !project.stores && (
             <a
               href={project.url}
               target="_blank"
