@@ -58,7 +58,14 @@ const filters = [
       <div id="work-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {
           projects.map((p, i) => (
-            <article class:list={["work-card", i % 3 === 1 && "is-mid"]} data-services={p.services.join("|")}>
+            <article
+              class:list={[
+                "work-card",
+                (i % 3 === 1 || (i === projects.length - 1 && i % 3 === 0)) && "is-mid",
+                i === projects.length - 1 && i % 3 === 0 && "is-solo",
+              ]}
+              data-services={p.services.join("|")}
+            >
               <WorkCard project={p} headingLevel="h2" />
             </article>
           ))
@@ -82,6 +89,10 @@ const filters = [
     @media (min-width: 1024px) {
       .work-card.is-mid {
         transform: translateY(4.5rem);
+      }
+      /* A lone card in the last row sits in the middle column. */
+      .work-card.is-solo {
+        grid-column-start: 2;
       }
     }
   </style>
@@ -111,14 +122,18 @@ const filters = [
         pill.addEventListener("click", () => {
           const f = pill.dataset.filter;
           setActive(pill);
-          let shown = 0;
-          cards.forEach((card) => {
+          const visible = cards.filter((card) => {
             const services = (card.dataset.services || "").split("|");
             const show = f === "All" || services.includes(f);
             card.style.display = show ? "" : "none";
-            card.classList.toggle("is-mid", show && shown % 3 === 1);
-            if (show) shown++;
+            return show;
           });
+          visible.forEach((card, i) => {
+            const solo = i === visible.length - 1 && i % 3 === 0 && i > 0;
+            card.classList.toggle("is-mid", i % 3 === 1 || solo);
+            card.classList.toggle("is-solo", solo);
+          });
+          const shown = visible.length;
           if (empty) empty.classList.toggle("hidden", shown > 0);
         });
       });

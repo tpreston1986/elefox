@@ -160,8 +160,49 @@ const next = projects[(idx + 1) % projects.length];
     </section>
   )}
 
+  <!-- Gallery: tall app screens side by side -->
+  {project.gallery && project.gallery.length > 0 && project.galleryLayout === "phones" && (
+    <section class="py-12 md:py-20">
+      <div class="mx-auto w-full max-w-[1600px] lg:px-10">
+        <div data-reveal-stagger class="phone-row flex lg:grid lg:grid-cols-5 gap-4 md:gap-6 overflow-x-auto lg:overflow-visible snap-x snap-mandatory px-6 md:px-10 lg:px-0 pb-2">
+          {project.gallery.map((src, i) => (
+            <figure class="shrink-0 w-[62%] sm:w-[40%] md:w-[30%] lg:w-auto snap-start rounded-[28px] bg-[#0e0f12] p-1.5 shadow-lift">
+              <img src={src} alt={`${project.name} screen ${i + 1}`} loading="lazy" decoding="async" class="block w-full h-auto rounded-[22px]" />
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Video (e.g. a launch ad) -->
+  {project.video && (
+    <section class="py-12 md:py-20">
+      <Container size="full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+          <div data-reveal class="lg:col-span-5">
+            <h2>{project.video.heading}</h2>
+            <p class="mt-6 text-lg md:text-xl text-graphite leading-relaxed max-w-lg">{project.video.body}</p>
+          </div>
+          <div data-reveal class="lg:col-span-6 lg:col-start-7 flex justify-center lg:justify-start">
+            <div class="w-full max-w-[320px] rounded-[32px] bg-[#0e0f12] p-2 shadow-lift">
+              <video
+                src={project.video.src}
+                poster={project.video.poster}
+                controls
+                playsinline
+                preload="none"
+                class="block w-full aspect-[9/16] rounded-[26px] bg-ink"
+              ></video>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  )}
+
   <!-- Gallery -->
-  {project.gallery && project.gallery.length > 0 && (
+  {project.gallery && project.gallery.length > 0 && project.galleryLayout !== "phones" && (
     <section class="py-12 md:py-20">
       <Container size="full">
         <div data-reveal-stagger class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start">
@@ -302,6 +343,14 @@ const next = projects[(idx + 1) % projects.length];
 </BaseLayout>
 
 <style>
+  .phone-row {
+    scroll-padding-inline: 1.5rem;
+    scrollbar-width: none;
+  }
+  .phone-row::-webkit-scrollbar {
+    display: none;
+  }
+
   /* The hero is a saturated brand field, so the nav starts as the frosted
      pill it becomes on scroll, instead of transparent over the colour. */
   :global(.nav-pill) {

@@ -64,7 +64,7 @@ const insetStyle =
     ) : thumb.kind === "phones" ? (
       <div class="ws-phones">
         {thumb.screens.slice(0, 3).map((src) => (
-          <div class="ws-handset">
+          <div class="ws-handset" style={thumb.ratio ? `aspect-ratio:${thumb.ratio}` : undefined}>
             <img src={src} alt="" loading={loading} decoding="async" />
           </div>
         ))}
