@@ -45,7 +45,7 @@ export type Thumb =
     }
   | { kind: "icon"; src: string }
   /** A mobile app: two or three phone screens rising off the card. */
-  | { kind: "phones"; screens: string[] };
+  | { kind: "phones"; screens: string[]; /** Screen aspect ratio, default "9 / 16". */ ratio?: string };
 
 export type Project = {
   slug: string;
@@ -66,6 +66,10 @@ export type Project = {
   results?: { stat?: string; label: string }[];
   tech?: TechGroup[];
   gallery?: string[];
+  /** "phones" lays tall app screenshots out side by side instead of stacked. */
+  galleryLayout?: "phones";
+  /** A short video shown on the case study (e.g. a launch ad). */
+  video?: { src: string; poster: string; heading: string; body: string };
   outcome?: string;
 };
 
@@ -73,7 +77,8 @@ export type Project = {
 export { services as serviceData } from "./services";
 
 // Grid order reads left to right, three to a row on desktop. Colors are
-// sequenced so no two neighbors share a hue.
+// sequenced so no two neighbors share a hue. With 13 projects, the last
+// one sits alone in the middle column (see work.astro).
 export const projects: Project[] = [
   {
     slug: "etchra",
@@ -374,6 +379,77 @@ export const projects: Project[] = [
     gallery: ["/work/portal-dashboard.webp", "/work/portal-leads.webp", "/work/portal-projects.webp"],
   },
   {
+    slug: "cove",
+    name: "Cove: Ocean Puzzles",
+    tagline:
+      "Four relaxing puzzle games in one cozy reef, designed and built in-house for iOS and Android.",
+    services: ["mobile", "uiux", "brand"],
+    brand: { field: "#0c2b4a", glow: "#3fc4d4", tone: "light" },
+    thumb: {
+      kind: "phones",
+      screens: ["/work/cove-store-hub.webp", "/work/cove-store-blocks.webp"],
+      ratio: "9 / 19.5",
+    },
+    meta: [
+      { label: "Type", value: "Our product" },
+      { label: "For", value: "Casual puzzle players" },
+      { label: "Year", value: "2026" },
+      { label: "Platforms", value: "iOS and Android" },
+    ],
+    overview:
+      "Cove is a cozy little corner of the ocean packed with puzzles: four games in one app, so there's always something to play. We designed and built every piece of it, from the pixel-art brand and the four game modes to the sea-creature sticker album and the launch ad.",
+    challenge:
+      "Casual puzzle players have endless options. A new game has to be easy to pick up for a minute, calm enough to play for an hour, and give people a reason to come back tomorrow, with no account and no connection needed.",
+    solution:
+      "Four games in one app, each with its own hook: Tide Blocks for clearing lines, Reef Sudoku in three difficulties, Tide Pool for merging tiles and filling orders, and Word Tide with a fresh five-letter word every day. Everything earns shells and sticker packs toward one seasonal album of sea creatures, so every game counts toward the same collection.",
+    built: [
+      "Four puzzle games in one app: Tide Blocks, Reef Sudoku, Tide Pool, and Word Tide",
+      "Reef Sudoku in easy, medium, and hard, with pencil notes and a 3-mistake challenge",
+      "A fresh five-letter word every day, with streaks and daily rewards",
+      "Shells and sticker packs that fill a seasonal album of sea-creature characters",
+      "A calm ocean palette, gentle sound, and haptic feedback on every move",
+      "Plays fully offline, with no account or sign-up",
+      "The pixel-art brand, app icon, store screenshots, and launch ad",
+    ],
+    tech: [
+      { group: "Development", items: ["React Native", "Expo", "TypeScript"] },
+      { group: "Ads", items: ["Google AdMob"] },
+      { group: "Platforms", items: ["iOS", "Android"] },
+    ],
+    gallery: [
+      "/work/cove-store-hub.webp",
+      "/work/cove-store-pool.webp",
+      "/work/cove-store-blocks.webp",
+      "/work/cove-store-sudoku.webp",
+      "/work/cove-store-album.webp",
+    ],
+    galleryLayout: "phones",
+    video: {
+      src: "/work/cove-ad.mp4",
+      poster: "/work/cove-ad-poster.webp",
+      heading: "The launch ad.",
+      body: "We made the launch ad too: a quick, phone-shot spot for Meta, starring our favorite playtester.",
+    },
+  },
+  {
+    slug: "lumi-salon",
+    name: "Lumi Salon",
+    tagline: "Booking and client management, built for salons and studios.",
+    services: ["software", "brand"],
+    brand: { field: "#cb5e41", glow: "#f3a684", tone: "light" },
+    thumb: { kind: "screen", src: "/work/lumi-calendar.webp" },
+    meta: [
+      { label: "Type", value: "Industry CRM" },
+      { label: "For", value: "Salons & studios" },
+    ],
+    overview:
+      "Appointments, client history, and the whole front-of-house flow, all in one place.",
+    tech: [
+      { group: "Development", items: ["Next.js", "Prisma", "Postgres", "Railway"] },
+    ],
+    gallery: ["/work/lumi-calendar.webp", "/work/lumi-booking.webp", "/work/lumi-clients.webp"],
+  },
+  {
     slug: "chenoa-mcgee-design",
     name: "Chenoa McGee Design",
     tagline:
@@ -411,24 +487,6 @@ export const projects: Project[] = [
       "/work/chenoa-2.webp",
       "/work/chenoa-3.webp",
     ],
-  },
-  {
-    slug: "lumi-salon",
-    name: "Lumi Salon",
-    tagline: "Booking and client management, built for salons and studios.",
-    services: ["software", "brand"],
-    brand: { field: "#cb5e41", glow: "#f3a684", tone: "light" },
-    thumb: { kind: "screen", src: "/work/lumi-calendar.webp" },
-    meta: [
-      { label: "Type", value: "Industry CRM" },
-      { label: "For", value: "Salons & studios" },
-    ],
-    overview:
-      "Appointments, client history, and the whole front-of-house flow, all in one place.",
-    tech: [
-      { group: "Development", items: ["Next.js", "Prisma", "Postgres", "Railway"] },
-    ],
-    gallery: ["/work/lumi-calendar.webp", "/work/lumi-booking.webp", "/work/lumi-clients.webp"],
   },
   {
     slug: "realtor-crm",

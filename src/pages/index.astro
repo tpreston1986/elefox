@@ -18,12 +18,7 @@ const fromWork = (slug: string, note: string): Example => {
 };
 const examples: Record<string, Example> = {
   websites: fromWork("chenoa-mcgee-design", "Client website"),
-  mobile: {
-    name: "Cove: Ocean Puzzles",
-    note: "Our own game, on iOS and Android",
-    brand: { field: "#0c2b4a", glow: "#3fc4d4", tone: "light" },
-    thumb: { kind: "phones", screens: ["/work/cove-menu.webp", "/work/cove-blocks.webp"] },
-  },
+  mobile: fromWork("cove", "Our own game, on iOS and Android"),
   software: fromWork("client-portal", "The portal we run the studio on"),
   uiux: fromWork("kith", "Our AI lead-gen app"),
   brand: fromWork("rkg-therapy", "Client brand and website"),
