@@ -1,0 +1,578 @@
+---
+// Hand-inked doodle icons in the studio palette: ink linework, spot fills in
+// ink, ember, and forest, a hard offset shadow, and one small looping move
+// each, stepped like hand-drawn animation. The resting pose is a finished
+// drawing, and it is all a visitor sees when they prefer reduced motion.
+//
+// Services: websites, mobile, software, uiux, brand, early-stage
+// Pillars:  intake, scope, operators
+//
+// Drawn on a 160 unit grid with a 3 unit line, so they hold up anywhere from
+// about 64px to 200px wide.
+
+// prettier-ignore
+export type DoodleName = "websites" | "mobile" | "software" | "uiux" | "brand" | "early-stage" | "intake" | "scope" | "operators";
+
+interface Props {
+  name: DoodleName;
+  /** "light" on bone or white surfaces, "dark" on forest cards. */
+  tone?: "light" | "dark";
+  /** Accessible name. Omit when the icon sits beside its own label. */
+  label?: string;
+  class?: string;
+}
+
+const { name, tone = "light", label, class: className } = Astro.props;
+
+// Rounded rectangle as a path, so a shape and its shadow share one outline.
+const rr = (x: number, y: number, w: number, h: number, r: number) =>
+  `M${x + r},${y}H${x + w - r}A${r},${r} 0 0 1 ${x + w},${y + r}V${y + h - r}A${r},${r} 0 0 1 ${x + w - r},${y + h}H${x + r}A${r},${r} 0 0 1 ${x},${y + h - r}V${y + r}A${r},${r} 0 0 1 ${x + r},${y}Z`;
+const circ = (cx: number, cy: number, r: number) =>
+  `M${cx - r},${cy}a${r},${r} 0 1 0 ${2 * r},0a${r},${r} 0 1 0 ${-2 * r},0Z`;
+
+function gear(cx: number, cy: number, r: number, teeth: number, depth: number) {
+  const pts: string[] = [];
+  const step = (Math.PI * 2) / teeth;
+  for (let i = 0; i < teeth; i++) {
+    const a = i * step;
+    const ring = [
+      [a - step * 0.5, r - depth],
+      [a - step * 0.22, r - depth],
+      [a - step * 0.14, r],
+      [a + step * 0.14, r],
+      [a + step * 0.22, r - depth],
+    ] as const;
+    for (const [ang, rad] of ring) {
+      pts.push(`${(cx + Math.cos(ang) * rad).toFixed(1)},${(cy + Math.sin(ang) * rad).toFixed(1)}`);
+    }
+  }
+  return `M${pts.join("L")}Z`;
+}
+
+// A slight wobble through a displacement map keeps the lines from looking ruled.
+const uid = `dd-${name}-${Math.random().toString(36).slice(2, 8)}`;
+
+const web = { win: rr(20, 32, 112, 82, 9), cursor: "M0,0L0,23L6,18L10.5,27L15,25L10.5,16L18,16Z" };
+const phone = {
+  body: rr(52, 22, 56, 110, 13),
+  bubble: "M18,26H56A8,8 0 0 1 64,34V48A8,8 0 0 1 56,56H54L60,66L46,56H18A8,8 0 0 1 10,48V34A8,8 0 0 1 18,26Z",
+};
+const soft = { mon: rr(18, 28, 108, 72, 8), gear: gear(122, 98, 19, 8, 5) };
+const tab = { body: rr(14, 40, 112, 80, 10), curve: "M32,100C44,62 70,108 98,62" };
+const stamp = { paper: "M22,112L118,100L136,128L36,142Z", block: rr(54, 52, 52, 20, 4) };
+const grow = { pot: "M104,109L140,109L135,134L109,134Z", can: rr(22, 58, 46, 42, 9) };
+const sign = rr(40, 54, 80, 44, 8);
+const tape = { case: rr(22, 58, 58, 58, 14), strip: rr(76, 95, 54, 10, 1.5) };
+const mug = { body: rr(30, 62, 56, 62, 10), handle: "M86,72C108,72 108,108 86,108V100C98,100 98,80 86,80Z" };
+const wrenchHead = "M6,-17.5A13,13 0 1 1 -6,-17.5L-6,-10L6,-10Z";
+---
+
+<svg
+  class:list={["dd", `dd--${tone}`, `dd-${name}`, className]}
+  viewBox="0 0 160 160"
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+  focusable="false"
+>
+  <defs>
+    <filter id={uid} x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="7" />
+      <feDisplacementMap in="SourceGraphic" scale="2.4" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </defs>
+
+  <g filter={`url(#${uid})`} stroke-linecap="round" stroke-linejoin="round">
+    {
+      name === "websites" && (
+        <g transform="rotate(-5 80 80)">
+          <path class="sh" d={web.win} transform="translate(5 6)" />
+          <path class="p" d={web.win} />
+          <path class="l" d="M20,50H132" />
+          <circle class="dot" cx="31" cy="41" r="2.6" />
+          <circle class="dot" cx="40" cy="41" r="2.6" />
+          <circle class="dot" cx="49" cy="41" r="2.6" />
+          <path class="l t" d={rr(60, 37, 58, 8, 4)} />
+          <path class="s" d={rr(31, 59, 50, 9, 3)} />
+          <path class="l t" d="M31,77H74M31,85H64" />
+          <path class="p" d={rr(88, 58, 34, 30, 4)} />
+          <path class="l t" d="M90,84L99,72L106,79L111,74L120,84" />
+          <path class="a" d={circ(113, 65, 3.4)} />
+          <path class="p web-btn" d={rr(31, 94, 34, 12, 6)} />
+          <g class="ticks web-ticks">
+            <path class="l tk" d="M49,89L45,84M57,87L58,81M65,90L69,86" />
+          </g>
+          <g class="web-cursor">
+            <g transform="translate(56 98)">
+              <path class="sh" d={web.cursor} transform="translate(2 3)" />
+              <path class="p" d={web.cursor} />
+            </g>
+          </g>
+        </g>
+      )
+    }
+
+    {
+      name === "mobile" && (
+        <>
+          <g class="mob-phone">
+            <g transform="rotate(7 80 80)">
+              <path class="sh" d={phone.body} transform="translate(5 6)" />
+              <path class="p" d={phone.body} />
+              <path class="l t" d={rr(58, 30, 44, 94, 8)} />
+              <path class="l" d="M73,35H87" />
+              <path class="l t" d="M66,48H94M70,55H88" />
+              <path class="s" d={rr(63, 63, 34, 24, 4)} />
+              <path class="inv" d="M68,71H86M68,78H80" />
+              <circle class="dot" cx="68" cy="97" r="3" />
+              <circle class="dot" cx="68" cy="107" r="3" />
+              <path class="l t" d="M75,97H94M75,107H90" />
+              <path class="l" d="M73,117H87" />
+            </g>
+          </g>
+          <g class="ticks mob-ticks">
+            <path class="l tk" d="M9,21L4,15M21,17L20,10M33,17L35,11" />
+          </g>
+          <g class="mob-bubble">
+            <path class="sh" d={phone.bubble} transform="translate(4 5)" />
+            <path class="a" d={phone.bubble} />
+            <path class="inv" d="M19,37H49M19,45H37" />
+          </g>
+        </>
+      )
+    }
+
+    {
+      name === "software" && (
+        <>
+          <path class="sh" d={soft.mon} transform="translate(5 6)" />
+          <path class="p" d={soft.mon} />
+          <path class="l t" d={rr(26, 36, 92, 56, 4)} />
+          <path class="p" d="M66,100L63,114H81L78,100Z" />
+          <path class="s" d={rr(50, 112, 44, 7, 3.5)} />
+          <path class="s" d={rr(33, 43, 34, 15, 7.5)} />
+          <path class="inv t" d="M42,47L38,50.5L42,54M58,47L62,50.5L58,54M52,46L48,55" />
+          <path class="l t" d="M74,47H108M74,54H98" />
+          <path class="p t" d={rr(33, 66, 9, 9, 2)} />
+          <path class="l t" d="M35,70.5L37.5,73L41,68" />
+          <path class="l t" d="M48,70.5H104" />
+          <path class="a t" d={rr(33, 79, 9, 9, 2)} />
+          <path class="inv t soft-check" d="M35,83.5L37.5,86L41,81" pathLength="1" />
+          <path class="l t" d="M48,83.5H90" />
+          <g class="soft-gear">
+            <path class="sh" d={soft.gear} transform="translate(4 5)" />
+            <path class="g" d={soft.gear} />
+            <path class="p" d={circ(122, 98, 6)} />
+          </g>
+        </>
+      )
+    }
+
+    {
+      name === "uiux" && (
+        <>
+          <g transform="rotate(-6 80 80)">
+            <path class="sh" d={tab.body} transform="translate(5 6)" />
+            <path class="p" d={tab.body} />
+            <path class="l t" d={rr(22, 48, 90, 64, 4)} />
+            <circle class="dot" cx="119" cy="80" r="2.5" />
+            <path class="l t" d="M32,100L44,62M98,62L70,108" />
+            <circle class="dot" cx="44" cy="62" r="2.8" />
+            <circle class="dot" cx="70" cy="108" r="2.8" />
+            <path class="l ux-curve" d={tab.curve} pathLength="1" />
+            <path class="p t" d={rr(29, 97, 6, 6, 1)} />
+            <path class="p t" d={rr(95, 59, 6, 6, 1)} />
+            <g class="ux-nib">
+              <path class="p" d="M0,0L4,-14L12,-20L20,-12L14,-4Z" />
+              <path class="l t" d="M0,0L9,-9" />
+              <circle class="dot" cx="10" cy="-10" r="2.2" />
+              <path class="s" d="M12,-20L16,-24L24,-16L20,-12Z" />
+            </g>
+          </g>
+          <g class="ux-swatch">
+            <path class="sh" d={rr(18, 8, 20, 20, 4)} transform="translate(3 4)" />
+            <path class="g" d={rr(18, 8, 20, 20, 4)} />
+          </g>
+          <g class="ux-swatch ux-swatch--b">
+            <path class="sh" d={rr(32, 18, 20, 20, 4)} transform="translate(3 4)" />
+            <path class="a" d={rr(32, 18, 20, 20, 4)} />
+          </g>
+        </>
+      )
+    }
+
+    {
+      name === "brand" && (
+        <>
+          <path class="sh" d={stamp.paper} transform="translate(4 5)" />
+          <path class="p" d={stamp.paper} />
+          <path class="l t" d="M44,130L60,128M100,106L112,104" />
+          <g class="br-mark">
+            <ellipse class="ring" cx="80" cy="120" rx="15" ry="8.5" transform="rotate(-7 80 120)" />
+            <ellipse class="fill-a" cx="80" cy="120" rx="5.5" ry="3.2" transform="rotate(-7 80 120)" />
+          </g>
+          <g class="ticks br-ticks">
+            <path class="l tk" d="M46,104L40,99M114,96L120,91M44,122L37,122" />
+          </g>
+          <g class="br-stamp">
+            <path class="sh" d={stamp.block} transform="translate(4 5)" />
+            <ellipse class="s" cx="80" cy="26" rx="12" ry="10" />
+            <path class="p" d="M74,34L72,52H88L86,34Z" />
+            <path class="p" d={stamp.block} />
+            <path class="l t" d="M54,62H106" />
+            <path class="a" d={rr(58, 72, 44, 7, 2)} />
+          </g>
+        </>
+      )
+    }
+
+    {
+      name === "early-stage" && (
+        <>
+          <path class="sh" d={grow.pot} transform="translate(4 5)" />
+          <g class="gr-sprout">
+            <path class="l" d="M122,101C122,90 119,82 122,72" />
+            <path class="g" d="M121,86C112,88 104,82 102,74C111,72 118,76 121,86Z" />
+            <path class="g" d="M122,74C128,64 138,62 145,64C142,72 132,78 122,74Z" />
+          </g>
+          <path class="a" d={grow.pot} />
+          <path class="p" d={rr(100, 100, 44, 9, 3)} />
+          <g class="gr-drops">
+            <path class="s gr-drop" d="M0,-4C2,0 3,2 3,3.5A3,3 0 0 1 -3,3.5C-3,2 -2,0 0,-4Z" />
+            <path class="s gr-drop gr-drop--2" d="M0,-4C2,0 3,2 3,3.5A3,3 0 0 1 -3,3.5C-3,2 -2,0 0,-4Z" />
+            <path class="s gr-drop gr-drop--3" d="M0,-4C2,0 3,2 3,3.5A3,3 0 0 1 -3,3.5C-3,2 -2,0 0,-4Z" />
+          </g>
+          <g class="gr-can">
+            <g transform="rotate(14 45 80)">
+              <path class="sh" d={grow.can} transform="translate(5 6)" />
+              <path class="l" d="M23,64C6,62 6,94 23,92" style="stroke-width:4.5" />
+              <path class="p" d="M64,88L84,66L89,71L69,95Z" />
+              <path class="s" d={rr(-4, -8, 8, 16, 2)} transform="translate(88 67) rotate(-45)" />
+              <path class="p" d={grow.can} />
+              <path class="s" d={rr(22, 58, 46, 8, 0)} />
+              <path class="l t" d="M32,74V90" />
+            </g>
+          </g>
+        </>
+      )
+    }
+
+    {
+      name === "intake" && (
+        <>
+          <circle class="dot" cx="80" cy="22" r="3.6" />
+          <g class="in-swing">
+            <path class="l t" d="M80,22L49,55M80,22L111,55" />
+            <g class="in-flip">
+              <g class="in-face-a">
+                <path class="sh" d={sign} transform="translate(4 5)" />
+                <path class="p" d={sign} />
+                <text x="80" y="82.5" text-anchor="middle" class="in-text">OPEN</text>
+              </g>
+              <g class="in-face-b">
+                <path class="sh" d={sign} transform="translate(4 5)" />
+                <path class="a" d={sign} />
+                <text x="80" y="82.5" text-anchor="middle" class="in-text in-text--b">FULL</text>
+              </g>
+            </g>
+          </g>
+        </>
+      )
+    }
+
+    {
+      name === "scope" && (
+        <>
+          <path class="sh" d={tape.case} transform="translate(5 6)" />
+          <g class="sc-tape">
+            <path class="sh" d={tape.strip} transform="translate(3 4)" />
+            <path class="p" d={tape.strip} />
+            <path class="l t" d="M84,95V101M90,95V99M96,95V101M102,95V99M108,95V101M114,95V99M120,95V101" />
+            <path class="s" d={rr(128, 91, 6, 18, 2)} />
+          </g>
+          <path class="p" d={tape.case} />
+          <path class="s" d={rr(40, 50, 22, 9, 3)} />
+          <path class="a" d={circ(51, 87, 15)} />
+          <path class="p" d={circ(51, 87, 5)} />
+          <g class="ticks sc-ticks">
+            <path class="l tk" d="M140,90L145,85M141,100L147,100M140,110L145,115" />
+          </g>
+        </>
+      )
+    }
+
+    {
+      name === "operators" && (
+        <>
+          <g class="op-steam">
+            <path class="l t" d="M48,52C42,46 54,40 48,32M64,54C58,48 70,42 64,34" />
+          </g>
+          <path class="sh" d={mug.body} transform="translate(5 6)" />
+          <path class="p" d={mug.handle} />
+          <path class="p" d={mug.body} />
+          <path class="a" d="M30,84H86V98H30Z" />
+          <path class="l" d={mug.body} />
+          <g class="op-wrench">
+            <g transform="translate(128 84) rotate(24)">
+              <path class="sh" d={rr(-5, 2, 10, 58, 5)} transform="translate(4 3)" />
+              <path class="p" d={rr(-5, 2, 10, 58, 5)} />
+              <path class="p" d={wrenchHead} />
+              <circle class="dot" cx="0" cy="52" r="2.5" />
+            </g>
+          </g>
+        </>
+      )
+    }
+  </g>
+</svg>
+
+<style>
+  .dd {
+    --dd-line: var(--color-ink);
+    --dd-paper: #fffdf8;
+    --dd-shadow: var(--color-ink);
+    --dd-accent: var(--color-ember);
+    --dd-green: var(--color-forest);
+    display: block;
+    overflow: visible;
+  }
+  .dd--dark {
+    --dd-line: var(--color-bone);
+    --dd-paper: var(--color-forest);
+    --dd-shadow: var(--color-ink);
+    --dd-green: var(--color-signal);
+  }
+
+  /* Paint roles: paper with ink outline, line only, solid ink, accents. */
+  .p { fill: var(--dd-paper); stroke: var(--dd-line); stroke-width: 3; }
+  .l { fill: none; stroke: var(--dd-line); stroke-width: 3; }
+  .s { fill: var(--dd-line); stroke: var(--dd-line); stroke-width: 3; }
+  .a { fill: var(--dd-accent); stroke: var(--dd-line); stroke-width: 3; }
+  .g { fill: var(--dd-green); stroke: var(--dd-line); stroke-width: 3; }
+  .sh { fill: var(--dd-shadow); stroke: none; }
+  .dot { fill: var(--dd-line); }
+  .inv { fill: none; stroke: var(--dd-paper); stroke-width: 3; }
+  .t { stroke-width: 2.2; }
+  .tk { stroke-width: 2.4; }
+  .ring { fill: none; stroke: var(--dd-accent); stroke-width: 3.5; }
+  .fill-a { fill: var(--dd-accent); }
+  .in-text {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 19px;
+    letter-spacing: 0.04em;
+    fill: var(--dd-line);
+  }
+  .in-text--b { fill: var(--dd-paper); }
+
+  /* Resting pose. */
+  .ticks { opacity: 0; }
+  .web-btn { fill: var(--dd-accent); }
+  .ux-nib { transform: translate(98px, 62px); }
+  .gr-drop { transform: translate(101px, 90px); }
+  .gr-drop--2, .gr-drop--3 { opacity: 0; }
+  .in-face-b { opacity: 0; }
+  .soft-check { stroke-dasharray: 1; stroke-dashoffset: 0; }
+
+  .dd g, .dd path, .dd ellipse { transform-box: view-box; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Websites: the cursor slides in and clicks the button. */
+    .web-cursor { animation: dd-web-cursor 3.2s steps(4) infinite; transform-origin: 56px 98px; }
+    .web-btn { animation: dd-web-btn 3.2s steps(1) infinite; }
+    .web-ticks { animation: dd-flash 3.2s steps(1) infinite; }
+
+    /* Mobile: the phone buzzes, a message pops out. */
+    .mob-phone { animation: dd-mob-buzz 3s steps(1) infinite; transform-origin: 80px 120px; }
+    .mob-bubble { animation: dd-mob-pop 3s steps(3) infinite; transform-origin: 58px 62px; }
+    .mob-ticks { animation: dd-mob-ticks 3s steps(1) infinite; }
+
+    /* Software: the gear ticks round, a task gets checked. */
+    .soft-gear { animation: dd-spin 4s steps(16) infinite; transform-origin: 122px 98px; }
+    .soft-check { animation: dd-check 4s steps(3) infinite; }
+
+    /* UI/UX: the pen draws the curve, swatches trade places. */
+    .ux-curve { stroke-dasharray: 1; animation: dd-ux-draw 3.6s linear infinite; }
+    .ux-nib { animation: dd-ux-nib 3.6s linear infinite; }
+    .ux-swatch { animation: dd-ux-swatch 3.6s steps(1) infinite; }
+    .ux-swatch--b { animation-name: dd-ux-swatch-b; }
+
+    /* Brand: the stamp comes down and leaves a mark. */
+    .br-stamp { animation: dd-br-stamp 2.8s steps(3) infinite; }
+    .br-mark { animation: dd-br-mark 2.8s steps(1) infinite; }
+    .br-ticks { animation: dd-br-ticks 2.8s steps(1) infinite; }
+
+    /* Early-stage: water drips, the sprout sways. */
+    .gr-drop { animation: dd-gr-drop 1.5s steps(5) infinite; opacity: 1; }
+    .gr-drop--2 { animation-delay: -0.5s; }
+    .gr-drop--3 { animation-delay: -1s; }
+    .gr-sprout { animation: dd-gr-sway 1.6s steps(2) infinite alternate; transform-origin: 122px 101px; }
+    .gr-can { animation: dd-gr-can 1.6s steps(2) infinite alternate; transform-origin: 30px 100px; }
+
+    /* Intake: the door sign swings and flips between OPEN and FULL. */
+    .in-swing { animation: dd-in-swing 2.4s ease-in-out infinite alternate; transform-origin: 80px 22px; }
+    .in-flip { animation: dd-in-flip 6s steps(1) infinite; transform-origin: 80px 76px; }
+    .in-face-a { animation: dd-in-a 6s steps(1) infinite; }
+    .in-face-b { animation: dd-in-b 6s steps(1) infinite; }
+
+    /* Scope: the tape pulls out, holds, snaps back. */
+    .sc-tape { animation: dd-sc-tape 3.4s steps(5) infinite; }
+    .sc-ticks { animation: dd-sc-ticks 3.4s steps(1) infinite; }
+
+    /* Operators: steam rises, the wrench taps. */
+    .op-steam { animation: dd-op-steam 1.4s steps(2) infinite alternate; }
+    .op-wrench { animation: dd-op-wrench 2.6s steps(2) infinite; transform-origin: 104px 139px; }
+  }
+
+  @keyframes dd-web-cursor {
+    0% { transform: translate(28px, 24px); }
+    32%, 38% { transform: translate(0, 0); }
+    42% { transform: translate(0, 0) scale(0.86); }
+    50%, 82% { transform: translate(0, 0); }
+    100% { transform: translate(28px, 24px); }
+  }
+  @keyframes dd-web-btn {
+    0%, 41% { fill: var(--dd-paper); }
+    42%, 88% { fill: var(--dd-accent); }
+    89%, 100% { fill: var(--dd-paper); }
+  }
+  @keyframes dd-flash {
+    0%, 41% { opacity: 0; }
+    42%, 58% { opacity: 1; }
+    59%, 100% { opacity: 0; }
+  }
+
+  @keyframes dd-mob-buzz {
+    0%, 20% { transform: none; }
+    23% { transform: rotate(-4deg); }
+    26% { transform: rotate(4deg); }
+    29% { transform: rotate(-3deg); }
+    32% { transform: rotate(3deg); }
+    35%, 100% { transform: none; }
+  }
+  @keyframes dd-mob-pop {
+    0%, 30% { transform: scale(0); }
+    38% { transform: scale(1.12); }
+    44%, 86% { transform: scale(1); }
+    92%, 100% { transform: scale(0); }
+  }
+  @keyframes dd-mob-ticks {
+    0%, 37% { opacity: 0; }
+    38%, 56% { opacity: 1; }
+    57%, 100% { opacity: 0; }
+  }
+
+  @keyframes dd-spin {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes dd-check {
+    0%, 20% { stroke-dashoffset: 1; }
+    35%, 88% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: 1; }
+  }
+
+  @keyframes dd-ux-draw {
+    0%, 8% { stroke-dashoffset: 1; opacity: 1; }
+    58%, 86% { stroke-dashoffset: 0; opacity: 1; }
+    92% { stroke-dashoffset: 0; opacity: 0; }
+    100% { stroke-dashoffset: 1; opacity: 0; }
+  }
+  /* Nib positions sampled along the curve, timed to the stroke's length. */
+  @keyframes dd-ux-nib {
+    0%, 8% { transform: translate(32px, 100px); }
+    18% { transform: translate(40.8px, 85.9px); }
+    25.2% { transform: translate(52.4px, 83.5px); }
+    33.5% { transform: translate(66.1px, 84.3px); }
+    43.2% { transform: translate(81.5px, 80px); }
+    58%, 88% { transform: translate(98px, 62px); }
+    96%, 100% { transform: translate(32px, 100px); }
+  }
+  @keyframes dd-ux-swatch {
+    0%, 60% { transform: none; }
+    61%, 100% { transform: translate(14px, 10px); }
+  }
+  @keyframes dd-ux-swatch-b {
+    0%, 60% { transform: none; }
+    61%, 100% { transform: translate(-14px, -10px); }
+  }
+
+  @keyframes dd-br-stamp {
+    0% { transform: translateY(-4px); }
+    26% { transform: translateY(-10px); }
+    36%, 46% { transform: translateY(40px); }
+    64%, 100% { transform: translateY(-4px); }
+  }
+  @keyframes dd-br-mark {
+    0%, 45% { opacity: 0; }
+    46%, 92% { opacity: 1; }
+    93%, 100% { opacity: 0; }
+  }
+  @keyframes dd-br-ticks {
+    0%, 35% { opacity: 0; }
+    36%, 52% { opacity: 1; }
+    53%, 100% { opacity: 0; }
+  }
+
+  @keyframes dd-gr-drop {
+    0% { transform: translate(93px, 82px); opacity: 1; }
+    80% { transform: translate(110px, 99px); opacity: 1; }
+    81%, 100% { transform: translate(110px, 99px); opacity: 0; }
+  }
+  @keyframes dd-gr-sway {
+    from { transform: rotate(-4deg); }
+    to { transform: rotate(4deg); }
+  }
+  @keyframes dd-gr-can {
+    from { transform: rotate(-2deg); }
+    to { transform: rotate(3deg); }
+  }
+
+  @keyframes dd-in-swing {
+    from { transform: rotate(-5deg); }
+    to { transform: rotate(5deg); }
+  }
+  @keyframes dd-in-flip {
+    0%, 42% { transform: none; }
+    44% { transform: scaleX(0.5); }
+    46% { transform: scaleX(0.05); }
+    48% { transform: scaleX(0.5); }
+    50%, 92% { transform: none; }
+    94% { transform: scaleX(0.5); }
+    96% { transform: scaleX(0.05); }
+    98% { transform: scaleX(0.5); }
+    100% { transform: none; }
+  }
+  @keyframes dd-in-a {
+    0%, 45% { opacity: 1; }
+    46%, 95% { opacity: 0; }
+    96%, 100% { opacity: 1; }
+  }
+  @keyframes dd-in-b {
+    0%, 45% { opacity: 0; }
+    46%, 95% { opacity: 1; }
+    96%, 100% { opacity: 0; }
+  }
+
+  @keyframes dd-sc-tape {
+    0%, 10% { transform: translateX(-40px); }
+    40%, 72% { transform: none; }
+    82%, 100% { transform: translateX(-40px); }
+  }
+  @keyframes dd-sc-ticks {
+    0%, 41% { opacity: 0; }
+    42%, 56% { opacity: 1; }
+    57%, 100% { opacity: 0; }
+  }
+
+  @keyframes dd-op-steam {
+    from { transform: translateY(2px); opacity: 0.55; }
+    to { transform: translateY(-4px); opacity: 1; }
+  }
+  @keyframes dd-op-wrench {
+    0%, 60% { transform: none; }
+    70% { transform: rotate(-7deg); }
+    80% { transform: none; }
+    88% { transform: rotate(-5deg); }
+    96%, 100% { transform: none; }
+  }
+</style>

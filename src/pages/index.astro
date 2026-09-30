@@ -7,6 +7,7 @@ import HeroAtmosphere from "../components/HeroAtmosphere.astro";
 import WorkStrip from "../components/WorkStrip.astro";
 import ArtContours from "../components/art/ArtContours.astro";
 import WorkStage from "../components/WorkStage.astro";
+import Doodle, { type DoodleName } from "../components/Doodle.astro";
 import { featuredProjects, getProject, toneStyles, type Brand, type Thumb } from "../data/work";
 import { menuServices } from "../data/services";
 
@@ -235,6 +236,7 @@ const faqs = [
             return (
               <div data-reveal class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center py-10 md:py-14 border-b border-fog">
                 <div class="lg:col-span-6">
+                  <Doodle name={s.slug as DoodleName} class="w-24 h-24 md:w-28 md:h-28 -ml-3 mb-4" />
                   <h3 class="text-3xl md:text-[2.75rem] text-ink font-display tracking-tight leading-[1.02]">
                     {s.name}.
                   </h3>
@@ -529,23 +531,23 @@ const faqs = [
           {
             [
               {
-                n: "→",
+                icon: "intake",
                 h: "A cap on intake.",
                 p: "We keep our software client list small, so your build never gets lost in the pile. When we're full, we'll tell you.",
               },
               {
-                n: "→",
+                icon: "scope",
                 h: "Honest about scope.",
                 p: "If we can't make your project great, we'll say so on the first call instead of saying yes and hoping for the best.",
               },
               {
-                n: "→",
+                icon: "operators",
                 h: "Built like operators.",
                 p: "We use what we ship. Our own client portal, CRM, and automations run the studio, so when something breaks, we feel it first.",
               },
             ].map((pillar) => (
               <div>
-                <span class="text-3xl text-bone/40 mb-6 block">{pillar.n}</span>
+                <Doodle name={pillar.icon as DoodleName} tone="dark" class="w-28 h-28 md:w-32 md:h-32 -ml-4 mb-4" />
                 <h3 class="text-2xl md:text-3xl text-bone mb-4">{pillar.h}</h3>
                 <p class="text-bone/75 text-lg leading-relaxed">{pillar.p}</p>
               </div>
