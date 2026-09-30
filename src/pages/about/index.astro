@@ -42,39 +42,40 @@ const collaborators = [
     lede="elefox studio is a development studio in South Florida. We build websites, custom software, brand systems, and quiet little AI automations for small companies that have outgrown templates."
   />
 
-  <!-- The founder (this used to be its own page at /about/founder). The
-       photo runs off the right edge and dissolves into the page on its other
-       sides, so it sits in the page instead of in a frame. -->
-  <section id="founder" class="relative scroll-mt-24">
-    <div class="founder-photo lg:absolute lg:inset-y-0 lg:right-0 lg:w-[58%]">
+  <!-- The founder (this used to be its own page at /about/founder). The photo
+       runs edge to edge and the intro block cuts up into its lower-left
+       corner, so the text and photo interlock instead of the photo sitting in
+       a frame. -->
+  <section id="founder" class="relative mt-12 md:mt-16 scroll-mt-24">
+    <div class="aspect-square md:aspect-auto md:h-[74vh] md:min-h-[500px] md:max-h-[820px]">
       <img
         src="/people/tiffany-studio.webp"
         srcset="/people/tiffany-studio-960.webp 960w, /people/tiffany-studio.webp 1672w"
-        sizes="(min-width: 1024px) 58vw, 100vw"
+        sizes="100vw"
         alt="Tiffany Russell at her desk in the elefox studio, coffee mug and laptop in front of her"
         width="1672"
         height="941"
         loading="eager"
         decoding="async"
-        class="w-full h-full object-cover"
+        class="w-full h-full object-cover object-[36%_30%] md:object-[46%_30%]"
       />
     </div>
     <Container size="full">
-      <div class="relative lg:min-h-[680px] lg:grid lg:grid-cols-12 lg:items-center">
-        <div data-reveal class="lg:col-span-5 -mt-10 lg:mt-0 pb-8 lg:py-24">
-          <h2 class="max-w-[14ch]">
-            Hi. I'm Tiffany. I started <span class="text-forest">elefox</span>.
-          </h2>
-          <p class="mt-6 flex items-center gap-3 text-sm text-graphite">
-            <span class="w-8 h-px bg-ember inline-block shrink-0"></span>
-            Coral Springs, somewhere between coffee #2 and a deploy
-          </p>
-          <p class="mt-8 text-lg md:text-xl text-graphite leading-relaxed">
-            I've been designing and building websites and software for over 15
-            years: in-house, at agencies, and on my own. People kept hiring me
-            for the same reason. I could work out the plan, design it, and then
-            build it myself.
-          </p>
+      <div class="founder-intro relative -mt-20 md:-mt-48 -ml-6 md:-ml-10 mr-6 md:mr-0 bg-bone pl-6 md:pl-10 pt-8 md:pt-12 pr-6 md:pr-14 max-w-[44rem]">
+        <div data-reveal>
+        <h2 class="max-w-[14ch]">
+          Hi. I'm Tiffany. I started <span class="text-forest">elefox</span>.
+        </h2>
+        <p class="mt-6 flex items-center gap-3 text-sm text-graphite">
+          <span class="w-8 h-px bg-ember inline-block shrink-0"></span>
+          Coral Springs, somewhere between coffee #2 and a deploy
+        </p>
+        <p class="mt-8 text-lg md:text-xl text-graphite leading-relaxed">
+          I've been designing and building websites and software for over 15
+          years: in-house, at agencies, and on my own. People kept hiring me
+          for the same reason. I could work out the plan, design it, and then
+          build it myself.
+        </p>
         </div>
       </div>
     </Container>
@@ -166,28 +167,14 @@ const collaborators = [
 </BaseLayout>
 
 <style>
-  .founder-photo {
-    aspect-ratio: 1 / 1;
-    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 66%, transparent);
-    mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 66%, transparent);
-  }
-  .founder-photo img {
-    object-position: 36% 30%;
-  }
-  @media (min-width: 1024px) {
-    .founder-photo {
-      aspect-ratio: auto;
-      -webkit-mask-image:
-        linear-gradient(to right, transparent, #000 24%),
-        linear-gradient(to bottom, transparent, #000 14%, #000 78%, transparent);
-      -webkit-mask-composite: source-in;
-      mask-image:
-        linear-gradient(to right, transparent, #000 24%),
-        linear-gradient(to bottom, transparent, #000 14%, #000 78%, transparent);
-      mask-composite: intersect;
-    }
-    .founder-photo img {
-      object-position: 30% 30%;
-    }
+  /* Carry the intro block's page colour to the left edge of the screen, so no
+     sliver of photo shows beside it once the container stops growing. */
+  .founder-intro::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    right: 100%;
+    width: 50vw;
+    background: var(--color-bone);
   }
 </style>
