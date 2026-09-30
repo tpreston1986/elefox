@@ -4,14 +4,14 @@
 // each, stepped like hand-drawn animation. The resting pose is a finished
 // drawing, and it is all a visitor sees when they prefer reduced motion.
 //
-// Services: websites, mobile, software, uiux, brand, early-stage
+// Services: websites, mobile, software, brand, early-stage
 // Pillars:  intake, scope, operators
 //
 // Drawn on a 160 unit grid with a 3 unit line, so they hold up anywhere from
 // about 64px to 200px wide.
 
 // prettier-ignore
-export type DoodleName = "websites" | "mobile" | "software" | "uiux" | "brand" | "early-stage" | "intake" | "scope" | "operators";
+export type DoodleName = "websites" | "mobile" | "software" | "brand" | "early-stage" | "intake" | "scope" | "operators";
 
 interface Props {
   name: DoodleName;
@@ -58,7 +58,6 @@ const phone = {
   bubble: "M18,26H56A8,8 0 0 1 64,34V48A8,8 0 0 1 56,56H54L60,66L46,56H18A8,8 0 0 1 10,48V34A8,8 0 0 1 18,26Z",
 };
 const soft = { mon: rr(18, 28, 108, 72, 8), gear: gear(122, 98, 19, 8, 5) };
-const tab = { body: rr(14, 40, 112, 80, 10), curve: "M32,100C44,62 70,108 98,62" };
 const stamp = { paper: "M22,112L118,100L136,128L36,142Z", block: rr(54, 52, 52, 20, 4) };
 const grow = { pot: "M104,109L140,109L135,134L109,134Z", can: rr(22, 58, 46, 42, 9) };
 const sign = rr(40, 54, 80, 44, 8);
@@ -163,39 +162,6 @@ const wrenchHead = "M6,-17.5A13,13 0 1 1 -6,-17.5L-6,-10L6,-10Z";
             <path class="sh" d={soft.gear} transform="translate(4 5)" />
             <path class="g" d={soft.gear} />
             <path class="p" d={circ(122, 98, 6)} />
-          </g>
-        </>
-      )
-    }
-
-    {
-      name === "uiux" && (
-        <>
-          <g transform="rotate(-6 80 80)">
-            <path class="sh" d={tab.body} transform="translate(5 6)" />
-            <path class="p" d={tab.body} />
-            <path class="l t" d={rr(22, 48, 90, 64, 4)} />
-            <circle class="dot" cx="119" cy="80" r="2.5" />
-            <path class="l t" d="M32,100L44,62M98,62L70,108" />
-            <circle class="dot" cx="44" cy="62" r="2.8" />
-            <circle class="dot" cx="70" cy="108" r="2.8" />
-            <path class="l ux-curve" d={tab.curve} pathLength="1" />
-            <path class="p t" d={rr(29, 97, 6, 6, 1)} />
-            <path class="p t" d={rr(95, 59, 6, 6, 1)} />
-            <g class="ux-nib">
-              <path class="p" d="M0,0L4,-14L12,-20L20,-12L14,-4Z" />
-              <path class="l t" d="M0,0L9,-9" />
-              <circle class="dot" cx="10" cy="-10" r="2.2" />
-              <path class="s" d="M12,-20L16,-24L24,-16L20,-12Z" />
-            </g>
-          </g>
-          <g class="ux-swatch">
-            <path class="sh" d={rr(18, 8, 20, 20, 4)} transform="translate(3 4)" />
-            <path class="g" d={rr(18, 8, 20, 20, 4)} />
-          </g>
-          <g class="ux-swatch ux-swatch--b">
-            <path class="sh" d={rr(32, 18, 20, 20, 4)} transform="translate(3 4)" />
-            <path class="a" d={rr(32, 18, 20, 20, 4)} />
           </g>
         </>
       )
@@ -368,7 +334,6 @@ const wrenchHead = "M6,-17.5A13,13 0 1 1 -6,-17.5L-6,-10L6,-10Z";
   /* Resting pose. */
   .ticks { opacity: 0; }
   .web-btn { fill: var(--dd-accent); }
-  .ux-nib { transform: translate(98px, 62px); }
   .gr-drop { transform: translate(101px, 90px); }
   .gr-drop--2, .gr-drop--3 { opacity: 0; }
   .in-face-b { opacity: 0; }
@@ -390,12 +355,6 @@ const wrenchHead = "M6,-17.5A13,13 0 1 1 -6,-17.5L-6,-10L6,-10Z";
     /* Software: the gear ticks round, a task gets checked. */
     .soft-gear { animation: dd-spin 4s steps(16) infinite; transform-origin: 122px 98px; }
     .soft-check { animation: dd-check 4s steps(3) infinite; }
-
-    /* UI/UX: the pen draws the curve, swatches trade places. */
-    .ux-curve { stroke-dasharray: 1; animation: dd-ux-draw 3.6s linear infinite; }
-    .ux-nib { animation: dd-ux-nib 3.6s linear infinite; }
-    .ux-swatch { animation: dd-ux-swatch 3.6s steps(1) infinite; }
-    .ux-swatch--b { animation-name: dd-ux-swatch-b; }
 
     /* Brand: the stamp comes down and leaves a mark. */
     .br-stamp { animation: dd-br-stamp 2.8s steps(3) infinite; }
@@ -469,31 +428,6 @@ const wrenchHead = "M6,-17.5A13,13 0 1 1 -6,-17.5L-6,-10L6,-10Z";
     0%, 20% { stroke-dashoffset: 1; }
     35%, 88% { stroke-dashoffset: 0; }
     100% { stroke-dashoffset: 1; }
-  }
-
-  @keyframes dd-ux-draw {
-    0%, 8% { stroke-dashoffset: 1; opacity: 1; }
-    58%, 86% { stroke-dashoffset: 0; opacity: 1; }
-    92% { stroke-dashoffset: 0; opacity: 0; }
-    100% { stroke-dashoffset: 1; opacity: 0; }
-  }
-  /* Nib positions sampled along the curve, timed to the stroke's length. */
-  @keyframes dd-ux-nib {
-    0%, 8% { transform: translate(32px, 100px); }
-    18% { transform: translate(40.8px, 85.9px); }
-    25.2% { transform: translate(52.4px, 83.5px); }
-    33.5% { transform: translate(66.1px, 84.3px); }
-    43.2% { transform: translate(81.5px, 80px); }
-    58%, 88% { transform: translate(98px, 62px); }
-    96%, 100% { transform: translate(32px, 100px); }
-  }
-  @keyframes dd-ux-swatch {
-    0%, 60% { transform: none; }
-    61%, 100% { transform: translate(14px, 10px); }
-  }
-  @keyframes dd-ux-swatch-b {
-    0%, 60% { transform: none; }
-    61%, 100% { transform: translate(-14px, -10px); }
   }
 
   @keyframes dd-br-stamp {

@@ -28,7 +28,7 @@ export type Service = {
 // Creative Services Subscription — see /src/pages/mvp.astro & /subscription.astro)
 // followed by the capability services below.
 //
-// Prices on the mobile, uiux, and early-stage services were anchored to the
+// Prices on the mobile and early-stage services were anchored to the
 // existing web/software pricing and confirmed as-is on 2026-09-28.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -42,7 +42,7 @@ export const services: Record<string, Service> = {
     oneLiner:
       "Sites that load fast, explain what you do, and make it easy for people to reach you.",
     description:
-      "Anything from a tight one-pager to a full site built to bring in leads. Every site ships with proper SEO and accessible markup, and from the Growth Site tier up, you can edit it yourself.",
+      "Anything from a tight one-pager to a full site built to bring in leads. We design it and we build it. Every site ships with proper SEO and accessible markup, and from the Growth Site tier up, you can edit it yourself.",
     tiers: [
       {
         name: "Starter Lead Site",
@@ -163,7 +163,7 @@ export const services: Record<string, Service> = {
     oneLiner:
       "Custom software for teams that no off-the-shelf tool fits: CRMs, client portals, booking systems, and the internal tools that hold it all together.",
     description:
-      "Off-the-shelf software makes you adapt to it: the same fields, the same workflow, and the same vocabulary as every other customer. We flip that around and build it around your terminology and your process. We host it, we support it, and it's yours.",
+      "Off-the-shelf software makes you adapt to it: the same fields, the same workflow, and the same vocabulary as every other customer. We flip that around and build it around your terminology and your process. We design it, build it, host it, and support it, and it's yours.",
     tiers: [
       {
         name: "Custom CRM",
@@ -214,63 +214,6 @@ export const services: Record<string, Service> = {
       "You can solve it with a no-code tool in an afternoon",
       "You want to be the platform's biggest customer for $99/mo",
       "Your processes change every two weeks",
-    ],
-  },
-
-  uiux: {
-    slug: "uiux",
-    name: "UI/UX design",
-    shortName: "UI/UX",
-    title: "Interfaces people know how to use.",
-    titleAccent: "how to use",
-    oneLiner:
-      "Product design, user flows, and interfaces, from wireframe to polished, build-ready screens.",
-    description:
-      "The design layer that sits under everything we build, offered on its own. We map the flows, design the screens, and hand off something your developers (or ours) can build without guessing what you meant.",
-    tiers: [
-      {
-        name: "Design Sprint",
-        price: "$2,500",
-        blurb: "Wireframes and flows for one product or feature, fast.",
-        features: [
-          "Up to ~10 key screens",
-          "User flows + wireframes",
-          "Clickable prototype",
-          "One revision round",
-        ],
-      },
-      {
-        name: "Product Design",
-        price: "From $5,000",
-        blurb: "Full UI design, build-ready, with a reusable design system.",
-        features: [
-          "Full UI for your product",
-          "Reusable component system",
-          "Dev-ready handoff (Figma)",
-          "Two revision rounds",
-        ],
-      },
-      {
-        name: "Ongoing / Custom",
-        price: "Custom",
-        blurb: "A design partner for a product that keeps evolving.",
-        features: [
-          "Monthly design capacity",
-          "New features + iteration",
-          "Usability review",
-          "Scoped to your roadmap",
-        ],
-      },
-    ],
-    good: [
-      "You have a product that works but feels clunky",
-      "You need build-ready screens, not just pretty pictures",
-      "Your developers keep guessing at what you meant",
-    ],
-    skip: [
-      "You want a logo (that's Branding)",
-      "You need a single social graphic",
-      "You're not ready to change the current design",
     ],
   },
 
@@ -418,13 +361,13 @@ export const allServices = Object.values(services);
 /**
  * The capability services in Movadex-mirrored order, flagships excluded.
  * (Flagship offers — MVP in 10 Days, Creative Services Subscription — live on
- * their own pages.) `ai` is deliberately not in this list.
+ * their own pages.) `ai` is deliberately not in this list. UI/UX was folded
+ * into the builds on 2026-09-30: design is part of every site, app, and tool.
  */
 export const menuOrder = [
   "websites",
   "mobile",
   "software",
-  "uiux",
   "brand",
   "early-stage",
 ] as const;

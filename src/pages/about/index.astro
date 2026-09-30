@@ -2,7 +2,6 @@
 import PageHeader from "../../components/PageHeader.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Container from "../../components/Container.astro";
-import Eyebrow from "../../components/Eyebrow.astro";
 import EndCTA from "../../components/EndCTA.astro";
 
 const principles = [
@@ -24,13 +23,6 @@ const principles = [
   },
 ];
 
-const facts = [
-  { t: "Based", d: "Coral Springs, FL" },
-  { t: "Experience", d: "15+ years" },
-  { t: "Toolkit", d: "Figma · Astro · Next.js · AI agents" },
-  { t: "Studio focus", d: "Relationship-driven small teams" },
-];
-
 const collaborators = [
   { role: "Design + product", scope: "Strategy, UX, brand, frontend" },
   { role: "Engineering", scope: "Backend, integrations, AI pipelines" },
@@ -50,94 +42,68 @@ const collaborators = [
     lede="elefox studio is a development studio in South Florida. We build websites, custom software, brand systems, and quiet little AI automations for small companies that have outgrown templates."
   />
 
-  <!-- The founder (this used to be its own page at /about/founder) -->
-  <section id="founder" class="pt-12 md:pt-20 pb-20 md:pb-32 scroll-mt-24">
+  <!-- The founder (this used to be its own page at /about/founder). The
+       photo runs off the right edge and dissolves into the page on its other
+       sides, so it sits in the page instead of in a frame. -->
+  <section id="founder" class="relative scroll-mt-24">
+    <div class="founder-photo lg:absolute lg:inset-y-0 lg:right-0 lg:w-[58%]">
+      <img
+        src="/people/tiffany-studio.webp"
+        srcset="/people/tiffany-studio-960.webp 960w, /people/tiffany-studio.webp 1672w"
+        sizes="(min-width: 1024px) 58vw, 100vw"
+        alt="Tiffany Russell at her desk in the elefox studio, coffee mug and laptop in front of her"
+        width="1672"
+        height="941"
+        loading="eager"
+        decoding="async"
+        class="w-full h-full object-cover"
+      />
+    </div>
     <Container size="full">
-      <div data-reveal class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-end">
-        <figure class="lg:col-span-7">
-          <img
-            src="/people/tiffany-studio.webp"
-            srcset="/people/tiffany-studio-960.webp 960w, /people/tiffany-studio.webp 1672w"
-            sizes="(min-width: 1024px) 56vw, 100vw"
-            alt="Tiffany Russell at her desk in the elefox studio, coffee mug and laptop in front of her"
-            width="1672"
-            height="941"
-            loading="eager"
-            decoding="async"
-            class="w-full aspect-[16/10] object-cover object-[38%_30%] rounded-[24px] md:rounded-[32px]"
-          />
-        </figure>
-        <div class="lg:col-span-5 lg:pb-6">
-          <Eyebrow>The founder</Eyebrow>
-          <h2 class="mt-5 max-w-[14ch]">
+      <div class="relative lg:min-h-[680px] lg:grid lg:grid-cols-12 lg:items-center">
+        <div data-reveal class="lg:col-span-5 -mt-10 lg:mt-0 pb-8 lg:py-24">
+          <h2 class="max-w-[14ch]">
             Hi. I'm Tiffany. I started <span class="text-forest">elefox</span>.
           </h2>
-          <p class="mt-8 flex items-center gap-3 text-sm text-graphite">
-            <span class="w-8 h-px bg-ember inline-block"></span>
+          <p class="mt-6 flex items-center gap-3 text-sm text-graphite">
+            <span class="w-8 h-px bg-ember inline-block shrink-0"></span>
             Coral Springs, somewhere between coffee #2 and a deploy
+          </p>
+          <p class="mt-8 text-lg md:text-xl text-graphite leading-relaxed">
+            I've been designing and building websites and software for over 15
+            years: in-house, at agencies, and on my own. People kept hiring me
+            for the same reason. I could work out the plan, design it, and then
+            build it myself.
           </p>
         </div>
       </div>
+    </Container>
+  </section>
 
-      <div class="mt-16 md:mt-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-        <div data-reveal class="lg:col-span-7 space-y-8 text-lg md:text-xl text-graphite leading-relaxed">
-          <p>
-            I'm a UX designer and product builder based in Coral Springs, South
-            Florida. I've worked across every flavor of the web (in-house,
-            agency, freelance), and elefox is the studio I always wanted to run.
-          </p>
-          <p>
-            What kept getting me hired wasn't one specialty. It was that I
-            could figure out the plan, design it, and then write the code
-            myself. A therapy practice that needed a real intake system. A
-            realtor whose CRM was built for someone else. A financial planning
-            firm that wanted a site that actually closed leads. It kept
-            happening, so I built a studio around it.
-          </p>
-          <p>
-            The studio is intentionally small. I'm the strategist, lead
-            designer, frontend builder, and AI tinkerer on every engagement.
-            A small group of collaborators I trust (engineers, illustrators,
-            copywriters) plug in when a project calls for them. We cap our
-            custom software roster at 25 active clients. We turn down work we
-            can't make great. I'd rather do fewer projects really well.
-          </p>
-          <p>
-            Years in, the part I still love is the same: making real things
-            for people who needed something better than what was on offer.
-            The tools have changed wildly. AI agents, modern frontend
-            frameworks, and LLM pipelines are all in the kit now, and I keep
-            learning the new stuff so what we ship doesn't feel dated two years
-            after launch. The craft underneath hasn't changed one bit.
-          </p>
-          <p>
-            The name? Long before it was a studio,
-            <strong class="text-ink font-medium">elefox</strong> was my kids:
-            elephants in my daughter's nursery, foxes in my son's, and a
-            tattoo on my arm to keep them both close. When I needed a name
-            that wasn't mine, theirs was the obvious one. The qualities happen
-            to map, too: elephants remember and play the long game; foxes are
-            clever and know when to bend the rules. That's how I want the
-            studio to work.
-          </p>
-          <div class="pt-4 flex items-center gap-4">
-            <span class="font-mono text-xs uppercase tracking-wider text-graphite">signed,</span>
-            <span class="font-display font-bold text-3xl md:text-4xl tracking-tight text-forest">Tiffany</span>
-          </div>
+  <section class="pt-4 lg:pt-10 pb-20 md:pb-32">
+    <Container size="full">
+      <div data-reveal class="max-w-[62ch] space-y-7 text-lg md:text-xl text-graphite leading-relaxed">
+        <p>
+          I've built an intake system for a therapy practice, a CRM for a
+          realtor who was done bending to someone else's, and a site for a
+          financial planning firm that needed it to actually bring in leads.
+          After enough of those, I figured I should just open a studio.
+        </p>
+        <p>
+          The tools change constantly, so I keep learning the new stuff (AI
+          included). That way what I build still feels current two years after
+          launch.
+        </p>
+        <p>
+          About the name: <strong class="text-ink font-medium">elefox</strong>
+          is my kids. My daughter's nursery was all elephants, my son's was all
+          foxes, and I have both tattooed on my arm. When the studio needed a
+          name that wasn't mine, theirs was right there.
+        </p>
+        <div class="pt-3 flex items-center gap-4">
+          <span class="font-mono text-xs uppercase tracking-wider text-graphite">signed,</span>
+          <span class="font-display font-bold text-3xl md:text-4xl tracking-tight text-forest">Tiffany</span>
         </div>
-
-        <aside data-reveal class="lg:col-span-4 lg:col-start-9">
-          <dl class="lg:sticky lg:top-28 grid grid-cols-2 lg:grid-cols-1 gap-8 border-t border-fog pt-8">
-            {
-              facts.map((item) => (
-                <div>
-                  <dt class="font-mono text-xs uppercase tracking-wider text-forest mb-2">{item.t}</dt>
-                  <dd class="text-lg text-ink leading-snug">{item.d}</dd>
-                </div>
-              ))
-            }
-          </dl>
-        </aside>
       </div>
     </Container>
   </section>
@@ -198,3 +164,30 @@ const collaborators = [
     secondary={{ label: "Send a message", href: "/contact" }}
   />
 </BaseLayout>
+
+<style>
+  .founder-photo {
+    aspect-ratio: 1 / 1;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 66%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 66%, transparent);
+  }
+  .founder-photo img {
+    object-position: 36% 30%;
+  }
+  @media (min-width: 1024px) {
+    .founder-photo {
+      aspect-ratio: auto;
+      -webkit-mask-image:
+        linear-gradient(to right, transparent, #000 24%),
+        linear-gradient(to bottom, transparent, #000 14%, #000 78%, transparent);
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(to right, transparent, #000 24%),
+        linear-gradient(to bottom, transparent, #000 14%, #000 78%, transparent);
+      mask-composite: intersect;
+    }
+    .founder-photo img {
+      object-position: 30% 30%;
+    }
+  }
+</style>

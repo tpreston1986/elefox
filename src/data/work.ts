@@ -186,7 +186,7 @@ export const projects: Project[] = [
     name: "Kith",
     tagline:
       "Snap a card, capture the lead, and let it draft warm, you-voiced follow-ups on a schedule.",
-    services: ["software", "uiux", "brand"],
+    services: ["software", "brand"],
     brand: { field: "#43243a", glow: "#9a5a86", tone: "light" },
     thumb: { kind: "screen", src: "/work/kith-today.webp" },
     status: "Live",
@@ -341,7 +341,7 @@ export const projects: Project[] = [
     name: "Client Portal",
     tagline:
       "Portal, admin, payments, contracts, and files in one custom system. The tool we run our own studio on.",
-    services: ["software", "websites", "uiux"],
+    services: ["software", "websites"],
     brand: { field: "#2a3f1f", glow: "#7fa653", tone: "light" },
     thumb: { kind: "screen", src: "/work/portal-dashboard.webp" },
     url: "https://portal.elefoxstudio.com",
@@ -385,7 +385,7 @@ export const projects: Project[] = [
     name: "Cove: Ocean Puzzles",
     tagline:
       "Four relaxing puzzle games in one cozy reef, designed and built in-house for iOS and Android.",
-    services: ["mobile", "uiux", "brand"],
+    services: ["mobile", "brand"],
     brand: { field: "#0c2b4a", glow: "#3fc4d4", tone: "light" },
     thumb: {
       kind: "phones",

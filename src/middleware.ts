@@ -86,6 +86,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
     });
   }
 
+  // UI/UX folded into the builds; its old page points at the services overview.
+  if (url.pathname === "/services/uiux" || url.pathname === "/services/uiux/") {
+    return new Response(null, {
+      status: 301,
+      headers: { Location: "/services" },
+    });
+  }
+
   if (url.pathname === "/sitemap.xml") {
     return new Response(null, {
       status: 301,
