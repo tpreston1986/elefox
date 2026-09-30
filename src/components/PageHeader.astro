@@ -2,8 +2,12 @@
 // The calm header for inside pages: left-aligned headline on the page's own
 // bone background, intro and actions beside it, a breadcrumb for wayfinding,
 // and a hairline underneath. The aurora hero and gradient accent stay on the
-// homepage and the CRM landers; inside pages carry emphasis with colour alone.
+// homepage and the CRM landers; inside pages carry emphasis with colour alone,
+// plus a faint patch of contour lines in the open top-right corner, seeded from
+// the title so every page gets its own (tablet and up; on phones there is no
+// open corner, only text).
 import Container from "./Container.astro";
+import ArtContours from "./art/ArtContours.astro";
 
 type Crumb = { label: string; href?: string };
 
@@ -23,7 +27,19 @@ const after = at >= 0 ? title.slice(at + accent!.length) : "";
 const hasAside = Boolean(lede) || Astro.slots.has("default");
 ---
 
-<section class="pt-28 md:pt-40">
+<section class="relative isolate pt-28 md:pt-40">
+  <ArtContours
+    variant="calm"
+    seed={title}
+    width={1440}
+    height={460}
+    at={[0.88, 0.3]}
+    size={[0.05, 0.1]}
+    angle={-18}
+    strength={0.3}
+    fade="radial-gradient(ellipse 34% 58% at 90% 26%, #000 20%, transparent 100%)"
+    class="hidden md:block"
+  />
   <Container size="full">
     <div class="pb-12 md:pb-16 border-b border-fog">
       {
