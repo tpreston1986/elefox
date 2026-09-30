@@ -140,10 +140,10 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
     form.addEventListener("focusin", () => {
       if (started) return;
       started = true;
-      if (typeof window.gtag === "function") {
-        const src = (form.querySelector('[name="source"]') || {}).value || "lead-form";
-        window.gtag("event", "form_start", { source: src, form: "crm-landing" });
-      }
+      // GTM forwards these dataLayer events to GA4.
+      const src = (form.querySelector('[name="source"]') || {}).value || "lead-form";
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: "form_start", source: src, form: "crm-landing" });
     });
 
     // Turnstile can take a few seconds to issue its token. If the visitor
@@ -251,9 +251,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
       }
       // Fire conversion events, tagged by which landing page converted.
       const src = (form.querySelector('[name="source"]') || {}).value || "lead-form";
-      if (typeof window.gtag === "function") {
-        window.gtag("event", "generate_lead", { source: src, form: "crm-landing" });
-      }
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: "generate_lead", source: src, form: "crm-landing" });
       if (typeof window.fbq === "function") {
         window.fbq("track", "Lead", { content_category: src });
       }

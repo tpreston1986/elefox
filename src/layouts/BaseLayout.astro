@@ -70,9 +70,9 @@ const websiteSchema = {
 // page source), so the default lives here.
 const gtmId = import.meta.env.PUBLIC_GTM_ID ?? "GTM-N7JSJCZG";
 
-// Google Analytics 4. Set when PUBLIC_GA4_ID (G-XXXXXXX) is configured;
-// renders nothing otherwise (e.g. local dev).
-const ga4Id = import.meta.env.PUBLIC_GA4_ID || "";
+// GA4 measurement ID. GA4 itself loads through Google Tag Manager (a Google
+// tag inside the container), so this ID only powers the ?noga opt-out below.
+const ga4Id = import.meta.env.PUBLIC_GA4_ID || "G-91FPRFXHXS";
 
 // Meta (Facebook) Pixel. Set PUBLIC_META_PIXEL_ID (15-16 digit number) to
 // enable. Renders nothing otherwise. Respects the same ?noga opt-out flag.
@@ -107,7 +107,16 @@ const metaPixelMarkup = (() => {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    {/* Google Tag Manager: as high in <head> as possible, per Google. */}
+    {/* Personal opt-out: visit ?noga=1 once on a device to stop GA counting
+        you (testing). ?noga=0 re-enables. Persists per-browser, and runs
+        before GTM so the disable flag is set before GA4 loads. */}
+    <script
+      is:inline
+      set:html={`(function(){try{var p=new URLSearchParams(location.search);if(p.has('noga')){if(p.get('noga')==='0'){localStorage.removeItem('elefox_noga')}else{localStorage.setItem('elefox_noga','1')}}if(localStorage.getItem('elefox_noga')==='1'){window['ga-disable-${ga4Id}']=true;}}catch(e){}})();`}
+    />
+
+    {/* Google Tag Manager: as high in <head> as possible, per Google. GA4
+        and any other tags are configured inside the container. */}
     {
       gtmId && (
         <script
@@ -167,23 +176,6 @@ const metaPixelMarkup = (() => {
       data-cf-beacon='{"token": "bc93bb58a01c445e99816377bfdda5dc"}'
     ></script>
     <!-- End Cloudflare Web Analytics -->
-
-    {/* Google Analytics 4 */}
-    {
-      ga4Id && (
-        <>
-          {/* Personal opt-out: visit ?noga=1 once on a device to stop GA
-              counting you (testing). ?noga=0 re-enables. Persists per-browser
-              and must run before gtag config sets the disable flag. */}
-          <script
-            is:inline
-            set:html={`(function(){try{var p=new URLSearchParams(location.search);if(p.has('noga')){if(p.get('noga')==='0'){localStorage.removeItem('elefox_noga')}else{localStorage.setItem('elefox_noga','1')}}if(localStorage.getItem('elefox_noga')==='1'){window['ga-disable-${ga4Id}']=true;}}catch(e){}})();`}
-          />
-          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`} />
-          <script is:inline set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${ga4Id}');`} />
-        </>
-      )
-    }
 
     {/* Meta (Facebook) Pixel — gated on PUBLIC_META_PIXEL_ID. Respects the
         same ?noga opt-out flag. Injected via Fragment set:html so Astro
@@ -495,13 +487,14 @@ const metaPixelMarkup = (() => {
         });
       }
 
-      // -- Intent events (GA4) ---------------------------------------------
+      // -- Intent events (GA4 via GTM) -------------------------------------
       // Track high-signal clicks: booking a call, tapping the phone, email.
-      // gtag respects the ga-disable opt-out, so the owner's own taps (?noga=1)
-      // are excluded automatically.
+      // Pushed to the dataLayer for GTM to forward to GA4; GA4 still honors
+      // the ga-disable opt-out, so the owner's own taps (?noga=1) are excluded.
       const track = (name: string, params: Record<string, unknown>) => {
-        const g = (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag;
-        if (typeof g === "function") g("event", name, params);
+        const w = window as unknown as { dataLayer?: unknown[] };
+        w.dataLayer = w.dataLayer || [];
+        w.dataLayer.push({ event: name, ...params });
       };
       document.addEventListener("click", (e) => {
         const target = e.target as HTMLElement | null;

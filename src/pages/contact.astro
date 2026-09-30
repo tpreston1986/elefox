@@ -240,9 +240,9 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
           form.addEventListener("focusin", () => {
             if (formStarted) return;
             formStarted = true;
-            if (typeof window.gtag === "function") {
-              window.gtag("event", "form_start", { source: "contact-form", form: "contact" });
-            }
+            // GTM forwards these dataLayer events to GA4.
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: "form_start", source: "contact-form", form: "contact" });
           });
 
           const showError = (field, msg) => {
@@ -377,9 +377,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
             }
 
             // Fire conversion events.
-            if (typeof window.gtag === "function") {
-              window.gtag("event", "generate_lead", { source: "contact-form", form: "contact" });
-            }
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: "generate_lead", source: "contact-form", form: "contact" });
             if (typeof window.fbq === "function") {
               window.fbq("track", "Lead", { content_category: "contact-form" });
             }
