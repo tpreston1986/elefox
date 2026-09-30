@@ -71,6 +71,13 @@ const SECURITY_HEADERS: Record<string, string> = {
   "Content-Security-Policy": CSP,
 };
 
+// On 2026-09-30 a trailing-slash redirect looped in production. Browsers keep
+// 301s, so a visitor who hit the loop can stay stuck after the fix. Wipe this
+// site's cached responses once per browser, on the first full page load.
+// Stops by itself on the date below; delete this block after that.
+const CACHE_RESET_COOKIE = "ef_cache_reset";
+const CACHE_RESET_UNTIL = Date.parse("2026-10-31T00:00:00Z");
+
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url);
 
@@ -128,6 +135,23 @@ export const onRequest = defineMiddleware(async (context, next) => {
   } else if (response.headers.get("content-type")?.includes("text/html")) {
     // HTML pages — let the browser revalidate so updates are immediate.
     response.headers.set("Cache-Control", "public, max-age=0, must-revalidate");
+
+    // Only on real page loads, not hover prefetches (older browsers send no
+    // Sec-Fetch-Mode at all).
+    const mode = context.request.headers.get("sec-fetch-mode");
+    if (
+      Date.now() < CACHE_RESET_UNTIL &&
+      (mode === null || mode === "navigate") &&
+      !context.cookies.has(CACHE_RESET_COOKIE)
+    ) {
+      response.headers.set("Clear-Site-Data", '"cache"');
+      response.headers.append(
+        "Set-Cookie",
+        `${CACHE_RESET_COOKIE}=1; Path=/; Max-Age=31536000; Secure; SameSite=Lax; HttpOnly`,
+      );
+      // Carries a cookie, so no shared cache may store it.
+      response.headers.set("Cache-Control", "private, max-age=0, must-revalidate");
+    }
   }
 
   return response;
