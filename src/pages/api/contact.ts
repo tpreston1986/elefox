@@ -109,13 +109,13 @@ const SERVICE_LABELS: Record<string, string> = {
   websites: "Websites",
   mobile: "Mobile apps",
   software: "Custom software",
-  uiux: "UI/UX design",
   brand: "Branding",
   "early-stage": "Early-stage build",
   other: "Not sure yet",
   // Older form values, still accepted from old links/bookmarks.
   crm: "Custom CRM",
   ai: "AI & automation",
+  uiux: "UI/UX design",
 };
 
 /* ── Cloudflare Turnstile verification ────────────────────────────────

@@ -2,7 +2,6 @@
 import PageHeader from "../../components/PageHeader.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Container from "../../components/Container.astro";
-import Button from "../../components/Button.astro";
 import EndCTA from "../../components/EndCTA.astro";
 
 const principles = [
@@ -43,33 +42,69 @@ const collaborators = [
     lede="elefox studio is a development studio in South Florida. We build websites, custom software, brand systems, and quiet little AI automations for small companies that have outgrown templates."
   />
 
-  <!-- The story -->
-  <section class="py-20 md:py-32">
-    <Container size="default" data-reveal>
-      <h2 class="mb-12">Why we exist.</h2>
-      <div class="space-y-8 text-lg md:text-xl text-graphite leading-relaxed max-w-3xl">
-        <p>
-          We've done design and code in just about every setup: in-house,
-          agency, freelance, and now our own studio. Long enough to know what
-          works, and we still rebuild our own stack every year, because the
-          tools keep changing and we'd rather keep up than fake it.
+  <!-- The founder (this used to be its own page at /about/founder). The photo
+       runs edge to edge and the intro block cuts up into its lower-left
+       corner, so the text and photo interlock instead of the photo sitting in
+       a frame. -->
+  <section id="founder" class="relative mt-12 md:mt-16 scroll-mt-24">
+    <div class="aspect-square md:aspect-auto md:h-[74vh] md:min-h-[500px] md:max-h-[820px]">
+      <img
+        src="/people/tiffany-studio.webp"
+        srcset="/people/tiffany-studio-960.webp 960w, /people/tiffany-studio.webp 1672w"
+        sizes="100vw"
+        alt="Tiffany Russell at her desk in the elefox studio, coffee mug and laptop in front of her"
+        width="1672"
+        height="941"
+        loading="eager"
+        decoding="async"
+        class="w-full h-full object-cover object-[36%_30%] md:object-[46%_30%]"
+      />
+    </div>
+    <Container size="full">
+      <div class="founder-intro relative -mt-20 md:-mt-48 -ml-6 md:-ml-10 mr-6 md:mr-0 bg-bone pl-6 md:pl-10 pt-8 md:pt-12 pr-6 md:pr-14 max-w-[44rem]">
+        <div data-reveal>
+        <h2 class="max-w-[14ch]">
+          Hi. I'm Tiffany. I started <span class="text-forest">elefox</span>.
+        </h2>
+        <p class="mt-6 flex items-center gap-3 text-sm text-graphite">
+          <span class="w-8 h-px bg-ember inline-block shrink-0"></span>
+          Coral Springs, somewhere between coffee #2 and a deploy
         </p>
-        <p>
-          The studio is small on purpose. It's founder-led, with a network of
-          trusted collaborators (engineers, illustrators, copywriters) who plug
-          in when a project calls for them. We say "we" because more than one
-          person touches your work, and we say "small" because it's true.
+        <p class="mt-8 text-lg md:text-xl text-graphite leading-relaxed">
+          I've been designing and building websites and software for over 15
+          years: in-house, at agencies, and on my own. People kept hiring me
+          for the same reason. I could work out the plan, design it, and then
+          build it myself.
         </p>
-        <p>
-          We work with service businesses, small SaaS, local operators, and
-          founders who got told they were "too small" for a real studio.
-          They're our people.
-        </p>
+        </div>
       </div>
-      <div class="mt-10">
-        <Button href="/about/founder" variant="link">
-          → Meet the founder
-        </Button>
+    </Container>
+  </section>
+
+  <section class="pt-4 lg:pt-10 pb-20 md:pb-32">
+    <Container size="full">
+      <div data-reveal class="max-w-[62ch] space-y-7 text-lg md:text-xl text-graphite leading-relaxed">
+        <p>
+          I've built an intake system for a therapy practice, a CRM for a
+          realtor who was done bending to someone else's, and a site for a
+          financial planning firm that needed it to actually bring in leads.
+          After enough of those, I figured I should just open a studio.
+        </p>
+        <p>
+          The tools change constantly, so I keep learning the new stuff (AI
+          included). That way what I build still feels current two years after
+          launch.
+        </p>
+        <p>
+          About the name: <strong class="text-ink font-medium">elefox</strong>
+          is my kids. My daughter's nursery was all elephants, my son's was all
+          foxes, and I have both tattooed on my arm. When the studio needed a
+          name that wasn't mine, theirs was right there.
+        </p>
+        <div class="pt-3 flex items-center gap-4">
+          <span class="font-mono text-xs uppercase tracking-wider text-graphite">signed,</span>
+          <span class="font-display font-bold text-3xl md:text-4xl tracking-tight text-forest">Tiffany</span>
+        </div>
       </div>
     </Container>
   </section>
@@ -124,5 +159,22 @@ const collaborators = [
     </Container>
   </section>
 
-  <EndCTA heading="Curious who you'd be working with?" primary={{ label: "Meet the founder", href: "/about/founder" }} secondary={{ label: "Start a project", href: "/contact" }} />
+  <EndCTA
+    heading="The worst outcome is a free conversation."
+    primary={{ label: "Book a call", href: "/contact#book" }}
+    secondary={{ label: "Send a message", href: "/contact" }}
+  />
 </BaseLayout>
+
+<style>
+  /* Carry the intro block's page colour to the left edge of the screen, so no
+     sliver of photo shows beside it once the container stops growing. */
+  .founder-intro::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    right: 100%;
+    width: 50vw;
+    background: var(--color-bone);
+  }
+</style>
