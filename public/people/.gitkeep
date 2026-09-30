@@ -1,8 +1,5 @@
-# Drop personal photography here
+# Personal photography
 
-Expected files (referenced by the site):
-
-- `tiffany.jpg`, founder portrait, 4:5 aspect (e.g. 1200×1500), warm natural light.
-  Used at /about/founder hero. Missing-file fallback renders "TR" initials.
-
-When you replace, no code changes needed, the slots auto-detect.
+- `tiffany-studio.webp` (1672×941) and `tiffany-studio-960.webp`: Tiffany at her
+  desk. Used in the founder section on /about.
+- `tiffany.webp`: older 2:3 portrait, not currently used on the site.

@@ -3,25 +3,45 @@ import PageHeader from "../components/PageHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/Container.astro";
 import EndCTA from "../components/EndCTA.astro";
-import { menuServices } from "../data/services";
+import Eyebrow from "../components/Eyebrow.astro";
+import Doodle, { type DoodleName } from "../components/Doodle.astro";
+import { menuServices, type Tier } from "../data/services";
 
-// Capability pricing, straight from the mirrored services menu.
-const allTiers = menuServices.map((s) => ({
+// Lowest one-time price in a service, for the "from" line on its tile.
+// Monthly tiers and "Custom" are skipped so the number is an honest start.
+function startingPrice(tiers: Tier[]) {
+  const priced = tiers
+    .filter((t) => t.price.includes("$") && !t.cadence?.startsWith("/"))
+    .map((t) => Number(t.price.replace(/[^0-9]/g, "")));
+  return priced.length ? `$${Math.min(...priced).toLocaleString("en-US")}` : "Custom";
+}
+
+// One picker tile and one panel per service, straight from the services menu.
+const groups = menuServices.map((s) => ({
   slug: s.slug,
-  category: s.name,
+  name: s.name,
   short: s.shortName,
+  oneLiner: s.oneLiner,
+  from: startingPrice(s.tiers ?? []),
   tiers: s.tiers ?? [],
 }));
 
 // Grid columns follow the tier count, so a 3-tier service never shows an
 // empty fourth column.
 const cols = (n: number) =>
-  n >= 4 ? "md:grid-cols-2 lg:grid-cols-4" : n === 3 ? "md:grid-cols-3" : "md:grid-cols-2";
+  n >= 4 ? "md:grid-cols-2 xl:grid-cols-4" : n === 3 ? "md:grid-cols-3" : "md:grid-cols-2";
 
 const retainers = [
   { name: "Site Care", price: "$200", cadence: "/month", blurb: "Content updates, security, analytics, priority turnaround on small changes." },
   { name: "Software Hosting", price: "From $50", cadence: "/month", blurb: "Backups, uptime monitoring, security patches, bug fixes." },
   { name: "Hourly add-ons", price: "$150", cadence: "/hour", blurb: "New features, integrations, and workflow changes, billed by the hour." },
+];
+
+const finePrint = [
+  { t: "50/50 split", d: "Half up front to lock the timeline, half on delivery. No retainer required to start a build." },
+  { t: "Two revision rounds", d: "Every build includes two rounds of revisions. Substantial scope changes are billed at the hourly rate." },
+  { t: "25-client software cap", d: "We keep our active custom software roster small. When we're full, we're full." },
+  { t: "Ownership", d: "When the build is complete and paid, the code and assets are yours. You can take them anywhere." },
 ];
 ---
 
@@ -32,13 +52,148 @@ const retainers = [
     lede={`Every build starts with a fixed 50% deposit, with the other half due on delivery and two rounds of revisions included. Custom work comes with a clear range up front, not a shrug and a "depends on scope."`}
   />
 
-  <!-- Free audit banner -->
-  <section class="py-10 md:py-14">
+  <!-- Pick a service, see its tiers. Without JS the tiles are jump links and
+       every panel shows, stacked. -->
+  <section class="pt-12 md:pt-16 pb-16 md:pb-24" data-pricing>
+    <Container size="full">
+      <Eyebrow>Pick a service</Eyebrow>
+      <div
+        role="tablist"
+        aria-label="Services"
+        class="mt-5 -mx-6 px-6 md:mx-0 md:px-0 flex md:grid md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 overflow-x-auto md:overflow-visible snap-x scroll-px-6 md:scroll-px-0 pb-2 md:pb-0"
+      >
+        {
+          groups.map((g, i) => (
+            <a
+              href={`#${g.slug}`}
+              role="tab"
+              id={`tab-${g.slug}`}
+              aria-controls={g.slug}
+              aria-selected={i === 0 ? "true" : "false"}
+              data-tab={g.slug}
+              class="pick-tile snap-start shrink-0 w-[10.5rem] md:w-auto rounded-2xl border border-fog bg-bone px-4 pt-3 pb-5 transition-colors hover:border-mist aria-selected:border-forest aria-selected:bg-white"
+            >
+              <Doodle name={g.slug as DoodleName} class="w-16 h-16 md:w-[4.5rem] md:h-[4.5rem] -ml-1" />
+              <span class="block mt-2 font-display font-bold text-lg text-ink leading-tight">{g.short}</span>
+              <span class="block mt-1 text-sm text-graphite">
+                {g.from === "Custom" ? "Custom quote" : <>From <span class="text-forest font-semibold">{g.from}</span></>}
+              </span>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="mt-12 md:mt-16">
+        {
+          groups.map((g) => (
+            <section
+              id={g.slug}
+              role="tabpanel"
+              aria-labelledby={`tab-${g.slug}`}
+              class="price-panel scroll-mt-28 pb-12 last:pb-0"
+            >
+              <div class="mb-8 md:mb-10 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-10 items-end">
+                <div class="lg:col-span-8">
+                  <h2 class="text-3xl md:text-[2.75rem] leading-[1.05]">{g.name}</h2>
+                  <p class="mt-3 text-lg text-graphite max-w-2xl">{g.oneLiner}</p>
+                </div>
+                <a
+                  href={`/services/${g.slug}`}
+                  class="lg:col-span-4 lg:justify-self-end group inline-flex items-center gap-2 text-forest font-medium hover:gap-3 transition-all"
+                >
+                  More about {g.short.toLowerCase()}
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M2 8h11m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </div>
+
+              <div class:list={["grid grid-cols-1 gap-5 md:gap-6", cols(g.tiers.length)]}>
+                {g.tiers.map((tier) => (
+                  <a
+                    href={`/contact?service=${g.slug}`}
+                    class="group bg-white border border-fog hover:border-forest rounded-2xl p-7 md:p-8 flex flex-col transition-colors"
+                  >
+                    <h3 class="text-xl md:text-2xl text-ink">{tier.name}</h3>
+                    <div class="mt-3 flex items-baseline gap-2 flex-wrap">
+                      {tier.price.includes("$") ? (
+                        <span class="text-3xl md:text-4xl font-display font-bold text-forest tracking-tight">{tier.price}</span>
+                      ) : (
+                        <span class="text-sm font-mono uppercase tracking-[0.14em] text-forest border border-forest/30 px-3 py-1 rounded-pill">{tier.price}</span>
+                      )}
+                      {tier.cadence && <span class="text-sm text-graphite">{tier.cadence}</span>}
+                    </div>
+                    <p class="mt-4 text-graphite leading-relaxed">{tier.blurb}</p>
+                    <ul class="mt-6 pt-6 border-t border-fog space-y-2.5 text-sm text-ink">
+                      {tier.features.map((f) => (
+                        <li class="flex items-start gap-2.5">
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="text-forest mt-0.5 shrink-0" aria-hidden="true">
+                            <path d="M3 8.5L6 11.5L13 4.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <span class="mt-auto pt-7 inline-flex items-center gap-2 text-sm text-forest font-medium group-hover:gap-3 transition-all">
+                      Get a quote
+                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M2 8h11m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          ))
+        }
+      </div>
+    </Container>
+
+    <script is:inline>
+      (() => {
+        const root = document.querySelector("[data-pricing]");
+        if (!root) return;
+        const tabs = [...root.querySelectorAll('[role="tab"]')];
+        const panels = [...root.querySelectorAll('[role="tabpanel"]')];
+        root.classList.add("is-tabbed");
+        const select = (slug, focus) => {
+          tabs.forEach((t) => {
+            const on = t.dataset.tab === slug;
+            t.setAttribute("aria-selected", on ? "true" : "false");
+            t.tabIndex = on ? 0 : -1;
+            if (on && focus) t.focus();
+          });
+          panels.forEach((p) => p.classList.toggle("is-active", p.id === slug));
+        };
+        const fromHash = tabs.find((t) => "#" + t.dataset.tab === location.hash);
+        select((fromHash || tabs[0]).dataset.tab);
+        tabs.forEach((t, i) => {
+          t.addEventListener("click", (e) => {
+            e.preventDefault();
+            select(t.dataset.tab);
+            history.replaceState(null, "", "#" + t.dataset.tab);
+          });
+          t.addEventListener("keydown", (e) => {
+            const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+            if (!step) return;
+            e.preventDefault();
+            const next = tabs[(i + step + tabs.length) % tabs.length];
+            select(next.dataset.tab, true);
+            history.replaceState(null, "", "#" + next.dataset.tab);
+          });
+        });
+      })();
+    </script>
+  </section>
+
+  <!-- Not sure where to start -->
+  <section class="pb-16 md:pb-24">
     <Container size="full" data-reveal>
-      <a href="/audit" class="group relative block bg-forest text-bone rounded-[24px] px-6 md:px-12 py-10 md:py-12 overflow-hidden">
+      <a href="/audit" class="group block bg-forest text-bone rounded-[24px] px-6 md:px-12 py-9 md:py-10">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
           <div class="lg:col-span-8">
-            <h2 class="text-2xl md:text-4xl text-bone tracking-tight max-w-[22ch]">
+            <p class="font-mono text-xs uppercase tracking-[0.14em] text-bone/70">Not sure where to start?</p>
+            <h2 class="mt-3 text-2xl md:text-3xl text-bone tracking-tight max-w-[30ch]">
               Start with a free website audit. We'll tell you what to fix first.
             </h2>
           </div>
@@ -55,122 +210,74 @@ const retainers = [
     </Container>
   </section>
 
-  <!-- Jump to a service -->
-  <nav aria-label="Jump to a service" class="pb-2">
-    <Container size="full">
-      <ul class="flex flex-wrap gap-2 md:gap-3">
-        {allTiers.map((g) => (
-          <li>
-            <a href={`#${g.slug}`} class="inline-block px-4 py-2 rounded-pill text-sm font-medium border border-mist text-ink hover:border-forest hover:text-forest transition-colors">
-              {g.short}
-            </a>
-          </li>
-        ))}
-        <li>
-          <a href="#retainers" class="inline-block px-4 py-2 rounded-pill text-sm font-medium border border-mist text-ink hover:border-forest hover:text-forest transition-colors">
-            Retainers
-          </a>
-        </li>
-      </ul>
-    </Container>
-  </nav>
-
-  <!-- All capability tier categories -->
-  {
-    allTiers.map((group) => (
-      <section id={group.slug} class="py-14 md:py-20 scroll-mt-28">
-        <Container size="full" data-reveal>
-          <div class="mb-10 flex flex-wrap items-end justify-between gap-4">
-            <h2 class="text-3xl md:text-4xl">{group.category}</h2>
-            <a href={`/services/${group.slug}`} class="group inline-flex items-center gap-2 text-forest font-medium hover:gap-3 transition-all">
-              What's included
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M2 8h11m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </a>
-          </div>
-
-          <div class:list={["grid grid-cols-1 gap-6", cols(group.tiers.length)]}>
-            {group.tiers.map((tier) => (
-              <a
-                href={`/contact?service=${group.slug}`}
-                class="group relative bg-white border border-fog hover:border-forest rounded-xl p-8 flex flex-col transition-colors"
-              >
-                <h3 class="text-2xl text-ink mb-3">{tier.name}</h3>
-                <div class="mb-5 flex items-baseline gap-2 flex-wrap">
-                  {tier.price.includes("$") ? (
-                    <span class="text-3xl font-display font-bold text-forest tracking-tight">{tier.price}</span>
-                  ) : (
-                    <span class="text-sm font-mono uppercase tracking-[0.14em] text-forest border border-forest/30 px-3 py-1 rounded-pill">{tier.price}</span>
-                  )}
-                  {tier.cadence && <span class="text-sm text-graphite">{tier.cadence}</span>}
-                </div>
-                <p class="text-sm text-graphite leading-relaxed">{tier.blurb}</p>
-                <span class="mt-auto pt-6 inline-flex items-center gap-2 text-sm text-forest font-medium group-hover:gap-3 transition-all">
-                  Get a quote
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <path d="M2 8h11m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </span>
-              </a>
-            ))}
-          </div>
-        </Container>
-      </section>
-    ))
-  }
-
   <!-- Retainers -->
-  <section id="retainers" class="py-14 md:py-20 scroll-mt-28">
+  <section id="retainers" class="pb-16 md:pb-24 scroll-mt-28">
     <Container size="full" data-reveal>
-      <div class="mb-10">
-        <h2 class="text-3xl md:text-4xl">Retainers</h2>
-        <p class="mt-4 text-lg text-graphite">For keeping things running after launch.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {
-          retainers.map((r) => (
-            <article class={`relative bg-cream border rounded-xl p-8 ${r.badge ? "border-forest" : "border-fog"}`}>
-              {r.badge && (
-                <span class="absolute -top-3 left-6 bg-forest text-bone text-xs font-mono uppercase tracking-wider px-3 py-1 rounded-pill">
-                  {r.badge}
-                </span>
-              )}
-              <h3 class="text-2xl text-ink mb-3">{r.name}</h3>
-              <div class="mb-5 flex items-baseline gap-2 flex-wrap">
-                <span class="text-3xl font-display font-bold text-forest tracking-tight">{r.price}</span>
-                <span class="text-sm text-graphite">{r.cadence}</span>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+        <div class="lg:col-span-4">
+          <h2 class="text-3xl md:text-4xl">Retainers</h2>
+          <p class="mt-4 text-lg text-graphite">For keeping things running after launch.</p>
+        </div>
+        <div class="lg:col-span-8 border-t border-fog">
+          {
+            retainers.map((r) => (
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-6 py-6 md:py-7 border-b border-fog">
+                <h3 class="md:col-span-4 text-xl text-ink">{r.name}</h3>
+                <p class="md:col-span-3 flex items-baseline gap-1.5">
+                  <span class="text-2xl font-display font-bold text-forest tracking-tight">{r.price}</span>
+                  <span class="text-sm text-graphite">{r.cadence}</span>
+                </p>
+                <p class="md:col-span-5 text-graphite leading-relaxed">{r.blurb}</p>
               </div>
-              <p class="text-graphite leading-relaxed">{r.blurb}</p>
-            </article>
-          ))
-        }
+            ))
+          }
+        </div>
       </div>
     </Container>
   </section>
 
   <!-- Terms -->
-  <section class="py-20 md:py-32">
-    <Container size="default" data-reveal>
-      <h2 class="mb-12">The fine print, in plain English.</h2>
-      <dl class="space-y-8">
-        {
-          [
-            { t: "50/50 split", d: "Half up front to lock the timeline, half on delivery. No retainer required to start a build." },
-            { t: "Two revision rounds", d: "Every build includes two rounds of revisions. Substantial scope changes are billed at the hourly rate." },
-            { t: "25-client software cap", d: "We keep our active custom software roster small. When we're full, we're full." },
-            { t: "Ownership", d: "When the build is complete and paid, the code and assets are yours. You can take them anywhere." },
-          ].map(({ t, d }) => (
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 border-b border-fog pb-8">
-              <dt class="md:col-span-4 text-xl text-ink font-display tracking-tight">{t}</dt>
-              <dd class="md:col-span-8 text-lg text-graphite leading-relaxed">{d}</dd>
-            </div>
-          ))
-        }
-      </dl>
+  <section class="pb-20 md:pb-28">
+    <Container size="full" data-reveal>
+      <div class="bg-cream rounded-[28px] md:rounded-[36px] px-6 md:px-14 py-12 md:py-16">
+        <h2 class="text-3xl md:text-4xl">The fine print, in plain English.</h2>
+        <dl class="mt-10 md:mt-12 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 md:gap-y-10">
+          {
+            finePrint.map(({ t, d }) => (
+              <div>
+                <dt class="flex items-center gap-3 text-xl text-ink font-display font-bold tracking-tight">
+                  <span class="w-2 h-2 rounded-full bg-ember shrink-0" aria-hidden="true" />
+                  {t}
+                </dt>
+                <dd class="mt-3 text-graphite leading-relaxed">{d}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
     </Container>
   </section>
 
   <EndCTA heading="Want a quote with your name on it?" />
 </BaseLayout>
+
+<style>
+  /* Once the tabs script runs, only the chosen service's panel shows. */
+  [data-pricing].is-tabbed .price-panel:not(.is-active) {
+    display: none;
+  }
+  [data-pricing].is-tabbed .price-panel {
+    padding-bottom: 0;
+  }
+
+  /* Only the chosen (or hovered) tile's doodle moves; the rest hold their
+     finished pose so six loops don't compete. */
+  .pick-tile[aria-selected="false"]:not(:hover) :global(.dd *) {
+    animation: none !important;
+  }
+
+  .pick-tile:focus-visible {
+    outline: 2px solid var(--color-forest);
+    outline-offset: 3px;
+  }
+</style>

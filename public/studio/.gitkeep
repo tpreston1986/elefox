@@ -1,10 +1,4 @@
-# Drop behind-the-scenes studio photography here
+# Behind-the-scenes studio photography
 
-Expected files (used in /about/founder polaroid strip):
-
-- `1.jpg`, the desk / workspace, square
-- `2.jpg`, sketches / notebook, square
-- `3.jpg`, laptop / shipping, square
-- `4.jpg`, the dog (or whatever, pet, plants, coffee), square
-
-Until added, the strip renders soft gradients with filename labels.
+Nothing here is used on the site right now. (The founder page that once had a
+polaroid strip was folded into /about.)

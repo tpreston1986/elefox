@@ -78,6 +78,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // on a real sitemap. Use a Location header with a relative path: in SSR
   // mode the request URL's origin is the internal localhost, not the public
   // domain, so Response.redirect(...absolute...) would point at localhost.
+  // The founder page folded into /about; keep old links and search results working.
+  if (url.pathname === "/about/founder" || url.pathname === "/about/founder/") {
+    return new Response(null, {
+      status: 301,
+      headers: { Location: "/about#founder" },
+    });
+  }
+
   if (url.pathname === "/sitemap.xml") {
     return new Response(null, {
       status: 301,
