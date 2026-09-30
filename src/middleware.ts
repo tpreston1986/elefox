@@ -28,23 +28,28 @@ const CSP = [
     "https://static.cloudflareinsights.com " +
     "https://challenges.cloudflare.com " +
     "https://connect.facebook.net " +
+    "https://tagmanager.google.com " + // GTM Preview mode
     "https://cdn.jsdelivr.net", // GSAP, used by iframed walkthroughs
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://tagmanager.google.com",
   "font-src 'self' https://fonts.gstatic.com",
   // Allow data: + https: images so Resend email pixels, og:image previews, and
   // analytics tracking pixels keep working.
   "img-src 'self' data: blob: https:",
   "media-src 'self' data: blob: https:",
   "connect-src 'self' " +
+    "https://www.googletagmanager.com " +
     "https://www.google-analytics.com " +
     "https://region1.google-analytics.com " +
+    "https://*.google-analytics.com " +
+    "https://*.analytics.google.com " +
     "https://www.facebook.com " +
     "https://connect.facebook.net " +
     "https://challenges.cloudflare.com " +
     "https://static.cloudflareinsights.com " +
     "https://cloudflareinsights.com",
-  // Frame sources: Turnstile widget, Meta tracking, Calendly (if ever embedded)
-  "frame-src 'self' https://challenges.cloudflare.com https://www.facebook.com https://calendly.com",
+  // Frame sources: Turnstile widget, Meta tracking, Calendly (if ever embedded),
+  // and the GTM noscript iframe
+  "frame-src 'self' https://challenges.cloudflare.com https://www.facebook.com https://calendly.com https://www.googletagmanager.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
