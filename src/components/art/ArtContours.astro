@@ -1,0 +1,219 @@
+---
+// Contour lines as a background layer: hairlines flow across a whole section
+// and part around a clearing, like water around a stone ("software shaped
+// around your business"). The clearing can hold the section's own content
+// (a headline) or an ember dot. Edges dissolve through a CSS mask, so the art
+// reads as part of the surface rather than a picture placed on it.
+//
+// Drop inside a `relative isolate` section; it fills it (absolute, inset 0,
+// behind content, no pointer events). Deterministic per `seed`.
+//
+// Variants:
+//   flow   : lines part cleanly around the clearing
+//   tangle : the same lines knotted by a strong wobble (the mess)
+//   calm   : wider spacing, gentler wobble
+
+interface Props {
+  seed?: string;
+  variant?: "flow" | "tangle" | "calm";
+  /** viewBox size; the SVG covers its box (slice), so pick a typical aspect. */
+  width?: number;
+  height?: number;
+  /** Clearing centre and radii as fractions of width/height. */
+  at?: [number, number];
+  size?: [number, number];
+  /** Draw an ember dot in the clearing. */
+  dot?: boolean;
+  /** Flow direction in degrees. */
+  angle?: number;
+  /** "forest" on light surfaces, "bone" on dark ones. */
+  tone?: "forest" | "bone";
+  /** Line opacity. */
+  strength?: number;
+  /** CSS mask-image controlling where the lines fade out. */
+  fade?: string;
+  class?: string;
+}
+
+const {
+  seed = "elefox",
+  variant = "flow",
+  width = 1440,
+  height = 600,
+  at = [0.5, 0.5],
+  size = [0.12, 0.2],
+  dot = false,
+  angle = -8,
+  tone = "forest",
+  strength = 0.22,
+  fade = "radial-gradient(ellipse 75% 80% at 50% 50%, #000 45%, transparent 100%)",
+  class: className,
+} = Astro.props;
+
+function hash(s: string) {
+  let h = 2166136261;
+  for (const ch of s) {
+    h ^= ch.charCodeAt(0);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+function rng(a: number) {
+  return () => {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const rand = rng(hash(seed + variant));
+
+const tangle = variant === "tangle";
+const calm = variant === "calm";
+const gap = calm ? 16 : tangle ? 11 : 12;
+const amp = tangle ? 64 : calm ? 12 : 16;
+const freq = tangle ? 3 : 1;
+const rx = Math.max(8, size[0] * width);
+const ry = Math.max(8, size[1] * height);
+const [cx, cy] = [at[0] * width, at[1] * height];
+const th = (angle * Math.PI) / 180;
+const [cos, sin] = [Math.cos(th), Math.sin(th)];
+
+const waves = Array.from({ length: 3 }, (_, i) => ({
+  fx: ((0.003 + rand() * 0.003) * freq) / (i + 1),
+  fy: ((0.004 + rand() * 0.004) * freq) / (i + 1),
+  px: rand() * Math.PI * 2,
+  py: rand() * Math.PI * 2,
+  w: 1 / (i + 1),
+}));
+const wobble = (x: number, y: number) =>
+  waves.reduce((s, v) => s + v.w * Math.sin(x * v.fx + v.px) * Math.cos(y * v.fy + v.py), 0);
+
+// Streamline of uniform flow past a unit cylinder: Y * (1 - 1/(X²+Y²)) = C.
+// Working in X = x/rx, Y = y/ry turns the cylinder into an ellipse.
+function solveUnit(X: number, C: number) {
+  const sign = C < 0 ? -1 : 1;
+  const k = Math.abs(C);
+  let lo = Math.sqrt(Math.max(1 - X * X, 0)) + 1e-4;
+  let hi = k + 2;
+  for (let i = 0; i < 28; i++) {
+    const mid = (lo + hi) / 2;
+    const f = mid * (1 - 1 / (X * X + mid * mid));
+    if (f < k) lo = mid;
+    else hi = mid;
+  }
+  return (sign * (lo + hi)) / 2;
+}
+
+// Ramer-Douglas-Peucker: drop points that barely bend, so near-straight
+// stretches cost two points instead of fifty.
+type P = [number, number];
+function simplify(pts: P[], eps: number): P[] {
+  if (pts.length < 3) return pts;
+  const [a, b] = [pts[0], pts[pts.length - 1]];
+  const [ux, uy] = [b[0] - a[0], b[1] - a[1]];
+  const len = Math.hypot(ux, uy) || 1;
+  let best = -1;
+  let idx = 0;
+  for (let i = 1; i < pts.length - 1; i++) {
+    const d = Math.abs(uy * pts[i][0] - ux * pts[i][1] + b[0] * a[1] - b[1] * a[0]) / len;
+    if (d > best) {
+      best = d;
+      idx = i;
+    }
+  }
+  if (best <= eps) return [a, b];
+  return [...simplify(pts.slice(0, idx + 1), eps).slice(0, -1), ...simplify(pts.slice(idx), eps)];
+}
+
+const reach = Math.hypot(width, height) * 0.62;
+const paths: string[] = [];
+for (let c = -reach; c <= reach; c += gap) {
+  if (Math.abs(c) < gap * 0.5) continue;
+  const raw: P[] = [];
+  let visible = false;
+  for (let x = -reach; x <= reach; x += 10) {
+    const X = x / rx;
+    let y = solveUnit(X, c / ry) * ry;
+    const r = Math.hypot(X, y / ry);
+    const settle = tangle ? 1 : Math.min(1, Math.max(0, (r - 1) / 1.4));
+    y += amp * wobble(x, y + c) * settle;
+    const px = cx + x * cos - y * sin;
+    const py = cy + x * sin + y * cos;
+    if (px > -20 && px < width + 20 && py > -20 && py < height + 20) visible = true;
+    raw.push([px, py]);
+  }
+  if (!visible) continue;
+  const pts = simplify(raw, 0.5);
+  paths.push("M" + pts.map(([x, y]) => `${Math.round(x)},${Math.round(y)}`).join("L"));
+}
+const dotR = Math.max(8, Math.min(rx, ry) * 0.34);
+---
+
+<div
+  class:list={["art-field", `art-field--${tone}`, className]}
+  style={`--strength:${strength};-webkit-mask-image:${fade};mask-image:${fade}`}
+  aria-hidden="true"
+  data-reveal
+>
+  <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid slice" focusable="false">
+    <g fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round">
+      {paths.map((d, i) => <path d={d} pathLength="1" style={`--i:${i}`} vector-effect="non-scaling-stroke" />)}
+    </g>
+    {dot && <circle class="art-dot" cx={cx} cy={cy} r={dotR} />}
+  </svg>
+</div>
+
+<style>
+  .art-field {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    /* The layer itself never animates in; only its lines do. */
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .art-field svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .art-field--forest {
+    color: var(--color-forest);
+  }
+  .art-field--bone {
+    color: var(--color-bone);
+  }
+  .art-field path {
+    opacity: var(--strength);
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+  .art-dot {
+    fill: var(--color-ember);
+  }
+
+  /* Lines draw in once when the section scrolls into view. */
+  @media (prefers-reduced-motion: no-preference) {
+    .art-field[data-reveal] path {
+      stroke-dashoffset: 1;
+      transition: stroke-dashoffset 2.6s cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: calc(var(--i) * 10ms);
+    }
+    .art-field[data-reveal][data-revealed] path {
+      stroke-dashoffset: 0;
+    }
+    .art-field[data-reveal] .art-dot {
+      transform-box: fill-box;
+      transform-origin: center;
+      transform: scale(0);
+      transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1.2s;
+    }
+    .art-field[data-reveal][data-revealed] .art-dot {
+      transform: scale(1);
+    }
+  }
+</style>
