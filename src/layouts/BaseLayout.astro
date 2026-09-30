@@ -25,7 +25,9 @@ const fullTitle = title.includes("elefox studio")
   ? title
   : `${title} · elefox studio`;
 
-const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://elefoxstudio.com").toString();
+// No trailing slash, matching the middleware redirect and the sitemap.
+const canonicalPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const canonical = new URL(canonicalPath, Astro.site ?? "https://elefoxstudio.com").toString();
 
 // Site-wide structured data: identity, contact, local business, and social
 // profiles. Satisfies the "schema / identity / local business" SEO checks.

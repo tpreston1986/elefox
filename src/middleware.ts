@@ -3,6 +3,7 @@ import { defineMiddleware } from "astro:middleware";
 /**
  * Site-wide response middleware:
  *  - 301 redirect /sitemap.xml → /sitemap-index.xml (crawlers try both)
+ *  - 301 www → bare domain and /page/ → /page, so every page has one address
  *  - Apply security headers to every response (HSTS, CSP, nosniff, etc.)
  *  - Apply Cache-Control by path category (long for hashed assets, short for HTML)
  *
@@ -78,6 +79,23 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // on a real sitemap. Use a Location header with a relative path: in SSR
   // mode the request URL's origin is the internal localhost, not the public
   // domain, so Response.redirect(...absolute...) would point at localhost.
+  // One address per page. Without these, Google sees www.elefoxstudio.com and
+  // /about/ as separate copies of every page.
+  const host = (context.request.headers.get("x-forwarded-host") ?? context.request.headers.get("host") ?? "").split(",")[0].trim();
+  if (host.startsWith("www.")) {
+    return new Response(null, {
+      status: 301,
+      headers: { Location: `https://${host.slice(4)}${url.pathname}${url.search}` },
+    });
+  }
+  const isRead = context.request.method === "GET" || context.request.method === "HEAD";
+  if (isRead && url.pathname.length > 1 && url.pathname.endsWith("/")) {
+    return new Response(null, {
+      status: 301,
+      headers: { Location: `${url.pathname.replace(/\/+$/, "")}${url.search}` },
+    });
+  }
+
   // The founder page folded into /about; keep old links and search results working.
   if (url.pathname === "/about/founder" || url.pathname === "/about/founder/") {
     return new Response(null, {

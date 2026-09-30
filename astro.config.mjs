@@ -17,7 +17,16 @@ export default defineConfig({
   security: { checkOrigin: false },
   integrations: [
     sitemap({
-      filter: (page) => !page.includes("/lp/") && !page.includes("/brand"),
+      filter: (page) =>
+        !page.includes("/lp/") && !page.includes("/brand") && !page.includes("/sign-in"),
+      // List pages without the trailing slash: that's the address the site
+      // links to, redirects to, and names as canonical.
+      serialize(item) {
+        const u = new URL(item.url);
+        if (u.pathname !== "/") u.pathname = u.pathname.replace(/\/+$/, "");
+        item.url = u.toString();
+        return item;
+      },
     }),
   ],
   prefetch: { prefetchAll: true, defaultStrategy: "hover" },
