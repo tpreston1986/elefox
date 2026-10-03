@@ -9,5 +9,7 @@ buildCommand = "npm install --no-audit --no-fund && npm run build"
 [deploy]
 startCommand = "node ./dist/server/entry.mjs"
 healthcheckPath = "/"
-healthcheckTimeout = 30
+# 30s was too tight: on 2026-10-03 a good build failed because the server
+# started listening right as the window closed. Give a cold boot room.
+healthcheckTimeout = 120
 restartPolicyType = "ON_FAILURE"
