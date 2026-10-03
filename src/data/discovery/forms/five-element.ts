@@ -17,6 +17,9 @@ export const fiveElementForm: FormDefinition = {
   thankYouMessage:
     "Thank you! I'll go through everything and come back within five business days with one price, a dated schedule, and the agreement. If I need anything else, I'll text or email you.",
   hideCallLink: true,
+  // Same passphrase as her proposal microsite, so she only needs one. The
+  // phrase itself is recorded in the client folder notes, not in this repo.
+  passphraseHash: "1916c2125a3811aabdc230ccde16d3ed1c47b536651ce65be2aefac88c6bd6de",
   sections: [
     {
       title: "Your practice today",

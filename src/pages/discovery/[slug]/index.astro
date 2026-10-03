@@ -4,6 +4,7 @@ import Container from "../../../components/Container.astro";
 import Eyebrow from "../../../components/Eyebrow.astro";
 import Section from "../../../components/discovery/Section.astro";
 import { getForm } from "../../../data/discovery/forms";
+import { isUnlocked } from "../../../data/discovery/gate";
 
 export const prerender = false;
 
@@ -12,6 +13,9 @@ const form = slug ? getForm(slug) : null;
 
 if (!form) {
   return Astro.redirect("/404");
+}
+if (!isUnlocked(Astro.cookies, form)) {
+  return Astro.redirect(`/discovery/${form.slug}/unlock`);
 }
 
 const submitLabel = form.submitLabel ?? "Send it";

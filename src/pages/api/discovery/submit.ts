@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { getForm } from "../../../data/discovery/forms";
+import { isUnlocked } from "../../../data/discovery/gate";
 import type {
   Field,
   FormDefinition,
@@ -359,7 +360,7 @@ function seeOther(path: string): Response {
   return new Response(null, { status: 303, headers: { Location: path } });
 }
 
-export const POST: APIRoute = async ({ request, clientAddress }) => {
+export const POST: APIRoute = async ({ request, clientAddress, cookies }) => {
   const fd = await request.formData();
 
   // Honeypot: bots fill hidden fields, humans don't see them
@@ -395,6 +396,11 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const form = typeof slug === "string" ? getForm(slug) : null;
   if (!form) {
     return new Response("Unknown form.", { status: 404 });
+  }
+
+  // Locked forms only accept answers from a browser that entered the passphrase
+  if (!isUnlocked(cookies, form)) {
+    return seeOther(`/discovery/${form.slug}/unlock`);
   }
 
   // Validate required fields

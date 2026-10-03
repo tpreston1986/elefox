@@ -61,4 +61,10 @@ export type FormDefinition = {
   thankYouMessage?: string;
   /** Hide the "book a discovery call" button when the call already happened. */
   hideCallLink?: boolean;
+  /**
+   * SHA-256 of the normalized passphrase (lowercase, letters and digits
+   * only). When set, the form sits behind /discovery/<slug>/unlock and
+   * submissions without the unlock cookie are refused. See gate.ts.
+   */
+  passphraseHash?: string;
 };
