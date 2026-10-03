@@ -79,7 +79,8 @@ const error = Astro.url.searchParams.get("error");
           class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-6 border-t border-fog"
         >
           <p class="text-sm text-graphite">
-            We'll review your responses and follow up within 24 hours.
+            Your answers save on this device as you go, so you can finish
+            later. We'll review your responses and follow up within 24 hours.
           </p>
           <button
             type="submit"
@@ -114,6 +115,52 @@ const error = Astro.url.searchParams.get("error");
               submitBtn.textContent = "Sending...";
             }
           });
+        })();
+      </script>
+
+      <!-- Save a draft in this browser as the form is filled in, so a closed
+           tab or a failed submit doesn't lose anything. Cleared on the
+           thank-you page. Nothing leaves the device until it's sent. -->
+      <script is:inline define:vars={{ draftKey: `elefox-discovery-draft:${form.slug}` }}>
+        (() => {
+          const form = document.getElementById("discovery-form");
+          if (!form) return;
+          const fields = () =>
+            Array.from(form.elements).filter(
+              (el) => el.name && !el.name.startsWith("_") && el.type !== "hidden",
+            );
+
+          let saved = null;
+          try { saved = JSON.parse(localStorage.getItem(draftKey) || "null"); } catch (e) {}
+          if (saved && typeof saved === "object") {
+            for (const el of fields()) {
+              if (!(el.name in saved)) continue;
+              const v = saved[el.name];
+              if (el.type === "checkbox") el.checked = Array.isArray(v) && v.includes(el.value);
+              else if (el.type === "radio") el.checked = v === el.value;
+              else el.value = typeof v === "string" ? v : "";
+            }
+          }
+
+          let timer;
+          const save = () => {
+            const data = {};
+            for (const el of fields()) {
+              if (el.type === "checkbox") {
+                if (el.checked) (data[el.name] = data[el.name] || []).push(el.value);
+              } else if (el.type === "radio") {
+                if (el.checked) data[el.name] = el.value;
+              } else if (el.value) {
+                data[el.name] = el.value;
+              }
+            }
+            try { localStorage.setItem(draftKey, JSON.stringify(data)); } catch (e) {}
+          };
+          form.addEventListener("input", () => {
+            clearTimeout(timer);
+            timer = setTimeout(save, 400);
+          });
+          form.addEventListener("change", save);
         })();
       </script>
     </Container>

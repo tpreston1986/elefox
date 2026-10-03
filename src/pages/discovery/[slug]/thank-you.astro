@@ -33,22 +33,30 @@ const calendlyUrl =
           Got it. Talk soon.
         </h1>
         <p class="lede mt-10 text-xl text-graphite max-w-2xl mx-auto">
-          Your responses are in. I'll review them in the next day or two
-          and come back with a refined proposal and any follow-up questions.
+          {form.thankYouMessage ??
+            "Your responses are in. I'll review them in the next day or two and come back with a refined proposal and any follow-up questions."}
         </p>
-        <p class="lede mt-6 text-xl text-graphite max-w-2xl mx-auto">
-          If you'd like to grab a discovery call slot now, here's the link.
-          Otherwise sit tight, I'll be in touch.
-        </p>
+        {!form.hideCallLink && (
+          <p class="lede mt-6 text-xl text-graphite max-w-2xl mx-auto">
+            If you'd like to grab a discovery call slot now, here's the link.
+            Otherwise sit tight, I'll be in touch.
+          </p>
+        )}
         <div class="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button href={calendlyUrl} variant="primary" size="lg" external>
-            Book a discovery call
-          </Button>
+          {!form.hideCallLink && (
+            <Button href={calendlyUrl} variant="primary" size="lg" external>
+              Book a discovery call
+            </Button>
+          )}
           <Button href="/" variant="ghost" size="lg">
             Back to elefoxstudio.com
           </Button>
         </div>
       </div>
     </Container>
+    <!-- The form saves a draft in this browser while it's filled in; it's sent now. -->
+    <script is:inline define:vars={{ draftKey: `elefox-discovery-draft:${form.slug}` }}>
+      try { localStorage.removeItem(draftKey); } catch (e) {}
+    </script>
   </section>
 </BaseLayout>

@@ -57,4 +57,8 @@ export type FormDefinition = {
   recipientName: string;
   sections: Section[];
   submitLabel?: string;
+  /** Replaces the default thank-you copy, e.g. for a post-meeting follow-up. */
+  thankYouMessage?: string;
+  /** Hide the "book a discovery call" button when the call already happened. */
+  hideCallLink?: boolean;
 };

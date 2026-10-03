@@ -133,7 +133,7 @@ async function generateAiSummary(
 
   try {
     const response = await client.messages.create({
-      model: "claude-opus-4-7",
+      model: "claude-opus-5-5",
       max_tokens: 16000,
       system: `You are reviewing a discovery questionnaire submission for elefox studio, a design and software consultancy. Your job is to give the studio owner a fast, useful read of what just came in.
 
