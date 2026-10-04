@@ -10,6 +10,8 @@ import WorkStage from "../components/WorkStage.astro";
 import Doodle, { type DoodleName } from "../components/Doodle.astro";
 import { featuredProjects, getProject, toneStyles, type Brand, type Thumb } from "../data/work";
 import { menuServices } from "../data/services";
+import Testimonials from "../components/Testimonials.astro";
+import { getTestimonials } from "../lib/testimonials";
 
 // "What we do": the same six services as the nav, each shown with a real
 // build. None of these repeat the three in the Selected work strip above.
@@ -95,6 +97,9 @@ const faqs = [
     a: "Maybe! We keep our software client list small on purpose, so every build gets real attention. If we're not the right fit, you'll hear it on the first call, not three weeks in.",
   },
 ];
+
+// Approved client quotes from the portal; empty hides the section.
+const testimonials = await getTestimonials();
 ---
 
 <BaseLayout
@@ -555,6 +560,9 @@ const faqs = [
       </div>
     </Container>
   </section>
+
+  <!-- Client quotes, from the portal. Hidden until one is approved.        -->
+  <Testimonials items={testimonials} />
 
   <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <!-- FAQ                                                                  -->

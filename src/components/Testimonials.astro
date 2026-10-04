@@ -1,0 +1,89 @@
+---
+// Client quotes from the portal (see src/lib/testimonials.ts). One quote
+// leads in display type; up to four more sit underneath in a quiet two-up
+// list. Renders nothing when there are no approved quotes yet.
+import Container from "./Container.astro";
+import type { Testimonial } from "../lib/testimonials";
+
+interface Props {
+  items: Testimonial[];
+}
+
+const { items } = Astro.props;
+
+// Lead with a quote short enough to set large; long ones read better small.
+const leadIndex = Math.max(0, items.findIndex((t) => t.quote.length <= 240));
+const lead = items[leadIndex];
+const rest = items.filter((_, i) => i !== leadIndex).slice(0, 4);
+
+function stars(n: number | null) {
+  return n ? { on: "★".repeat(n), off: "★".repeat(5 - n), label: `${n} out of 5 stars` } : null;
+}
+const leadStars = lead ? stars(lead.rating) : null;
+---
+
+{
+  lead && (
+    <section class="py-20 md:py-32" aria-labelledby="kind-words">
+      <Container size="full">
+        <h2 id="kind-words" data-split class="max-w-[16ch]">
+          From the people we've built for.
+        </h2>
+
+        <figure data-reveal class="mt-12 md:mt-16 max-w-4xl">
+          {leadStars && (
+            <p class="mb-5 text-lg tracking-[0.2em] text-ember" aria-label={leadStars.label}>
+              {leadStars.on}
+              <span class="text-mist">{leadStars.off}</span>
+            </p>
+          )}
+          <blockquote class="font-display font-semibold text-[clamp(1.5rem,3.1vw,2.5rem)] leading-[1.22] tracking-[-0.02em] text-ink text-pretty">
+            &ldquo;{lead.quote}&rdquo;
+          </blockquote>
+          <figcaption class="mt-6 flex flex-wrap items-baseline gap-x-2 text-base">
+            <span class="font-medium text-ink">{lead.name}</span>
+            {lead.role && (
+              <>
+                <span aria-hidden="true" class="text-mist">·</span>
+                <span class="text-graphite">{lead.role}</span>
+              </>
+            )}
+          </figcaption>
+        </figure>
+
+        {rest.length > 0 && (
+          <div
+            data-reveal-stagger
+            class="mt-16 md:mt-20 grid grid-cols-1 md:grid-cols-2 gap-x-16 border-t border-fog"
+          >
+            {rest.map((t) => {
+              const s = stars(t.rating);
+              return (
+                <figure class="pt-10 md:pt-12 pb-2">
+                  {s && (
+                    <p class="mb-3 text-sm tracking-[0.2em] text-ember" aria-label={s.label}>
+                      {s.on}
+                      <span class="text-mist">{s.off}</span>
+                    </p>
+                  )}
+                  <blockquote class="text-lg leading-relaxed text-ink text-pretty">
+                    &ldquo;{t.quote}&rdquo;
+                  </blockquote>
+                  <figcaption class="mt-4 flex flex-wrap items-baseline gap-x-2 text-sm">
+                    <span class="font-medium text-ink">{t.name}</span>
+                    {t.role && (
+                      <>
+                        <span aria-hidden="true" class="text-mist">·</span>
+                        <span class="text-graphite">{t.role}</span>
+                      </>
+                    )}
+                  </figcaption>
+                </figure>
+              );
+            })}
+          </div>
+        )}
+      </Container>
+    </section>
+  )
+}
