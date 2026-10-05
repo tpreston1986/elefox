@@ -32,6 +32,8 @@ const cols = (n: number) =>
 
 const retainers = [
   { name: "Site Care", price: "$200", cadence: "/month", blurb: "Content updates, security, analytics, priority turnaround on small changes." },
+  { name: "Platform Care", price: "$500", cadence: "/month", blurb: "For custom software and portals: hosting, texting, backups, support for your team, and small changes." },
+  { name: "Growth Partner", price: "$1,250", cadence: "/month", blurb: "One new automation or feature every month, aimed at whatever eats your time. Includes Platform Care." },
   { name: "Software Hosting", price: "From $50", cadence: "/month", blurb: "Backups, uptime monitoring, security patches, bug fixes." },
   { name: "Hourly add-ons", price: "$150", cadence: "/hour", blurb: "New features, integrations, and workflow changes, billed by the hour." },
 ];
@@ -214,7 +216,7 @@ const finePrint = [
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
         <div class="lg:col-span-4">
           <h2 class="text-3xl md:text-4xl">Retainers</h2>
-          <p class="mt-4 text-lg text-graphite">For keeping things running after launch.</p>
+          <p class="mt-4 text-lg text-graphite">For after launch: keep it running, or keep it growing.</p>
         </div>
         <div class="lg:col-span-8 border-t border-fog">
           {
