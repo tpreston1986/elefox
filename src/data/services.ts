@@ -144,7 +144,7 @@ export const services: Record<string, Service> = {
     ],
     good: [
       "You've validated the idea and want it in the stores",
-      "You want one team from design through store submission",
+      "You want one studio from design through store submission",
       "You care about it feeling native, not like a wrapped website",
     ],
     skip: [
@@ -288,8 +288,8 @@ export const services: Record<string, Service> = {
     slug: "early-stage",
     name: "Custom build for early-stage business",
     shortName: "Early-stage",
-    title: "The whole first version, from one team.",
-    titleAccent: "one team",
+    title: "The whole first version, from one studio.",
+    titleAccent: "one studio",
     oneLiner:
       "For founders who need brand, site, app, and the systems behind them, without hiring five vendors to wrangle.",
     description:
@@ -309,18 +309,18 @@ export const services: Record<string, Service> = {
       {
         name: "Full Studio",
         price: "Custom",
-        blurb: "We're your product, design, and dev team until you build your own.",
+        blurb: "Your product, design, and dev partner until you build a team of your own.",
         features: [
           "Everything in Launch Package",
           "Ongoing build capacity",
           "The CRM + tools you run on",
-          "One team, one point of contact",
+          "One point of contact, start to finish",
         ],
       },
     ],
     good: [
       "You're pre-launch and wearing every hat",
-      "You'd rather have one team than manage five",
+      "You'd rather have one studio than manage five",
       "You want to launch fast without it looking cheap",
     ],
     skip: [
