@@ -269,32 +269,6 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "hey-patch",
-    name: "Hey Patch",
-    tagline:
-      "An AI front desk that answers, texts back, and books around the clock, for local service businesses.",
-    services: ["software", "early-stage"],
-    brand: { field: "#18172b", glow: "#7c5cff", tone: "light" },
-    thumb: { kind: "screen", src: "/work/heypatch-site.webp" },
-    meta: [
-      { label: "Type", value: "AI product" },
-      { label: "For", value: "Local service businesses" },
-    ],
-    overview:
-      "Hey Patch is an AI front desk for local service businesses. It answers the texts and calls you miss, books appointments, and follows up, around the clock.",
-    challenge:
-      "Local service businesses lose real money to missed calls and slow replies. A receptionist is expensive, and most \"AI chatbots\" are generic and go off the rails.",
-    solution:
-      "A guardrails-first AI front desk. It handles the common asks (hours, booking, quotes), stays on script, and hands off to a human when it should. Multi-tenant, so each business gets its own.",
-    tech: [
-      { group: "Development", items: ["Node", "TypeScript"] },
-      { group: "AI", items: ["Groq"] },
-      { group: "Comms", items: ["Twilio"] },
-      { group: "Infrastructure", items: ["Railway"] },
-    ],
-    gallery: ["/work/heypatch-site.webp"],
-  },
-  {
     slug: "rkg-therapy",
     name: "RKG Therapy",
     tagline:

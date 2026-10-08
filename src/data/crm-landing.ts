@@ -54,6 +54,8 @@ export type LandingData = {
   tiersTitle: string;
   tiersIntro: string;
   tiers: LandingTier[];
+  /** Line under the pricing tiers. Defaults to the shared $50/mo hosting note. */
+  tiersFootnote?: string;
 
   faqTitle: string;
   faqs: LandingFAQ[];
@@ -550,22 +552,22 @@ export const therapist: LandingData = {
 
   metaTitle: "Custom CRM for Therapists & Small Practices",
   metaDescription:
-    "A HIPAA-compliant custom CRM built around how your practice actually works: intake, scheduling, client records, notes, and billing. Hosted on AWS under a signed BAA. No per-clinician fees, live in 4 to 6 weeks. Build from $3,500.",
+    "A custom CRM for your practice: intake, scheduling, notes, and billing. Built by a studio that ships HIPAA-grade software. No per-clinician fees. Builds from $3,500.",
 
   eyebrow: "Custom CRM for Therapists & Practices",
   headlineLead: "The CRM built for how ",
   headlineAccent: "your practice",
   headlineTail: " actually works.",
   subhead:
-    "Intake, scheduling, client records, notes, and billing in one place, built around how your practice actually runs instead of a one-size-fits-all platform. HIPAA-compliant and hosted on AWS under a signed BAA, your whole team included, no per-clinician fees.",
+    "Intake, scheduling, client records, notes, and billing in one place, shaped around how your practice actually runs instead of a one-size-fits-all platform. Built by a studio that ships HIPAA-grade software. Your whole team is included, with no per-clinician fees.",
   proofChips: [
     { label: "Build from", value: "$3,500" },
-    { label: "Compliance", value: "HIPAA-compliant" },
+    { label: "Client records go in", value: "Only after a signed BAA" },
     { label: "Team size", value: "No per-clinician fees" },
     { label: "Live in", value: "4 to 6 weeks" },
   ],
   bullets: [
-    "HIPAA-compliant, hosted on AWS (signed BAA)",
+    "One point of contact, start to finish",
     "Intake to scheduling to billing, one place",
     "Built around how your practice runs",
     "Your whole team, no per-clinician fees",
@@ -588,8 +590,8 @@ export const therapist: LandingData = {
     "A system shaped to your practice: your intake questions, your scheduling, your notes, your billing.",
   features: [
     {
-      title: "HIPAA-compliant by design",
-      body: "Hosted on AWS under a signed Business Associate Agreement, with encryption in transit and at rest and role-based access. Client privacy is built into the foundation, not bolted on later.",
+      title: "Paperwork first, records second",
+      body: "Client records go in only after a signed BAA, and only on a host that signs a BAA too. Until then we build and test with demo data, never real client information.",
     },
     {
       title: "Intake, your way",
@@ -609,7 +611,7 @@ export const therapist: LandingData = {
     },
     {
       title: "Your whole team, no per-clinician fees",
-      body: "Clinicians, admins, billing staff. Role-based access so people see only what they should. Add as many as you want.",
+      body: "Clinicians, admins, billing staff. Add as many as you want, and we'll work out with you who should see what.",
     },
   ],
 
@@ -625,7 +627,9 @@ export const therapist: LandingData = {
 
   tiersTitle: "Straightforward pricing.",
   tiersIntro:
-    "A one-time build, then low monthly hosting. No per-clinician fees, ever.",
+    "A one-time build, then hosting and support quoted for your practice. No per-clinician fees, ever.",
+  tiersFootnote:
+    "Hosting and support are quoted with your build, because client records need a setup covered by a BAA. Cancel anytime.",
   tiers: [
     {
       name: "Starter",
@@ -648,7 +652,7 @@ export const therapist: LandingData = {
         "Everything in Starter",
         "Session notes + document storage",
         "Invoicing + superbills",
-        "Email + SMS follow-up automations",
+        "Email + text reminders (opt-in)",
         "Intake forms embedded on your site",
       ],
     },
@@ -669,15 +673,15 @@ export const therapist: LandingData = {
   faqs: [
     {
       q: "Can you migrate my data from my current tool?",
-      a: "Yes. Clients, intake info, notes, and history come over from SimplePractice, TherapyNotes, Jane, IntakeQ, TheraNest, spreadsheets, and others. Send us an export on the call and we'll tell you exactly what transfers.",
+      a: "Yes. Clients, intake info, notes, and history come over from SimplePractice, TherapyNotes, Jane, IntakeQ, TheraNest, spreadsheets, and others, once the BAA is signed. Until then, just tell us which tool you're on and we'll tell you what transfers. Please don't send real client records before that.",
     },
     {
       q: "Is there really no per-clinician fee?",
-      a: "Yep, really. You pay once for the build and a flat monthly hosting fee starting at $50. Add as many clinicians and admins as your practice needs. The price doesn't change.",
+      a: "Yep, really. You pay once for the build, then a flat monthly fee for hosting and support. Add as many clinicians and admins as your practice needs. The price doesn't change.",
     },
     {
-      q: "Is it HIPAA-compliant?",
-      a: "Yes. It's hosted on AWS under a signed Business Associate Agreement (BAA), with encryption in transit and at rest, role-based access so staff only see what they should, and activity logging.",
+      q: "What about HIPAA?",
+      a: "Your CRM is built by a studio that ships HIPAA-grade software, and we'll walk you through how it works for your practice. The short version: client records go in only after a signed BAA (Business Associate Agreement), and only on a host that signs a BAA too. Every service that touches client info, like texting and email, needs one too. Until then we build and test with demo data. We'll also work out with you who on your team should see what, and build access around that.",
     },
     {
       q: "Does it work on every device?",
@@ -685,7 +689,7 @@ export const therapist: LandingData = {
     },
     {
       q: "How long does it take to build?",
-      a: "Usually 4 to 6 weeks. Week 1 is discovery, weeks 2 to 4 are build with weekly demos so you steer it, then migration and training, then you're live.",
+      a: "Usually 4 to 6 weeks. Week 1 is discovery, weeks 2 to 4 are build with weekly demos so you steer it, then training. Your real client records come over once the BAA is signed and the security setup is done. Then you're live.",
     },
     {
       q: "Do I own it?",

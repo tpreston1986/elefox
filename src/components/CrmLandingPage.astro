@@ -303,8 +303,8 @@ const serviceSchema = {
         ))}
       </div>
       <p class="text-graphite mt-6 max-w-xl mx-auto">
-        Using something that's not on the list? Send us an export on the call
-        and we'll tell you exactly what comes over.
+        Using something that's not on the list? Tell us what it is on the call
+        and we'll walk you through what comes over.
       </p>
     </div>
   </section>
@@ -341,7 +341,7 @@ const serviceSchema = {
         ))}
       </div>
       <p class="text-center text-bone/70 mt-8 text-sm">
-        Every tier is hosted from $50/mo, which covers backups, security, and bug fixes. Cancel anytime.
+        {data.tiersFootnote ?? "Every tier is hosted from $50/mo, which covers backups, security, and bug fixes. Cancel anytime."}
       </p>
       <div class="text-center mt-8">
         <a href="#lead" class="inline-flex items-center gap-2 px-8 py-4 bg-bone text-ink rounded-pill text-lg font-medium hover:bg-cream transition-colors">
