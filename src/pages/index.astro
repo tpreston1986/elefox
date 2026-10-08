@@ -13,19 +13,19 @@ import { menuServices } from "../data/services";
 import Testimonials from "../components/Testimonials.astro";
 import { getTestimonials } from "../lib/testimonials";
 
-// "What we do": the same six services as the nav, each shown with a real
-// build. None of these repeat the three in the Selected work strip above.
+// "What we do": the same services as the nav, each shown with a real build
+// when there is one. A service without an example renders without a panel.
+// None of these repeat the three in the Selected work strip above.
 type Example = { name: string; note: string; href?: string; brand: Brand; thumb: Thumb };
 const fromWork = (slug: string, note: string): Example => {
   const p = getProject(slug)!;
   return { name: p.name, note, href: `/work/${p.slug}`, brand: p.brand, thumb: p.thumb };
 };
-const examples: Record<string, Example> = {
+const examples: Partial<Record<string, Example>> = {
   websites: fromWork("chenoa-mcgee-design", "Client website"),
   mobile: fromWork("cove", "Our own game, on the App Store and Google Play"),
   software: fromWork("client-portal", "The portal we run the studio on"),
   brand: fromWork("rkg-therapy", "Client brand and website"),
-  "early-stage": fromWork("hey-patch", "Our AI front desk: brand, site, and engine"),
 };
 
 const exploreLabel: Record<string, string> = {
@@ -234,8 +234,8 @@ const testimonials = await getTestimonials();
         {
           menuServices.map((s) => {
             const ex = examples[s.slug];
-            const tone = toneStyles(ex.brand.tone);
-            const Panel = ex.href ? "a" : "div";
+            const tone = ex ? toneStyles(ex.brand.tone) : undefined;
+            const Panel = ex?.href ? "a" : "div";
             return (
               <div data-reveal class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center py-10 md:py-14 border-b border-fog">
                 <div class="lg:col-span-6">
@@ -256,20 +256,22 @@ const testimonials = await getTestimonials();
                     </svg>
                   </a>
                 </div>
-                <figure class="lg:col-span-5 lg:col-start-8">
-                  <Panel
-                    href={ex.href}
-                    class:list={["cap-panel ws-host block rounded-[20px] overflow-hidden", tone.text]}
-                    style={`--field:${ex.brand.field};--glow:${ex.brand.glow}`}
-                    aria-label={ex.href ? `${ex.name} case study` : undefined}
-                  >
-                    <WorkStage thumb={ex.thumb} ratio="16 / 10" />
-                  </Panel>
-                  <figcaption class="mt-3 flex flex-wrap items-baseline justify-between gap-x-4 text-sm">
-                    <span class="text-ink font-medium">{ex.name}</span>
-                    <span class="text-graphite">{ex.note}</span>
-                  </figcaption>
-                </figure>
+                {ex && tone && (
+                  <figure class="lg:col-span-5 lg:col-start-8">
+                    <Panel
+                      href={ex.href}
+                      class:list={["cap-panel ws-host block rounded-[20px] overflow-hidden", tone.text]}
+                      style={`--field:${ex.brand.field};--glow:${ex.brand.glow}`}
+                      aria-label={ex.href ? `${ex.name} case study` : undefined}
+                    >
+                      <WorkStage thumb={ex.thumb} ratio="16 / 10" />
+                    </Panel>
+                    <figcaption class="mt-3 flex flex-wrap items-baseline justify-between gap-x-4 text-sm">
+                      <span class="text-ink font-medium">{ex.name}</span>
+                      <span class="text-graphite">{ex.note}</span>
+                    </figcaption>
+                  </figure>
+                )}
               </div>
             );
           })

@@ -23,7 +23,7 @@ Custom software shaped around how a small business actually runs. Specifically:
 - **Internal tools and dashboards** for ops, reporting, and time tracking.
 - **Custom AI automations** wired into the workflow where they earn their keep (intake summarization, draft generation, internal RAG agents). Vendor-neutral framing.
 
-Hosting from $50/mo across all builds (backups, security, bug fixes). Build time: 4 to 6 weeks typical.
+Hosting from $50/mo for most builds (backups, security, bug fixes). Builds that hold health records are quoted separately and take client records only after a signed BAA. Build time: 4 to 6 weeks typical.
 
 ## Supporting offerings
 
@@ -32,10 +32,10 @@ Hosting from $50/mo across all builds (backups, security, bug fixes). Build time
 
 ## Industry landing pages
 
-- https://elefoxstudio.com/custom-crm — generic custom CRM pitch
-- https://elefoxstudio.com/crm-for-realtors — for real estate agents and small teams
-- https://elefoxstudio.com/crm-for-contractors — for general contractors, remodelers, and home-service trades
-- https://elefoxstudio.com/crm-for-therapists — for therapists, psychologists, and small practices. HIPAA-compliant. Hosted on AWS under a signed BAA.
+- https://elefoxstudio.com/custom-crm: generic custom CRM pitch
+- https://elefoxstudio.com/crm-for-realtors: for real estate agents and small teams
+- https://elefoxstudio.com/crm-for-contractors: for general contractors, remodelers, and home-service trades
+- https://elefoxstudio.com/crm-for-therapists: for therapists, psychologists, and small practices. Built by a studio that ships HIPAA-grade software. Client records go in only after a signed BAA.
 
 ## How an engagement runs
 
@@ -58,7 +58,7 @@ Hosting from $50/mo across all builds (backups, security, bug fixes). Build time
 - Custom CRM build: from $3,500
 - Client portal: from $5,000
 - Internal tools: from $4,000
-- Hosting: from $50/mo
+- Hosting: from $50/mo (builds that hold health records are quoted separately)
 - Changes after launch: $150/hr or flat-fee mini-projects
 
 ## Voice and brand notes for AI summarization
