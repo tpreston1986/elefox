@@ -591,7 +591,7 @@ export const therapist: LandingData = {
   features: [
     {
       title: "Paperwork first, records second",
-      body: "Client records go in only after a signed BAA, and only on hosting that signs one too. Until then we build and test with demo data, never real client information.",
+      body: "Client records go in only after a signed BAA, and only on a host that signs a BAA too. Until then we build and test with demo data, never real client information.",
     },
     {
       title: "Intake, your way",
@@ -629,7 +629,7 @@ export const therapist: LandingData = {
   tiersIntro:
     "A one-time build, then hosting and support quoted for your practice. No per-clinician fees, ever.",
   tiersFootnote:
-    "Hosting and support are quoted with your build, since client records need their own BAA-covered setup. Cancel anytime.",
+    "Hosting and support are quoted with your build, because client records need a setup covered by a BAA. Cancel anytime.",
   tiers: [
     {
       name: "Starter",
@@ -681,7 +681,7 @@ export const therapist: LandingData = {
     },
     {
       q: "What about HIPAA?",
-      a: "Your CRM is built by a studio that ships HIPAA-grade software, and we'll walk you through how it works for your practice. The short version: client records go in only after a signed BAA (Business Associate Agreement), and only on hosting that signs one too. The same goes for every service that touches client info, like texting and email. Until then we build and test with demo data. We'll also work out with you who on your team should see what, and build access around that.",
+      a: "Your CRM is built by a studio that ships HIPAA-grade software, and we'll walk you through how it works for your practice. The short version: client records go in only after a signed BAA (Business Associate Agreement), and only on a host that signs a BAA too. Every service that touches client info, like texting and email, needs one too. Until then we build and test with demo data. We'll also work out with you who on your team should see what, and build access around that.",
     },
     {
       q: "Does it work on every device?",
@@ -689,7 +689,7 @@ export const therapist: LandingData = {
     },
     {
       q: "How long does it take to build?",
-      a: "Usually 4 to 6 weeks. Week 1 is discovery, weeks 2 to 4 are build with weekly demos so you steer it, then training. Your real client records come over once the BAA is signed and the security setup is done, and then you're live.",
+      a: "Usually 4 to 6 weeks. Week 1 is discovery, weeks 2 to 4 are build with weekly demos so you steer it, then training. Your real client records come over once the BAA is signed and the security setup is done. Then you're live.",
     },
     {
       q: "Do I own it?",
