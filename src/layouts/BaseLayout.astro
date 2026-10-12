@@ -82,15 +82,17 @@ const ga4Id = import.meta.env.PUBLIC_GA4_ID || "G-91FPRFXHXS";
 // set:html — Astro's <script is:inline> transform chokes on the standard
 // Meta Pixel snippet (the nested braces in the IIFE), so we sidestep it.
 const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID || "";
-// Pages where the Meta Pixel never loads. Health-adjacent pages stay ad-pixel
-// free; keep this list in sync with the Meta Pixel section of /privacy.
+// Sections that load no analytics or ad tracking at all (no GTM/GA4, no
+// Cloudflare Web Analytics, no Meta Pixel, no cookie notice): private client
+// questionnaires. Keep in sync with the tracking section of /privacy.
+const NO_TRACKING_PREFIXES = ["/discovery/"];
+const noTracking = NO_TRACKING_PREFIXES.some((prefix) => (canonicalPath + "/").startsWith(prefix));
+// Single pages where the Meta Pixel never loads (analytics still runs).
+// Health-adjacent pages stay ad-pixel free.
 const NO_META_PIXEL_PATHS = ["/crm-for-therapists"];
-// Whole sections without the pixel: private client questionnaires.
-const NO_META_PIXEL_PREFIXES = ["/discovery/"];
 const showMetaPixel =
-  Boolean(metaPixelId) &&
-  !NO_META_PIXEL_PATHS.includes(canonicalPath) &&
-  !NO_META_PIXEL_PREFIXES.some((prefix) => (canonicalPath + "/").startsWith(prefix));
+  Boolean(metaPixelId) && !noTracking && !NO_META_PIXEL_PATHS.includes(canonicalPath);
+const showGtm = Boolean(gtmId) && !noTracking;
 const metaPixelMarkup = (() => {
   if (!metaPixelId) return "";
   const stub =
@@ -129,7 +131,7 @@ const metaPixelMarkup = (() => {
     {/* Google Tag Manager: as high in <head> as possible, per Google. GA4
         and any other tags are configured inside the container. */}
     {
-      gtmId && (
+      showGtm && (
         <script
           is:inline
           set:html={`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');`}
@@ -181,11 +183,15 @@ const metaPixelMarkup = (() => {
     />
 
     <!-- Cloudflare Web Analytics -->
-    <script
-      defer
-      src="https://static.cloudflareinsights.com/beacon.min.js"
-      data-cf-beacon='{"token": "bc93bb58a01c445e99816377bfdda5dc"}'
-    ></script>
+    {
+      !noTracking && (
+        <script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "bc93bb58a01c445e99816377bfdda5dc"}'
+        ></script>
+      )
+    }
     <!-- End Cloudflare Web Analytics -->
 
     {/* Meta (Facebook) Pixel — gated on PUBLIC_META_PIXEL_ID. Respects the
@@ -197,7 +203,7 @@ const metaPixelMarkup = (() => {
   <body class="min-h-screen flex flex-col">
     {/* Google Tag Manager (noscript): immediately after the opening <body>. */}
     {
-      gtmId && (
+      showGtm && (
         <noscript
           set:html={`<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}" height="0" width="0" style="display:none;visibility:hidden"></iframe>`}
         />
@@ -219,7 +225,9 @@ const metaPixelMarkup = (() => {
     </main>
     {!bare && <Footer />}
 
-    {/* Cookie notice (informational, non-blocking, US-style) */}
+    {/* Cookie notice (informational, non-blocking, US-style). Skipped where
+        nothing tracks. */}
+    {!noTracking && (
     <div
       id="cookie-note"
       class="hidden fixed bottom-4 inset-x-4 md:inset-x-auto md:right-6 md:max-w-md z-50 bg-ink text-bone rounded-xl shadow-lift px-4 py-3 md:px-5 md:py-4 flex items-center gap-3"
@@ -235,6 +243,7 @@ const metaPixelMarkup = (() => {
         Got it
       </button>
     </div>
+    )}
     <script is:inline>
       (function () {
         try {
