@@ -2,12 +2,21 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/Container.astro";
 
-const updated = "July 2026";
+// Change this date whenever the page changes. Every tool listed below was
+// checked against the code (BaseLayout, middleware CSP, the form handlers) and
+// the published Google Tag Manager container on the date shown.
+const updated = "October 12, 2026";
+
+const h2 = "text-2xl text-ink font-display font-bold tracking-tight mb-3";
+const h3 = "text-lg text-ink font-display font-semibold tracking-tight mb-2";
+const label = "text-ink font-semibold";
+const link =
+  "text-forest underline decoration-2 underline-offset-2 hover:decoration-ember";
 ---
 
 <BaseLayout
   title="Privacy Policy"
-  description="How elefox studio collects, uses, and protects the information you share with us."
+  description="What elefoxstudio.com collects, which outside services see it, and how to turn the tracking off."
 >
   <section class="pt-24 md:pt-32 pb-10">
     <Container size="default">
@@ -21,126 +30,413 @@ const updated = "July 2026";
       <div class="prose-legal max-w-2xl space-y-10 text-graphite leading-relaxed">
         <p>
           elefox studio LLC ("elefox studio," "we," "us," or "our") is a
-          Florida limited liability company. This policy explains what
-          information we collect through elefoxstudio.com, how we use it, and
-          the choices you have. We keep it short and plain on purpose.
+          Florida limited liability company. This page covers what
+          elefoxstudio.com collects, which outside services see it, and how to
+          turn the tracking off. We kept it plain on purpose.
         </p>
 
         <div>
-          <h2 class="text-2xl text-ink font-display font-bold tracking-tight mb-3">Information you give us</h2>
-          <p>
-            When you fill out a form on our site, book a call, or email us, we
-            collect what you choose to share: your name, email address, phone
-            number, business details, and anything you write in the message.
-            We use it to respond to you and, if we work together, to provide
-            our services.
-          </p>
+          <h2 class={h2}>The short version</h2>
+          <ul class="space-y-2 list-disc pl-5">
+            <li>
+              When you fill out a form, your answers come to our inbox and into
+              the client portal we use to keep track of inquiries.
+            </li>
+            <li>
+              This site uses Google Analytics, the Meta Pixel, and Cloudflare
+              Web Analytics, so Google, Meta, and Cloudflare get information
+              about your visit. Google and Meta use it for their own purposes
+              too, and for Meta that includes advertising.
+            </li>
+            <li>
+              We don't sell your information to anyone for money. We do let
+              Google and Meta collect visit data, as described below.
+            </li>
+            <li>
+              You can turn the tracking off. <a href="#opt-out" class={link}>Here's how</a>.
+            </li>
+          </ul>
         </div>
 
         <div>
-          <h2 class="text-2xl text-ink font-display font-bold tracking-tight mb-3">Information collected automatically</h2>
+          <h2 class={h2}>What you tell us</h2>
           <p>
-            Like most websites, we automatically collect basic technical
-            information when you visit: pages viewed, the site you came from,
-            and general device and browser details. This is gathered through
-            cookies and similar technologies, described below.
+            When you fill out a form, book a call, or email us, we get what you
+            choose to share: your name, email, phone number, business details,
+            and whatever you write. We use it to reply to you and, if we work
+            together, to do the work.
           </p>
-        </div>
-
-        <div>
-          <h2 class="text-2xl text-ink font-display font-bold tracking-tight mb-3">Cookies and analytics</h2>
-          <p>We use a small number of third-party services to run and improve the site:</p>
+          <p class="mt-4">Here's where a form submission goes:</p>
           <ul class="mt-4 space-y-2 list-disc pl-5">
-            <li><strong class="text-ink font-semibold">Google Analytics 4</strong>, to understand how visitors use the site so we can improve it.</li>
-            <li><strong class="text-ink font-semibold">Google Ads</strong>, to measure whether our ads lead to inquiries.</li>
-            <li><strong class="text-ink font-semibold">Cloudflare</strong>, for security and privacy-friendly traffic measurement.</li>
-            <li><strong class="text-ink font-semibold">Cloudflare Turnstile</strong>, to protect our forms from spam and bots.</li>
+            <li>
+              Resend, our email delivery service, sends it to our inbox, which
+              runs on Google Workspace.
+            </li>
+            <li>
+              A copy goes into our client portal, a system we built and run,
+              where we keep track of inquiries. If our spam filter flags a
+              submission, it stays in email until we've looked at it.
+            </li>
+            <li>
+              If you fill out one of our discovery questionnaires, we may send
+              your answers to an AI service so it can write us a short summary
+              before we talk. While you work, the questionnaire saves a
+              draft in your own browser so you don't lose your place. It
+              clears the draft when you send it, or when you clear your
+              browser's site data.
+            </li>
+            <li>
+              We sometimes use AI tools to look up your business or help us
+              draft a reply.
+            </li>
+            <li>
+              If you book a call, you'll do that on Calendly's site, and
+              <a href="https://calendly.com/legal/privacy-notice" target="_blank" rel="noopener noreferrer" class={link}>Calendly's privacy notice</a>
+              covers what you enter there.
+            </li>
           </ul>
           <p class="mt-4">
-            These services set cookies or use similar identifiers. You can
-            block or delete cookies in your browser settings, and you can opt
-            out of Google Analytics using Google's
-            <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class="text-forest underline decoration-2 underline-offset-2 hover:decoration-ember">browser add-on</a>.
+            Please don't send health information about yourself or anyone else
+            through our forms or by email. If you're a healthcare provider,
+            that includes anything about your patients or clients, so describe
+            your practice in general terms. Our forms and inbox aren't set up
+            for health information.
           </p>
         </div>
 
-        <div>
-          <h2 class="text-2xl text-ink font-display font-bold tracking-tight mb-3">How we use your information</h2>
+        <div id="tracking" class="scroll-mt-28">
+          <h2 class={h2}>Tracking on this site</h2>
           <p>
-            To respond to your inquiries, provide and improve our services,
-            understand how the site performs, and measure our advertising. We
-            do not sell your personal information.
+            Here's every outside tool this site loads as of the date at the
+            top, what it collects, why we use it, who gets the data, and how
+            to say no.
           </p>
+          <p class="mt-4">
+            Google and Meta can recognize your browser on other sites that use
+            their tools, so they can collect information about your activity
+            here and elsewhere over time.
+          </p>
+          <p class="mt-4">
+            Our cookie notice is a heads-up, not an on/off switch. Tracking
+            runs whether or not you click "Got it." To turn it off, use the
+            options below.
+          </p>
+
+          <div class="mt-8 space-y-8">
+            <div>
+              <h3 class={h3}>Google Analytics, loaded through Google Tag Manager</h3>
+              <p>
+                <strong class={label}>What it collects:</strong> the pages you
+                view, how you found us (a search, a link, a post), your rough
+                location based on your IP address, your device and browser,
+                and how long you stay. Google Analytics also records some actions on
+                its own: how far you scroll, links you click that lead to
+                other sites, files you download, and when you start or send a
+                form. We also count clicks to book a call and taps on our
+                phone number or email. We don't send your name, your email, or
+                anything you type into a form to Google Analytics. It sets
+                cookies (their names start with <code>_ga</code>) so it can
+                tell a returning browser from a new one.
+              </p>
+              <p class="mt-3">
+                <strong class={label}>Why:</strong> to see which pages actually
+                help people and which ones don't.
+              </p>
+              <p class="mt-3">
+                <strong class={label}>Who gets it:</strong> Google. Google Tag
+                Manager is the tool that loads Google Analytics onto our pages.
+                Google also uses data from sites like ours under its own terms.
+                <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer" class={link}>Here's how Google explains it</a>.
+              </p>
+              <p class="mt-3">
+                <strong class={label}>How to opt out:</strong> install
+                Google's
+                <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class={link}>Analytics opt-out browser add-on</a>
+                or use <a href="#opt-out" class={link}>our switch</a>.
+                Blocking cookies in your browser also stops it from
+                recognizing you on later visits.
+              </p>
+            </div>
+
+            <div>
+              <h3 class={h3}>Meta Pixel</h3>
+              <p>
+                <strong class={label}>What it collects:</strong> that you
+                visited, which pages you viewed, the page you came from, your
+                IP address, and details about your browser and device. It also
+                tells Meta which buttons you click and reads page details like
+                titles and descriptions. When
+                you send one of our forms, it also tells Meta that a lead came
+                in and from which page, but not what you wrote. It sets a
+                cookie named <code>_fbp</code>, plus one named <code>_fbc</code>
+                if you arrive from a Facebook or Instagram link. If you're
+                logged in to
+                Facebook or Instagram in the same browser, Meta can connect the
+                visit to your account. Meta has a setting called automatic advanced
+                matching that sends a scrambled copy of contact details you
+                type into a form. We keep it turned off, so the pixel doesn't
+                send what you type into our forms.
+              </p>
+              <p class="mt-3">
+                <strong class={label}>Why:</strong> to see whether people who
+                find us on Facebook or Instagram end up visiting the site, and
+                so we have the option to show our ads to people who've been
+                here.
+              </p>
+              <p class="mt-3">
+                <strong class={label}>Who gets it:</strong> Meta. Meta also
+                uses this data under its own
+                <a href="https://www.facebook.com/privacy/policy" target="_blank" rel="noopener noreferrer" class={link}>privacy policy</a>,
+                including to choose the ads you see on Facebook and Instagram.
+              </p>
+              <p class="mt-3">
+                <strong class={label}>How to opt out:</strong> change your
+                <a href="https://accountscenter.facebook.com/ad_preferences" target="_blank" rel="noopener noreferrer" class={link}>ad preferences in Meta's Accounts Center</a>,
+                clear past activity or disconnect future activity on Meta's
+                <a href="https://www.facebook.com/off_facebook_activity" target="_blank" rel="noopener noreferrer" class={link}>activity off Meta technologies</a>
+                page,
+                block third-party cookies or use a tracker blocker, or use
+                <a href="#opt-out" class={link}>our switch</a>.
+              </p>
+            </div>
+
+            <div>
+              <h3 class={h3}>Cloudflare Web Analytics</h3>
+              <p>
+                <strong class={label}>What it collects:</strong> page views,
+                the page you came from, your browser, your country, and how
+                fast our pages load. It doesn't set cookies.
+              </p>
+              <p class="mt-3">
+                <strong class={label}>Why:</strong> to get a simple, cookie-free
+                count of visits and keep an eye on page speed.
+              </p>
+              <p class="mt-3">
+                <strong class={label}>Who gets it:</strong> Cloudflare
+                (<a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer" class={link}>privacy policy</a>).
+              </p>
+              <p class="mt-3">
+                <strong class={label}>How to opt out:</strong> most tracker and
+                content blockers stop it. Our switch doesn't cover this one.
+              </p>
+            </div>
+
+            <div>
+              <h3 class={h3}>Cloudflare Turnstile</h3>
+              <p>
+                <strong class={label}>What it collects:</strong> signals from
+                your browser and device that help tell people from bots, plus
+                your IP address, which our server also passes to Cloudflare to
+                check the result. It
+                only loads on pages with a form.
+              </p>
+              <p class="mt-3">
+                <strong class={label}>Why:</strong> so our forms don't drown in
+                spam.
+              </p>
+              <p class="mt-3">
+                <strong class={label}>Who gets it:</strong> Cloudflare.
+              </p>
+              <p class="mt-3">
+                <strong class={label}>How to opt out:</strong> it has to run
+                for a form to go through. If you'd rather skip it, email us at
+                <a href="mailto:hello@elefoxstudio.com" class={link}>hello@elefoxstudio.com</a>
+                instead.
+              </p>
+            </div>
+
+            <div>
+              <h3 class={h3}>Fonts and code libraries</h3>
+              <p>
+                <strong class={label}>What it collects:</strong> your IP address
+                and basic browser details, the same as any web request. Our
+                fonts load from Google Fonts, and the little product demos on
+                our CRM pages load an animation library from jsDelivr, so your
+                browser fetches those files from them.
+              </p>
+              <p class="mt-3">
+                <strong class={label}>Why:</strong> so the site looks and moves
+                the way we designed it.
+              </p>
+              <p class="mt-3">
+                <strong class={label}>Who gets it:</strong> Google and jsDelivr.
+              </p>
+              <p class="mt-3">
+                <strong class={label}>How to opt out:</strong> a content
+                blocker can stop these files from loading. The site still
+                works. It just won't look quite as nice.
+              </p>
+            </div>
+
+            <div>
+              <h3 class={h3}>Hosting</h3>
+              <p>
+                Railway hosts this site and our client portal. Like any web
+                server, it sees your IP address when you load a page. Our
+                server logs can include your IP address and, if a form
+                submission gets flagged as spam, the email address on it. We
+                also hold IP addresses in memory for an hour or two to stop
+                anyone from flooding our forms.
+              </p>
+            </div>
+
+            <div>
+              <h3 class={h3}>Our own cookies and browser storage</h3>
+              <p>
+                These stay between your browser and our site. None of them go
+                to anyone else.
+              </p>
+              <ul class="mt-4 space-y-2 list-disc pl-5">
+                <li>
+                  <code>ef_cache_reset</code>: a cookie that cleared out an old
+                  redirect problem. It lasts a year, and the site stops
+                  setting it after October 31, 2026.
+                </li>
+                <li>
+                  <code>disc_</code> plus a form name: a cookie that remembers
+                  you unlocked a private questionnaire. It lasts 60 days.
+                </li>
+                <li>
+                  <code>elefox_cookie_ok</code>: remembers you closed our
+                  cookie notice.
+                </li>
+                <li>
+                  <code>elefox_noga</code>: remembers you turned tracking off
+                  with our switch.
+                </li>
+                <li>
+                  Questionnaire drafts: your answers, saved in your browser
+                  until you send them or clear your browser's site data.
+                </li>
+              </ul>
+            </div>
+
+            <div id="opt-out" class="scroll-mt-28">
+              <h3 class={h3}>Our switch: turn tracking off on this site</h3>
+              <p>
+                Use the
+                <a href="/privacy?noga=1#opt-out" class={link}>opt-out link</a>
+                once and Google Analytics and the Meta Pixel stop sending visit
+                data from that browser. Their script files still load, so
+                Google and Meta see a basic request from your browser, like any
+                web request. It sticks until you clear your
+                browser's site data. Changed your mind?
+                <a href="/privacy?noga=0#opt-out" class={link}>Turn tracking back on</a>. It works one browser at a time, and it
+                doesn't cover Cloudflare Web Analytics.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div>
-          <h2 class="text-2xl text-ink font-display font-bold tracking-tight mb-3">How we share it</h2>
+          <h2 class={h2}>Do Not Track and Global Privacy Control</h2>
           <p>
-            We share information only with the service providers that help us
-            operate, such as Google (analytics and ads), Cloudflare (security
-            and hosting support), Resend (email delivery), and Railway
-            (hosting). They process it on our behalf and are not permitted to
-            use it for their own purposes. We may also disclose information if
-            required by law.
+            Some browsers can send a Do Not Track or
+            <a href="https://globalprivacycontrol.org/" target="_blank" rel="noopener noreferrer" class={link}>Global Privacy Control</a>
+            signal. Right now this site doesn't change anything when it gets
+            one, so Google Analytics and the Meta Pixel load as usual. If you want them off, use the
+            <a href="#tracking" class={link}>options above</a>.
           </p>
         </div>
 
         <div>
-          <h2 class="text-2xl text-ink font-display font-bold tracking-tight mb-3">Data retention</h2>
+          <h2 class={h2}>How we use your information</h2>
           <p>
-            We keep the information you send us for as long as needed to
-            respond and, where relevant, to maintain our business records.
-            You can ask us to delete it at any time.
+            We use your information to reply to you, to do the work if we take
+            on a project together, to understand how the site is doing, and to
+            see whether our posts, and any ads we run, bring people here. We don't sell your information to
+            anyone for money. We do let Google and Meta collect visit data
+            through the tools above, and they use it for their own purposes
+            too. For Meta, that includes advertising.
           </p>
         </div>
 
         <div>
-          <h2 class="text-2xl text-ink font-display font-bold tracking-tight mb-3">Your choices</h2>
+          <h2 class={h2}>Who else sees it</h2>
+          <p>Only the services on this page, each for its own piece of the job:</p>
+          <ul class="mt-4 space-y-2 list-disc pl-5">
+            <li><strong class={label}>Resend</strong> delivers form emails to us.</li>
+            <li><strong class={label}>Google</strong> runs our inbox (Google Workspace), Google Analytics, Google Tag Manager, and Google Fonts.</li>
+            <li><strong class={label}>Meta</strong> runs the Meta Pixel.</li>
+            <li><strong class={label}>Cloudflare</strong> runs Web Analytics and Turnstile.</li>
+            <li><strong class={label}>Railway</strong> hosts this site and our client portal.</li>
+            <li><strong class={label}>AI services</strong> summarize questionnaires and help us research and draft replies.</li>
+            <li><strong class={label}>jsDelivr</strong> serves the animation library in our product demos.</li>
+            <li><strong class={label}>Calendly</strong>, if you book a call there.</li>
+          </ul>
+          <p class="mt-4">
+            Resend and Railway handle your information to provide their
+            service to us. Some AI services we use may also keep and use what
+            we send them under their own terms. Google and Meta also use what
+            their tools collect under their own privacy policies, linked
+            above. We may also share information if the law requires it, and
+            if elefox studio LLC is ever sold or merges with another business,
+            the information we hold could go with it.
+          </p>
+        </div>
+
+        <div>
+          <h2 class={h2}>How long we keep it</h2>
           <p>
-            You can ask us what information we hold about you, request a
-            correction, or ask us to delete it. Just email
-            <a href="mailto:hello@elefoxstudio.com" class="text-forest underline decoration-2 underline-offset-2 hover:decoration-ember">hello@elefoxstudio.com</a>.
-            Depending on where you live, you may have additional rights under
-            your local privacy laws, and we will honor those requests.
+            We keep inquiry emails and portal records for as long as they're
+            useful for following up and for our business records. If you ask,
+            we'll delete them from our inbox and portal, unless we need to
+            keep something for taxes or a contract. Copies in our providers'
+            logs and backups clear on their own schedules. Google, Meta,
+            Cloudflare, Railway, Resend, and our AI services keep what they
+            collect for as long as their own policies say.
           </p>
         </div>
 
         <div>
-          <h2 class="text-2xl text-ink font-display font-bold tracking-tight mb-3">Security</h2>
+          <h2 class={h2}>Your choices</h2>
           <p>
-            We use reasonable measures to protect your information, including
-            encrypted connections and reputable hosting providers. No method
-            of transmission over the internet is completely secure, so we
-            cannot guarantee absolute security.
+            You can ask what we have about you, ask us to fix it, or ask us to
+            delete it. Just email
+            <a href="mailto:hello@elefoxstudio.com" class={link}>hello@elefoxstudio.com</a>.
+            We can delete what's on our side. For what Google and Meta
+            collected, use their tools linked above. If the law where you live gives you
+            more rights, tell us and we'll work with you on it.
           </p>
         </div>
 
         <div>
-          <h2 class="text-2xl text-ink font-display font-bold tracking-tight mb-3">Children</h2>
+          <h2 class={h2}>Security</h2>
           <p>
-            Our site is meant for businesses and is not directed to children
-            under 13. We do not knowingly collect information from children.
+            We take reasonable steps to protect your information, like
+            encrypted connections and hosting providers we trust. Nothing sent
+            over the internet is completely secure, so we can't promise
+            perfect security.
           </p>
         </div>
 
         <div>
-          <h2 class="text-2xl text-ink font-display font-bold tracking-tight mb-3">Changes to this policy</h2>
+          <h2 class={h2}>Children</h2>
           <p>
-            We may update this policy from time to time. When we do, we will
-            change the "last updated" date above.
+            Our site is for businesses and isn't directed to children under
+            13. We don't knowingly collect information from children.
           </p>
         </div>
 
         <div>
-          <h2 class="text-2xl text-ink font-display font-bold tracking-tight mb-3">Contact us</h2>
+          <h2 class={h2}>Changes to this policy</h2>
+          <p>
+            When we add or remove a tool, or change how we handle your
+            information, we'll update this page and the "last updated" date
+            at the top.
+          </p>
+        </div>
+
+        <div>
+          <h2 class={h2}>Contact us</h2>
           <p>
             Questions about this policy or your information? Reach us at:
           </p>
           <p class="mt-3">
             elefox studio LLC<br />
             Coral Springs, FL<br />
-            <a href="mailto:hello@elefoxstudio.com" class="text-forest underline decoration-2 underline-offset-2 hover:decoration-ember">hello@elefoxstudio.com</a><br />
-            <a href="tel:+19547806508" class="text-forest underline decoration-2 underline-offset-2 hover:decoration-ember">954.780.6508</a>
+            <a href="mailto:hello@elefoxstudio.com" class={link}>hello@elefoxstudio.com</a><br />
+            <a href="tel:+19547806508" class={link}>954.780.6508</a>
           </p>
         </div>
       </div>
