@@ -85,7 +85,12 @@ const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID || "";
 // Pages where the Meta Pixel never loads. Health-adjacent pages stay ad-pixel
 // free; keep this list in sync with the Meta Pixel section of /privacy.
 const NO_META_PIXEL_PATHS = ["/crm-for-therapists"];
-const showMetaPixel = Boolean(metaPixelId) && !NO_META_PIXEL_PATHS.includes(canonicalPath);
+// Whole sections without the pixel: private client questionnaires.
+const NO_META_PIXEL_PREFIXES = ["/discovery/"];
+const showMetaPixel =
+  Boolean(metaPixelId) &&
+  !NO_META_PIXEL_PATHS.includes(canonicalPath) &&
+  !NO_META_PIXEL_PREFIXES.some((prefix) => (canonicalPath + "/").startsWith(prefix));
 const metaPixelMarkup = (() => {
   if (!metaPixelId) return "";
   const stub =
