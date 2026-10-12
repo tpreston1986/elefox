@@ -82,6 +82,10 @@ const ga4Id = import.meta.env.PUBLIC_GA4_ID || "G-91FPRFXHXS";
 // set:html — Astro's <script is:inline> transform chokes on the standard
 // Meta Pixel snippet (the nested braces in the IIFE), so we sidestep it.
 const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID || "";
+// Pages where the Meta Pixel never loads. Health-adjacent pages stay ad-pixel
+// free; keep this list in sync with the Meta Pixel section of /privacy.
+const NO_META_PIXEL_PATHS = ["/crm-for-therapists"];
+const showMetaPixel = Boolean(metaPixelId) && !NO_META_PIXEL_PATHS.includes(canonicalPath);
 const metaPixelMarkup = (() => {
   if (!metaPixelId) return "";
   const stub =
@@ -183,7 +187,7 @@ const metaPixelMarkup = (() => {
         same ?noga opt-out flag. Injected via Fragment set:html so Astro
         doesn't process the script content (which trips its inline-script
         transform on this particular IIFE pattern). */}
-    {metaPixelId && <Fragment set:html={metaPixelMarkup} />}
+    {showMetaPixel && <Fragment set:html={metaPixelMarkup} />}
   </head>
   <body class="min-h-screen flex flex-col">
     {/* Google Tag Manager (noscript): immediately after the opening <body>. */}
