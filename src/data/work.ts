@@ -476,12 +476,9 @@ export const projects: Project[] = [
     services: ["software"],
     brand: { field: "#0f4a44", glow: "#3fd0b9", tone: "light" },
     thumb: { kind: "screen", src: "/work/realtor-crm.webp" },
-    url: "https://realtor-demo.elefoxstudio.com",
-    status: "Live",
     meta: [
       { label: "Type", value: "Industry CRM" },
       { label: "For", value: "Realtors" },
-      { label: "Stage", value: "Live demo" },
     ],
     overview:
       "A CRM built in the realtor's language (sphere, referrals, and follow-ups) instead of a generic sales pipeline meant for someone else.",
@@ -499,12 +496,9 @@ export const projects: Project[] = [
     services: ["software"],
     brand: { field: "#7d3f03", glow: "#e0923a", tone: "light" },
     thumb: { kind: "screen", src: "/work/contractor-jobs.webp" },
-    url: "https://contractor-demo.elefoxstudio.com",
-    status: "Live",
     meta: [
       { label: "Type", value: "Industry CRM" },
       { label: "For", value: "Contractors" },
-      { label: "Stage", value: "Live demo" },
     ],
     overview:
       "All the moving parts of a build, tracked without a whiteboard and three group texts.",
