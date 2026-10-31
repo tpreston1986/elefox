@@ -607,7 +607,7 @@ export function toneStyles(tone: Brand["tone"]) {
 }
 
 /** The three shown in the homepage strip, in display order. */
-export const featuredSlugs = ["patch", "cloud-clean-laundry", "howpayrollworks"];
+export const featuredSlugs = ["patch", "etchra", "howpayrollworks"];
 export const featuredProjects = featuredSlugs
   .map((slug) => projects.find((p) => p.slug === slug))
   .filter((p): p is Project => Boolean(p));
