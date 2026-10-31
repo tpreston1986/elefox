@@ -11,8 +11,9 @@
 // (day-job work, not studio work). Five Element portal is omitted (real client +
 // PHI).
 //
-// Product screenshots (portal, Kith, Lumi, Ledger, Contractor) were captured
-// from throwaway local demo databases, so every name and number is fake.
+// Product screenshots (Patch, portal, Kith, Lumi, Ledger, Contractor) were
+// captured from throwaway local demo databases, so every name and number is
+// fake. Patch's come from the Northbeam Studio sample business.
 //
 // Thumbnails are composed in code by WorkCard.astro from `brand` + `thumb`, so
 // every card shares one system: the project's own color field, soft light, and
@@ -82,6 +83,61 @@ export { services as serviceData } from "./services";
 // sequenced so no two neighbors share a hue. With 13 projects, the last
 // one sits alone in the middle column (see work.astro).
 export const projects: Project[] = [
+  {
+    slug: "patch",
+    name: "Patch",
+    tagline:
+      "A client portal and light CRM for small service businesses. Clients approve, sign, and pay in one tidy place, and you run the whole job from one screen.",
+    services: ["software", "brand"],
+    brand: { field: "#1f45d6", glow: "#6f93ff", tone: "light" },
+    thumb: {
+      kind: "screen",
+      src: "/work/patch-portal.webp",
+      mobile: "/work/patch-portal-mobile.webp",
+    },
+    url: "https://heypatch.ai",
+    status: "Live",
+    meta: [
+      { label: "Type", value: "Our product" },
+      { label: "For", value: "Small service businesses" },
+      { label: "Year", value: "2026" },
+      { label: "Stage", value: "Live" },
+    ],
+    overview:
+      "Patch started as the portal we built for our own clients. People in other businesses kept asking for one like it, so we made it a product anyone can sign up for and use the same day. It gives a small service business one branded place where clients follow a project from quote to done, approve work, sign, pay, and leave a review, and it gives the owner one screen to run quotes, contracts, invoices, files, and leads. We designed and built all of it: the brand, the product, and the code.",
+    challenge:
+      "Most tools for this are bloated CRMs that treat the client side as an afterthought, so the client ends up with a pile of emails, PDFs, and payment links, and the business looks less put together than it is. Patch had to do the client side brilliantly, look premium the moment a business signs up, and still be simple enough to run from a phone between client calls.",
+    solution:
+      "Pick your industry and the workflow, agreement, and wording are set up on day one, then yours to edit. Clients get a real portal: a project timeline, approvals, guided reviews, files, and payments in one place they actually like opening. Stages check themselves off from real events, so a quote approved or a deposit paid moves the project along on its own. Because a designer built it, every screen makes the business look organized to the person paying them.",
+    built: [
+      "A client portal with a self-updating project timeline, approvals, files, messages, and guided reviews",
+      "Quotes, contracts with amendments and e-signature, and invoices with deposits, partial payments, recurring billing, and autopay",
+      "Payments on the business's own Stripe through Stripe Connect, plus reminders, refunds, and disputes",
+      "Eight editable industry templates, from design studios to home services, each with its workflow and standard agreement ready to go",
+      "Testimonials with an auto-ask and a website widget, client updates by branded email, and AI-assisted lead tools",
+      "Per-business branding, light and dark themes, and WCAG AA contrast on every accent color a business picks",
+      "The full brand, the marketing site at heypatch.ai, and the app at app.heypatch.ai",
+    ],
+    results: [
+      { stat: "$35/mo", label: "Solo plan, with a 14-day free trial and no card" },
+      { label: "Clients approve, sign, pay, and review in one real portal" },
+      { label: "Paid into your own Stripe, with deposits, autopay, and recurring billing" },
+    ],
+    tech: [
+      { group: "Development", items: ["Next.js", "TypeScript", "Prisma", "PostgreSQL"] },
+      { group: "Auth & payments", items: ["Auth.js", "Stripe Connect"] },
+      { group: "AI", items: ["Google Gemini"] },
+      { group: "Files & email", items: ["Cloudflare R2", "Resend"] },
+      { group: "Infrastructure", items: ["Railway"] },
+    ],
+    gallery: [
+      "/work/patch-portal.webp",
+      "/work/patch-dashboard.webp",
+      "/work/patch-projects.webp",
+      "/work/patch-quotes.webp",
+      "/work/patch-invoices.webp",
+    ],
+  },
   {
     slug: "etchra",
     name: "Etchra",
@@ -551,7 +607,7 @@ export function toneStyles(tone: Brand["tone"]) {
 }
 
 /** The three shown in the homepage strip, in display order. */
-export const featuredSlugs = ["cloud-clean-laundry", "etchra", "howpayrollworks"];
+export const featuredSlugs = ["patch", "cloud-clean-laundry", "howpayrollworks"];
 export const featuredProjects = featuredSlugs
   .map((slug) => projects.find((p) => p.slug === slug))
   .filter((p): p is Project => Boolean(p));
